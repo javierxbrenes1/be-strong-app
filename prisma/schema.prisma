@@ -1,0 +1,86 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model gymClass {
+  id                    Int                     @id @default(autoincrement())
+  classDate             DateTime?               @db.Date
+  classTime             DateTime?               @db.Time(6)
+  classType             String?                 @db.VarChar(50)
+  classDescription      String?
+  memberAttendanceLog memberAttendanceLog[]
+
+}
+
+model member {
+  code                  String                  @id @db.VarChar(16)
+  name                  String                  @db.VarChar(50)
+  lastName              String                  @db.VarChar(50)
+  birthDate             DateTime                @db.Date
+  height                Float
+  genre                 String                  @db.VarChar(10)
+  email                 String?                 @db.VarChar(150)
+  avatar                String?                 @db.VarChar(150)
+  isActive              Boolean?
+  observations          String?
+  preferredClassTime    DateTime?               @db.Time(6)
+  createAt              DateTime?               @db.Timestamp(6)
+  modifyAt              DateTime?               @db.Timestamp(6)
+  memberAttendance     memberAttendance?
+  memberAttendanceLog memberAttendanceLog[]
+  memberMeasures       memberMeasures[]
+  user                  user?
+}
+
+model memberAttendance {
+  memberCode String   @id @db.VarChar(16)
+  monday     Boolean?
+  tuesday    Boolean?
+  wednesday  Boolean?
+  thursday   Boolean?
+  friday     Boolean?
+  saturday   Boolean?
+  sunday     Boolean?
+  member     member   @relation(fields: [memberCode], references: [code], onDelete: NoAction, onUpdate: NoAction)
+
+}
+
+model memberAttendanceLog {
+  id           Int          @id @default(autoincrement())
+  memberCode   String       @db.VarChar(16)
+  gymClassId      Int          @default(autoincrement())
+  gymClass gymClass @relation(fields: [gymClassId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  member       member       @relation(fields: [memberCode], references: [code], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model memberMeasures {
+  id                     Int       @id @default(autoincrement())
+  memberCode             String    @db.VarChar(16)
+  date                   DateTime? @db.Date
+  weight                 Float
+  corporalFat            Float
+  muscle                 Float
+  bodyMassIndex          Float
+  corporalWaterPct       Float
+  calories               Float
+  bodyMassIndexResult    String    @db.VarChar(20)
+  corporalWaterPctResult String    @db.VarChar(20)
+  caloriesResult         String    @db.VarChar(20)
+  member                 member    @relation(fields: [memberCode], references: [code], onDelete: NoAction, onUpdate: NoAction)
+
+}
+
+model user {
+  memberCode             String    @id @db.VarChar(16)
+  pwd                    String
+  role                   String    @db.VarChar(16)
+  lastLoginDate          DateTime? @db.Timestamp(6)
+  lastPasswordChangeDate DateTime? @db.Timestamp(6)
+  isBlocked              Boolean?
+  member                 member    @relation(fields: [memberCode], references: [code], onDelete: NoAction, onUpdate: NoAction)
+}
