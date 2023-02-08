@@ -11,6 +11,7 @@ const memberSchema = `
 		avatar: String
 		observations: String
 		preferredClassTime: String
+		memberAttendance: MemberAttendance
 	}
 
 	type GetAllMembersResponse {
