@@ -6,7 +6,7 @@ import { BodyMassIndex, Calories, CorporalFat, CorporalWaterPct, Genre, Measures
 
 
 
-const maleCalculator: MeasuresCalculator = {
+const measuresCalculator: MeasuresCalculator = {
     calculateCorporalFat: function (genre: Genre, age: number, value: number): CorporalFat {
         return getCorporalFatResult(genre, age, value);
     },
@@ -24,4 +24,4 @@ const maleCalculator: MeasuresCalculator = {
     }
 }
 
-export default maleCalculator;
+export default measuresCalculator;
