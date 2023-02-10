@@ -14,7 +14,7 @@ const femaleTable: TableType = {
     [CorporalWaterPct.excellent]: (value: number) => value > 60
 }
 
-export const getCorporalWaterPct = (genre: Genre, value: number): CorporalWaterPct => {
+export const getCorporalWaterPctResult = (genre: Genre, value: number): CorporalWaterPct => {
     const table = genre === 'male' ? maleTable : femaleTable;
 
     const corporalWaterPct = Object.keys(table).find((k) => {
