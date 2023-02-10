@@ -7,6 +7,7 @@ const memberSchema = `
 		birthDate: Date
 		size: Float
 		isActive: Boolean
+		phone: String
 		email: String
 		avatar: String
 		observations: String

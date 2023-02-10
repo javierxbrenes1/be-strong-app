@@ -24,6 +24,7 @@ model member {
   birthDate             DateTime                @db.Date
   height                Float
   genre                 String                  @db.VarChar(10)
+  phone                 String?                  @db.VarChar(10)
   email                 String?                 @db.VarChar(150)
   avatar                String?                 @db.VarChar(150)
   isActive              Boolean?
@@ -62,12 +63,15 @@ model memberMeasures {
   id                     Int       @id @default(autoincrement())
   memberCode             String    @db.VarChar(16)
   date                   DateTime? @db.Date
+  age                    Int
   weight                 Float
   corporalFat            Float
   muscle                 Float
   bodyMassIndex          Float
   corporalWaterPct       Float
   calories               Float
+  muscleResult           String    @db.VarChar(20)
+  corporalFatResult      String    @db.VarChar(20)
   bodyMassIndexResult    String    @db.VarChar(20)
   corporalWaterPctResult String    @db.VarChar(20)
   caloriesResult         String    @db.VarChar(20)
