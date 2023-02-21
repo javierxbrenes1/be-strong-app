@@ -30,8 +30,8 @@ model member {
   isActive              Boolean?
   observations          String?
   preferredClassTime    DateTime?               @db.Time(6)
-  createAt              DateTime?               @db.Timestamp(6)
-  modifyAt              DateTime?               @db.Timestamp(6)
+  createAt              DateTime?               @db.Timestamp(6) @default(now())
+  modifyAt              DateTime?               @db.Timestamp(6) @default(now())
   memberAttendance     memberAttendance?
   memberAttendanceLog memberAttendanceLog[]
   memberMeasures       memberMeasures[]

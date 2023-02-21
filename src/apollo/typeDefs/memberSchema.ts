@@ -1,12 +1,11 @@
 const memberSchema = `
     type Member {
-		id: ID!
 		code: String!
 		name: String
 		lastName: String
 		genre: String
 		birthDate: Date
-		size: Float
+		height: Float
 		isActive: Boolean
 		phone: String
 		email: String
@@ -14,7 +13,7 @@ const memberSchema = `
 		observations: String
 		preferredClassTime: String
 		memberAttendance: MemberAttendance
-		memberMeasures(last: Int): [MemberMeasure]
+		memberMeasures(take: Int): [MemberMeasure]
 	}
 
 	type GetAllMembersResponse {
@@ -26,6 +25,19 @@ const memberSchema = `
 	type Query {
 		getAllMembers(offset: Int, limit: Int): GetAllMembersResponse
 		getMember(code: String): Member
+	}
+
+	input AddMemberInput {
+		name: String!
+		lastName: String!
+		genre: String!
+		birthDate: Date!
+		height: Float!
+		observations: String
+	}
+
+	type Mutation {
+		addMember(member: AddMemberInput): Member
 	}
 `;
 
