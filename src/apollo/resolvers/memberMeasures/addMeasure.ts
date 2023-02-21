@@ -1,3 +1,5 @@
+import measuresCalculator from "../../../logic/measuresCalculator";
+import { Genre } from "../../../logic/types";
 import { BeStrongContext } from "../../context"
 
 type InputType = {
@@ -16,18 +18,30 @@ const calculateAge = (dateBirth: Date): number =>  {
     return Math.abs(ageDate.getUTCFullYear() - 1970);
 }
 
-const addMeasure = async(_parent: unknown, args: {input: InputType}, context: BeStrongContext) => {
+export const addMeasure = async(_parent: unknown, args: {measure: InputType}, context: BeStrongContext) => {
     const { prisma } = context;
-    const {input} = args;
+    const {measure} = args;
     const member = await prisma.member.findUnique({
         where: {
-            code: input.memberCode
+            code: measure.memberCode
         }
     });
     if(!member) {
         throw new Error('Member was not found');
     }
-    const memberAge = calculateAge(member.birthDate);
+    const age = calculateAge(member.birthDate);
+    const genre = member.genre as Genre;
+   
+    const data = {
+        ...measure,
+        age,
+        corporalFatResult: measuresCalculator.calculateCorporalFat(genre, age,measure.corporalFat),
+        corporalWaterPctResult: measuresCalculator.calculateCorporalWaterPct(genre, age, measure.corporalWaterPct),
+        bodyMassIndexResult: measuresCalculator.calculateBodyMassIndex(genre, age, measure.bodyMassIndex),
+        caloriesResult: measuresCalculator.calculateCalories(genre, age, measure.calories),
+        muscleResult: measuresCalculator.calculateMuscle(genre, age, measure.muscle)
+    }
 
-
+    const newMeasure = await prisma.memberMeasures.create({data});
+    return newMeasure;
 }

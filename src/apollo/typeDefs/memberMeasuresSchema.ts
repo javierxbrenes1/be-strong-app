@@ -18,25 +18,27 @@ const memberMeasuresSchema = `
     }
 
     type GetMeasuresResponse {
-        measures: MemberMeasure[]
+        measures: [MemberMeasure]
         pagination: Pagination
     }
 
-    type AddMeasureInput {
+    input AddMeasureInput {
         memberCode: String!
-        weight: Float
-        corporalFat: Float
-        muscle: Float
-        bodyMassIndex: Float
-        corporalWaterPct: Float
-        calories: Float
+        weight: Float!
+        corporalFat: Float!
+        muscle: Float!
+        bodyMassIndex: Float!
+        corporalWaterPct: Float!
+        calories: Float!
     }
 
     type Query {
-        getMeasures(memberCode: string, offset: Int, limit: Int): GetMeasuresResponse
+        getMeasures(memberCode: String, offset: Int, limit: Int): GetMeasuresResponse
     }
 
     type Mutation {
-        addMeasure(input: AddMeasureInput): MemberMeasure
+        addMeasure(measure: AddMeasureInput): MemberMeasure
     }
 `
+
+export default memberMeasuresSchema;

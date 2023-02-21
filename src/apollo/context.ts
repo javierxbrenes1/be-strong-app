@@ -2,7 +2,9 @@ import { ApolloFastifyContextFunction } from "@as-integrations/fastify";
 import { FastifyInstance } from "fastify";
 import { PrismaClient } from "@prisma/client";
 
-const prisma = new PrismaClient();
+const prisma = new PrismaClient({
+	log: ['query', 'info', 'warn', 'error'],
+  });
 
 export interface BeStrongContext {
 	server: FastifyInstance;

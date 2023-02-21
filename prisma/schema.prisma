@@ -62,7 +62,7 @@ model memberAttendanceLog {
 model memberMeasures {
   id                     Int       @id @default(autoincrement())
   memberCode             String    @db.VarChar(16)
-  date                   DateTime? @db.Date
+  date                   DateTime? @default(now())
   age                    Int
   weight                 Float
   corporalFat            Float

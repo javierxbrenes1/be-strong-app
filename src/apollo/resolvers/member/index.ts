@@ -1,6 +1,7 @@
 import getMemberAttendance from "../memberAttendance/getMemberAttendance";
 import getAllMembers from "./getAllMembers";
 import getMember from "./getMember";
+import { getMemberMeasure } from "./getMemberMeasures";
 
 const memberResolvers = {
 	Query: {
@@ -8,7 +9,8 @@ const memberResolvers = {
         getMember
 	},
 	Member:{
-		memberAttendance: getMemberAttendance
+		memberAttendance: getMemberAttendance,
+		memberMeasures: getMemberMeasure
 	}
 };
 

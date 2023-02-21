@@ -2,6 +2,7 @@ import { getBodyMassIndexResult } from "./measuresTables/bodyMassIndexTable";
 import { getCaloriesResult } from "./measuresTables/caloriesTable";
 import { getCorporalFatResult } from "./measuresTables/corporalFatTable";
 import { getCorporalWaterPctResult } from "./measuresTables/corporalWaterPctTable";
+import { getMuscleResult } from "./measuresTables/muscleTable";
 import { BodyMassIndex, Calories, CorporalFat, CorporalWaterPct, Genre, MeasuresCalculator, Muscle } from "./types";
 
 const measuresCalculator: MeasuresCalculator = {
@@ -18,7 +19,7 @@ const measuresCalculator: MeasuresCalculator = {
         return getCaloriesResult(genre, value);
     },
     calculateMuscle: function (genre: Genre, age: number, value: number): Muscle {
-        throw new Error("Function not implemented.");
+        return getMuscleResult(genre, age, value);
     }
 }
 

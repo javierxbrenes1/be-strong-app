@@ -4,6 +4,7 @@ const memberSchema = `
 		code: String!
 		name: String
 		lastName: String
+		genre: String
 		birthDate: Date
 		size: Float
 		isActive: Boolean
@@ -13,6 +14,7 @@ const memberSchema = `
 		observations: String
 		preferredClassTime: String
 		memberAttendance: MemberAttendance
+		memberMeasures(last: Int): [MemberMeasure]
 	}
 
 	type GetAllMembersResponse {
