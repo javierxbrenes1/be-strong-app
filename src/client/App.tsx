@@ -1,14 +1,22 @@
-import { useState } from 'react'
-import {Button, styled, Box } from '@mui/material';
+import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
+import AppRoutes from './AppRoutes';
+
+const client = new ApolloClient({
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+  uri: import.meta.env.VITE_GRAPHQL_URL,
+  cache: new InMemoryCache(),
+});
+
+console.log({ here: import.meta.env });
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <div className="App">
-      <Button variant="outlined">Click here</Button>
-    </div>
-  )
+    <ApolloProvider client={client}>
+      <div className="App">
+        <AppRoutes />
+      </div>
+    </ApolloProvider>
+  );
 }
 
-export default App
+export default App;

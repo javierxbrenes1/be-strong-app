@@ -2,7 +2,6 @@ const memberSchema = `
     type Member {
 		code: String!
 		name: String
-		lastName: String
 		genre: String
 		birthDate: Date
 		height: Float
@@ -29,7 +28,6 @@ const memberSchema = `
 
 	input AddMemberInput {
 		name: String!
-		lastName: String!
 		genre: String!
 		birthDate: Date!
 		height: Float!

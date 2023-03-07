@@ -19,8 +19,7 @@ model gymClass {
 
 model member {
   code                  String                  @id @db.VarChar(16)
-  name                  String                  @db.VarChar(50)
-  lastName              String                  @db.VarChar(50)
+  name                  String                  @db.VarChar(100)
   birthDate             DateTime                @db.Date
   height                Float
   genre                 String                  @db.VarChar(10)
