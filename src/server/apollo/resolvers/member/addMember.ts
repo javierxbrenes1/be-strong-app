@@ -3,7 +3,7 @@ import { BeStrongContext } from '../../context';
 const createCode = (): string => {
   const chars = 'abcdefghijklmnopqrstuvwxyz012345678';
   const code = [];
-  for (let i = 0; i <= 6; i++) {
+  for (let i = 0; i <= 6; i += 1) {
     const random = Math.floor(Math.random() * (chars.length - 1));
     code.push(chars[random]);
   }
@@ -17,7 +17,8 @@ type AddMemberArgs = {
   genre: string;
   observations?: string;
 };
-export const addMember = async (
+
+const addMember = async (
   _p: unknown,
   args: { member: AddMemberArgs },
   context: BeStrongContext
@@ -30,3 +31,5 @@ export const addMember = async (
   const newUser = await context.prisma.member.create({ data });
   return newUser;
 };
+
+export default addMember;

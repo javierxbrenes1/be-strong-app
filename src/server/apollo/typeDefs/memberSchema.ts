@@ -24,6 +24,8 @@ const memberSchema = `
 	type Query {
 		getAllMembers(offset: Int, limit: Int): GetAllMembersResponse
 		getMember(code: String): Member
+		getMembersCount: Int
+		getBirthdateMembers(date: Date): [Member]
 	}
 
 	input AddMemberInput {

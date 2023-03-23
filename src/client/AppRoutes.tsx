@@ -9,7 +9,7 @@ const withSuspense = (WrappedComponent: ComponentType) => (
   </Suspense>
 );
 
-const MainPage = lazy(() => import('./pages/Main'));
+const MainPage = lazy(() => import('./components/MainLayout'));
 const Login = lazy(() => import('./pages/Login'));
 const Home = lazy(() => import('./pages/home'));
 const Classes = lazy(() => import('./pages/Classes'));
