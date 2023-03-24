@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "gymClass" ALTER COLUMN "classTime" SET DATA TYPE VARCHAR(12);

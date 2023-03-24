@@ -4,7 +4,6 @@ import {
   ApolloClient,
   InMemoryCache,
   ApolloProvider,
-  createHttpLink,
   ApolloLink,
   HttpLink,
 } from '@apollo/client';
@@ -14,7 +13,7 @@ import App from './App';
 // palette #edc951 • #eb6841 • #cc2a36 • #4f372d • #00a0b0
 const retryLink = new RetryLink({
   attempts: {
-    max: 1,
+    max: 3,
   },
 });
 

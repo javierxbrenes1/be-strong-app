@@ -11,6 +11,7 @@ const Container = styled(Box)<{ gradientColors: string[] }>(
     borderRadius: '10px',
     padding: '20px',
     width: '200px',
+    height: 'fit-content',
     maxWidth: '80%',
 
     backgroundImage: `linear-gradient(${gradientColors.join(',')})`,

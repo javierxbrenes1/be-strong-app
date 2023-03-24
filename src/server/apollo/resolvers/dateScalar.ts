@@ -1,6 +1,6 @@
 import { GraphQLScalarType, Kind } from 'graphql';
 
-export default { 
+export default {
   Date: new GraphQLScalarType<Date | null, number>({
     name: 'Date',
     description: 'Date custom scalar type',
@@ -8,8 +8,8 @@ export default {
       return (value as Date).getTime(); // Convert outgoing Date to integer for JSON
     },
     parseValue(value: number | unknown) {
-      if(typeof value !== 'number') {
-        return null
+      if (typeof value !== 'number') {
+        return null;
       }
       return new Date(value); // Convert incoming integer to Date
     },
@@ -21,6 +21,5 @@ export default {
       // Invalid hard-coded value (not an integer)
       return null;
     },
-  })
-}
-
+  }),
+};

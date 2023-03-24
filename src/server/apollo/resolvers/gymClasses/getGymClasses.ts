@@ -23,9 +23,6 @@ const getGymClasses = async (
       {
         classDate: 'desc',
       },
-      {
-        classTime: 'asc',
-      },
     ],
   });
 

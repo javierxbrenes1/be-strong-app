@@ -1,15 +1,15 @@
 import Grid from '@mui/material/Grid';
-import { styled } from '@mui/material';
+import { Divider, styled } from '@mui/material';
 import PeopleOutlineTwoToneIcon from '@mui/icons-material/PeopleOutlineTwoTone';
 import FitnessCenterIcon from '@mui/icons-material/FitnessCenter';
 import { motion } from 'framer-motion';
-import { useLazyQuery, useQuery } from '@apollo/client';
-import { useState } from 'react';
+import { useLazyQuery } from '@apollo/client';
+import { useEffect, useState } from 'react';
 import Greetings from './Greetings';
 import Indicator from './Indicator';
 import { PATHS } from '../../constants';
-import Events from './Events';
-import { HOME_COUNTERS } from '../../queries/homePage';
+import Events from '../../components/HomeEvents/Events';
+import { HOME_QUERY } from '../../queries/homePage';
 import Member from '../../models/Member';
 import GymClass from '../../models/GymClass';
 
@@ -18,7 +18,7 @@ const Container = styled(Grid)({
 });
 
 const getCurrentYear = (): number => new Date().getFullYear();
-
+const getTodayDate = () => new Date().getTime();
 type QueryType = {
   getMembersCount: number;
   getGymClassesCount: number;
@@ -27,31 +27,21 @@ type QueryType = {
 };
 
 function HomePage() {
-  const [counters, setCounters] = useState<{
-    members: number;
-    classes: number;
-  }>({
-    members: 0,
-    classes: 0,
-  });
-
-  const { loading, data, error } = useQuery<QueryType>(HOME_COUNTERS, {
-    variables: {
-      year: getCurrentYear(),
-      today: new Date(),
+  const [getData, { loading, data }] = useLazyQuery<QueryType>(HOME_QUERY, {
+    onError(error) {
+      console.log(error);
     },
-    // onCompleted(data) {
-    //   setCounters({
-    //     members: data.getMembersCount,
-    //     classes: data.getGymClassesCount,
-    //   });
-    // },
-    // onError(error) {
-    //   console.log(error);
-    // },
   });
 
-  if (error) return <div>shit broke</div>;
+  useEffect(() => {
+    getData({
+      variables: {
+        year: getCurrentYear(),
+        today: getTodayDate(),
+      },
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <motion.div
@@ -61,14 +51,15 @@ function HomePage() {
     >
       <Container container flexDirection="column">
         <Greetings />
-        <Grid container gap="16px" justifyContent="begin" padding="10px">
+        <Divider variant="middle" sx={{ margin: '16px 0' }} />
+        <Grid container gap="32px" padding="10px">
           <Indicator
             Icon={PeopleOutlineTwoToneIcon}
             gradientColors={['#ffcbc2', '#ffa08e']}
             iconBackgroundColor="#FF6E31"
             title="Miembros Activos"
             loading={loading}
-            value={counters.members}
+            value={data?.getMembersCount || 0}
             goToPath={PATHS.MEMBERS}
           />
           <Indicator
@@ -78,10 +69,14 @@ function HomePage() {
             btnHoverColor="#007cb9"
             loading={loading}
             title={`Clases en ${getCurrentYear()}`}
-            value={counters.classes}
+            value={data?.getGymClassesCount || 0}
             goToPath={PATHS.CLASSES}
           />
-          <Events />
+          <Events
+            todayClasses={data?.getGymClasses || []}
+            birthDateMembers={data?.getBirthdateMembers || []}
+            loading={loading}
+          />
         </Grid>
       </Container>
     </motion.div>

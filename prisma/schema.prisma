@@ -8,33 +8,32 @@ datasource db {
 }
 
 model gymClass {
-  id                    Int                     @id @default(autoincrement())
-  classDate             DateTime?               @db.Date
-  classTime             DateTime?               @db.Time(6)
-  classType             String?                 @db.VarChar(50)
-  classDescription      String?
+  id                  Int                   @id @default(autoincrement())
+  classDate           DateTime?             @db.Date
+  classTime           String?               @db.VarChar(12)
+  classType           String?               @db.VarChar(50)
+  classDescription    String?
   memberAttendanceLog memberAttendanceLog[]
-
 }
 
 model member {
-  code                  String                  @id @db.VarChar(16)
-  name                  String                  @db.VarChar(100)
-  birthDate             DateTime                @db.Date
-  height                Float
-  genre                 String                  @db.VarChar(10)
-  phone                 String?                  @db.VarChar(10)
-  email                 String?                 @db.VarChar(150)
-  avatar                String?                 @db.VarChar(150)
-  isActive              Boolean?
-  observations          String?
-  preferredClassTime    DateTime?               @db.Time(6)
-  createAt              DateTime?               @db.Timestamp(6) @default(now())
-  modifyAt              DateTime?               @db.Timestamp(6) @default(now())
-  memberAttendance     memberAttendance?
+  code                String                @id @db.VarChar(16)
+  name                String                @db.VarChar(100)
+  birthDate           DateTime              @db.Date
+  height              Float
+  genre               String                @db.VarChar(10)
+  phone               String?               @db.VarChar(10)
+  email               String?               @db.VarChar(150)
+  avatar              String?               @db.VarChar(150)
+  isActive            Boolean?
+  observations        String?
+  preferredClassTime  DateTime?             @db.Time(6)
+  createAt            DateTime?             @default(now()) @db.Timestamp(6)
+  modifyAt            DateTime?             @default(now()) @db.Timestamp(6)
+  memberAttendance    memberAttendance?
   memberAttendanceLog memberAttendanceLog[]
-  memberMeasures       memberMeasures[]
-  user                  user?
+  memberMeasures      memberMeasures[]
+  user                user?
 }
 
 model memberAttendance {
@@ -47,15 +46,14 @@ model memberAttendance {
   saturday   Boolean?
   sunday     Boolean?
   member     member   @relation(fields: [memberCode], references: [code], onDelete: NoAction, onUpdate: NoAction)
-
 }
 
 model memberAttendanceLog {
-  id           Int          @id @default(autoincrement())
-  memberCode   String       @db.VarChar(16)
-  gymClassId      Int          @default(autoincrement())
-  gymClass gymClass @relation(fields: [gymClassId], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  member       member       @relation(fields: [memberCode], references: [code], onDelete: NoAction, onUpdate: NoAction)
+  id         Int      @id @default(autoincrement())
+  memberCode String   @db.VarChar(16)
+  gymClassId Int      @default(autoincrement())
+  gymClass   gymClass @relation(fields: [gymClassId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  member     member   @relation(fields: [memberCode], references: [code], onDelete: NoAction, onUpdate: NoAction)
 }
 
 model memberMeasures {
@@ -75,7 +73,6 @@ model memberMeasures {
   corporalWaterPctResult String    @db.VarChar(20)
   caloriesResult         String    @db.VarChar(20)
   member                 member    @relation(fields: [memberCode], references: [code], onDelete: NoAction, onUpdate: NoAction)
-
 }
 
 model user {

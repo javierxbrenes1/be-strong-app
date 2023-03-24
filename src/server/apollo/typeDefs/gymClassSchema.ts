@@ -2,7 +2,7 @@ const gymClassSchema = `
  type GymClass {
    id: Int
    classDate: Date
-   classTime: Date
+   classTime: String
    classType: String
    classDescription: String
  }

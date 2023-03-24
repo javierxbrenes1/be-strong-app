@@ -1,7 +1,7 @@
 interface GymClass {
   id: number;
   classDate?: Date;
-  classTime?: Date;
+  classTime?: string;
   classType?: string;
   classDescription?: string;
 }
