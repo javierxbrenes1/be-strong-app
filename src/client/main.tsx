@@ -24,7 +24,13 @@ const httpLink = new HttpLink({
 
 const client = new ApolloClient({
   link: ApolloLink.from([retryLink, httpLink]),
-  cache: new InMemoryCache(),
+  cache: new InMemoryCache({
+    typePolicies: {
+      Member: {
+        keyFields: ['code'],
+      },
+    },
+  }),
 });
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(

@@ -1,8 +1,7 @@
-import Typography from '@mui/material/Typography';
 import LightModeIcon from '@mui/icons-material/LightMode';
 import BedtimeIcon from '@mui/icons-material/Bedtime';
 import WbTwilightIcon from '@mui/icons-material/WbTwilight';
-import Box from '@mui/material/Box';
+import PageTitle from '../../components/PageTitle';
 
 enum DayTime {
   day = 'day',
@@ -36,18 +35,9 @@ const determineDayTime = (): DayTime => {
   return DayTime.night;
 };
 
-function Greetings() {
+function HomeTitle() {
   const { Icon, text } = greeting[determineDayTime()];
-
-  if (!DayTime) return null;
-  return (
-    <Box sx={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-      <Icon fontSize="large" sx={{ color: '#FF6E31' }} />
-      <Typography variant="h4" sx={{ color: '#393e46' }}>
-        {text}
-      </Typography>
-    </Box>
-  );
+  return <PageTitle Icon={Icon} text={text} />;
 }
 
-export default Greetings;
+export default HomeTitle;

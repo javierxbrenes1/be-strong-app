@@ -19,6 +19,9 @@ const getAllMembers = async (
     },
     skip: offset,
     take: limit,
+    orderBy: {
+      name: 'desc',
+    },
   });
 
   let nextPageStart = limit + offset;

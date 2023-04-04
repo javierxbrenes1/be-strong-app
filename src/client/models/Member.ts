@@ -1,8 +1,8 @@
 interface Member {
   code: string;
   name: string;
-  phone: string;
-  preferredClassTime: string;
+  phone?: string;
+  preferredClassTime?: string;
   avatar?: string;
   birthDate?: Date;
   email?: string;

@@ -1,12 +1,24 @@
 import { ReactNode } from 'react';
-import Box from '@mui/material/Box';
+import { styled } from '@mui/material/styles';
+import Grid from '@mui/material/Grid';
+import { motion } from 'framer-motion';
+
+const Container = styled(Grid)({
+  padding: '32px',
+});
 
 function PageContainer(props: { children: ReactNode | ReactNode[] }) {
   const { children } = props;
   return (
-    <Box sx={{ width: '850px', maxWidth: '80%', margin: '0 auto' }}>
-      {children}
-    </Box>
+    <motion.div
+      initial={{ opacity: 0, transform: 'translateY(20px)' }}
+      animate={{ opacity: 1, transform: 'translateY(0)' }}
+      transition={{ duration: 1 }}
+    >
+      <Container container flexDirection="column">
+        {children}
+      </Container>
+    </motion.div>
   );
 }
 

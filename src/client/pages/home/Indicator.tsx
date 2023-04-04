@@ -1,9 +1,9 @@
-import { Skeleton, SvgIconTypeMap, Typography } from '@mui/material';
+import { Skeleton, Typography } from '@mui/material';
 import Box from '@mui/material/Box';
 import { styled } from '@mui/material/styles';
-import { OverridableComponent } from '@mui/material/OverridableComponent';
 import { useNavigate } from 'react-router';
 import BsButton from '../../components/BsButton';
+import IconType from '../../models/Icon';
 
 const Container = styled(Box)<{ gradientColors: string[] }>(
   ({ gradientColors }) => ({
@@ -38,8 +38,7 @@ function Indicator(props: {
   title: string;
   value?: number;
   loading?: boolean;
-  // eslint-disable-next-line @typescript-eslint/ban-types
-  Icon: OverridableComponent<SvgIconTypeMap<{}, 'svg'>> & { muiName: string };
+  Icon: IconType;
   iconBackgroundColor: string;
   gradientColors: string[];
   goToPath?: string;

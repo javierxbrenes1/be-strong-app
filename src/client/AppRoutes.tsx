@@ -13,7 +13,7 @@ const MainPage = lazy(() => import('./components/MainLayout'));
 const Login = lazy(() => import('./pages/Login'));
 const Home = lazy(() => import('./pages/home'));
 const Classes = lazy(() => import('./pages/Classes'));
-const Members = lazy(() => import('./pages/Members'));
+const Members = lazy(() => import('./pages/members'));
 
 function AppRoutes() {
   return (
