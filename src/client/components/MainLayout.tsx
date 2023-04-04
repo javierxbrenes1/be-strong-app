@@ -7,14 +7,16 @@ import TopBar from './TopBar';
 const Container = styled(Box)(({ theme }) => ({
   background: '#F8f8f8', // alpha('#fe8a71', 0.5), // `linear-gradient(0deg, #1628E9, ${})`,
   minHeight: '100vh',
-  width: '100vw',
+  width: '100%',
   display: 'grid',
-  gridTemplateRows: '40px 1fr',
+  gridTemplateRows: '40px calc(100vh - 40px)',
 }));
 
 const PageContainer = styled(Box)(({ theme }) => ({
   display: 'grid',
   gridTemplateColumns: '70px 1fr',
+  overflow: 'hidden',
+  height: '100%',
 }));
 
 function Main() {
@@ -23,9 +25,7 @@ function Main() {
       <TopBar />
       <PageContainer>
         <NavBar />
-        <Box sx={{ overflowY: 'auto', overflowX: 'hidden' }}>
-          <Outlet />
-        </Box>
+        <Outlet />
       </PageContainer>
     </Container>
   );

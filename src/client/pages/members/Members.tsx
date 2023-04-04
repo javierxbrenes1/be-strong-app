@@ -54,8 +54,7 @@ function MembersPage() {
   };
 
   return (
-    <PageContainer>
-      <PageTitle Icon={PeopleAltIcon} text="Miembros" />
+    <PageContainer Icon={PeopleAltIcon} text="Miembros">
       <DataVisualizationSwitch
         onVisualizationSwitch={onDataVisualizationChange}
         selectedOption={visualizationType}

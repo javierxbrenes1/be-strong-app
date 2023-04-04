@@ -9,7 +9,7 @@ import Events from '../../components/HomeEvents/Events';
 import { HOME_QUERY } from '../../queries/homePage';
 import Member from '../../models/Member';
 import GymClass from '../../models/GymClass';
-import HomeTitle from './HomeTitle';
+import getHomeTitle from './HomeTitle';
 import PageContainer from '../../components/PageContainer';
 
 const getCurrentYear = (): number => new Date().getFullYear();
@@ -38,9 +38,10 @@ function HomePage() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const { Icon, text } = getHomeTitle();
+
   return (
-    <PageContainer>
-      <HomeTitle />
+    <PageContainer Icon={Icon} text={text}>
       <Grid container gap="32px" padding="10px">
         <Indicator
           Icon={PeopleOutlineTwoToneIcon}

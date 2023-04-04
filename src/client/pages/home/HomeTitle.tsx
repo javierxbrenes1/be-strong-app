@@ -1,7 +1,6 @@
 import LightModeIcon from '@mui/icons-material/LightMode';
 import BedtimeIcon from '@mui/icons-material/Bedtime';
 import WbTwilightIcon from '@mui/icons-material/WbTwilight';
-import PageTitle from '../../components/PageTitle';
 
 enum DayTime {
   day = 'day',
@@ -35,9 +34,8 @@ const determineDayTime = (): DayTime => {
   return DayTime.night;
 };
 
-function HomeTitle() {
-  const { Icon, text } = greeting[determineDayTime()];
-  return <PageTitle Icon={Icon} text={text} />;
+function getHomeTitle() {
+  return greeting[determineDayTime()];
 }
 
-export default HomeTitle;
+export default getHomeTitle;
