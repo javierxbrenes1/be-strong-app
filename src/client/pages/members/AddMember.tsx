@@ -129,7 +129,7 @@ function AddMember(props: { addNewMemberToList: (member: Member) => void }) {
 
   return (
     <>
-      <Box sx={{ maxWidth: '30px' }}>
+      <Box>
         <BsButton Icon={PersonAddAlt1Icon} onClick={handleClick} />
       </Box>
       <Dialog open={open} onClose={handleClose} disableEscapeKeyDown>

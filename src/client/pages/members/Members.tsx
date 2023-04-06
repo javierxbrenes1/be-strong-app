@@ -1,27 +1,35 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
 import Box from '@mui/material/Box';
 import { useLazyQuery } from '@apollo/client';
+import SearchIcon from '@mui/icons-material/Search';
+import { Typography } from '@mui/material';
 import PageContainer from '../../components/PageContainer';
 import DataVisualizationSwitch, {
   VisualizationType,
 } from './DataVisualizationSwitch';
 import MemberCardsVisualization from './MemberCardsVisualization';
-import { GET_ACTIVE_MEMBERS } from '../../queries/getActiveMembers';
+import {
+  GET_ACTIVE_MEMBERS,
+  GET_FILTERED_MEMBERS,
+} from '../../queries/membersPage';
 import Member from '../../models/Member';
 import Pagination from '../../models/Pagination';
 import AddMember from './AddMember';
 import BsButton from '../../components/BsButton';
+import BsInput from '../../components/BsInput';
 
-const LIMIT = 20;
+const LIMIT = 5;
 
 function MembersPage() {
   const [visualizationType, setVisualizationType] = useState<VisualizationType>(
     VisualizationType.cards
   );
   const [members, setMembers] = useState<Member[]>([]);
+  const [filteredMembers, setFilteredMembers] = useState<Member[]>([]);
   const [codesToIgnore, setCodesToIgnore] = useState<string[]>([]);
   const [offset, setOffset] = useState(0);
+  const [filter, setFilter] = useState('');
 
   const [getMembers, { loading }] = useLazyQuery<{
     getAllMembers: {
@@ -40,12 +48,53 @@ function MembersPage() {
     },
   });
 
+  const [getFilteredMembers, { loading: loadingFilteredMembers }] =
+    useLazyQuery<{ getFilteredMembers: Member[] }>(GET_FILTERED_MEMBERS, {
+      onCompleted(data) {
+        const { getFilteredMembers: res } = data;
+        if (res.length) {
+          setMembers((prev) => [...prev, ...res]);
+          setCodesToIgnore((prev) => [...prev, ...res.map((m) => m.code)]);
+          return;
+        }
+        setFilteredMembers([]);
+      },
+      onError(error) {
+        console.error(error);
+      },
+    });
+
   useEffect(() => {
     loadMoreMembers();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  useEffect(() => {
+    if (!filter) {
+      setFilteredMembers(members);
+      return;
+    }
+
+    const newFilteredMembers = members.filter((m) =>
+      m.name.toLowerCase().startsWith(filter.toLocaleLowerCase())
+    );
+
+    if (newFilteredMembers.length) {
+      setFilteredMembers(newFilteredMembers);
+    } else {
+      getFilteredMembers({
+        variables: {
+          column: 'name',
+          comparator: 'startsWith',
+          filter,
+        },
+      });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [members, filter]);
+
   const loadMoreMembers = () => {
+    if (offset === -1) return;
     getMembers({
       variables: {
         offset,
@@ -64,6 +113,13 @@ function MembersPage() {
     setMembers((prevState) => [member, ...prevState]);
   };
 
+  const handleFilter = (text: string) => {
+    setFilter(text.length >= 3 ? text : '');
+  };
+
+  const isThereAnyMember =
+    !filteredMembers.length && !loading && !loadingFilteredMembers;
+
   return (
     <PageContainer Icon={PeopleAltIcon} text="Miembros">
       <Box
@@ -73,18 +129,30 @@ function MembersPage() {
           alignItems: 'center',
         }}
       >
-        <AddMember addNewMemberToList={addNewMemberToList} />
+        <Box sx={{ display: 'flex', flexDirection: 'row', gap: '10px' }}>
+          <AddMember addNewMemberToList={addNewMemberToList} />
+          <BsInput
+            placeholder="Buscar Miembro"
+            onChange={handleFilter}
+            Icon={SearchIcon}
+          />
+        </Box>
         <DataVisualizationSwitch
           onVisualizationSwitch={onDataVisualizationChange}
           selectedOption={visualizationType}
         />
       </Box>
       <Box sx={{ margin: '10px 0' }}>
+        {filter && !filteredMembers.length && (
+          <Typography textAlign="center" margin="20px">
+            No se encontró ningún miembro
+          </Typography>
+        )}
         {visualizationType === VisualizationType.cards && (
-          <MemberCardsVisualization members={members} />
+          <MemberCardsVisualization members={filteredMembers} />
         )}
       </Box>
-      {offset !== -1 && (
+      {offset !== -1 && !filter && (
         <Box sx={{ maxWidth: '200px', margin: '0 auto' }}>
           <BsButton text="Cargar Mas" onClick={loadMoreMembers} />
         </Box>

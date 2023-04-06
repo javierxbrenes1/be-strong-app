@@ -5,6 +5,7 @@ import getMemberMeasure from './getMemberMeasures';
 import addMember from './addMember';
 import getMembersCount from './getMembersCount';
 import getBirthdateMembers from './getBirthdateMembers';
+import getFilteredMembers from './getFilteredMembers';
 
 const memberResolvers = {
   Query: {
@@ -12,6 +13,7 @@ const memberResolvers = {
     getMember,
     getMembersCount,
     getBirthdateMembers,
+    getFilteredMembers,
   },
   Member: {
     memberAttendance: getMemberAttendance,

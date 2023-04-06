@@ -40,7 +40,7 @@ function MemberCard(props: { member: Member }) {
   const { member } = props;
 
   return (
-    <Card sx={{ padding: '16px 0' }}>
+    <Card sx={{ padding: '16px 0', height: '100%' }}>
       <CardContent
         sx={{
           display: 'flex',

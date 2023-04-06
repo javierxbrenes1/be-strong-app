@@ -20,12 +20,12 @@ const memberSchema = `
 		pagination: Pagination
 	}
 
-
 	type Query {
 		getAllMembers(offset: Int, limit: Int, ignore: [String]): GetAllMembersResponse
 		getMember(code: String): Member
 		getMembersCount: Int
 		getBirthdateMembers(date: Date): [Member]
+		getFilteredMembers(column: String, comparator: String, filter: String): [Member]
 	}
 
 	input AddMemberInput {

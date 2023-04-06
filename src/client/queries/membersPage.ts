@@ -18,3 +18,21 @@ export const GET_ACTIVE_MEMBERS = gql`
     }
   }
 `;
+
+export const GET_FILTERED_MEMBERS = gql`
+  query getFilteredMembers(
+    $column: String
+    $comparator: String
+    $filter: String
+  ) {
+    getFilteredMembers(
+      column: $column
+      comparator: $comparator
+      filter: $filter
+    ) {
+      avatar
+      code
+      name
+    }
+  }
+`;
