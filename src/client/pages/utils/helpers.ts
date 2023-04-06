@@ -17,3 +17,7 @@ export function getApolloErrorMessages(error: ApolloError) {
   }
   return messages;
 }
+
+export function isValid(val?: unknown) {
+  return val !== undefined && val !== null;
+}

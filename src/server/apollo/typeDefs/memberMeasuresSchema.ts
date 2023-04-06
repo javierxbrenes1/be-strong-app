@@ -30,6 +30,7 @@ const memberMeasuresSchema = `
         bodyMassIndex: Float!
         corporalWaterPct: Float!
         calories: Float!
+        date: Date!
     }
 
     type Query {
@@ -39,6 +40,6 @@ const memberMeasuresSchema = `
     type Mutation {
         addMeasure(measure: AddMeasureInput): MemberMeasure
     }
-`
+`;
 
 export default memberMeasuresSchema;

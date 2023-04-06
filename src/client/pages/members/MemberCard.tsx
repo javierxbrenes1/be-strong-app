@@ -36,8 +36,11 @@ const Action = styled('button')({
   },
 });
 
-function MemberCard(props: { member: Member }) {
-  const { member } = props;
+function MemberCard(props: {
+  member: Member;
+  onAddMeasuresClick: (member: Member) => void;
+}) {
+  const { member, onAddMeasuresClick } = props;
 
   return (
     <Card sx={{ padding: '16px 0', height: '100%' }}>
@@ -64,7 +67,11 @@ function MemberCard(props: { member: Member }) {
         </Box>
       </CardContent>
       <CardActions sx={{ display: 'flex', justifyContent: 'space-between' }}>
-        <Action>
+        <Action
+          onClick={() => {
+            onAddMeasuresClick(member);
+          }}
+        >
           <ScaleIcon />
           <span>Medidas</span>
         </Action>

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Box from '@mui/material/Box';
 import PersonAddAlt1Icon from '@mui/icons-material/PersonAddAlt1';
 import Dialog from '@mui/material/Dialog';
+import { toast } from 'react-toastify';
 import {
   Button,
   DialogActions,
@@ -63,6 +64,9 @@ function AddMember(props: { addNewMemberToList: (member: Member) => void }) {
       onCompleted(data) {
         addNewMemberToList(data.addMember);
         setOpen(false);
+        toast.success('Nuevo miembro agregado satisfactoriamente.', {
+          position: 'top-right',
+        });
       },
       onError(error) {
         setErrors(getApolloErrorMessages(error));
@@ -146,7 +150,7 @@ function AddMember(props: { addNewMemberToList: (member: Member) => void }) {
                 onChange={handleInputsChange}
                 name="name"
                 label="Nombre"
-                variant="standard"
+                variant="outlined"
                 value={memberDetails.name ?? ''}
               />
             </FormControl>
@@ -155,7 +159,7 @@ function AddMember(props: { addNewMemberToList: (member: Member) => void }) {
                 type="number"
                 name="height"
                 label="Estatura (metros)"
-                variant="standard"
+                variant="outlined"
                 onChange={handleInputsChange}
                 value={memberDetails.height ?? ''}
               />

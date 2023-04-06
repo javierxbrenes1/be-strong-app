@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
 import Box from '@mui/material/Box';
 import { useLazyQuery } from '@apollo/client';
@@ -19,7 +19,7 @@ import AddMember from './AddMember';
 import BsButton from '../../components/BsButton';
 import BsInput from '../../components/BsInput';
 
-const LIMIT = 5;
+const LIMIT = 20;
 
 function MembersPage() {
   const [visualizationType, setVisualizationType] = useState<VisualizationType>(
@@ -104,9 +104,9 @@ function MembersPage() {
     });
   };
 
-  const onDataVisualizationChange = (newProp: VisualizationType) => {
-    setVisualizationType(newProp);
-  };
+  // const onDataVisualizationChange = (newProp: VisualizationType) => {
+  //   setVisualizationType(newProp);
+  // };
 
   const addNewMemberToList = (member: Member) => {
     setCodesToIgnore((prevState) => [...prevState, member.code]);
@@ -116,9 +116,6 @@ function MembersPage() {
   const handleFilter = (text: string) => {
     setFilter(text.length >= 3 ? text : '');
   };
-
-  const isThereAnyMember =
-    !filteredMembers.length && !loading && !loadingFilteredMembers;
 
   return (
     <PageContainer Icon={PeopleAltIcon} text="Miembros">
@@ -137,10 +134,10 @@ function MembersPage() {
             Icon={SearchIcon}
           />
         </Box>
-        <DataVisualizationSwitch
+        {/* <DataVisualizationSwitch
           onVisualizationSwitch={onDataVisualizationChange}
           selectedOption={visualizationType}
-        />
+        /> */}
       </Box>
       <Box sx={{ margin: '10px 0' }}>
         {filter && !filteredMembers.length && (
