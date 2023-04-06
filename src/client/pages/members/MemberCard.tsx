@@ -39,8 +39,9 @@ const Action = styled('button')({
 function MemberCard(props: {
   member: Member;
   onAddMeasuresClick: (member: Member) => void;
+  onViewClick: (code: string) => void;
 }) {
-  const { member, onAddMeasuresClick } = props;
+  const { member, onAddMeasuresClick, onViewClick } = props;
 
   return (
     <Card sx={{ padding: '16px 0', height: '100%' }}>
@@ -75,7 +76,11 @@ function MemberCard(props: {
           <ScaleIcon />
           <span>Medidas</span>
         </Action>
-        <Action>
+        <Action
+          onClick={() => {
+            onViewClick(member.code);
+          }}
+        >
           <VisibilityIcon />
           <span>Ver</span>
         </Action>
