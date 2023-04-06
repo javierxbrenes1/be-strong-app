@@ -22,7 +22,7 @@ const memberSchema = `
 
 
 	type Query {
-		getAllMembers(offset: Int, limit: Int): GetAllMembersResponse
+		getAllMembers(offset: Int, limit: Int, ignore: [String]): GetAllMembersResponse
 		getMember(code: String): Member
 		getMembersCount: Int
 		getBirthdateMembers(date: Date): [Member]

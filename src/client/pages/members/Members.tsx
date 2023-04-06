@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
 import Box from '@mui/material/Box';
-import LinearProgress from '@mui/material/LinearProgress';
 import { useLazyQuery } from '@apollo/client';
 import PageContainer from '../../components/PageContainer';
 import DataVisualizationSwitch, {
@@ -12,14 +11,16 @@ import { GET_ACTIVE_MEMBERS } from '../../queries/getActiveMembers';
 import Member from '../../models/Member';
 import Pagination from '../../models/Pagination';
 import AddMember from './AddMember';
+import BsButton from '../../components/BsButton';
 
-const LIMIT = 2;
+const LIMIT = 20;
 
 function MembersPage() {
   const [visualizationType, setVisualizationType] = useState<VisualizationType>(
     VisualizationType.cards
   );
   const [members, setMembers] = useState<Member[]>([]);
+  const [codesToIgnore, setCodesToIgnore] = useState<string[]>([]);
   const [offset, setOffset] = useState(0);
 
   const [getMembers, { loading }] = useLazyQuery<{
@@ -40,31 +41,27 @@ function MembersPage() {
   });
 
   useEffect(() => {
+    loadMoreMembers();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const loadMoreMembers = () => {
     getMembers({
       variables: {
         offset,
         limit: LIMIT,
+        ignore: codesToIgnore,
       },
     });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  };
 
   const onDataVisualizationChange = (newProp: VisualizationType) => {
     setVisualizationType(newProp);
   };
 
-  const insertObjectByName = (array: Member[], newMember: Member) => {
-    const index = array.findIndex((item) => item.name > newMember.name);
-    if (index === -1) {
-      array.push(newMember);
-    } else {
-      array.splice(index, 0, newMember);
-    }
-    return array;
-  };
-
   const addNewMemberToList = (member: Member) => {
-    setMembers((prevState) => [...insertObjectByName(prevState, member)]);
+    setCodesToIgnore((prevState) => [...prevState, member.code]);
+    setMembers((prevState) => [member, ...prevState]);
   };
 
   return (
@@ -83,11 +80,15 @@ function MembersPage() {
         />
       </Box>
       <Box sx={{ margin: '10px 0' }}>
-        {loading && <LinearProgress color="warning" />}
         {visualizationType === VisualizationType.cards && (
           <MemberCardsVisualization members={members} />
         )}
       </Box>
+      {offset !== -1 && (
+        <Box sx={{ maxWidth: '200px', margin: '0 auto' }}>
+          <BsButton text="Cargar Mas" onClick={loadMoreMembers} />
+        </Box>
+      )}
     </PageContainer>
   );
 }
