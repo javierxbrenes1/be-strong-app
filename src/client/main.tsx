@@ -8,6 +8,7 @@ import {
   HttpLink,
 } from '@apollo/client';
 import { RetryLink } from '@apollo/client/link/retry';
+import { createTheme, ThemeProvider } from '@mui/material';
 import App from './App';
 
 // palette #edc951 • #eb6841 • #cc2a36 • #4f372d • #00a0b0
@@ -33,10 +34,20 @@ const client = new ApolloClient({
   }),
 });
 
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: '#FF6E31',
+    },
+  },
+});
+
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
     <ApolloProvider client={client}>
-      <App />
+      <ThemeProvider theme={theme}>
+        <App />
+      </ThemeProvider>
     </ApolloProvider>
   </React.StrictMode>
 );

@@ -20,7 +20,7 @@ const getAllMembers = async (
     skip: offset,
     take: limit,
     orderBy: {
-      name: 'desc',
+      name: 'asc',
     },
   });
 

@@ -34,6 +34,7 @@ const memberSchema = `
 		birthDate: Date!
 		height: Float!
 		observations: String
+		avatar: String
 	}
 
 	type Mutation {

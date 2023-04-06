@@ -6,7 +6,6 @@ import DashboardCustomizeIcon from '@mui/icons-material/DashboardCustomize';
 const Container = styled(Box)({
   display: 'flex',
   gap: '12px',
-  justifyContent: 'flex-end',
 });
 
 const Option = styled(Box)<{ selected?: boolean }>(({ selected }) => ({

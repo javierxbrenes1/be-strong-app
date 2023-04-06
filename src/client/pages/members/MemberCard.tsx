@@ -6,6 +6,7 @@ import Box from '@mui/material/Box';
 import ScaleIcon from '@mui/icons-material/Scale';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import Member from '../../models/Member';
+import { createAvatarLink } from '../utils/helpers';
 
 const Img = styled('img')({
   objectFit: 'cover',
@@ -51,10 +52,7 @@ function MemberCard(props: { member: Member }) {
       >
         <Img
           alt={member.name}
-          src={
-            member.avatar ||
-            `https://ui-avatars.com/api/?name=${member.name}&background=random`
-          }
+          src={member.avatar || createAvatarLink(member.name)}
         />
         <Box sx={{ textAlign: 'center' }}>
           <Typography variant="h6" sx={{ margin: 0, padding: 0 }}>

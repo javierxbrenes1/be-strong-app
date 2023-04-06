@@ -1,5 +1,6 @@
 import Button from '@mui/material/Button';
 import { styled } from '@mui/material/styles';
+import IconType from '../models/Icon';
 
 const MyButton = styled(Button)<{ hoverColor?: string }>(({ hoverColor }) => ({
   width: '100%',
@@ -19,14 +20,15 @@ const MyButton = styled(Button)<{ hoverColor?: string }>(({ hoverColor }) => ({
 }));
 
 function BsButton(props: {
-  text: string;
+  text?: string;
   onClick: () => void;
   hoverColor?: string;
+  Icon?: IconType;
 }) {
-  const { text, onClick, hoverColor } = props;
+  const { text, onClick, hoverColor, Icon } = props;
   return (
     <MyButton onClick={onClick} hoverColor={hoverColor}>
-      {text}
+      {Icon && <Icon />} {text}
     </MyButton>
   );
 }
