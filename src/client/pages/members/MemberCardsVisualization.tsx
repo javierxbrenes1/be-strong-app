@@ -29,7 +29,7 @@ function MemberCardsVisualization(props: { members: Member[] }) {
     <>
       <Grid container columnSpacing="16px" rowSpacing="16px">
         {members.map((member) => (
-          <Grid item md={3} width="100%" key={member.code}>
+          <Grid item sm={4} md={3} width="100%" key={member.code}>
             <MemberCard
               member={member}
               onAddMeasuresClick={handleAddMeasuresClick}

@@ -149,7 +149,7 @@ function MembersPage() {
           <MemberCardsVisualization members={filteredMembers} />
         )}
       </Box>
-      {offset !== -1 && !filter && (
+      {offset !== -1 && !filter && !loading && (
         <Box sx={{ maxWidth: '200px', margin: '0 auto' }}>
           <BsButton text="Cargar Mas" onClick={loadMoreMembers} />
         </Box>

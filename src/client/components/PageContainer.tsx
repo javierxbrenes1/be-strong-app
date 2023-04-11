@@ -12,7 +12,7 @@ const Container = styled(Box)({
 });
 
 function PageContainer(props: {
-  Icon?: IconType;
+  Icon?: IconType | string;
   text: string;
   children: ReactNode | ReactNode[];
 }) {

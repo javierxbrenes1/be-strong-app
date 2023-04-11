@@ -10,8 +10,6 @@ import { createAvatarLink } from '../utils/helpers';
 
 const Img = styled('img')({
   objectFit: 'cover',
-  width: '40%',
-  height: '40%',
   borderRadius: '100%',
 });
 
@@ -29,12 +27,23 @@ const Action = styled('button')({
   borderRadius: '10px',
   fontWeight: 'bold',
   color: '#606470',
+  width: '100%',
   '&:hover': {
     cursor: 'pointer',
     background: '#FF6E31',
     color: '#fff',
   },
 });
+
+const Actions = styled(CardActions)(({ theme }) => ({
+  display: 'flex',
+  justifyContent: 'space-between',
+
+  '@container (max-width: 250px)': {
+    flexDirection: 'column',
+    gap: '10px',
+  },
+}));
 
 function MemberCard(props: {
   member: Member;
@@ -44,7 +53,17 @@ function MemberCard(props: {
   const { member, onAddMeasuresClick, onViewClick } = props;
 
   return (
-    <Card sx={{ padding: '16px 0', height: '100%' }}>
+    <Card
+      sx={{
+        containerType: 'inline-size',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'space-between',
+        height: '100%',
+        padding: '16px 0',
+      }}
+      elevation={3}
+    >
       <CardContent
         sx={{
           display: 'flex',
@@ -67,7 +86,7 @@ function MemberCard(props: {
           </Typography>
         </Box>
       </CardContent>
-      <CardActions sx={{ display: 'flex', justifyContent: 'space-between' }}>
+      <Actions>
         <Action
           onClick={() => {
             onAddMeasuresClick(member);
@@ -84,7 +103,7 @@ function MemberCard(props: {
           <VisibilityIcon />
           <span>Ver</span>
         </Action>
-      </CardActions>
+      </Actions>
     </Card>
   );
 }

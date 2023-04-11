@@ -1,3 +1,5 @@
+import Measure from './Measure';
+
 interface Member {
   code: string;
   name: string;
@@ -9,6 +11,8 @@ interface Member {
   genre: string;
   height: number;
   isActive: boolean;
+  observations?: string;
+  memberMeasures?: Measure[];
 }
 
 export default Member;

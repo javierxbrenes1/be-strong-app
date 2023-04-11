@@ -1,16 +1,26 @@
 import Typography from '@mui/material/Typography';
-
 import Box from '@mui/material/Box';
 import Divider from '@mui/material/Divider';
+import { styled } from '@mui/material/styles';
 import IconType from '../models/Icon';
 
-function PageTitle(props: { Icon?: IconType; text: string }) {
+const Img = styled('img')({
+  objectFit: 'cover',
+  borderRadius: '100%',
+});
+
+function PageTitle(props: { Icon?: IconType | string; text: string }) {
   const { Icon, text } = props;
 
   return (
     <>
       <Box sx={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-        {Icon && <Icon fontSize="large" sx={{ color: '#FF6E31' }} />}
+        {Icon && typeof Icon !== 'string' && (
+          <Icon fontSize="large" sx={{ color: '#FF6E31' }} />
+        )}
+        {Icon && typeof Icon === 'string' && (
+          <Img alt="Title Icon" src={Icon} />
+        )}
         <Typography variant="h4" sx={{ color: '#393e46' }}>
           {text}
         </Typography>

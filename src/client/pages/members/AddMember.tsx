@@ -23,7 +23,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DateField } from '@mui/x-date-pickers/DateField';
 import { useMutation } from '@apollo/client';
 import BsButton from '../../components/BsButton';
-import Genre from '../../models/enums';
+import { Genre } from '../../../common/enums';
 import ADD_NEW_MEMBER from '../../mutations/addMember';
 import { createAvatarLink, getApolloErrorMessages } from '../utils/helpers';
 import Errors from '../../components/Errors';
@@ -141,8 +141,8 @@ function AddMember(props: { addNewMemberToList: (member: Member) => void }) {
         <DialogContent>
           <DialogContentText>
             Ingresa los detalles necesarios para un nuevo miembro, mas
-            informacion puede ser proporcionada por el miembro a travez del app
-            mobile.
+            informacion puede ser proporcionada a travez del app mobile
+            individualmente.
           </DialogContentText>
           <FormContainer>
             <FormControl fullWidth>

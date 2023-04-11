@@ -1,5 +1,6 @@
+import { Genre } from '../../../../common/enums';
+import { calculateAge } from '../../../../common/utils';
 import measuresCalculator from '../../../logic/measuresCalculator';
-import { Genre } from '../../../logic/types';
 import { BeStrongContext } from '../../context';
 
 type InputType = {
@@ -11,12 +12,6 @@ type InputType = {
   corporalWaterPct: number;
   calories: number;
   date: Date;
-};
-
-const calculateAge = (dateBirth: Date): number => {
-  const diff = new Date().getTime() - dateBirth.getTime();
-  const ageDate = new Date(diff);
-  return Math.abs(ageDate.getUTCFullYear() - 1970);
 };
 
 export const addMeasure = async (
