@@ -8,7 +8,7 @@ import CardTitle from '../../../components/CardTitle';
 import { MeasureType, MEASURES_TITLES, MONTHS } from '../utils/measureTypes';
 import SimpleTable from '../../../components/SimpleTable';
 import { formatDate } from '../../utils/helpers';
-import LineChart from './LineChart';
+import Chart from './Chart';
 
 type MeasuresTitlesProp = keyof typeof MEASURES_TITLES;
 
@@ -90,7 +90,7 @@ function MemberMeasures(props: {
       <CardContent>
         <CardTitle title="Detalles" />
         <Typography variant="caption">
-          Los Datos aqui mostrados representan los registros mas recientes.
+          Los datos aqui mostrados representan los registros mas recientes.
         </Typography>
         <Grid container spacing={1} sx={{ marginTop: '12px' }}>
           {columns && (
@@ -100,7 +100,7 @@ function MemberMeasures(props: {
           )}
           {chartDetails && (
             <Grid item xs={12}>
-              <LineChart
+              <Chart
                 labels={chartDetails.labels}
                 numbers={chartDetails.numbers}
                 chartTitle={
