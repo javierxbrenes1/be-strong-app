@@ -1,6 +1,8 @@
 import { Chip, Typography } from '@mui/material';
 import Box from '@mui/material/Box';
 import { styled } from '@mui/material/styles';
+import { getMeasureColorAndEmoji } from './utils/measureColorPicker';
+import { MeasureType } from './utils/measureTypes';
 
 const Container = styled(Box)<{ selected?: boolean }>(
   ({ selected, theme }) => ({
@@ -18,6 +20,7 @@ const ValueWrapper = styled(Box)({
   display: 'flex',
   gap: '20px',
   alignItems: 'center',
+  flexWrap: 'wrap',
   '& *': {
     margin: 0,
     padding: 0,
@@ -25,15 +28,23 @@ const ValueWrapper = styled(Box)({
 });
 
 function MeasureItem(props: {
+  id: MeasureType;
+  selectedOption: MeasureType | null;
   title: string;
   value: string;
   chipText?: string;
-  chipColor?: string;
-  selected?: boolean;
+  onClick: (ev: MeasureType) => void;
 }) {
-  const { title, value, chipText, chipColor, selected } = props;
+  const { title, value, chipText, id, selectedOption, onClick } = props;
+
+  const { color, emoji } = getMeasureColorAndEmoji(chipText || '');
+
   return (
-    <Container selected={selected}>
+    <Container
+      selected={id === selectedOption}
+      role="button"
+      onClick={() => onClick(id)}
+    >
       <Typography variant="h6" color="#393e46">
         {title}
       </Typography>
@@ -41,11 +52,12 @@ function MeasureItem(props: {
         <Typography variant="h4">{value}</Typography>
         {chipText && (
           <Chip
-            label={chipText}
+            label={`${chipText} ${emoji}`}
             sx={{
-              backgroundColor: chipColor,
-              padding: '0 10px',
+              backgroundColor: color,
+              padding: '10px',
               fontWeight: 'bold',
+              fontSize: '14px',
             }}
           />
         )}

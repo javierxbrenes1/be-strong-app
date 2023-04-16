@@ -20,6 +20,7 @@ import Member from '../../models/Member';
 import { getApolloErrorMessages, isValid } from '../utils/helpers';
 import ADD_MEASURE from '../../mutations/addMeasure';
 import Errors from '../../components/Errors';
+import Measure from '../../models/Measure';
 
 const FormContainer = styled('form')(({ theme }) => ({
   display: 'grid',
@@ -35,8 +36,9 @@ function AddMeasures(props: {
   open: boolean;
   onClose: () => void;
   member: Member | null;
+  onSuccess?: (newMeasure: Measure) => void;
 }) {
-  const { open, onClose, member } = props;
+  const { open, onClose, member, onSuccess } = props;
   const [errors, setErrors] = useState<string[]>([]);
   const [measures, setMeasures] = useState<{
     weight?: number;
@@ -51,17 +53,23 @@ function AddMeasures(props: {
   });
   const [readyToSave, setReadyToSave] = useState(false);
 
-  const [addMeasure, { loading }] = useMutation(ADD_MEASURE, {
-    onCompleted() {
-      onClose();
-      toast.success('Medida agregada satisfactoriamente.', {
-        position: 'top-right',
-      });
-    },
-    onError(error) {
-      setErrors(getApolloErrorMessages(error));
-    },
-  });
+  const [addMeasure, { loading }] = useMutation<{ addMeasure: Measure }>(
+    ADD_MEASURE,
+    {
+      onCompleted(data) {
+        if (onSuccess) {
+          onSuccess(data.addMeasure);
+        }
+        onClose();
+        toast.success('Medida agregada satisfactoriamente.', {
+          position: 'top-right',
+        });
+      },
+      onError(error) {
+        setErrors(getApolloErrorMessages(error));
+      },
+    }
+  );
 
   useEffect(() => {
     const {

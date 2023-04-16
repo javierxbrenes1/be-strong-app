@@ -6,6 +6,7 @@ import Member from '../../models/Member';
 import MemberInfoInput from './MemberInfoInput';
 import { calculateAge } from '../../../common/utils';
 import CardTitle from '../../components/CardTitle';
+import { formatDate } from '../utils/helpers';
 
 const InfoContainer = styled(Box)({
   display: 'grid',
@@ -59,7 +60,7 @@ function MemberInfo(props: { member: Member }) {
             <>
               <MemberInfoInput
                 label="Fecha de Nacimiento"
-                value={dayjs(member.birthDate).format('DD/MM/YYYY')}
+                value={formatDate(member.birthDate)}
                 editMode={editMode}
               />
               <MemberInfoInput

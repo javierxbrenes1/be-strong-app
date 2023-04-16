@@ -7,6 +7,7 @@ import IconType from '../models/Icon';
 const InfoTitle = styled(Box)({
   display: 'flex',
   justifyContent: 'space-between',
+  marginBottom: '16px',
 });
 
 const StyledIcon = styled(Box)({
