@@ -91,7 +91,7 @@ function LoginPage() {
                 InputProps={{
                   startAdornment: (
                     <InputAdornment position="start">
-                      <PersonIcon />
+                      <PersonIcon color="primary" />
                     </InputAdornment>
                   ),
                 }}
@@ -106,7 +106,7 @@ function LoginPage() {
                 InputProps={{
                   startAdornment: (
                     <InputAdornment position="start">
-                      <PasswordIcon />
+                      <PasswordIcon color="primary" />
                     </InputAdornment>
                   ),
                 }}
