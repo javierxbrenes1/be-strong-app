@@ -37,3 +37,7 @@ export enum Muscle {
   highQuality = 'Mucho',
   undefined = 'Indefinido',
 }
+
+export enum Roles {
+  'superAdmin' = 'superAdmin',
+}

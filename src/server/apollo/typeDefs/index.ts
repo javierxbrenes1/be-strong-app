@@ -3,6 +3,7 @@ import memberSchema from './memberSchema';
 import memberAttendanceSchema from './memberAttendanceSchema';
 import memberMeasuresSchema from './memberMeasuresSchema';
 import gymClassSchema from './gymClassSchema';
+import loginSchema from './loginSchema';
 
 const scalarDefinitions = `
 scalar Date
@@ -21,6 +22,7 @@ const typeDefs = mergeTypeDefs([
   memberAttendanceSchema,
   memberMeasuresSchema,
   gymClassSchema,
+  loginSchema,
 ]);
 
 export default typeDefs;

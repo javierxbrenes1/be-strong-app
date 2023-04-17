@@ -84,3 +84,13 @@ model user {
   isBlocked              Boolean?
   member                 member    @relation(fields: [memberCode], references: [code], onDelete: NoAction, onUpdate: NoAction)
 }
+
+model ownerUser {
+  username               String    @id @db.VarChar(25)
+  pwd                    String
+  role                   String    @db.VarChar(16)
+  isBlocked              Boolean   @default(false)
+  lastLoginDate          DateTime?
+  lastPasswordChangeDate DateTime?
+  registeredAt           DateTime  @default(now())
+}

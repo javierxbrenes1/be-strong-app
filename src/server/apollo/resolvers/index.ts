@@ -4,6 +4,7 @@ import dateScalar from './dateScalar';
 import memberAttendanceResolvers from './memberAttendance';
 import memberMeasuresResolvers from './memberMeasures';
 import gymClassesResolvers from './gymClasses';
+import loginResolvers from './login';
 
 const resolvers = mergeResolvers([
   memberResolvers,
@@ -11,6 +12,7 @@ const resolvers = mergeResolvers([
   memberAttendanceResolvers,
   memberMeasuresResolvers,
   gymClassesResolvers,
+  loginResolvers,
 ]);
 
 export default resolvers;
