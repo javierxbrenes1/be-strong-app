@@ -6,6 +6,8 @@ import gymClassSchema from './gymClassSchema';
 import loginSchema from './loginSchema';
 
 const scalarDefinitions = `
+directive @auth on FIELD_DEFINITION
+
 scalar Date
 
 type Pagination {

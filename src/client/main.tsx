@@ -20,7 +20,7 @@ const retryLink = new RetryLink({
 
 const httpLink = new HttpLink({
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-  uri: import.meta.env.VITE_GRAPHQL_URL,
+  uri: import.meta.env.VITE_GRAPHQL_URsL,
 });
 
 const client = new ApolloClient({
@@ -35,6 +35,22 @@ const client = new ApolloClient({
 });
 
 const theme = createTheme({
+  components: {
+    MuiTextField: {
+      styleOverrides: {
+        root: {
+          '& .MuiOutlinedInput-root': {
+            '&:hover fieldset': {
+              borderColor: '#FF6E31',
+            },
+          },
+        },
+      },
+    },
+  },
+  shape: {
+    borderRadius: 20,
+  },
   palette: {
     primary: {
       main: '#FF6E31',

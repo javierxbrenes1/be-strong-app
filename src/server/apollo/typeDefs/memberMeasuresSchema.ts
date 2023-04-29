@@ -34,11 +34,11 @@ const memberMeasuresSchema = `
     }
 
     type Query {
-        getMeasures(memberCode: String, offset: Int, limit: Int): GetMeasuresResponse
+        getMeasures(memberCode: String, offset: Int, limit: Int): GetMeasuresResponse @auth
     }
 
     type Mutation {
-        addMeasure(measure: AddMeasureInput): MemberMeasure
+        addMeasure(measure: AddMeasureInput): MemberMeasure @auth
     }
 `;
 

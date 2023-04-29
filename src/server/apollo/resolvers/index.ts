@@ -6,13 +6,13 @@ import memberMeasuresResolvers from './memberMeasures';
 import gymClassesResolvers from './gymClasses';
 import loginResolvers from './login';
 
-const resolvers = mergeResolvers([
+const resolvers = [
   memberResolvers,
   dateScalar,
   memberAttendanceResolvers,
   memberMeasuresResolvers,
   gymClassesResolvers,
   loginResolvers,
-]);
+];
 
-export default resolvers;
+export default mergeResolvers(resolvers);

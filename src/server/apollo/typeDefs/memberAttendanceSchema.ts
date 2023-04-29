@@ -12,8 +12,8 @@ const memberAttendanceSchema = `
     }
 
     type Query {
-        getMemberAttendance(memberCode: String!): MemberAttendance
+        getMemberAttendance(memberCode: String!): MemberAttendance @auth
     }
-`
+`;
 
 export default memberAttendanceSchema;

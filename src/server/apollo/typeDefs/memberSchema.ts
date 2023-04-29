@@ -21,11 +21,11 @@ const memberSchema = `
 	}
 
 	type Query {
-		getAllMembers(offset: Int, limit: Int, ignore: [String]): GetAllMembersResponse
-		getMember(code: String): Member
-		getMembersCount: Int
-		getBirthdateMembers(date: Date): [Member]
-		getFilteredMembers(column: String, comparator: String, filter: String): [Member]
+		getAllMembers(offset: Int, limit: Int, ignore: [String]): GetAllMembersResponse @auth
+		getMember(code: String): Member @auth
+		getMembersCount: Int @auth
+		getBirthdateMembers(date: Date): [Member] @auth
+		getFilteredMembers(column: String, comparator: String, filter: String): [Member] @auth
 	}
 
 	input AddMemberInput {
@@ -38,7 +38,7 @@ const memberSchema = `
 	}
 
 	type Mutation {
-		addMember(member: AddMemberInput): Member
+		addMember(member: AddMemberInput): Member @auth
 	}
 `;
 

@@ -8,8 +8,8 @@ const gymClassSchema = `
  }
 
  type Query {
-    getGymClassesCount(year: Int): Int
-    getGymClasses(gte: Date!, lte: Date ): [GymClass]
+    getGymClassesCount(year: Int): Int @auth
+    getGymClasses(gte: Date!, lte: Date ): [GymClass] @auth
  }
  `;
 

@@ -112,7 +112,10 @@ function LoginPage() {
                 }}
               />
             </FormControl>
-            <Button variant="outlined" sx={{ width: '50%', alignSelf: 'end' }}>
+            <Button
+              variant="contained"
+              sx={{ color: '#fff', alignSelf: 'end' }}
+            >
               Ingresar
             </Button>
           </Form>

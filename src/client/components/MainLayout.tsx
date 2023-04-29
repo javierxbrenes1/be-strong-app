@@ -10,6 +10,12 @@ const Container = styled(Box)(({ theme }) => ({
   width: '100%',
   display: 'grid',
   gridTemplateRows: '40px calc(100vh - 40px)',
+
+  '& .MuiOutlinedInput-root': {
+    '&:hover fieldset': {
+      borderColor: theme.palette.primary,
+    },
+  },
 }));
 
 const PageContainer = styled(Box)(({ theme }) => ({

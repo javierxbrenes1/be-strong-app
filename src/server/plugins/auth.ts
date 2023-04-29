@@ -1,8 +1,4 @@
-import fastify, {
-  FastifyInstance,
-  FastifyReply,
-  FastifyRequest,
-} from 'fastify';
+import { FastifyInstance, FastifyRequest } from 'fastify';
 import fastifyJwt from '@fastify/jwt';
 
 async function registerAuth(server: FastifyInstance) {
@@ -14,16 +10,9 @@ async function registerAuth(server: FastifyInstance) {
     },
   });
 
-  server.decorate(
-    'authenticate',
-    async (request: FastifyRequest, reply: FastifyReply) => {
-      try {
-        await request.jwtVerify();
-      } catch (err) {
-        reply.send(err);
-      }
-    }
-  );
+  server.decorate('authenticate', async (request: FastifyRequest) => {
+    await request.jwtVerify();
+  });
 }
 
 export default registerAuth;
