@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE "ownerUser" ADD COLUMN     "email" VARCHAR(100) NOT NULL DEFAULT '',
+ADD COLUMN     "name" VARCHAR(100) NOT NULL DEFAULT '';

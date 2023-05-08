@@ -112,6 +112,12 @@ function LoginPage() {
     setUserName(target.value);
   };
 
+  const handleOnKeyPress = (ev: React.KeyboardEvent<HTMLInputElement>) => {
+    if (ev.key.toLocaleLowerCase() === 'enter') {
+      onLogin();
+    }
+  };
+
   const showHidePassword = () => {
     setShowPwd(!showPwd);
   };
@@ -165,6 +171,7 @@ function LoginPage() {
                 error={error}
                 helperText={helperText}
                 onChange={handleOnChange}
+                onKeyDown={handleOnKeyPress}
                 color="primary"
                 InputProps={{
                   startAdornment: (
@@ -190,7 +197,7 @@ function LoginPage() {
               disabled={!username || !password || loading}
               onClick={onLogin}
             >
-              {loading ? <CircularProgress color="primary" /> : 'Ingresar'}
+              {loading ? <CircularProgress color="white" /> : 'Ingresar'}
             </Button>
           </Form>
         </LoginContainer>

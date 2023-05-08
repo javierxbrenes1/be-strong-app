@@ -6,6 +6,8 @@ import { IconButton, ListItemIcon, MenuItem, Typography } from '@mui/material';
 import Menu from '@mui/material/Menu';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { Logout } from '@mui/icons-material';
+import useAuthStore from '../state/authState';
+import useWhoAmI from '../hooks/useWhoAmI';
 
 const Container = styled(Grid)({
   height: '40px',
@@ -18,6 +20,9 @@ const Container = styled(Grid)({
 
 function TopBar() {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const resetAuth = useAuthStore((state) => state.reset);
+  const whoAmI = useWhoAmI();
+
   const open = Boolean(anchorEl);
 
   const handleMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
@@ -25,6 +30,11 @@ function TopBar() {
   };
   const handleClose = () => {
     setAnchorEl(null);
+  };
+
+  const handleOnLogout = () => {
+    handleClose();
+    resetAuth();
   };
 
   return (
@@ -37,11 +47,15 @@ function TopBar() {
         <Typography component="span" color="#4D4D4D">
           Be Strong App
         </Typography>
-        <IconButton size="small" onClick={handleMenuOpen}>
-          <Avatar sx={{ width: '28px', height: '28px', background: '#FF6E31' }}>
-            T
-          </Avatar>
-        </IconButton>
+        {whoAmI && (
+          <IconButton size="small" onClick={handleMenuOpen}>
+            <Avatar
+              sx={{ width: '28px', height: '28px', background: '#FF6E31' }}
+            >
+              {whoAmI.name[0].toUpperCase()}
+            </Avatar>
+          </IconButton>
+        )}
       </Container>
       <Menu
         anchorEl={anchorEl}
@@ -54,6 +68,7 @@ function TopBar() {
         PaperProps={{
           elevation: 0,
           sx: {
+            borderRadius: '5px !important',
             overflow: 'visible',
             filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
             mt: 1.5,
@@ -84,7 +99,7 @@ function TopBar() {
           </ListItemIcon>
           Mi Perfil
         </MenuItem>
-        <MenuItem onClick={handleClose}>
+        <MenuItem onClick={handleOnLogout}>
           <ListItemIcon>
             <Logout fontSize="small" />
           </ListItemIcon>

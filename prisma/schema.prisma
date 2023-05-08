@@ -87,6 +87,8 @@ model user {
 
 model ownerUser {
   username               String    @id @db.VarChar(25)
+  name                   String    @default("") @db.VarChar(100)
+  email                  String    @default("") @db.VarChar(100)
   pwd                    String
   role                   String    @db.VarChar(16)
   isBlocked              Boolean   @default(false)

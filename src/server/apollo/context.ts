@@ -15,7 +15,8 @@ export interface BeStrongContext {
 
 export const beStrongContextFunction: ApolloFastifyContextFunction<
   BeStrongContext
-> = async (request, reply) => ({
+  // eslint-disable-next-line @typescript-eslint/require-await
+> = async (request) => ({
   request,
   server: request.server,
   prisma,

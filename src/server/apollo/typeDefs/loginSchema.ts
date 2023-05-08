@@ -1,4 +1,13 @@
 const loginSchema = `
+type OwnerUser {
+    username: String
+    role: String
+    isBlocked: Boolean
+    lastPasswordChangeDate: Date
+    email: String
+    name: String
+}
+
 input OwnerSignUpInput {
     username: String!
     pwd: String!
@@ -12,6 +21,10 @@ input OwnerSignInInput {
 
 type OwnerSignInResponse {
     jwt: String
+}
+
+type Query {
+    whoAmI: OwnerUser @auth
 }
 
 type Mutation {
