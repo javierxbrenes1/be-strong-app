@@ -3,6 +3,7 @@ import { Route, Routes } from 'react-router';
 import { BrowserRouter } from 'react-router-dom';
 import { PATHS } from './constants';
 import SecureRoute from './components/SecureRoute';
+import Loading from './components/Loading';
 
 const withSuspense = (
   WrappedComponent: ComponentType,
@@ -10,7 +11,7 @@ const withSuspense = (
 ) => {
   const AuthComp = requiresAuth ? SecureRoute : Fragment;
   return (
-    <Suspense>
+    <Suspense fallback={<Loading />}>
       <AuthComp>
         <WrappedComponent />
       </AuthComp>
@@ -24,6 +25,7 @@ const Home = lazy(() => import('./pages/home'));
 const Classes = lazy(() => import('./pages/classes'));
 const Members = lazy(() => import('./pages/members'));
 const Member = lazy(() => import('./pages/member'));
+const Visit = lazy(() => import('./pages/visit'));
 
 function AppRoutes() {
   return (
@@ -39,6 +41,7 @@ function AppRoutes() {
           <Route path={PATHS.CLASSES} element={withSuspense(Classes, true)} />
         </Route>
         <Route path={PATHS.LOGIN} element={withSuspense(Login)} />
+        <Route path={PATHS.VISIT} element={withSuspense(Visit)} />
       </Routes>
     </BrowserRouter>
   );

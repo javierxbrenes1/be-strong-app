@@ -18,6 +18,7 @@ const memberMeasuresSchema = `
     }
 
     type GetMeasuresResponse {
+        member: Member
         measures: [MemberMeasure]
         pagination: Pagination
     }
@@ -34,7 +35,7 @@ const memberMeasuresSchema = `
     }
 
     type Query {
-        getMeasures(memberCode: String, offset: Int, limit: Int): GetMeasuresResponse @auth
+        getMeasures(memberCode: String, offset: Int, limit: Int): GetMeasuresResponse
     }
 
     type Mutation {

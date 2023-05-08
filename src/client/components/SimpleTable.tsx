@@ -8,15 +8,17 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 
-const StyledTableCell = styled(TableCell)(({ theme }) => ({
-  [`&.${tableCellClasses.head}`]: {
-    backgroundColor: theme.palette.primary.main,
-    color: theme.palette.common.white,
-  },
-  [`&.${tableCellClasses.body}`]: {
-    fontSize: 14,
-  },
-}));
+const StyledTableCell = styled(TableCell)<{ headBgColor?: string }>(
+  ({ theme, headBgColor }) => ({
+    [`&.${tableCellClasses.head}`]: {
+      backgroundColor: headBgColor || theme.palette.primary.main,
+      color: theme.palette.common.white,
+    },
+    [`&.${tableCellClasses.body}`]: {
+      fontSize: 14,
+    },
+  })
+);
 
 const StyledTableRow = styled(TableRow)(({ theme }) => ({
   '&:nth-of-type(odd)': {
@@ -28,24 +30,34 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
+export type ColumnType = {
+  text: string;
+  id: string;
+  textAlign?: 'center' | 'inherit' | 'justify' | 'left' | 'right';
+};
+
+export type RowType = Record<string, string | ReactNode | ReactNode[]>;
+
 interface Props {
-  columns: {
-    text: string;
-    id: string;
-    textAlign?: 'center' | 'inherit' | 'justify' | 'left' | 'right';
-  }[];
-  rows: Record<string, string | ReactNode | ReactNode[]>[];
+  columns: ColumnType[];
+  rows: RowType[];
+  headBgColor?: string;
 }
 
 export default function SimpleTable(props: Props) {
-  const { columns, rows } = props;
+  const { columns, rows, headBgColor } = props;
   return (
     <TableContainer component={Paper}>
       <Table sx={{ width: '100%' }} aria-label="customized table">
         <TableHead>
           <TableRow>
             {columns.map(({ id, text, textAlign }) => (
-              <StyledTableCell key={id} id={id} align={textAlign}>
+              <StyledTableCell
+                key={id}
+                id={id}
+                align={textAlign}
+                headBgColor={headBgColor}
+              >
                 {text}
               </StyledTableCell>
             ))}
