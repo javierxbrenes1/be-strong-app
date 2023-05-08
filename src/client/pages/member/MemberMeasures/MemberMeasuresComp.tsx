@@ -64,7 +64,7 @@ function MemberMeasures(props: {
     return [
       {
         id: 'date',
-        text: 'Fecha',
+        text: 'Fecha (Desc)',
       },
       ...cIds.map((id) => ({
         id,

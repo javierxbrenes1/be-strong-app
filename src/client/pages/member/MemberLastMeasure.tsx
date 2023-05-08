@@ -12,6 +12,7 @@ import { MeasureType, MEASURES_TITLES } from './utils/measureTypes';
 import AddMeasures from '../members/AddMeasure';
 import Member from '../../models/Member';
 import Measure from '../../models/Measure';
+import { formatDate } from '../utils/helpers';
 
 const MeasureContainer = styled(Box)({
   display: 'flex',
@@ -41,7 +42,12 @@ function MemberLastMeasure(props: {
           <CardTitle ActionIcon={AddIcon} onActionIconClick={onAddClick}>
             <Box sx={{ display: 'flex', gap: '5px', alignItems: 'center' }}>
               <ScaleIcon />
-              <Typography variant="h6">Últimas Medidas</Typography>
+              <Typography variant="h6">
+                Últimas Medidas
+                {mostRecentMeasure?.date
+                  ? `(${formatDate(mostRecentMeasure.date)})`
+                  : ''}
+              </Typography>
             </Box>
           </CardTitle>
           {!memberMeasures.length && <Typography>No hay Datos.</Typography>}

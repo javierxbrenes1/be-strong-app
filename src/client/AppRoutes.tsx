@@ -1,13 +1,22 @@
-import { ComponentType, Suspense, lazy } from 'react';
+import { ComponentType, Suspense, lazy, Fragment } from 'react';
 import { Route, Routes } from 'react-router';
 import { BrowserRouter } from 'react-router-dom';
 import { PATHS } from './constants';
+import SecureRoute from './components/SecureRoute';
 
-const withSuspense = (WrappedComponent: ComponentType) => (
-  <Suspense>
-    <WrappedComponent />
-  </Suspense>
-);
+const withSuspense = (
+  WrappedComponent: ComponentType,
+  requiresAuth = false
+) => {
+  const AuthComp = requiresAuth ? SecureRoute : Fragment;
+  return (
+    <Suspense>
+      <AuthComp>
+        <WrappedComponent />
+      </AuthComp>
+    </Suspense>
+  );
+};
 
 const MainPage = lazy(() => import('./components/MainLayout'));
 const Login = lazy(() => import('./pages/login'));
@@ -21,13 +30,13 @@ function AppRoutes() {
     <BrowserRouter>
       <Routes>
         <Route element={withSuspense(MainPage)}>
-          <Route path={PATHS.HOME} element={withSuspense(Home)} />
-          <Route path={PATHS.MEMBERS} element={withSuspense(Members)} />
+          <Route path={PATHS.HOME} element={withSuspense(Home, true)} />
+          <Route path={PATHS.MEMBERS} element={withSuspense(Members, true)} />
           <Route
             path={`${PATHS.MEMBERS}/:code`}
-            element={withSuspense(Member)}
+            element={withSuspense(Member, true)}
           />
-          <Route path={PATHS.CLASSES} element={withSuspense(Classes)} />
+          <Route path={PATHS.CLASSES} element={withSuspense(Classes, true)} />
         </Route>
         <Route path={PATHS.LOGIN} element={withSuspense(Login)} />
       </Routes>
