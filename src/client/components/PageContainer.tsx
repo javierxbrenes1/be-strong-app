@@ -14,9 +14,10 @@ const Container = styled(Box)({
 function PageContainer(props: {
   Icon?: IconType | string;
   text: string;
+  RightAction?: JSX.Element | ReactNode;
   children: ReactNode | ReactNode[];
 }) {
-  const { children, Icon, text } = props;
+  const { children, Icon, text, RightAction } = props;
   return (
     <Container flexDirection="column">
       <motion.div
@@ -24,7 +25,7 @@ function PageContainer(props: {
         animate={{ opacity: 1, transform: 'translateY(0)' }}
         transition={{ duration: 1 }}
       >
-        <PageTitle Icon={Icon} text={text} />
+        <PageTitle Icon={Icon} text={text} RightAction={RightAction} />
         {children}
       </motion.div>
     </Container>

@@ -12,6 +12,7 @@ import MemberInfo from './MemberInfo';
 import MemberLastMeasure from './MemberLastMeasure';
 import MemberMeasures from './MemberMeasures';
 import { MeasureType } from './utils/measureTypes';
+import VisitLink from './VisitLink';
 
 function MemberPage() {
   const { code } = useParams();
@@ -55,6 +56,9 @@ function MemberPage() {
     <PageContainer
       text={member?.name || ''}
       Icon={member?.avatar || createAvatarLink(member?.name || '')}
+      RightAction={
+        code ? <VisitLink code={code} name={member?.name} /> : undefined
+      }
     >
       <Grid container spacing={2}>
         <Grid item xs={12}>

@@ -102,24 +102,30 @@ function VisitPage() {
     getMeasures: { member, measures },
   } = data;
 
+  const hasMeasures = measures.length > 0;
+
   return (
     <Wrapper>
       <PageTitle Icon={member.avatar} text={member.name} />
       <Typography variant="subtitle1" color="#757a79">
-        👋 Howdy {member.name.split(' ')[0]}, a continuación podrás observar tus
-        últimos registros.
+        👋 Howdy {member.name.split(' ')[0]},{' '}
+        {hasMeasures
+          ? 'a continuación podrás observar tus últimos registros.'
+          : 'parece que aún no tienes datos registrados 🤷'}
       </Typography>
-      <Grid container py="20px" spacing={4}>
-        {items.map((it) => (
-          <Grid item md={6} key={it.measure}>
-            <MeasureDetails
-              memberMeasures={measures}
-              selectedMeasure={it.measure}
-              color={it.color}
-            />
-          </Grid>
-        ))}
-      </Grid>
+      {hasMeasures ? (
+        <Grid container py="20px" spacing={4}>
+          {items.map((it) => (
+            <Grid item md={6} key={it.measure}>
+              <MeasureDetails
+                memberMeasures={measures}
+                selectedMeasure={it.measure}
+                color={it.color}
+              />
+            </Grid>
+          ))}
+        </Grid>
+      ) : null}
     </Wrapper>
   );
 }
