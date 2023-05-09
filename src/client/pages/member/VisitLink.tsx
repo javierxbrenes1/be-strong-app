@@ -27,7 +27,7 @@ const CopyToCb = styled(Button)({
 
 function VisitLink(props: { name?: string; code: string }) {
   const [link, setLink] = useState('');
-  const [forClipboard, setForClipboard] = useState<string | null>(null);
+  const [forClipboard, setForClipboard] = useState<string>('');
   const [open, setOpen] = useState(false);
   const { name, code } = props;
 

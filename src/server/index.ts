@@ -1,4 +1,5 @@
 import fastify from 'fastify';
+import cors from '@fastify/cors';
 import subscribeApollo from './apollo';
 import registerAuth from './plugins/auth';
 
@@ -8,6 +9,11 @@ const start = async () => {
   try {
     await subscribeApollo(server);
     await registerAuth(server);
+
+    await server.register(cors, {
+      // put your options here
+      origin: false,
+    });
 
     const address = await server.listen({ port: 8080 });
 

@@ -1,21 +1,17 @@
 /* eslint-disable react/jsx-no-useless-fragment */
-import { useNavigate } from 'react-router';
+import { Navigate } from 'react-router';
 import { ReactNode } from 'react';
 import useAuthStore from '../state/authState';
 import { PATHS } from '../constants';
 
-function SecureRoute(props: {
-  children: ReactNode | ReactNode[];
-}): JSX.Element {
+function ProtectedRoute(props: { children: ReactNode | ReactNode[] }) {
   const isAuth = useAuthStore((state) => state.isAuth);
-  console.log({ isAuth });
-  const navigate = useNavigate();
+
   if (!isAuth) {
-    navigate(PATHS.LOGIN, { replace: true });
-    return <></>;
+    return <Navigate to={PATHS.LOGIN} replace />;
   }
   const { children } = props;
   return <>{children}</>;
 }
 
-export default SecureRoute;
+export default ProtectedRoute;

@@ -2,19 +2,19 @@ import { ComponentType, Suspense, lazy, Fragment } from 'react';
 import { Route, Routes } from 'react-router';
 import { BrowserRouter } from 'react-router-dom';
 import { PATHS } from './constants';
-import SecureRoute from './components/SecureRoute';
+import ProtectedRoute from './components/ProtectedRoute';
 import Loading from './components/Loading';
 
 const withSuspense = (
   WrappedComponent: ComponentType,
   requiresAuth = false
 ) => {
-  const AuthComp = requiresAuth ? SecureRoute : Fragment;
+  const Wrapper = requiresAuth ? ProtectedRoute : Fragment;
   return (
     <Suspense fallback={<Loading />}>
-      <AuthComp>
+      <Wrapper>
         <WrappedComponent />
-      </AuthComp>
+      </Wrapper>
     </Suspense>
   );
 };
