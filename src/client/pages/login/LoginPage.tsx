@@ -197,7 +197,14 @@ function LoginPage() {
               disabled={!username || !password || loading}
               onClick={onLogin}
             >
-              {loading ? <CircularProgress color="white" /> : 'Ingresar'}
+              <span>Ingresar</span>
+              {loading && (
+                <CircularProgress
+                  color="primary"
+                  size={15}
+                  sx={{ marginLeft: '5px' }}
+                />
+              )}
             </Button>
           </Form>
         </LoginContainer>
