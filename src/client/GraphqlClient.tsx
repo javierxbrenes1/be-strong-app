@@ -40,9 +40,8 @@ const logoutLink = onError(({ response }) => {
 
   const hasUnauthorizedError =
     errors &&
-    errors.length > 0 &&
-    errors.some((e) => e.extensions.code === 'UNAUTHORIZED_USER');
-  console.log({ hasUnauthorizedError });
+    errors?.length > 0 &&
+    errors.some((e) => e?.extensions?.code === 'UNAUTHORIZED_USER');
   if (hasUnauthorizedError) {
     getAuthState().reset();
   }
