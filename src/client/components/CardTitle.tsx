@@ -23,18 +23,27 @@ const StyledIcon = styled(Box)({
 
 function CardTitle(props: {
   title?: string;
-  ActionIcon?: IconType;
-  onActionIconClick?: () => void;
+  actions?: { ActionIcon: IconType; onActionIconClick: () => void }[];
   children?: ReactNode | ReactNode[];
 }) {
-  const { title, ActionIcon, onActionIconClick, children } = props;
+  const { title, children, actions } = props;
 
   return (
     <InfoTitle>
       <>
         {title && <Typography variant="h6">{title}</Typography>}
         {children}
-        <StyledIcon as={ActionIcon} onClick={onActionIconClick} />
+        {actions && (
+          <Box>
+            {actions.map((ac, index) => (
+              <StyledIcon
+                key={index}
+                as={ac.ActionIcon}
+                onClick={ac.onActionIconClick}
+              />
+            ))}
+          </Box>
+        )}
       </>
     </InfoTitle>
   );

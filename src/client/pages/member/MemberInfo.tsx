@@ -14,68 +14,129 @@ const InfoContainer = styled(Box)({
   gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
 });
 
+const getIsActiveLabel = (val: boolean): string => {
+  if (val) return 'Activo';
+  return 'Inactivo';
+};
+
 function MemberInfo(props: { member: Member }) {
-  const [editMode, setEditMode] = useState(false);
   const { member } = props;
+  const [editMode, setEditMode] = useState(false);
+  const [editableMember, setEditableMember] = useState<Member>(member);
 
   const handleEditClick = () => {
     setEditMode(true);
   };
 
+  const handleChange = (key: keyof Member, value: string | Date) => {
+    setEditableMember((st) => ({
+      ...st,
+      [key]: value,
+    }));
+  };
+
+  const actions = !editMode
+    ? [
+        {
+          ActionIcon: ModeEditOutlineRoundedIcon,
+          onActionIconClick: handleEditClick,
+        },
+      ]
+    : undefined;
+
   return (
     <Card elevation={3}>
       <CardContent>
-        <CardTitle
-          title="Información General"
-          ActionIcon={ModeEditOutlineRoundedIcon}
-          onActionIconClick={handleEditClick}
-        />
+        <CardTitle title="Información General" actions={actions} />
         <InfoContainer>
           <MemberInfoInput
             label="Nombre"
-            value={member.name}
+            value={editableMember.name}
+            name="name"
             editMode={editMode}
+            inputType="text"
+            onInputChange={handleChange}
           />
           <MemberInfoInput
             label="Correo Electrónico"
-            value={member.email}
+            value={editableMember.email}
+            name="email"
             editMode={editMode}
+            inputType="email"
+            onInputChange={handleChange}
           />
           <MemberInfoInput
             label="Teléfono"
-            value={member.phone}
+            value={editableMember.phone}
+            name="phone"
             editMode={editMode}
+            inputType="text"
+            onInputChange={handleChange}
           />
           <MemberInfoInput
             label="Estado"
-            value={member.isActive ? 'Activo' : 'Inactivo'}
+            name="isActive"
+            value={
+              editMode
+                ? editableMember.isActive
+                : getIsActiveLabel(editableMember.isActive)
+            }
             editMode={editMode}
+            inputType="select"
+            onInputChange={handleChange}
+            selectOptions={[
+              {
+                value: 'true',
+                label: 'Activo',
+              },
+              {
+                value: 'true',
+                label: 'Inactivo',
+              },
+            ]}
           />
           <MemberInfoInput
             label="Altura"
-            value={`${member.height} M.`}
+            value={
+              editMode ? editableMember.height : `${editableMember.height} M.`
+            }
+            name="height"
+            inputType="number"
+            onInputChange={handleChange}
             editMode={editMode}
           />
-          {member.birthDate && (
+          {editableMember.birthDate && (
             <>
               <MemberInfoInput
                 label="Fecha de Nacimiento"
-                value={formatDate(member.birthDate)}
+                value={
+                  editMode
+                    ? editableMember.birthDate
+                    : formatDate(editableMember.birthDate)
+                }
+                name="birthDate"
+                inputType="date"
                 editMode={editMode}
+                onInputChange={handleChange}
               />
-              <MemberInfoInput
-                label="Edad"
-                value={`${String(
-                  calculateAge(new Date(member.birthDate))
-                )} años`}
-                editMode={false}
-              />
+              {!editMode && (
+                <MemberInfoInput
+                  label="Edad"
+                  value={`${String(
+                    calculateAge(new Date(editableMember.birthDate))
+                  )} años`}
+                  editMode={false}
+                />
+              )}
             </>
           )}
           <MemberInfoInput
             label="Observaciones"
-            value={member.observations}
+            value={editableMember.observations}
+            name="observations"
             editMode={editMode}
+            onInputChange={handleChange}
+            inputType="textarea"
           />
         </InfoContainer>
       </CardContent>

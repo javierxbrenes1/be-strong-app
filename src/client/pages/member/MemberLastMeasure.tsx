@@ -39,7 +39,9 @@ function MemberLastMeasure(props: {
     <>
       <Card elevation={3}>
         <CardContent>
-          <CardTitle ActionIcon={AddIcon} onActionIconClick={onAddClick}>
+          <CardTitle
+            actions={[{ ActionIcon: AddIcon, onActionIconClick: onAddClick }]}
+          >
             <Box sx={{ display: 'flex', gap: '5px', alignItems: 'center' }}>
               <ScaleIcon />
               <Typography variant="h6">
