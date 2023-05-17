@@ -33,7 +33,10 @@ const parseData = (measures: Measure[]) =>
     return newObj;
   });
 
-const buildChartData = (measures: Measure[], selectedMeasure: MeasureType) => {
+const buildChartData = (
+  measures: Measure[],
+  selectedMeasureType: MeasureType
+) => {
   const aux = [...measures];
   const labels: string[] = [];
   const numbers: number[] = [];
@@ -45,7 +48,7 @@ const buildChartData = (measures: Measure[], selectedMeasure: MeasureType) => {
     const year = date.getFullYear();
     labels.push(`${month} ${year}`);
     type MeasureT = keyof typeof measure;
-    numbers.push(Number(measure[selectedMeasure as MeasureT]) || 0);
+    numbers.push(Number(measure[selectedMeasureType as MeasureT]) || 0);
   });
 
   return { labels, numbers };
@@ -53,14 +56,14 @@ const buildChartData = (measures: Measure[], selectedMeasure: MeasureType) => {
 
 function MemberMeasures(props: {
   memberMeasures: Measure[];
-  selectedMeasure: MeasureType | null;
+  selectedMeasureType: MeasureType | null;
 }) {
-  const { memberMeasures, selectedMeasure } = props;
+  const { memberMeasures, selectedMeasureType } = props;
 
   const columns = useMemo(() => {
-    if (!selectedMeasure) return null;
+    if (!selectedMeasureType) return null;
 
-    const cIds = columnsIds[selectedMeasure];
+    const cIds = columnsIds[selectedMeasureType];
     return [
       {
         id: 'date',
@@ -71,19 +74,19 @@ function MemberMeasures(props: {
         text: MEASURES_TITLES[id as MeasuresTitlesProp] || 'Indicador',
       })),
     ];
-  }, [selectedMeasure]);
+  }, [selectedMeasureType]);
 
   const chartDetails = useMemo(() => {
-    if (!selectedMeasure) return null;
-    return buildChartData(memberMeasures, selectedMeasure);
-  }, [selectedMeasure, memberMeasures]);
+    if (!selectedMeasureType) return null;
+    return buildChartData(memberMeasures, selectedMeasureType);
+  }, [selectedMeasureType, memberMeasures]);
 
   const parsedMemberMeasures = useMemo(
     () => parseData(memberMeasures),
     [memberMeasures]
   );
 
-  if (!selectedMeasure) return null;
+  if (!selectedMeasureType) return null;
 
   return (
     <Card elevation={3}>
@@ -104,7 +107,7 @@ function MemberMeasures(props: {
                 labels={chartDetails.labels}
                 numbers={chartDetails.numbers}
                 chartTitle={
-                  MEASURES_TITLES[selectedMeasure as MeasuresTitlesProp]
+                  MEASURES_TITLES[selectedMeasureType as MeasuresTitlesProp]
                 }
               />
             </Grid>

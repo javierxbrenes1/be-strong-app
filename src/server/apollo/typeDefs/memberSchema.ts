@@ -37,8 +37,22 @@ const memberSchema = `
 		avatar: String
 	}
 
+	input UpdateMemberInput {
+		code: String!
+		name: String
+		genre: String
+		birthDate: Date
+		height: Float
+		isActive: Boolean
+		phone: String
+		email: String
+		avatar: String
+		observations: String
+	}
+
 	type Mutation {
 		addMember(member: AddMemberInput): Member @auth
+		updateMember(member: UpdateMemberInput): Member @auth
 	}
 `;
 

@@ -84,7 +84,7 @@ function Chart(props: {
           />
         </Box>
       </Grid>
-      <Box px="24px" width="100%" height="350px">
+      <Box px="24px" width="100%">
         <Component
           data={{
             labels,

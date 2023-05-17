@@ -24,14 +24,17 @@ const Wrapper: FC<{ label: string; children: ReactNode | ReactNode }> = ({
   </Box>
 );
 
+export type ValueType = string | Date | boolean | number;
+export type OnInputChangeFn = (key: keyof Member, value: ValueType) => void;
+
 function MemberInfoInput(props: {
   label: string;
-  value?: string | Date | boolean | number;
-  name?: string;
+  value?: ValueType;
+  name: keyof Member;
   editMode: boolean;
   inputType?: 'text' | 'number' | 'textarea' | 'email' | 'date' | 'select';
   selectOptions?: { value: string; label: string }[];
-  onInputChange?: (key: keyof Member, value: string | Date) => void;
+  onInputChange: OnInputChangeFn;
 }) {
   const {
     label,
@@ -61,7 +64,12 @@ function MemberInfoInput(props: {
             <DatePicker
               value={dayjs(value as Date)}
               format="DD/MM/YYYY"
-              onChange={() => {}}
+              onChange={(ev: unknown) => {
+                if (ev) {
+                  const parseEv = ev as { $d: Date };
+                  onInputChange(name, parseEv.$d);
+                }
+              }}
             />
           </LocalizationProvider>
         </FormControl>
@@ -73,7 +81,14 @@ function MemberInfoInput(props: {
     return (
       <Wrapper label={label}>
         <FormControl fullWidth>
-          <Select name={name} value={value} onChange={() => {}}>
+          <Select
+            variant="outlined"
+            name={name}
+            value={value}
+            onChange={(ev) => {
+              onInputChange(name, ev.target.value);
+            }}
+          >
             {selectOptions?.map((item) => (
               <MenuItem value={item.value} key={item.value}>
                 {item.label}
@@ -92,9 +107,12 @@ function MemberInfoInput(props: {
           type={inputType}
           name={name}
           variant="outlined"
-          onChange={() => {}}
+          onChange={(ev) => {
+            onInputChange(name, ev.target.value);
+          }}
           multiline={inputType === 'textarea'}
-          value={value}
+          maxRows={inputType === 'textarea' ? 0 : 5}
+          value={value || ''}
         />
       </FormControl>
     </Wrapper>

@@ -3,9 +3,10 @@ import Card from '@mui/material/Card';
 import ScaleIcon from '@mui/icons-material/Scale';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
-import AddIcon from '@mui/icons-material/Add';
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import { styled } from '@mui/material/styles';
 import { useState } from 'react';
+import ModeEditOutlineRoundedIcon from '@mui/icons-material/ModeEditOutlineRounded';
 import CardTitle from '../../components/CardTitle';
 import MeasureItem from './MeasureItem';
 import { MeasureType, MEASURES_TITLES } from './utils/measureTypes';
@@ -22,11 +23,16 @@ const MeasureContainer = styled(Box)({
 
 function MemberLastMeasure(props: {
   member: Member;
-  selectedMeasure: MeasureType | null;
-  onSelectMeasure: (t: MeasureType) => void;
+  selectedMeasureType: MeasureType | null;
+  onSelectMeasureType: (t: MeasureType) => void;
   onNewMeasureAdded: (newMeasure: Measure) => void;
 }) {
-  const { member, selectedMeasure, onSelectMeasure, onNewMeasureAdded } = props;
+  const {
+    member,
+    selectedMeasureType,
+    onSelectMeasureType,
+    onNewMeasureAdded,
+  } = props;
   const [openModal, setOpenModal] = useState<boolean>(false);
 
   const onAddClick = () => {
@@ -35,19 +41,30 @@ function MemberLastMeasure(props: {
   const { memberMeasures = [] } = member;
   const mostRecentMeasure = memberMeasures[0];
 
+  const actions = [
+    {
+      ActionIcon: AddCircleOutlineIcon,
+      onActionIconClick: onAddClick,
+      tooltip: 'Agregar',
+    },
+    {
+      ActionIcon: ModeEditOutlineRoundedIcon,
+      onActionIconClick: () => {},
+      tooltip: 'Editar',
+    },
+  ];
+
   return (
     <>
       <Card elevation={3}>
         <CardContent>
-          <CardTitle
-            actions={[{ ActionIcon: AddIcon, onActionIconClick: onAddClick }]}
-          >
+          <CardTitle actions={actions}>
             <Box sx={{ display: 'flex', gap: '5px', alignItems: 'center' }}>
               <ScaleIcon />
               <Typography variant="h6">
                 Últimas Medidas
                 {mostRecentMeasure?.date
-                  ? `(${formatDate(mostRecentMeasure.date)})`
+                  ? ` (${formatDate(mostRecentMeasure.date)})`
                   : ''}
               </Typography>
             </Box>
@@ -57,48 +74,48 @@ function MemberLastMeasure(props: {
             <MeasureContainer>
               <MeasureItem
                 id="weight"
-                selectedOption={selectedMeasure}
-                onClick={onSelectMeasure}
+                selectedOption={selectedMeasureType}
+                onClick={onSelectMeasureType}
                 title={MEASURES_TITLES.weight}
                 value={`${mostRecentMeasure.weight} Kg.`}
               />
               <MeasureItem
                 id="bodyMassIndex"
                 title={MEASURES_TITLES.bodyMassIndex}
-                selectedOption={selectedMeasure}
-                onClick={onSelectMeasure}
+                selectedOption={selectedMeasureType}
+                onClick={onSelectMeasureType}
                 value={String(mostRecentMeasure.bodyMassIndex)}
                 chipText={mostRecentMeasure.bodyMassIndexResult}
               />
               <MeasureItem
                 id="corporalFat"
                 title={MEASURES_TITLES.corporalFat}
-                onClick={onSelectMeasure}
-                selectedOption={selectedMeasure}
+                onClick={onSelectMeasureType}
+                selectedOption={selectedMeasureType}
                 value={String(mostRecentMeasure.corporalFat)}
                 chipText={mostRecentMeasure.corporalFatResult}
               />
               <MeasureItem
                 id="calories"
                 title={MEASURES_TITLES.calories}
-                onClick={onSelectMeasure}
-                selectedOption={selectedMeasure}
+                onClick={onSelectMeasureType}
+                selectedOption={selectedMeasureType}
                 value={String(mostRecentMeasure.calories)}
                 chipText={mostRecentMeasure.caloriesResult}
               />
               <MeasureItem
                 id="corporalWaterPct"
                 title={MEASURES_TITLES.corporalWaterPct}
-                onClick={onSelectMeasure}
-                selectedOption={selectedMeasure}
+                onClick={onSelectMeasureType}
+                selectedOption={selectedMeasureType}
                 value={String(mostRecentMeasure.corporalWaterPct)}
                 chipText={mostRecentMeasure.corporalWaterPctResult}
               />
               <MeasureItem
                 id="muscle"
                 title={MEASURES_TITLES.muscle}
-                onClick={onSelectMeasure}
-                selectedOption={selectedMeasure}
+                onClick={onSelectMeasureType}
+                selectedOption={selectedMeasureType}
                 value={String(mostRecentMeasure.muscle)}
                 chipText={mostRecentMeasure.muscleResult}
               />

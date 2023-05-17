@@ -15,6 +15,7 @@ export const GET_MEMBER_DETAILS = gql`
       observations
       preferredClassTime
       memberMeasures(take: $take) {
+        id
         date
         weight
         corporalFat

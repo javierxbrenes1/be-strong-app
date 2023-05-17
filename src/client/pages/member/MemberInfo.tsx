@@ -1,12 +1,14 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Card, CardContent, Box, styled } from '@mui/material';
-import dayjs from 'dayjs';
 import ModeEditOutlineRoundedIcon from '@mui/icons-material/ModeEditOutlineRounded';
+import HighlightOffIcon from '@mui/icons-material/HighlightOff';
+import SaveIcon from '@mui/icons-material/Save';
 import Member from '../../models/Member';
-import MemberInfoInput from './MemberInfoInput';
+import MemberInfoInput, { OnInputChangeFn } from './MemberInfoInput';
 import { calculateAge } from '../../../common/utils';
 import CardTitle from '../../components/CardTitle';
 import { formatDate } from '../utils/helpers';
+import UpdateMemberArgs from '../../../common/actionModels/UpdateMember';
 
 const InfoContainer = styled(Box)({
   display: 'grid',
@@ -19,30 +21,59 @@ const getIsActiveLabel = (val: boolean): string => {
   return 'Inactivo';
 };
 
-function MemberInfo(props: { member: Member }) {
-  const { member } = props;
+function MemberInfo(props: {
+  member: Member;
+  onUpdateMember: (member: UpdateMemberArgs) => void;
+}) {
+  const { member, onUpdateMember } = props;
   const [editMode, setEditMode] = useState(false);
   const [editableMember, setEditableMember] = useState<Member>(member);
+  const [propsEdited, setPropsEdited] = useState<Record<string, boolean>>({});
 
-  const handleEditClick = () => {
-    setEditMode(true);
-  };
-
-  const handleChange = (key: keyof Member, value: string | Date) => {
+  const handleChange: OnInputChangeFn = (key, value) => {
     setEditableMember((st) => ({
       ...st,
       [key]: value,
     }));
+    setPropsEdited((st) => ({ ...st, [key]: true }));
+  };
+
+  const onSaveClick = () => {
+    const details: Record<string, unknown> = { code: member.code };
+    Object.keys(propsEdited).forEach((key) => {
+      details[key] = editableMember[key as keyof Member];
+    });
+    onUpdateMember(details as UpdateMemberArgs);
+    setEditMode(false);
+    setPropsEdited({});
   };
 
   const actions = !editMode
     ? [
         {
           ActionIcon: ModeEditOutlineRoundedIcon,
-          onActionIconClick: handleEditClick,
+          onActionIconClick: () => {
+            setEditMode(true);
+          },
+          tooltip: 'Editar',
         },
       ]
-    : undefined;
+    : [
+        {
+          ActionIcon: SaveIcon,
+          onActionIconClick: onSaveClick,
+          tooltip: 'Guardar',
+        },
+        {
+          ActionIcon: HighlightOffIcon,
+          onActionIconClick: () => {
+            setEditMode(false);
+            setEditableMember(member);
+            setPropsEdited({});
+          },
+          tooltip: 'Cancelar',
+        },
+      ];
 
   return (
     <Card elevation={3}>
@@ -83,14 +114,16 @@ function MemberInfo(props: { member: Member }) {
             }
             editMode={editMode}
             inputType="select"
-            onInputChange={handleChange}
+            onInputChange={(name, value) => {
+              handleChange(name, value === 'true');
+            }}
             selectOptions={[
               {
                 value: 'true',
                 label: 'Activo',
               },
               {
-                value: 'true',
+                value: 'false',
                 label: 'Inactivo',
               },
             ]}
@@ -125,6 +158,8 @@ function MemberInfo(props: { member: Member }) {
                   value={`${String(
                     calculateAge(new Date(editableMember.birthDate))
                   )} años`}
+                  onInputChange={() => {}}
+                  name="birthDate"
                   editMode={false}
                 />
               )}

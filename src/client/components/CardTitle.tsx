@@ -2,6 +2,7 @@ import Box from '@mui/material/Box';
 import { styled } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
 import { ReactNode } from 'react';
+import { Tooltip } from '@mui/material';
 import IconType from '../models/Icon';
 
 const InfoTitle = styled(Box)({
@@ -10,20 +11,25 @@ const InfoTitle = styled(Box)({
   marginBottom: '16px',
 });
 
-const StyledIcon = styled(Box)({
+const StyledIcon = styled(Box)(({ theme }) => ({
   color: '#757a79',
   borderRadius: '20px',
   padding: '5px',
-  fontSize: '30px',
+  fontSize: '34px',
   '&:hover': {
     cursor: 'pointer',
     background: '#f6eedf',
+    color: theme.palette.primary.main,
   },
-});
+}));
 
 function CardTitle(props: {
   title?: string;
-  actions?: { ActionIcon: IconType; onActionIconClick: () => void }[];
+  actions?: {
+    ActionIcon: IconType;
+    onActionIconClick: () => void;
+    tooltip: string;
+  }[];
   children?: ReactNode | ReactNode[];
 }) {
   const { title, children, actions } = props;
@@ -36,11 +42,9 @@ function CardTitle(props: {
         {actions && (
           <Box>
             {actions.map((ac, index) => (
-              <StyledIcon
-                key={index}
-                as={ac.ActionIcon}
-                onClick={ac.onActionIconClick}
-              />
+              <Tooltip key={index} title={ac.tooltip}>
+                <StyledIcon as={ac.ActionIcon} onClick={ac.onActionIconClick} />
+              </Tooltip>
             ))}
           </Box>
         )}

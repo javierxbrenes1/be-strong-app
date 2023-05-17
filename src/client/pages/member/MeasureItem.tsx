@@ -7,7 +7,7 @@ import { MeasureType } from './utils/measureTypes';
 const Container = styled(Box)<{ selected?: boolean }>(
   ({ selected, theme }) => ({
     backgroundColor: '#ebebeb',
-    width: 'fit-content',
+    width: '100%',
     padding: '10px',
     borderRadius: '10px',
     border: `2px solid ${selected ? theme.palette.primary.main : '#e3e3e3'}`,

@@ -1,8 +1,9 @@
 import getMemberAttendance from '../memberAttendance/getMemberAttendance';
 import getAllMembers from './getAllMembers';
 import getMember from './getMember';
-import getMemberMeasure from './getMemberMeasures';
+import getMemberMeasures from './getMemberMeasures';
 import addMember from './addMember';
+import updateMember from './updateMember';
 import getMembersCount from './getMembersCount';
 import getBirthdateMembers from './getBirthdateMembers';
 import getFilteredMembers from './getFilteredMembers';
@@ -17,10 +18,11 @@ const memberResolvers = {
   },
   Member: {
     memberAttendance: getMemberAttendance,
-    memberMeasures: getMemberMeasure,
+    memberMeasures: getMemberMeasures,
   },
   Mutation: {
     addMember,
+    updateMember,
   },
 };
 
