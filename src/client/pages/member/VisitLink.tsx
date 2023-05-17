@@ -55,7 +55,12 @@ function VisitLink(props: { name?: string; code: string }) {
       >
         <DialogTitle>Acceso para {name}</DialogTitle>
         <DialogContent
-          sx={{ display: 'flex', flexDirection: 'column', gap: '10px' }}
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '10px',
+            alignItems: 'center',
+          }}
         >
           <QRCode value={link} />
           <CopyToClipboard text={forClipboard}>
