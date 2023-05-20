@@ -18,9 +18,10 @@ import dayjs from 'dayjs';
 import { useMutation } from '@apollo/client';
 import Member from '../../models/Member';
 import { getApolloErrorMessages, isValid } from '../utils/helpers';
-import ADD_MEASURE from '../../mutations/addMeasure';
+import { ADD_MEASURE } from '../../mutations/Measures';
 import Errors from '../../components/Errors';
 import Measure from '../../models/Measure';
+import { MEASURES_TITLES } from '../member/utils/measureTypes';
 
 const FormContainer = styled('form')(({ theme }) => ({
   display: 'grid',
@@ -148,7 +149,7 @@ function AddMeasures(props: {
             <TextField
               type="number"
               name="weight"
-              label="Peso"
+              label={MEASURES_TITLES.weight}
               variant="outlined"
               onChange={handleInputChanges}
             />
@@ -157,7 +158,7 @@ function AddMeasures(props: {
             <TextField
               type="number"
               name="corporalFat"
-              label="Grasa Corporal"
+              label={MEASURES_TITLES.corporalFat}
               variant="outlined"
               onChange={handleInputChanges}
             />
@@ -166,7 +167,7 @@ function AddMeasures(props: {
             <TextField
               type="number"
               name="muscle"
-              label="Músculo"
+              label={MEASURES_TITLES.muscle}
               variant="outlined"
               onChange={handleInputChanges}
             />
@@ -175,7 +176,7 @@ function AddMeasures(props: {
             <TextField
               type="number"
               name="bodyMassIndex"
-              label="Indice de masa corporal"
+              label={MEASURES_TITLES.bodyMassIndex}
               variant="outlined"
               onChange={handleInputChanges}
             />
@@ -184,7 +185,7 @@ function AddMeasures(props: {
             <TextField
               type="number"
               name="corporalWaterPct"
-              label="Pct de agua corporal"
+              label={MEASURES_TITLES.corporalWaterPct}
               variant="outlined"
               onChange={handleInputChanges}
             />
@@ -193,7 +194,7 @@ function AddMeasures(props: {
             <TextField
               type="number"
               name="calories"
-              label="Calorias"
+              label={MEASURES_TITLES.calories}
               variant="outlined"
               onChange={handleInputChanges}
             />

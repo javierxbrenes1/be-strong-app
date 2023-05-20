@@ -1,6 +1,8 @@
+import { useRef, useState, useEffect } from 'react';
 import { Chip, Typography } from '@mui/material';
 import Box from '@mui/material/Box';
 import { styled } from '@mui/material/styles';
+import ContentEditable, { ContentEditableEvent } from 'react-contenteditable';
 import { getMeasureColorAndEmoji } from './utils/measureColorPicker';
 import { MeasureType } from './utils/measureTypes';
 
@@ -27,29 +29,124 @@ const ValueWrapper = styled(Box)({
   },
 });
 
+const EditableField = styled(ContentEditable)(({ theme }) => ({
+  padding: '0 5px',
+  ...theme.typography.h4,
+  '&:focus-visible, &:hover': {
+    padding: '0 5px',
+    outline: `${theme.palette.primary.main} auto 1px`,
+  },
+  '&:hover': {
+    cursor: 'text',
+  },
+}));
+
 function MeasureItem(props: {
   id: MeasureType;
   selectedOption: MeasureType | null;
   title: string;
   value: string;
+  suffix?: string;
   chipText?: string;
+  onUpdateMeasure: (id: MeasureType, value: number) => void;
   onClick: (ev: MeasureType) => void;
 }) {
-  const { title, value, chipText, id, selectedOption, onClick } = props;
+  const {
+    title,
+    value,
+    chipText,
+    id,
+    selectedOption,
+    onClick,
+    onUpdateMeasure,
+    suffix,
+  } = props;
+  const contentEditableRef = useRef(null);
+  const newValue = useRef(value);
+  const comparativeValue = useRef(value);
+  const [isEditing, setIsEditing] = useState(false);
 
   const { color, emoji } = getMeasureColorAndEmoji(chipText || '');
+
+  useEffect(() => {
+    comparativeValue.current = value;
+    newValue.current = value;
+  }, [value]);
+
+  const handleClick = () => {
+    if (!isEditing) {
+      onClick(id);
+    }
+  };
+
+  const handleChangeText = (ev: ContentEditableEvent) => {
+    const RegEx = /^[0-9.]+$/;
+    const { target } = ev;
+    // check if its valid
+    if (!target.value || target.value.match(RegEx)) {
+      newValue.current = target.value;
+    } else if (contentEditableRef.current) {
+      (contentEditableRef.current as { innerHTML: string }).innerHTML =
+        newValue.current;
+      moveCursorToEnd();
+    }
+  };
+
+  const moveCursorToEnd = () => {
+    setTimeout(() => {
+      if (contentEditableRef.current) {
+        window.getSelection()?.selectAllChildren(contentEditableRef.current);
+        window.getSelection()?.collapseToEnd();
+      }
+    }, 0.5);
+  };
+
+  const handleOnFocus = () => {
+    setIsEditing(true);
+    moveCursorToEnd();
+  };
+
+  const handleOnBlur = () => {
+    setIsEditing(false);
+    if (!newValue.current) {
+      newValue.current = comparativeValue.current;
+      return;
+    }
+    if (comparativeValue.current !== newValue.current) {
+      // it has to update measure
+      onUpdateMeasure(id, Number(newValue.current));
+    }
+  };
+
+  const handleOnKeyDown = (ev: React.KeyboardEvent<HTMLDivElement>) => {
+    if (ev.code === 'Enter' && contentEditableRef.current) {
+      (contentEditableRef.current as { blur(): () => void }).blur();
+    }
+  };
 
   return (
     <Container
       selected={id === selectedOption}
       role="button"
-      onClick={() => onClick(id)}
+      onClick={handleClick}
     >
       <Typography variant="h6" color="#393e46">
         {title}
       </Typography>
       <ValueWrapper>
-        <Typography variant="h4">{value}</Typography>
+        <Box sx={{ display: 'flex' }}>
+          <EditableField
+            innerRef={contentEditableRef}
+            html={newValue.current}
+            onChange={handleChangeText}
+            onBlur={handleOnBlur}
+            onFocus={handleOnFocus}
+            tabIndex={-1}
+            onKeyDown={handleOnKeyDown}
+          />
+          {suffix && <Typography variant="h4">{suffix}</Typography>}
+        </Box>
+
         {chipText && (
           <Chip
             label={`${chipText} ${emoji}`}

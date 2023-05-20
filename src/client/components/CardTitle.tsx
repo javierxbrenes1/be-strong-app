@@ -15,7 +15,7 @@ const StyledIcon = styled(Box)(({ theme }) => ({
   color: '#757a79',
   borderRadius: '20px',
   padding: '5px',
-  fontSize: '34px',
+  fontSize: '30px',
   '&:hover': {
     cursor: 'pointer',
     background: '#f6eedf',
@@ -40,7 +40,7 @@ function CardTitle(props: {
         {title && <Typography variant="h6">{title}</Typography>}
         {children}
         {actions && (
-          <Box>
+          <Box sx={{ display: 'flex' }}>
             {actions.map((ac, index) => (
               <Tooltip key={index} title={ac.tooltip}>
                 <StyledIcon as={ac.ActionIcon} onClick={ac.onActionIconClick} />

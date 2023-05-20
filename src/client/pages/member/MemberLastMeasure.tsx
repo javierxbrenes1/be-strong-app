@@ -6,7 +6,6 @@ import Box from '@mui/material/Box';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import { styled } from '@mui/material/styles';
 import { useState } from 'react';
-import ModeEditOutlineRoundedIcon from '@mui/icons-material/ModeEditOutlineRounded';
 import CardTitle from '../../components/CardTitle';
 import MeasureItem from './MeasureItem';
 import { MeasureType, MEASURES_TITLES } from './utils/measureTypes';
@@ -26,12 +25,14 @@ function MemberLastMeasure(props: {
   selectedMeasureType: MeasureType | null;
   onSelectMeasureType: (t: MeasureType) => void;
   onNewMeasureAdded: (newMeasure: Measure) => void;
+  onEditMeasure: (id: number, measure: MeasureType, value: number) => void;
 }) {
   const {
     member,
     selectedMeasureType,
     onSelectMeasureType,
     onNewMeasureAdded,
+    onEditMeasure,
   } = props;
   const [openModal, setOpenModal] = useState<boolean>(false);
 
@@ -47,12 +48,11 @@ function MemberLastMeasure(props: {
       onActionIconClick: onAddClick,
       tooltip: 'Agregar',
     },
-    {
-      ActionIcon: ModeEditOutlineRoundedIcon,
-      onActionIconClick: () => {},
-      tooltip: 'Editar',
-    },
   ];
+
+  const handleEditMeasure = (measure: MeasureType, value: number) => {
+    onEditMeasure(mostRecentMeasure.id, measure, value);
+  };
 
   return (
     <>
@@ -77,7 +77,9 @@ function MemberLastMeasure(props: {
                 selectedOption={selectedMeasureType}
                 onClick={onSelectMeasureType}
                 title={MEASURES_TITLES.weight}
-                value={`${mostRecentMeasure.weight} Kg.`}
+                value={String(mostRecentMeasure.weight)}
+                suffix="Kg."
+                onUpdateMeasure={handleEditMeasure}
               />
               <MeasureItem
                 id="bodyMassIndex"
@@ -86,6 +88,7 @@ function MemberLastMeasure(props: {
                 onClick={onSelectMeasureType}
                 value={String(mostRecentMeasure.bodyMassIndex)}
                 chipText={mostRecentMeasure.bodyMassIndexResult}
+                onUpdateMeasure={handleEditMeasure}
               />
               <MeasureItem
                 id="corporalFat"
@@ -94,6 +97,7 @@ function MemberLastMeasure(props: {
                 selectedOption={selectedMeasureType}
                 value={String(mostRecentMeasure.corporalFat)}
                 chipText={mostRecentMeasure.corporalFatResult}
+                onUpdateMeasure={handleEditMeasure}
               />
               <MeasureItem
                 id="calories"
@@ -102,6 +106,7 @@ function MemberLastMeasure(props: {
                 selectedOption={selectedMeasureType}
                 value={String(mostRecentMeasure.calories)}
                 chipText={mostRecentMeasure.caloriesResult}
+                onUpdateMeasure={handleEditMeasure}
               />
               <MeasureItem
                 id="corporalWaterPct"
@@ -110,6 +115,7 @@ function MemberLastMeasure(props: {
                 selectedOption={selectedMeasureType}
                 value={String(mostRecentMeasure.corporalWaterPct)}
                 chipText={mostRecentMeasure.corporalWaterPctResult}
+                onUpdateMeasure={handleEditMeasure}
               />
               <MeasureItem
                 id="muscle"
@@ -118,6 +124,7 @@ function MemberLastMeasure(props: {
                 selectedOption={selectedMeasureType}
                 value={String(mostRecentMeasure.muscle)}
                 chipText={mostRecentMeasure.muscleResult}
+                onUpdateMeasure={handleEditMeasure}
               />
             </MeasureContainer>
           )}

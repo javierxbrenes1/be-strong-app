@@ -9,9 +9,9 @@ export type MeasureType =
 export const MEASURES_TITLES = {
   weight: 'Peso',
   bodyMassIndex: 'Índice de masa corporal',
-  corporalFat: 'Grasa Corporal',
+  corporalFat: 'Grasa corporal',
   calories: 'Calorías',
-  corporalWaterPct: 'Porcentaje de Agua',
+  corporalWaterPct: 'Porcentaje de agua',
   muscle: 'Músculo',
 };
 

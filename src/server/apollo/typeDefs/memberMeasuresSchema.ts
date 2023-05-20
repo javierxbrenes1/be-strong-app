@@ -1,6 +1,6 @@
 const memberMeasuresSchema = `
     type MemberMeasure {
-        id: ID!
+        id: Int!
         memberCode: String!
         date: Date
         weight: Float
@@ -34,12 +34,25 @@ const memberMeasuresSchema = `
         date: Date!
     }
 
+    input UpdateMeasureInput {
+        memberCode: String!
+        id: Int!
+        weight: Float
+        corporalFat: Float
+        muscle: Float
+        bodyMassIndex: Float
+        corporalWaterPct: Float
+        calories: Float
+    }
+
     type Query {
         getMeasures(memberCode: String, offset: Int, limit: Int): GetMeasuresResponse
     }
 
     type Mutation {
         addMeasure(measure: AddMeasureInput): MemberMeasure @auth
+        updateMeasure(measure: UpdateMeasureInput): MemberMeasure @auth
+        deleteMeasure(id: Int!): MemberMeasure @auth
     }
 `;
 

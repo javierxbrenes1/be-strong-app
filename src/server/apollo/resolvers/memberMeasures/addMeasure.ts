@@ -14,7 +14,7 @@ type InputType = {
   date: Date;
 };
 
-export const addMeasure = async (
+export default async (
   _parent: unknown,
   args: { measure: InputType },
   context: BeStrongContext

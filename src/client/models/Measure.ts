@@ -1,5 +1,5 @@
 interface Measure {
-  id: string;
+  id: number;
   date: Date;
   weight: number;
   corporalFat: number;

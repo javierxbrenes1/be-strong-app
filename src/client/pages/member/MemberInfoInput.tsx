@@ -16,7 +16,7 @@ const Wrapper: FC<{ label: string; children: ReactNode | ReactNode }> = ({
   label,
   children,
 }) => (
-  <Box>
+  <Box sx={{ display: 'flex', flexDirection: 'column' }}>
     <Typography color="primary" variant="subtitle1">
       {label}
     </Typography>

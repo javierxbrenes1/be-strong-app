@@ -15,13 +15,40 @@ import MemberMeasures from './MemberMeasures';
 import { MeasureType } from './utils/measureTypes';
 import VisitLink from './VisitLink';
 import { UPDATE_MEMBER_INFO } from '../../mutations/updateMember';
+import { UPDATE_MEASURE } from '../../mutations/Measures';
 import UpdateMemberArgs from '../../../common/actionModels/UpdateMember';
+import { CrudAction } from '../../types';
+import { GENERAL_ERROR_MESSAGES } from '../../constants';
+
+const handleError = (error: unknown, action: CrudAction) => {
+  console.error(error);
+  toast.error(GENERAL_ERROR_MESSAGES[action], {
+    position: 'top-right',
+  });
+};
+
+const showSucccessMessage = (autoCloseAt = 5000) => {
+  toast.success('Los cambios fueron almacenados satisfactoriamente.', {
+    position: 'top-right',
+    autoClose: autoCloseAt,
+  });
+};
 
 function MemberPage() {
   const { code } = useParams();
   const [selectedMeasureType, setSelectedMeasureType] =
     useState<MeasureType | null>(null);
   const [member, setMember] = useState<Member | null>(null);
+
+  const handleNewMeasureAdded = (measure: Measure) => {
+    setMember((prev) => {
+      if (!prev) return prev;
+      return {
+        ...prev,
+        memberMeasures: [measure],
+      };
+    });
+  };
 
   const { loading } = useQuery<{ getMember: Member }>(GET_MEMBER_DETAILS, {
     fetchPolicy: 'no-cache',
@@ -30,7 +57,7 @@ function MemberPage() {
       take: 1,
     },
     onError(error) {
-      console.error(error);
+      handleError(error, 'loading');
     },
     onCompleted(data) {
       const { getMember } = data;
@@ -42,40 +69,51 @@ function MemberPage() {
     UPDATE_MEMBER_INFO,
     {
       onError(error) {
-        console.error(error);
-        toast.error(
-          'Hubo un error al actualizar los datos, intentalo nuevamente',
-          {
-            position: 'top-right',
-          }
-        );
+        handleError(error, 'updating');
       },
       onCompleted(data) {
         const { updateMember } = data;
         setMember((st) => ({ ...st, ...updateMember }));
-
-        toast.success('Los cambios fueron almacenados satisfactoriamente.', {
-          position: 'top-right',
-        });
+        showSucccessMessage();
       },
     }
   );
+
+  const [updateLastMeasure] = useMutation<{ updateMeasure: Measure }>(
+    UPDATE_MEASURE,
+    {
+      onError(error) {
+        handleError(error, 'updating');
+      },
+      onCompleted(data) {
+        const { updateMeasure } = data;
+        handleNewMeasureAdded(updateMeasure);
+        showSucccessMessage(1000);
+      },
+    }
+  );
+
+  const handleMeasureUpdate = (
+    id: number,
+    measure: MeasureType,
+    value: number
+  ) => {
+    updateLastMeasure({
+      variables: {
+        measure: {
+          [measure]: value,
+          id,
+          memberCode: member?.code ?? code,
+        },
+      },
+    });
+  };
 
   if (loading) {
     return <Loading />;
   }
 
   if (!member) return null;
-
-  const handleNewMeasureAdded = (measure: Measure) => {
-    setMember((prev) => {
-      if (!prev) return prev;
-      return {
-        ...prev,
-        memberMeasures: [measure, ...(prev?.memberMeasures || [])],
-      };
-    });
-  };
 
   const handleUpdateMember = (details: UpdateMemberArgs) => {
     updateMemberInfo({
@@ -113,6 +151,7 @@ function MemberPage() {
               setSelectedMeasureType(ev);
             }}
             onNewMeasureAdded={handleNewMeasureAdded}
+            onEditMeasure={handleMeasureUpdate}
           />
         </Grid>
         <Grid item xs={12} md={9}>

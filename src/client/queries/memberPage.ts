@@ -1,4 +1,5 @@
 import { gql } from '@apollo/client';
+import { MEASURE_FRAGMENT_ALL_FIELDS } from '../fragments/measureFragment';
 
 export const GET_MEMBER_DETAILS = gql`
   query getMemberDetails($code: String!, $take: Int) {
@@ -15,20 +16,9 @@ export const GET_MEMBER_DETAILS = gql`
       observations
       preferredClassTime
       memberMeasures(take: $take) {
-        id
-        date
-        weight
-        corporalFat
-        muscle
-        bodyMassIndex
-        corporalWaterPct
-        calories
-        muscleResult
-        bodyMassIndexResult
-        corporalFatResult
-        corporalWaterPctResult
-        caloriesResult
+        ...MeasureAllFields
       }
     }
   }
+  ${MEASURE_FRAGMENT_ALL_FIELDS}
 `;
