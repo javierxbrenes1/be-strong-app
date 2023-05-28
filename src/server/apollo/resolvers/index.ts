@@ -5,6 +5,7 @@ import memberAttendanceResolvers from './memberAttendance';
 import memberMeasuresResolvers from './memberMeasures';
 import gymClassesResolvers from './gymClasses';
 import loginResolvers from './login';
+import gymClassTimeResolvers from './gymClassTime';
 
 const resolvers = [
   memberResolvers,
@@ -13,6 +14,7 @@ const resolvers = [
   memberMeasuresResolvers,
   gymClassesResolvers,
   loginResolvers,
+  gymClassTimeResolvers,
 ];
 
 export default mergeResolvers(resolvers);

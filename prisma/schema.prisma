@@ -7,13 +7,31 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model gymClassTime {
+  id              Int               @id @default(autoincrement())
+  time            String            @db.VarChar(6)
+  dayPeriod       String            @db.VarChar(2)
+  member          member[]
+  gymClassOnTimes gymClassOnTimes[]
+}
+
 model gymClass {
   id                  Int                   @id @default(autoincrement())
   classDate           DateTime?             @db.Date
-  classTime           String?               @db.VarChar(12)
+  classTime           Int?                  @db.Integer
   classType           String?               @db.VarChar(50)
   classDescription    String?
   memberAttendanceLog memberAttendanceLog[]
+  gymClassOnTimes     gymClassOnTimes[]
+}
+
+model gymClassOnTimes {
+  gymClassTime   gymClassTime @relation(fields: [gymClassTimeId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  gymClass       gymClass     @relation(fields: [gymClassId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  gymClassTimeId Int
+  gymClassId     Int
+
+  @@id([gymClassTimeId, gymClassId])
 }
 
 model member {
@@ -27,13 +45,14 @@ model member {
   avatar              String?               @db.VarChar(150)
   isActive            Boolean?
   observations        String?
-  preferredClassTime  DateTime?             @db.Time(6)
+  preferredClassTime  Int?                  @db.Integer
   createAt            DateTime?             @default(now()) @db.Timestamp(6)
   modifyAt            DateTime?             @default(now()) @db.Timestamp(6)
   memberAttendance    memberAttendance?
   memberAttendanceLog memberAttendanceLog[]
   memberMeasures      memberMeasures[]
   user                user?
+  gymClassTime        gymClassTime?         @relation(fields: [preferredClassTime], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
 
 model memberAttendance {

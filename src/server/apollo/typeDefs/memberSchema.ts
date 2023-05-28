@@ -13,6 +13,7 @@ const memberSchema = `
 		preferredClassTime: String
 		memberAttendance: MemberAttendance
 		memberMeasures(take: Int): [MemberMeasure]
+		gymClassTime: GymClassTime
 	}
 
 	type GetAllMembersResponse {

@@ -32,9 +32,10 @@ const ValueWrapper = styled(Box)({
 const EditableField = styled(ContentEditable)(({ theme }) => ({
   padding: '0 5px',
   ...theme.typography.h4,
+  outline: 'none',
+  borderBottom: 'transparent solid 1px',
   '&:focus-visible, &:hover': {
-    padding: '0 5px',
-    outline: `${theme.palette.primary.main} auto 1px`,
+    borderColor: theme.palette.primary.main,
   },
   '&:hover': {
     cursor: 'text',

@@ -7,6 +7,7 @@ import updateMember from './updateMember';
 import getMembersCount from './getMembersCount';
 import getBirthdateMembers from './getBirthdateMembers';
 import getFilteredMembers from './getFilteredMembers';
+import gymClassTime from '../gymClassTime/gymClassTime';
 
 const memberResolvers = {
   Query: {
@@ -19,6 +20,7 @@ const memberResolvers = {
   Member: {
     memberAttendance: getMemberAttendance,
     memberMeasures: getMemberMeasures,
+    gymClassTime,
   },
   Mutation: {
     addMember,

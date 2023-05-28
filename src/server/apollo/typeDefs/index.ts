@@ -4,6 +4,7 @@ import memberAttendanceSchema from './memberAttendanceSchema';
 import memberMeasuresSchema from './memberMeasuresSchema';
 import gymClassSchema from './gymClassSchema';
 import loginSchema from './loginSchema';
+import gymClassTimeSchema from './gymClassTimeSchema';
 
 const scalarDefinitions = `
 directive @auth on FIELD_DEFINITION
@@ -25,6 +26,7 @@ const typeDefs = mergeTypeDefs([
   memberMeasuresSchema,
   gymClassSchema,
   loginSchema,
+  gymClassTimeSchema,
 ]);
 
 export default typeDefs;
