@@ -21,7 +21,7 @@ import { getApolloErrorMessages, isValid } from '../utils/helpers';
 import { ADD_MEASURE } from '../../mutations/Measures';
 import Errors from '../../components/Errors';
 import Measure from '../../models/Measure';
-import { MEASURES_TITLES } from '../member/utils/measureTypes';
+import { MEASURES_TITLES } from '../../labels';
 
 const FormContainer = styled('form')(({ theme }) => ({
   display: 'grid',

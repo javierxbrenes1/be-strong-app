@@ -9,6 +9,12 @@ import { calculateAge } from '../../../common/utils';
 import CardTitle from '../../components/CardTitle';
 import { formatDate } from '../utils/helpers';
 import UpdateMemberArgs from '../../../common/actionModels/UpdateMember';
+import {
+  daysOptions,
+  getClassAttendanceForUI,
+  getGymClassTimeForUI,
+  memberStateOptions,
+} from './utils/memberUtils';
 
 const InfoContainer = styled(Box)({
   display: 'grid',
@@ -117,16 +123,7 @@ function MemberInfo(props: {
             onInputChange={(name, value) => {
               handleChange(name, value === 'true');
             }}
-            selectOptions={[
-              {
-                value: 'true',
-                label: 'Activo',
-              },
-              {
-                value: 'false',
-                label: 'Inactivo',
-              },
-            ]}
+            selectOptions={memberStateOptions}
           />
           <MemberInfoInput
             label="Altura"
@@ -165,6 +162,27 @@ function MemberInfo(props: {
               )}
             </>
           )}
+          <MemberInfoInput
+            label="Horario de clases preferido"
+            value={getGymClassTimeForUI(editableMember.gymClassTime)}
+            name="preferredClassTime"
+            inputType="select"
+            editMode={editMode}
+            onInputChange={handleChange}
+          />
+          <MemberInfoInput
+            label="Asiste los dias"
+            value={getClassAttendanceForUI(
+              editableMember.memberAttendance,
+              editMode
+            )}
+            name="memberAttendance"
+            editMode={editMode}
+            onInputChange={handleChange}
+            inputType="multiselect"
+            selectOptions={daysOptions}
+            useChip
+          />
           <MemberInfoInput
             label="Observaciones"
             value={editableMember.observations}

@@ -5,10 +5,11 @@ import Grid from '@mui/material/Grid';
 import { Typography } from '@mui/material';
 import Measure from '../../../models/Measure';
 import CardTitle from '../../../components/CardTitle';
-import { MeasureType, MEASURES_TITLES, MONTHS } from '../utils/measureTypes';
+import { MeasureType } from '../utils/measureTypes';
 import SimpleTable from '../../../components/SimpleTable';
 import { formatDate } from '../../utils/helpers';
 import Chart from './Chart';
+import { MEASURES_TITLES, MONTHS } from '../../../labels';
 
 type MeasuresTitlesProp = keyof typeof MEASURES_TITLES;
 
