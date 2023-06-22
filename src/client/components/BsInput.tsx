@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Box from '@mui/material/Box';
 import { styled } from '@mui/material/styles';
-import IconType from '../models/Icon';
+import IconType from '../../common/models/Icon';
 
 const InputContainer = styled(Box)(({ theme }) => ({
   fontFamily: theme.typography.fontFamily,

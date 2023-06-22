@@ -1,3 +1,5 @@
+import MemberAttendance from '../models/MemberAttendance';
+
 type UpdateMemberArgs = {
   code: string;
   name?: string;
@@ -9,6 +11,8 @@ type UpdateMemberArgs = {
   email?: string;
   avatar?: string;
   observations?: string;
+  preferredClassTime?: number;
+  memberAttendance?: MemberAttendance;
 };
 
 export default UpdateMemberArgs;

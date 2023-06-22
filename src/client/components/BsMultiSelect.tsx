@@ -25,20 +25,20 @@ type Props = {
     label: string;
   }[];
   value?: string[];
+  onChange: (vals: string[]) => void;
 };
 
 export default function MultipleSelectChip(props: Props) {
-  const { options, value = [] } = props;
-  const [selectedOptions, setSelectedOptions] = React.useState<string[]>(value);
+  const { options, value = [], onChange } = props;
 
   const handleChange = (event: SelectChangeEvent<unknown>) => {
     const { target } = event;
-    setSelectedOptions(
-      // On autofill we get a stringified value.
-      typeof target.value === 'string'
+    const newValues =
+      target.value === 'string'
         ? target.value.split(',')
-        : (target.value as string[])
-    );
+        : (target.value as string[]);
+
+    onChange(newValues);
   };
 
   const handleRenderValue = (selected: unknown) => {
@@ -57,20 +57,20 @@ export default function MultipleSelectChip(props: Props) {
 
   return (
     <BsSelect
-      labelId="demo-multiple-chip-label"
-      id="demo-multiple-chip"
+      labelId="multiple-selection"
+      id="multiple-selection"
       multiple
       variant="outlined"
       sx={{ '& .MuiInputBase-input': { paddingY: '16px' } }}
-      value={selectedOptions}
+      value={value}
       onChange={handleChange}
-      input={<OutlinedInput id="select-multiple-chip" />}
+      input={<OutlinedInput id="multiple-selection" />}
       renderValue={handleRenderValue}
       MenuProps={MenuProps}
     >
       {options.map((option: { value: string; label: string }) => (
         <MenuItem key={option.value} value={option.value}>
-          <Checkbox checked={selectedOptions.indexOf(option.value) > -1} />
+          <Checkbox checked={value.indexOf(option.value) > -1} />
           <ListItemText primary={option.label} />
         </MenuItem>
       ))}

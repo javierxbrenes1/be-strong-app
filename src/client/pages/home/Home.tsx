@@ -7,8 +7,8 @@ import Indicator from './Indicator';
 import { PATHS } from '../../constants';
 import Events from '../../components/HomeEvents/Events';
 import { HOME_QUERY } from '../../queries/homePage';
-import Member from '../../models/Member';
-import GymClass from '../../models/GymClass';
+import Member from '../../../common/models/Member';
+import GymClass from '../../../common/models/GymClass';
 import getHomeTitle from './HomeTitle';
 import PageContainer from '../../components/PageContainer';
 

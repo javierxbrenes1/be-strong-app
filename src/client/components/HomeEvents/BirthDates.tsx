@@ -2,7 +2,7 @@ import Typography from '@mui/material/Typography';
 import { ReactNode } from 'react';
 import { Box } from '@mui/material';
 import EventsSkeleton from './EventsSkeleton';
-import Member from '../../models/Member';
+import Member from '../../../common/models/Member';
 import Event from './Event';
 import BirthDate from './BirthDate';
 

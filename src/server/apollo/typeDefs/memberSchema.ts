@@ -10,7 +10,7 @@ const memberSchema = `
 		email: String
 		avatar: String
 		observations: String
-		preferredClassTime: String
+		preferredClassTime: Int
 		memberAttendance: MemberAttendance
 		memberMeasures(take: Int): [MemberMeasure]
 		gymClassTime: GymClassTime
@@ -49,6 +49,8 @@ const memberSchema = `
 		email: String
 		avatar: String
 		observations: String
+		memberAttendance: MemberAttendanceInput
+		preferredClassTime: Int
 	}
 
 	type Mutation {

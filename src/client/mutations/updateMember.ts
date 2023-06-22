@@ -15,6 +15,7 @@ export const UPDATE_MEMBER_INFO = gql`
       observations
       phone
       preferredClassTime
+      memberAttendance
     }
   }
 `;

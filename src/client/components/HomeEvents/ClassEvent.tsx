@@ -1,7 +1,7 @@
 import { styled, Typography } from '@mui/material';
 import Box from '@mui/material/Box';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
-import GymClass from '../../models/GymClass';
+import GymClass from '../../../common/models/GymClass';
 
 const Container = styled(Box)({
   display: 'flex',

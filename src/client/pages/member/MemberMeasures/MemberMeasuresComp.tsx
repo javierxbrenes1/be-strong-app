@@ -3,7 +3,7 @@ import CardContent from '@mui/material/CardContent';
 import Card from '@mui/material/Card';
 import Grid from '@mui/material/Grid';
 import { Typography } from '@mui/material';
-import Measure from '../../../models/Measure';
+import Measure from '../../../../common/models/Measure';
 import CardTitle from '../../../components/CardTitle';
 import { MeasureType } from '../utils/measureTypes';
 import SimpleTable from '../../../components/SimpleTable';

@@ -2,8 +2,8 @@ import { styled, Typography } from '@mui/material';
 import Box from '@mui/material/Box';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import CelebrationIcon from '@mui/icons-material/Celebration';
-import GymClass from '../../models/GymClass';
-import Member from '../../models/Member';
+import GymClass from '../../../common/models/GymClass';
+import Member from '../../../common/models/Member';
 import TodayClassesEvent from './TodayClassesEvent';
 import BirthDates from './BirthDates';
 

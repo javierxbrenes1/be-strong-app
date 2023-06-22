@@ -13,8 +13,8 @@ import {
   GET_ACTIVE_MEMBERS,
   GET_FILTERED_MEMBERS,
 } from '../../queries/membersPage';
-import Member from '../../models/Member';
-import Pagination from '../../models/Pagination';
+import Member from '../../../common/models/Member';
+import Pagination from '../../../common/models/Pagination';
 import AddMember from './AddMember';
 import BsButton from '../../components/BsButton';
 import BsInput from '../../components/BsInput';

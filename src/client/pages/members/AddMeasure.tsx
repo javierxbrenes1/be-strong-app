@@ -16,11 +16,11 @@ import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs from 'dayjs';
 import { useMutation } from '@apollo/client';
-import Member from '../../models/Member';
+import Member from '../../../common/models/Member';
 import { getApolloErrorMessages, isValid } from '../utils/helpers';
 import { ADD_MEASURE } from '../../mutations/Measures';
 import Errors from '../../components/Errors';
-import Measure from '../../models/Measure';
+import Measure from '../../../common/models/Measure';
 import { MEASURES_TITLES } from '../../labels';
 
 const FormContainer = styled('form')(({ theme }) => ({

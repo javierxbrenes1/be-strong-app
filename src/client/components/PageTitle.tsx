@@ -3,7 +3,7 @@ import Box from '@mui/material/Box';
 import Divider from '@mui/material/Divider';
 import { styled } from '@mui/material/styles';
 import { ReactNode } from 'react';
-import IconType from '../models/Icon';
+import IconType from '../../common/models/Icon';
 
 const Img = styled('img')({
   objectFit: 'cover',

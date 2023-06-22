@@ -8,8 +8,8 @@ import { useLazyQuery, useQuery } from '@apollo/client';
 import PageTitle from '../../components/PageTitle';
 import Loading from '../../components/Loading';
 import { GET_VISIT_MEASURES } from '../../queries/visitPage';
-import Measure from '../../models/Measure';
-import Pagination from '../../models/Pagination';
+import Measure from '../../../common/models/Measure';
+import Pagination from '../../../common/models/Pagination';
 import { MeasureType } from '../member/utils/measureTypes';
 import MeasureDetails from './MeasureDetails';
 

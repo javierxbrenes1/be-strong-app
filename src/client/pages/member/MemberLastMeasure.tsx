@@ -10,8 +10,8 @@ import CardTitle from '../../components/CardTitle';
 import MeasureItem from './MeasureItem';
 import { MeasureType } from './utils/measureTypes';
 import AddMeasures from '../members/AddMeasure';
-import Member from '../../models/Member';
-import Measure from '../../models/Measure';
+import Member from '../../../common/models/Member';
+import Measure from '../../../common/models/Measure';
 import { formatDate } from '../utils/helpers';
 import { MEASURES_TITLES } from '../../labels';
 
@@ -40,7 +40,8 @@ function MemberLastMeasure(props: {
   const onAddClick = () => {
     setOpenModal(true);
   };
-  const { memberMeasures = [] } = member;
+  let { memberMeasures } = member;
+  memberMeasures = memberMeasures ?? [];
   const mostRecentMeasure = memberMeasures[0];
 
   const actions = [

@@ -3,7 +3,7 @@ import { styled } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
 import { ReactNode } from 'react';
 import { Tooltip } from '@mui/material';
-import IconType from '../models/Icon';
+import IconType from '../../common/models/Icon';
 
 const InfoTitle = styled(Box)({
   display: 'flex',
@@ -42,7 +42,7 @@ function CardTitle(props: {
         {actions && (
           <Box sx={{ display: 'flex' }}>
             {actions.map((ac, index) => (
-              <Tooltip key={index} title={ac.tooltip}>
+              <Tooltip key={`${ac.tooltip}-${index}`} title={ac.tooltip}>
                 <StyledIcon as={ac.ActionIcon} onClick={ac.onActionIconClick} />
               </Tooltip>
             ))}

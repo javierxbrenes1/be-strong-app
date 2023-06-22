@@ -2,15 +2,12 @@ import { useMemo } from 'react';
 import CardContent from '@mui/material/CardContent';
 import Card from '@mui/material/Card';
 import Grid from '@mui/material/Grid';
-import Measure from '../../models/Measure';
+import Measure from '../../../common/models/Measure';
 import CardTitle from '../../components/CardTitle';
 import { formatDate } from '../utils/helpers';
 import Chart from './Chart';
-import {
-  MEASURES_TITLES,
-  MONTHS,
-  MeasureType,
-} from '../member/utils/measureTypes';
+import { MeasureType } from '../member/utils/measureTypes';
+import { MEASURES_TITLES, MONTHS } from '../../labels';
 
 type MeasuresTitlesProp = keyof typeof MEASURES_TITLES;
 

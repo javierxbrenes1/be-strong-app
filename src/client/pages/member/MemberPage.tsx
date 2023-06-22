@@ -5,8 +5,8 @@ import { useParams } from 'react-router';
 import { toast } from 'react-toastify';
 import Loading from '../../components/Loading';
 import PageContainer from '../../components/PageContainer';
-import Measure from '../../models/Measure';
-import Member from '../../models/Member';
+import Measure from '../../../common/models/Measure';
+import Member from '../../../common/models/Member';
 import { GET_MEMBER_DETAILS } from '../../queries/memberPage';
 import { createAvatarLink } from '../utils/helpers';
 import MemberInfo from './MemberInfo';
@@ -19,6 +19,7 @@ import { UPDATE_MEASURE } from '../../mutations/Measures';
 import UpdateMemberArgs from '../../../common/actionModels/UpdateMember';
 import { CrudAction } from '../../types';
 import { GENERAL_ERROR_MESSAGES } from '../../constants';
+import { DAYS } from '../../labels';
 
 const handleError = (error: unknown, action: CrudAction) => {
   console.error(error);
@@ -116,6 +117,14 @@ function MemberPage() {
   if (!member) return null;
 
   const handleUpdateMember = (details: UpdateMemberArgs) => {
+    const { memberAttendance } = details;
+    const newMemberAttendance: Record<string, boolean> = {};
+    if (memberAttendance) {
+      type DayProp = keyof typeof memberAttendance;
+      Object.keys(DAYS).forEach((day) => {
+        newMemberAttendance[day] = Boolean(memberAttendance[day as DayProp]);
+      });
+    }
     updateMemberInfo({
       variables: {
         member: {
@@ -125,6 +134,9 @@ function MemberPage() {
             : {}),
           ...(details.height
             ? { height: parseInt(String(details.height)) }
+            : {}),
+          ...(memberAttendance
+            ? { memberAttendance: newMemberAttendance }
             : {}),
         },
       },

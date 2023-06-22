@@ -2,7 +2,7 @@ import { ReactNode } from 'react';
 import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import { motion } from 'framer-motion';
-import IconType from '../models/Icon';
+import IconType from '../../common/models/Icon';
 import PageTitle from './PageTitle';
 
 const Container = styled(Box)({

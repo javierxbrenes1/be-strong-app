@@ -1,9 +1,9 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Card, CardContent, Box, styled } from '@mui/material';
 import ModeEditOutlineRoundedIcon from '@mui/icons-material/ModeEditOutlineRounded';
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import SaveIcon from '@mui/icons-material/Save';
-import Member from '../../models/Member';
+import Member from '../../../common/models/Member';
 import MemberInfoInput, { OnInputChangeFn } from './MemberInfoInput';
 import { calculateAge } from '../../../common/utils';
 import CardTitle from '../../components/CardTitle';
@@ -15,6 +15,8 @@ import {
   getGymClassTimeForUI,
   memberStateOptions,
 } from './utils/memberUtils';
+import useCatalogsStore from '../../state/catalogState';
+import MemberAttendance from '../../../common/models/MemberAttendance';
 
 const InfoContainer = styled(Box)({
   display: 'grid',
@@ -35,6 +37,7 @@ function MemberInfo(props: {
   const [editMode, setEditMode] = useState(false);
   const [editableMember, setEditableMember] = useState<Member>(member);
   const [propsEdited, setPropsEdited] = useState<Record<string, boolean>>({});
+  const gymClassTimes = useCatalogsStore((state) => state.gymClassTimes);
 
   const handleChange: OnInputChangeFn = (key, value) => {
     setEditableMember((st) => ({
@@ -164,11 +167,19 @@ function MemberInfo(props: {
           )}
           <MemberInfoInput
             label="Horario de clases preferido"
-            value={getGymClassTimeForUI(editableMember.gymClassTime)}
+            value={
+              editMode
+                ? editableMember.preferredClassTime
+                : getGymClassTimeForUI(editableMember.gymClassTime)
+            }
             name="preferredClassTime"
             inputType="select"
             editMode={editMode}
             onInputChange={handleChange}
+            selectOptions={gymClassTimes.map((gc) => ({
+              label: getGymClassTimeForUI(gc),
+              value: String(gc.id),
+            }))}
           />
           <MemberInfoInput
             label="Asiste los dias"
@@ -178,7 +189,13 @@ function MemberInfo(props: {
             )}
             name="memberAttendance"
             editMode={editMode}
-            onInputChange={handleChange}
+            onInputChange={(key, value) => {
+              const days = (value as string[]).reduce(
+                (curr, val) => ({ ...curr, [val]: true }),
+                {}
+              );
+              handleChange(key, days as MemberAttendance);
+            }}
             inputType="multiselect"
             selectOptions={daysOptions}
             useChip

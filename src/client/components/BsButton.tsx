@@ -1,6 +1,6 @@
 import Button from '@mui/material/Button';
 import { styled } from '@mui/material/styles';
-import IconType from '../models/Icon';
+import IconType from '../../common/models/Icon';
 
 const MyButton = styled(Button)<{ hoverColor?: string }>(({ hoverColor }) => ({
   width: '100%',

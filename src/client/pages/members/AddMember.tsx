@@ -27,7 +27,7 @@ import { Genre } from '../../../common/enums';
 import ADD_NEW_MEMBER from '../../mutations/addMember';
 import { createAvatarLink, getApolloErrorMessages } from '../utils/helpers';
 import Errors from '../../components/Errors';
-import Member from '../../models/Member';
+import Member from '../../../common/models/Member';
 
 const FormContainer = styled('form')(({ theme }) => ({
   display: 'grid',

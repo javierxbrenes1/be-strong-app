@@ -1,7 +1,7 @@
 import { useLazyQuery } from '@apollo/client';
 import { useEffect, useState } from 'react';
 import { WHO_AM_I } from '../queries/global';
-import OwnerUser from '../models/OwnerUser';
+import OwnerUser from '../../common/models/OwnerUser';
 
 const useWhoAmI = (): OwnerUser | null => {
   const [details, setDetails] = useState<OwnerUser | null>(null);

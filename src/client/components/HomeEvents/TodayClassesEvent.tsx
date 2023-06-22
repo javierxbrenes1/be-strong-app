@@ -2,7 +2,7 @@ import { FullscreenExit } from '@mui/icons-material';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import { ReactNode } from 'react';
-import GymClass from '../../models/GymClass';
+import GymClass from '../../../common/models/GymClass';
 import ClassEvent from './ClassEvent';
 import Event from './Event';
 import EventsSkeleton from './EventsSkeleton';

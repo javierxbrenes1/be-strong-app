@@ -7,13 +7,29 @@ const updateMember = async (
   context: BeStrongContext
 ) => {
   const { prisma } = context;
-  const { code, ...memberDetails } = args.member;
+  const { code, memberAttendance, ...memberDetails } = args.member;
+
+  const data = {
+    ...memberDetails,
+    ...(memberAttendance
+      ? {
+          memberAttendance: {
+            update: {
+              ...memberAttendance,
+            },
+          },
+        }
+      : {}),
+  };
+
+  const include = memberAttendance ? { memberAttendance: true } : undefined;
 
   const updatedMember = await prisma.member.update({
     where: {
       code,
     },
-    data: memberDetails,
+    data,
+    include,
   });
 
   return updatedMember;

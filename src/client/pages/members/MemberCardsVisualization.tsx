@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import Grid from '@mui/material/Grid';
 import { useNavigate } from 'react-router';
-import Member from '../../models/Member';
+import Member from '../../../common/models/Member';
 import MemberCard from './MemberCard';
 import AddMeasures from './AddMeasure';
 import { PATHS } from '../../constants';

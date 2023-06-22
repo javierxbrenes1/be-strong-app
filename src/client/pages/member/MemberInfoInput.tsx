@@ -10,9 +10,10 @@ import { FC, ReactNode } from 'react';
 import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs from 'dayjs';
-import Member from '../../models/Member';
+import Member from '../../../common/models/Member';
 import MultipleSelectChip from '../../components/BsMultiSelect';
 import BsSelect from '../../components/BsSelect';
+import MemberAttendance from '../../../common/models/MemberAttendance';
 
 const Wrapper: FC<{ label: string; children: ReactNode | ReactNode }> = ({
   label,
@@ -26,7 +27,13 @@ const Wrapper: FC<{ label: string; children: ReactNode | ReactNode }> = ({
   </Box>
 );
 
-export type ValueType = string | Date | boolean | number | string[];
+export type ValueType =
+  | string
+  | Date
+  | boolean
+  | number
+  | string[]
+  | MemberAttendance;
 export type MemberInfoInputType =
   | 'text'
   | 'number'
@@ -135,6 +142,9 @@ function MemberInfoInput(props: {
           <MultipleSelectChip
             options={selectOptions ?? []}
             value={value as string[]}
+            onChange={(vals) => {
+              onInputChange(name, vals);
+            }}
           />
         </FormControl>
       </Wrapper>

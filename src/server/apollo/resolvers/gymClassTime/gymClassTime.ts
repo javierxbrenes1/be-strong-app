@@ -1,5 +1,5 @@
 import { PrismaClient } from '@prisma/client';
-import Member from '../../../../client/models/Member';
+import Member from '../../../../common/models/Member';
 import { BeStrongContext } from '../../context';
 
 const queryForMember = async (member: Member, prisma: PrismaClient) => {

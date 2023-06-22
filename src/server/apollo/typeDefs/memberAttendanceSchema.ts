@@ -11,6 +11,16 @@ const memberAttendanceSchema = `
         member: Member
     }
 
+    input MemberAttendanceInput {
+        monday: Boolean
+        tuesday: Boolean
+        wednesday: Boolean
+        thursday: Boolean
+        friday: Boolean
+        saturday: Boolean
+        sunday: Boolean
+    }
+
     type Query {
         getMemberAttendance(memberCode: String!): MemberAttendance @auth
     }

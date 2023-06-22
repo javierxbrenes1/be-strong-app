@@ -1,5 +1,5 @@
 import { Box, styled, Typography } from '@mui/material';
-import Member from '../../models/Member';
+import Member from '../../../common/models/Member';
 
 const Container = styled(Box)({
   display: 'flex',

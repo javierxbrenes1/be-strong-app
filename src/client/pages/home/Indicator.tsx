@@ -3,7 +3,7 @@ import Box from '@mui/material/Box';
 import { styled } from '@mui/material/styles';
 import { useNavigate } from 'react-router';
 import BsButton from '../../components/BsButton';
-import IconType from '../../models/Icon';
+import IconType from '../../../common/models/Icon';
 
 const Container = styled(Box)<{ gradientColors: string[] }>(
   ({ gradientColors }) => ({
