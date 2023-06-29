@@ -25,7 +25,7 @@ import { useMutation } from '@apollo/client';
 import BsButton from '../../components/BsButton';
 import { Genre } from '../../../common/enums';
 import ADD_NEW_MEMBER from '../../mutations/addMember';
-import { createAvatarLink, getApolloErrorMessages } from '../utils/helpers';
+import { createAvatarLink, getApolloErrorMessages } from '../../utils/helpers';
 import Errors from '../../components/Errors';
 import Member from '../../../common/models/Member';
 

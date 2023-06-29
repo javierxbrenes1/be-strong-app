@@ -5,9 +5,9 @@ import Grid from '@mui/material/Grid';
 import { Typography } from '@mui/material';
 import Measure from '../../../../common/models/Measure';
 import CardTitle from '../../../components/CardTitle';
-import { MeasureType } from '../utils/measureTypes';
+import { MeasureType } from '../../../utils/measureTypes';
 import SimpleTable from '../../../components/SimpleTable';
-import { formatDate } from '../../utils/helpers';
+import { formatDate } from '../../../utils/helpers';
 import Chart from './Chart';
 import { MEASURES_TITLES, MONTHS } from '../../../labels';
 

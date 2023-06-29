@@ -4,9 +4,9 @@ import Card from '@mui/material/Card';
 import Grid from '@mui/material/Grid';
 import Measure from '../../../common/models/Measure';
 import CardTitle from '../../components/CardTitle';
-import { formatDate } from '../utils/helpers';
+import { formatDate } from '../../utils/helpers';
 import Chart from './Chart';
-import { MeasureType } from '../member/utils/measureTypes';
+import { MeasureType } from '../../utils/measureTypes';
 import { MEASURES_TITLES, MONTHS } from '../../labels';
 
 type MeasuresTitlesProp = keyof typeof MEASURES_TITLES;

@@ -4,7 +4,7 @@ import {
   CorporalFat,
   CorporalWaterPct,
   Muscle,
-} from '../../../../common/enums';
+} from '../../common/enums';
 
 type ColorMap = {
   color: string;

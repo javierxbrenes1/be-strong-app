@@ -8,11 +8,11 @@ import PageContainer from '../../components/PageContainer';
 import Measure from '../../../common/models/Measure';
 import Member from '../../../common/models/Member';
 import { GET_MEMBER_DETAILS } from '../../queries/memberPage';
-import { createAvatarLink } from '../utils/helpers';
+import { createAvatarLink } from '../../utils/helpers';
 import MemberInfo from './MemberInfo';
 import MemberLastMeasure from './MemberLastMeasure';
 import MemberMeasures from './MemberMeasures';
-import { MeasureType } from './utils/measureTypes';
+import { MeasureType } from '../../utils/measureTypes';
 import VisitLink from './VisitLink';
 import { UPDATE_MEMBER_INFO } from '../../mutations/updateMember';
 import { UPDATE_MEASURE } from '../../mutations/Measures';
@@ -70,6 +70,7 @@ function MemberPage() {
     UPDATE_MEMBER_INFO,
     {
       onError(error) {
+        setMember((mm) => ({ ...(mm ?? {}) } as Member));
         handleError(error, 'updating');
       },
       onCompleted(data) {
@@ -137,6 +138,13 @@ function MemberPage() {
             : {}),
           ...(memberAttendance
             ? { memberAttendance: newMemberAttendance }
+            : {}),
+          ...(details.preferredClassTime
+            ? {
+                preferredClassTime: parseInt(
+                  String(details.preferredClassTime)
+                ),
+              }
             : {}),
         },
       },

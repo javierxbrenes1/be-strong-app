@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Card, CardContent, Box, styled } from '@mui/material';
 import ModeEditOutlineRoundedIcon from '@mui/icons-material/ModeEditOutlineRounded';
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
@@ -7,14 +7,13 @@ import Member from '../../../common/models/Member';
 import MemberInfoInput, { OnInputChangeFn } from './MemberInfoInput';
 import { calculateAge } from '../../../common/utils';
 import CardTitle from '../../components/CardTitle';
-import { formatDate } from '../utils/helpers';
+import { formatDate } from '../../utils/helpers';
 import UpdateMemberArgs from '../../../common/actionModels/UpdateMember';
 import {
   daysOptions,
   getClassAttendanceForUI,
-  getGymClassTimeForUI,
   memberStateOptions,
-} from './utils/memberUtils';
+} from '../../utils/memberUtils';
 import useCatalogsStore from '../../state/catalogState';
 import MemberAttendance from '../../../common/models/MemberAttendance';
 
@@ -37,7 +36,7 @@ function MemberInfo(props: {
   const [editMode, setEditMode] = useState(false);
   const [editableMember, setEditableMember] = useState<Member>(member);
   const [propsEdited, setPropsEdited] = useState<Record<string, boolean>>({});
-  const gymClassTimes = useCatalogsStore((state) => state.gymClassTimes);
+  const gymClassUiLabels = useCatalogsStore((state) => state.gymClassUiLabels);
 
   const handleChange: OnInputChangeFn = (key, value) => {
     setEditableMember((st) => ({
@@ -46,6 +45,10 @@ function MemberInfo(props: {
     }));
     setPropsEdited((st) => ({ ...st, [key]: true }));
   };
+
+  useEffect(() => {
+    setEditableMember(member);
+  }, [member]);
 
   const onSaveClick = () => {
     const details: Record<string, unknown> = { code: member.code };
@@ -169,17 +172,20 @@ function MemberInfo(props: {
             label="Horario de clases preferido"
             value={
               editMode
-                ? editableMember.preferredClassTime
-                : getGymClassTimeForUI(editableMember.gymClassTime)
+                ? `${editableMember.preferredClassTime}`
+                : (
+                    gymClassUiLabels.find(
+                      (x) =>
+                        x.value ===
+                        String(editableMember.preferredClassTime ?? '')
+                    ) || {}
+                  ).label
             }
             name="preferredClassTime"
             inputType="select"
             editMode={editMode}
             onInputChange={handleChange}
-            selectOptions={gymClassTimes.map((gc) => ({
-              label: getGymClassTimeForUI(gc),
-              value: String(gc.id),
-            }))}
+            selectOptions={gymClassUiLabels}
           />
           <MemberInfoInput
             label="Asiste los dias"

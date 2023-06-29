@@ -8,11 +8,11 @@ import { styled } from '@mui/material/styles';
 import { useState } from 'react';
 import CardTitle from '../../components/CardTitle';
 import MeasureItem from './MeasureItem';
-import { MeasureType } from './utils/measureTypes';
+import { MeasureType } from '../../utils/measureTypes';
 import AddMeasures from '../members/AddMeasure';
 import Member from '../../../common/models/Member';
 import Measure from '../../../common/models/Measure';
-import { formatDate } from '../utils/helpers';
+import { formatDate } from '../../utils/helpers';
 import { MEASURES_TITLES } from '../../labels';
 
 const MeasureContainer = styled(Box)({

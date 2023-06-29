@@ -1,6 +1,6 @@
-import { DAYS } from '../../../labels';
-import GymClassTime from '../../../../common/models/GymClassTime';
-import MemberAttendance from '../../../../common/models/MemberAttendance';
+import { DAYS } from '../labels';
+import GymClassTime from '../../common/models/GymClassTime';
+import MemberAttendance from '../../common/models/MemberAttendance';
 
 export const getGymClassTimeForUI = (gymClassTime?: GymClassTime) => {
   if (!gymClassTime) return '';

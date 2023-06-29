@@ -6,7 +6,7 @@ import Box from '@mui/material/Box';
 import ScaleIcon from '@mui/icons-material/Scale';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import Member from '../../../common/models/Member';
-import { createAvatarLink } from '../utils/helpers';
+import { createAvatarLink } from '../../utils/helpers';
 
 const Img = styled('img')({
   objectFit: 'cover',

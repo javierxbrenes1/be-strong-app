@@ -3,8 +3,8 @@ import { Chip, Typography } from '@mui/material';
 import Box from '@mui/material/Box';
 import { styled } from '@mui/material/styles';
 import ContentEditable, { ContentEditableEvent } from 'react-contenteditable';
-import { getMeasureColorAndEmoji } from './utils/measureColorPicker';
-import { MeasureType } from './utils/measureTypes';
+import { getMeasureColorAndEmoji } from '../../utils/measureColorPicker';
+import { MeasureType } from '../../utils/measureTypes';
 
 const Container = styled(Box)<{ selected?: boolean }>(
   ({ selected, theme }) => ({

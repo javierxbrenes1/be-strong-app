@@ -1,35 +1,44 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+import { PrismaSelect } from '@paljs/plugins';
+import { GraphQLResolveInfo } from 'graphql';
 import UpdateMemberArgs from '../../../../common/actionModels/UpdateMember';
 import { BeStrongContext } from '../../context';
 
 const updateMember = async (
   _p: unknown,
   args: { member: UpdateMemberArgs },
-  context: BeStrongContext
+  context: BeStrongContext,
+  info: GraphQLResolveInfo
 ) => {
   const { prisma } = context;
   const { code, memberAttendance, ...memberDetails } = args.member;
+
+  const { select } = new PrismaSelect(info).value;
 
   const data = {
     ...memberDetails,
     ...(memberAttendance
       ? {
           memberAttendance: {
-            update: {
-              ...memberAttendance,
+            upsert: {
+              create: {
+                ...memberAttendance,
+              },
+              update: {
+                ...memberAttendance,
+              },
             },
           },
         }
       : {}),
   };
 
-  const include = memberAttendance ? { memberAttendance: true } : undefined;
-
   const updatedMember = await prisma.member.update({
     where: {
       code,
     },
     data,
-    include,
+    select,
   });
 
   return updatedMember;

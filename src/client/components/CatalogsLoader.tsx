@@ -3,7 +3,7 @@ import { ReactNode } from 'react';
 import { CATALOGS_QUERY } from '../queries/catalogs';
 import GymClassTime from '../../common/models/GymClassTime';
 import useCatalogsStore from '../state/catalogState';
-import { getApolloErrorMessages } from '../pages/utils/helpers';
+import { getApolloErrorMessages } from '../utils/helpers';
 
 function CatalogsLoader(props: { children: ReactNode | ReactNode[] }) {
   const { children } = props;
@@ -16,7 +16,6 @@ function CatalogsLoader(props: { children: ReactNode | ReactNode[] }) {
       console.error(errors);
     },
     onCompleted(data) {
-      console.log(data);
       setGymClassTimes(data.allGymClassTimes ?? []);
     },
   });

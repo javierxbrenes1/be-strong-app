@@ -35,13 +35,23 @@ const authLink = setContext((_, { headers }) => {
   };
 });
 
-const logoutLink = onError(({ response }) => {
-  const { errors } = response as { errors: GraphQLError[] };
+const logoutLink = onError((obj) => {
+  const CODE = 'UNAUTHORIZED_USER';
 
-  const hasUnauthorizedError =
-    errors &&
-    errors?.length > 0 &&
-    errors.some((e) => e?.extensions?.code === 'UNAUTHORIZED_USER');
+  let hasUnauthorizedError = false;
+  const { response, graphQLErrors } = obj;
+  if (response) {
+    const { errors } = response as { errors: GraphQLError[] };
+    hasUnauthorizedError =
+      errors &&
+      errors?.length > 0 &&
+      errors.some((e) => e?.extensions?.code === CODE);
+  } else if (graphQLErrors) {
+    hasUnauthorizedError =
+      graphQLErrors?.length > 0 &&
+      graphQLErrors.some((e) => e?.extensions?.code === CODE);
+  }
+
   if (hasUnauthorizedError) {
     getAuthState().reset();
   }

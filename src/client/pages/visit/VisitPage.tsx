@@ -10,7 +10,7 @@ import Loading from '../../components/Loading';
 import { GET_VISIT_MEASURES } from '../../queries/visitPage';
 import Measure from '../../../common/models/Measure';
 import Pagination from '../../../common/models/Pagination';
-import { MeasureType } from '../member/utils/measureTypes';
+import { MeasureType } from '../../utils/measureTypes';
 import MeasureDetails from './MeasureDetails';
 
 const Container = styled(Box)(({ theme }) => ({
