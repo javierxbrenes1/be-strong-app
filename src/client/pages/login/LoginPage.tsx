@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { keyframes, styled, useTheme } from '@mui/material/styles';
+import { keyframes, styled } from '@mui/material/styles';
 import {
   Box,
   Button,
@@ -21,16 +21,16 @@ import { PATHS } from '../../constants';
 const Container = styled(Box)(({ theme }) => ({
   width: '100%',
   height: '100vh',
-  padding: '5px',
   display: 'grid',
-  gridTemplateColumns: '1fr',
+  gridTemplateColumns: '1fr 1fr',
   backgroundColor: '#F8f8f8',
-  [theme.breakpoints.up('md')]: {
-    gridTemplateColumns: '1fr 1fr',
+  [theme.breakpoints.down('md')]: {
+    gridTemplateColumns: 'none',
+    gridTemplateRows: '1fr 2fr',
   },
 }));
 
-const Logo = styled(Box)(({ theme }) => ({
+const Logo = styled(Box)(() => ({
   width: '100%',
   height: '100%',
   zIndex: '100',
@@ -38,11 +38,7 @@ const Logo = styled(Box)(({ theme }) => ({
   backgroundImage: 'url(/logo.jpeg)',
   backgroundRepeat: 'no-repeat',
   backgroundSize: 'contain',
-  borderTopLeftRadius: '20px',
-  borderBottomRightRadius: '20px',
-  [theme.breakpoints.down('sm')]: {
-    display: 'none',
-  },
+  backgroundPosition: 'center',
 }));
 
 const visible = keyframes`
@@ -60,20 +56,28 @@ const LoginForm = styled(Box)(({ theme }) => ({
   width: '100%',
   height: '100%',
   overflow: 'hidden',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  [theme.breakpoints.down('md')]: {
+    alignItems: 'start',
+    paddingTop: '10%',
+  },
 }));
 
-const LoginContainer = styled(Box)({
-  height: '100%',
+const LoginContainer = styled(Box)(({ theme }) => ({
   display: 'flex',
-  paddingTop: '10%',
   alignItems: 'start',
   flexDirection: 'column',
-  width: '80%',
+  width: '50%',
   margin: '0 auto',
   animation: `${visible} 1s ease-out 1`,
-});
+  [theme.breakpoints.down('md')]: {
+    width: '85%',
+  },
+}));
 
-const Form = styled('form')(({ theme }) => ({
+const Form = styled('form')(() => ({
   margin: '24px 0',
   gap: '12px',
   display: 'flex',
@@ -137,12 +141,10 @@ function LoginPage() {
 
   return (
     <Container>
+      <Logo />
       <LoginForm>
         <LoginContainer>
-          <Typography variant="h4">Bienvenido</Typography>
-          <Typography variant="body2" color="rgba(0, 0, 0, 0.6)">
-            La fuerza y el crecimiento llegan del esfuerzo continuo.
-          </Typography>
+          <Typography variant="h6">Bienvenido</Typography>
           <Form>
             <FormControl fullWidth>
               <TextField
@@ -209,7 +211,6 @@ function LoginPage() {
           </Form>
         </LoginContainer>
       </LoginForm>
-      <Logo />
     </Container>
   );
 }

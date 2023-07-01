@@ -55,7 +55,7 @@ const buildChartData = (
   return { labels, numbers };
 };
 
-function MemberMeasures(props: {
+function MemberMeasuresData(props: {
   memberMeasures: Measure[];
   selectedMeasureType: MeasureType | null;
 }) {
@@ -119,4 +119,4 @@ function MemberMeasures(props: {
   );
 }
 
-export default MemberMeasures;
+export default MemberMeasuresData;

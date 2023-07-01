@@ -1,3 +1,3 @@
-import MemberMeasures from './MemberMeasuresComp';
+import MemberMeasuresData from './MemberMeasuresData';
 
-export default MemberMeasures;
+export default MemberMeasuresData;

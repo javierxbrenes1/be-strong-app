@@ -11,7 +11,7 @@ const withSuspense = (
 ) => {
   const Wrapper = requiresAuth ? ProtectedRoute : Fragment;
   return (
-    <Suspense fallback={<Loading />}>
+    <Suspense fallback={<Loading full />}>
       <Wrapper>
         <WrappedComponent />
       </Wrapper>
