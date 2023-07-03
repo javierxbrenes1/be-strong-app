@@ -175,10 +175,7 @@ function MemberPage() {
           />
         </Grid>
         <Grid item xs={12} md={9}>
-          <MemberMeasures
-            memberMeasures={member.memberMeasures || []}
-            selectedMeasureType={selectedMeasureType}
-          />
+          <MemberMeasures selectedMeasureType={selectedMeasureType} />
         </Grid>
       </Grid>
     </PageContainer>

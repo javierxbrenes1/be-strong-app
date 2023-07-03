@@ -12,8 +12,7 @@ import {
   TextField,
 } from '@mui/material';
 import { toast } from 'react-toastify';
-import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { DatePicker } from '@mui/x-date-pickers';
 import dayjs from 'dayjs';
 import { useMutation } from '@apollo/client';
 import Member from '../../../common/models/Member';
@@ -22,6 +21,7 @@ import { ADD_MEASURE } from '../../mutations/Measures';
 import Errors from '../../components/Errors';
 import Measure from '../../../common/models/Measure';
 import { MEASURES_TITLES } from '../../labels';
+import BsLocalizationProvider from '../../components/BsLocalizationProvider';
 
 const FormContainer = styled('form')(({ theme }) => ({
   display: 'grid',
@@ -136,14 +136,15 @@ function AddMeasures(props: {
         </DialogContentText>
         <FormContainer>
           <FormControl fullWidth>
-            <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <BsLocalizationProvider>
               <DatePicker
                 value={dayjs(measures.date)}
                 label="Fecha"
                 format="DD/MM/YYYY"
                 onChange={handleDateChange}
+                disableFuture
               />
-            </LocalizationProvider>
+            </BsLocalizationProvider>
           </FormControl>
           <FormControl fullWidth>
             <TextField

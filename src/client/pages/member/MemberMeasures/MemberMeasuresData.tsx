@@ -2,7 +2,7 @@ import { useMemo } from 'react';
 import CardContent from '@mui/material/CardContent';
 import Card from '@mui/material/Card';
 import Grid from '@mui/material/Grid';
-import { Typography } from '@mui/material';
+import { Stack, Typography } from '@mui/material';
 import Measure from '../../../../common/models/Measure';
 import CardTitle from '../../../components/CardTitle';
 import { MeasureType } from '../../../utils/measureTypes';
@@ -10,6 +10,7 @@ import SimpleTable from '../../../components/SimpleTable';
 import { formatDate } from '../../../utils/helpers';
 import Chart from './Chart';
 import { MEASURES_TITLES, MONTHS } from '../../../labels';
+import Filters from './Filters';
 
 type MeasuresTitlesProp = keyof typeof MEASURES_TITLES;
 
@@ -56,10 +57,10 @@ const buildChartData = (
 };
 
 function MemberMeasuresData(props: {
-  memberMeasures: Measure[];
   selectedMeasureType: MeasureType | null;
 }) {
-  const { memberMeasures, selectedMeasureType } = props;
+  const { selectedMeasureType } = props;
+  const memberMeasures: Measure[] = [];
 
   const columns = useMemo(() => {
     if (!selectedMeasureType) return null;
@@ -92,10 +93,16 @@ function MemberMeasuresData(props: {
   return (
     <Card elevation={3}>
       <CardContent>
-        <CardTitle title="Detalles" />
-        <Typography variant="caption">
-          Los datos aqui mostrados representan los registros mas recientes.
-        </Typography>
+        <Stack
+          direction="row"
+          gap={1}
+          alignItems="center"
+          justifyContent="space-between"
+          sx={{ marginBottom: ' 16px' }}
+        >
+          <CardTitle title="Detalles" sx={{ marginBottom: 0 }} />
+          <Filters />
+        </Stack>
         <Grid container spacing={1} sx={{ marginTop: '12px' }}>
           {columns && (
             <Grid item xs={12}>

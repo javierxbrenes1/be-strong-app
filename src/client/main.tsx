@@ -5,6 +5,7 @@ import { ThemeProvider } from '@mui/material';
 import App from './App';
 import GraphqlClient from './GraphqlClient';
 import theme from './theme/customTheme';
+import 'dayjs/locale/es';
 
 // palette #edc951 • #eb6841 • #cc2a36 • #4f372d • #00a0b0
 

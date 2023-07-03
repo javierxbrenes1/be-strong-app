@@ -7,13 +7,13 @@ import {
   Typography,
 } from '@mui/material';
 import { FC, ReactNode } from 'react';
-import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { DatePicker } from '@mui/x-date-pickers';
 import dayjs from 'dayjs';
 import Member from '../../../common/models/Member';
 import MultipleSelectChip from '../../components/BsMultiSelect';
 import BsSelect from '../../components/BsSelect';
 import MemberAttendance from '../../../common/models/MemberAttendance';
+import BsLocalizationProvider from '../../components/BsLocalizationProvider';
 
 const Wrapper: FC<{ label: string; children: ReactNode | ReactNode }> = ({
   label,
@@ -95,7 +95,7 @@ function MemberInfoInput(props: {
     return (
       <Wrapper label={label}>
         <FormControl fullWidth>
-          <LocalizationProvider dateAdapter={AdapterDayjs}>
+          <BsLocalizationProvider>
             <DatePicker
               value={dayjs(value as Date)}
               format="DD/MM/YYYY"
@@ -105,8 +105,9 @@ function MemberInfoInput(props: {
                   onInputChange(name, parseEv.$d);
                 }
               }}
+              disableFuture
             />
-          </LocalizationProvider>
+          </BsLocalizationProvider>
         </FormControl>
       </Wrapper>
     );

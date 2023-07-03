@@ -28,6 +28,7 @@ import ADD_NEW_MEMBER from '../../mutations/addMember';
 import { createAvatarLink, getApolloErrorMessages } from '../../utils/helpers';
 import Errors from '../../components/Errors';
 import Member from '../../../common/models/Member';
+import BsLocalizationProvider from '../../components/BsLocalizationProvider';
 
 const FormContainer = styled('form')(({ theme }) => ({
   display: 'grid',
@@ -178,14 +179,15 @@ function AddMember(props: { addNewMemberToList: (member: Member) => void }) {
               </Select>
             </FormControl>
             <FormControl fullWidth>
-              <LocalizationProvider dateAdapter={AdapterDayjs}>
+              <BsLocalizationProvider>
                 <DateField
                   onChange={handleBirthDateChange}
                   value={memberDetails.birthDate}
                   label="F. Nacimiento"
                   format="DD/MM/YYYY"
+                  disableFuture
                 />
-              </LocalizationProvider>
+              </BsLocalizationProvider>
             </FormControl>
             <ObservationContainer fullWidth>
               <TextField

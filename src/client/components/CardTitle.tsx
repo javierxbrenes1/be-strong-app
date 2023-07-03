@@ -2,7 +2,7 @@ import Box from '@mui/material/Box';
 import { styled } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
 import { ReactNode } from 'react';
-import { Tooltip } from '@mui/material';
+import { SxProps, Theme, Tooltip } from '@mui/material';
 import IconType from '../../common/models/Icon';
 
 const InfoTitle = styled(Box)({
@@ -31,11 +31,12 @@ function CardTitle(props: {
     tooltip: string;
   }[];
   children?: ReactNode | ReactNode[];
+  sx?: SxProps<Theme>;
 }) {
-  const { title, children, actions } = props;
+  const { title, children, actions, sx } = props;
 
   return (
-    <InfoTitle>
+    <InfoTitle sx={sx}>
       <>
         {title && <Typography variant="h6">{title}</Typography>}
         {children}

@@ -1,4 +1,7 @@
 import { createTheme } from '@mui/material';
+// import { esEs as dataGridDeDE } from '@mui/x-data-grid';
+import { esEs as coreEsEs } from '@mui/material/locale';
+import { esEs } from '@mui/x-date-pickers/locales';
 
 declare module '@mui/material/styles' {
   interface Palette {
@@ -27,6 +30,13 @@ const theme = createTheme({
         },
       },
     },
+    MuiButton: {
+      styleOverrides: {
+        root: {
+          textTransform: 'none',
+        },
+      },
+    },
   },
   shape: {
     borderRadius: 20,
@@ -45,6 +55,7 @@ const theme = createTheme({
       main: '#51503C',
     },
   },
+  // esEs,
 });
 
 export default theme;
