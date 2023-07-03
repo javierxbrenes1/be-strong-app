@@ -5,6 +5,7 @@ import {
   Paper,
   Popper,
   Stack,
+  Tooltip,
   Typography,
   styled,
 } from '@mui/material';
@@ -13,7 +14,9 @@ import { DatePicker } from '@mui/x-date-pickers';
 import dayjs from 'dayjs';
 import { useEffect, useState } from 'react';
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
+import ReplayIcon from '@mui/icons-material/Replay';
 import BsLocalizationProvider from '../../../components/BsLocalizationProvider';
+import useFirstTimeBuild from '../../../hooks/useFirstTimeBuild';
 
 const FORMAT = 'DD/MM/YYYY';
 
@@ -44,6 +47,15 @@ const ShortcutButton = styled(Button)<{ selected?: boolean }>(
   })
 );
 
+const defaultValue = {
+  id: 'last-three-months',
+  label: 'Últimos 3 meses',
+  dates: {
+    from: dayjs().subtract(3, 'month'),
+    to: dayjs(),
+  },
+};
+
 const shortcuts = [
   {
     id: 'last-year',
@@ -61,25 +73,35 @@ const shortcuts = [
       to: dayjs(),
     },
   },
-  {
-    id: 'last-three-months',
-    label: 'Últimos 3 meses',
-    dates: {
-      from: dayjs().subtract(3, 'month'),
-      to: dayjs(),
-    },
-  },
+  defaultValue,
 ];
 
-function Filters(props: { onSearch: (from: Date, to: Date) => void }) {
-  const { onSearch } = props;
+type Props = {
+  onSearch: (from: Date, to: Date) => void;
+  activateReloading: boolean;
+  onReloadingClick: () => void;
+};
+
+function Filters(props: Props) {
+  const { onSearch, activateReloading, onReloadingClick } = props;
   const [openPop, setOpenPop] = useState(false);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const isFirstTime = useFirstTimeBuild();
 
-  const [selectedShortcurt, setSelectedShortcut] =
-    useState<string>('last-three-months');
-  const [fromDate, setFromDate] = useState<dayjs.Dayjs | null>(null);
-  const [toDate, setToDate] = useState<dayjs.Dayjs | null>(null);
+  const [selectedShortcurt, setSelectedShortcut] = useState<string>(
+    defaultValue.id
+  );
+  const [fromDate, setFromDate] = useState<dayjs.Dayjs>(
+    defaultValue.dates.from
+  );
+  const [toDate, setToDate] = useState<dayjs.Dayjs>(defaultValue.dates.to);
+
+  useEffect(() => {
+    if (isFirstTime) {
+      handleOnSearch();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     const shortcut = shortcuts.find(({ id }) => id === selectedShortcurt);
@@ -111,27 +133,53 @@ function Filters(props: { onSearch: (from: Date, to: Date) => void }) {
   const canBeOpen = openPop && Boolean(anchorEl);
   const id = canBeOpen ? 'transition-popper' : undefined;
 
+  const handleOnSearch = () => {
+    type D = { $d: Date };
+    onSearch((fromDate as unknown as D).$d, (toDate as unknown as D).$d);
+    setOpenPop(false);
+    onReloadingClick(true);
+  };
+
+  const hoverIconStyle = {
+    '&:hover': {
+      cursor: 'pointer',
+    },
+  };
+
+  const handleReplayClick = () => {
+    handleOnSearch();
+  };
+
   return (
     <>
-      <Box
-        onClick={handlePopOpen}
-        area-aria-describedby={id}
-        sx={{ display: 'flex', alignItems: 'end' }}
-      >
-        {fromDate && toDate && (
-          <Typography variant="caption" component="span">
-            {fromDate.format(FORMAT)} - {toDate.format(FORMAT)}
-          </Typography>
+      <Stack direction="row" gap="10px" alignItems="center">
+        <Box
+          onClick={handlePopOpen}
+          area-aria-describedby={id}
+          sx={{ display: 'flex', alignItems: 'end' }}
+        >
+          {fromDate && toDate && (
+            <Typography variant="caption" component="span">
+              {fromDate.format(FORMAT)} - {toDate.format(FORMAT)}
+            </Typography>
+          )}
+          <FilterAltIcon
+            sx={hoverIconStyle}
+            color={openPop ? 'primary' : undefined}
+          />
+        </Box>
+        {activateReloading && (
+          <Box>
+            <Tooltip title="Parece que nuevas medidas fueron agregadas, da click aca para actualizar la vista.">
+              <ReplayIcon
+                sx={hoverIconStyle}
+                color="primary"
+                onClick={handleReplayClick}
+              />
+            </Tooltip>
+          </Box>
         )}
-        <FilterAltIcon
-          sx={{
-            '&:hover': {
-              cursor: 'pointer',
-            },
-          }}
-          color={openPop ? 'primary' : undefined}
-        />
-      </Box>
+      </Stack>
       <Popper
         id={id}
         open={openPop}
@@ -192,7 +240,11 @@ function Filters(props: { onSearch: (from: Date, to: Date) => void }) {
                     gap="10px"
                     sx={{ gridArea: 'search' }}
                   >
-                    <Button sx={{ maxWidth: '150px' }} variant="outlined">
+                    <Button
+                      sx={{ maxWidth: '150px' }}
+                      variant="outlined"
+                      onClick={handleOnSearch}
+                    >
                       Buscar
                     </Button>
                     <Button

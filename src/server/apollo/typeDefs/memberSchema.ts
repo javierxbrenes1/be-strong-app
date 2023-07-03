@@ -1,4 +1,9 @@
 const memberSchema = `
+
+	input MemberMeasuresOrderBy {
+		date: String
+	}
+
     type Member {
 		code: String!
 		name: String
@@ -12,7 +17,7 @@ const memberSchema = `
 		observations: String
 		preferredClassTime: Int
 		memberAttendance: MemberAttendance
-		memberMeasures(take: Int): [MemberMeasure]
+		memberMeasures(take: Int, orderBy: MemberMeasuresOrderBy): [MemberMeasure]
 		gymClassTime: GymClassTime
 	}
 

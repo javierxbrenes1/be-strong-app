@@ -18,7 +18,6 @@ const start = async () => {
     const address = await server.listen({ port: 8080 });
 
     console.log(`Server listening at ${address}`);
-    console.log(process.env.JAVIER_TEST);
   } catch (er) {
     server.log.error(er);
     console.log(er);

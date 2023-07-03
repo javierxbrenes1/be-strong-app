@@ -21,7 +21,7 @@ const MEMBER_SCALAR_FIELDS = gql`
 export const MEMBER_ALL_FIELDS = gql`
   fragment memberAllFields on Member {
     ...memberScalarFields
-    memberMeasures(take: $take) {
+    memberMeasures(take: $take, orderBy: $orderBy) {
       ...MeasureAllFields
     }
     memberAttendance {

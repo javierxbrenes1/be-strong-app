@@ -16,6 +16,7 @@ type Pagination {
     pageSize: Int 
     nextPageStart: Int
     totalPages: Int
+    currentPage: Int
 }
 `;
 

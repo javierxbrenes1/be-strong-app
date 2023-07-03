@@ -1,9 +1,16 @@
+import { getDateAndTimeWithLimit } from '../../../utils/dateshelper';
 import { BeStrongContext } from '../../context';
 
 type ArgsType = {
-  memberCode: string;
-  offset: number;
-  limit: number;
+  input: {
+    memberCode: string;
+    offset: number;
+    limit: number;
+    filters: {
+      from: Date;
+      to: Date;
+    };
+  };
 };
 
 const getMeasures = async (
@@ -12,26 +19,35 @@ const getMeasures = async (
   context: BeStrongContext
 ) => {
   const { prisma } = context;
-  const code = parent?.code || args.memberCode || '';
-  const { limit, offset } = args;
+  const { memberCode, offset, limit, filters } = args.input;
+  const code = parent?.code || memberCode || '';
+
+  const where: { memberCode: string; date?: { gte: Date; lte: Date } } = {
+    memberCode: code,
+  };
+
+  if (filters) {
+    where.date = {
+      gte: getDateAndTimeWithLimit(filters.from, 'min'),
+      lte: getDateAndTimeWithLimit(filters.to, 'max'),
+    };
+  }
+
   const totalMeasures = await prisma.memberMeasures.count({
-    where: {
-      memberCode: code,
-    },
+    where,
   });
 
   let nextPageStart = limit + offset;
+  const currentPage = Math.floor(offset / limit);
   nextPageStart = nextPageStart >= totalMeasures ? -1 : nextPageStart;
 
   const measures = await prisma.memberMeasures.findMany({
     orderBy: {
-      id: 'desc',
+      date: 'asc',
     },
     skip: offset,
     take: limit,
-    where: {
-      memberCode: code,
-    },
+    where,
   });
 
   const memberDetails = await prisma.member.findUnique({
@@ -53,6 +69,7 @@ const getMeasures = async (
       pageSize: limit,
       nextPageStart,
       totalPages: Math.ceil(totalMeasures / limit),
+      currentPage,
     },
   };
 };

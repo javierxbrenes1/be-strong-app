@@ -40,15 +40,22 @@ function MemberPage() {
   const [selectedMeasureType, setSelectedMeasureType] =
     useState<MeasureType | null>(null);
   const [member, setMember] = useState<Member | null>(null);
+  const [newMeasureWasAdded, setNewMeasureWasAdded] = useState<boolean>(false);
 
   const handleNewMeasureAdded = (measure: Measure) => {
     setMember((prev) => {
       if (!prev) return prev;
+      const [latestMemberMeasure] = prev.memberMeasures || [];
+      if (latestMemberMeasure && latestMemberMeasure.date > measure.date) {
+        return prev;
+      }
+
       return {
         ...prev,
         memberMeasures: [measure],
       };
     });
+    setNewMeasureWasAdded(true);
   };
 
   const { loading } = useQuery<{ getMember: Member }>(GET_MEMBER_DETAILS, {
@@ -56,6 +63,9 @@ function MemberPage() {
     variables: {
       code,
       take: 1,
+      orderBy: {
+        date: 'desc',
+      },
     },
     onError(error) {
       handleError(error, 'loading');
@@ -175,7 +185,12 @@ function MemberPage() {
           />
         </Grid>
         <Grid item xs={12} md={9}>
-          <MemberMeasures selectedMeasureType={selectedMeasureType} />
+          <MemberMeasures
+            selectedMeasureType={selectedMeasureType}
+            memberCode={member.code}
+            newMeasureWasAdded={newMeasureWasAdded}
+            updateMeasureWasAddedFlag={() => setNewMeasureWasAdded(false)}
+          />
         </Grid>
       </Grid>
     </PageContainer>

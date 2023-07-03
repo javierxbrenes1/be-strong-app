@@ -63,11 +63,13 @@ function MemberLastMeasure(props: {
           <CardTitle actions={actions}>
             <Box sx={{ display: 'flex', gap: '5px', alignItems: 'center' }}>
               <ScaleIcon />
-              <Typography variant="h6">
+              <Typography variant="h6" component="p">
                 Últimas Medidas
-                {mostRecentMeasure?.date
-                  ? ` (${formatDate(mostRecentMeasure.date)})`
-                  : ''}
+                <Typography variant="body2" component="p">
+                  {mostRecentMeasure?.date
+                    ? ` ${formatDate(mostRecentMeasure.date)}`
+                    : ''}
+                </Typography>
               </Typography>
             </Box>
           </CardTitle>

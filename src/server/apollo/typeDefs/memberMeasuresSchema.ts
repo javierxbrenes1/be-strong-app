@@ -45,8 +45,20 @@ const memberMeasuresSchema = `
         calories: Float
     }
 
+    input  MeasureFiltersInput {
+        from: Date
+        to: Date
+    }
+
+    input GetMeasuresInput {
+        memberCode: String
+        offset: Int
+        limit: Int
+        filters: MeasureFiltersInput
+    }
+
     type Query {
-        getMeasures(memberCode: String, offset: Int, limit: Int): GetMeasuresResponse
+        getMeasures(input: GetMeasuresInput): GetMeasuresResponse
     }
 
     type Mutation {

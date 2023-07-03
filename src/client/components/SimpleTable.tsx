@@ -7,6 +7,8 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
+import { Stack, TablePagination } from '@mui/material';
+import Loading from './Loading';
 
 const StyledTableCell = styled(TableCell)<{ headBgColor?: string }>(
   ({ theme, headBgColor }) => ({
@@ -38,46 +40,112 @@ export type ColumnType = {
 
 export type RowType = Record<string, string | ReactNode | ReactNode[]>;
 
+const itemLabel = {
+  first: 'primer',
+  last: 'ultima',
+  next: 'siguiente',
+  previous: 'anterior',
+};
+
 interface Props {
   columns: ColumnType[];
   rows: RowType[];
   headBgColor?: string;
+  loading: boolean;
+  pagination?: {
+    count: number;
+    currentPage: number;
+    onPageChange: (pageIndex: number) => void;
+    rowsPerPage: number;
+    rowsPerPageOptions: Array<number | { label: string; value: number }>;
+    onRowsPerPageChange: (newRowNumber: number) => void;
+  };
 }
 
 export default function SimpleTable(props: Props) {
-  const { columns, rows, headBgColor } = props;
+  const { columns, rows, loading, headBgColor, pagination } = props;
+
+  const handlePageChange = (ev: unknown, page: number) => {
+    pagination?.onPageChange(page);
+  };
+
+  const handleRowsPerPageChange = (
+    ev: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
+  ) => {
+    pagination?.onRowsPerPageChange(parseInt(ev.target.value));
+  };
+
   return (
-    <TableContainer component={Paper}>
-      <Table sx={{ width: '100%' }} aria-label="customized table">
-        <TableHead>
-          <TableRow>
-            {columns.map(({ id, text, textAlign }) => (
-              <StyledTableCell
-                key={id}
-                id={id}
-                align={textAlign}
-                headBgColor={headBgColor}
-              >
-                {text}
-              </StyledTableCell>
-            ))}
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {rows.map((row, index) => (
-            <StyledTableRow key={`row-${index}`}>
-              {columns.map(({ id, textAlign }) => (
+    <>
+      <TableContainer component={Paper} sx={{ minHeight: '325px' }}>
+        <Table
+          sx={{ width: '100%' }}
+          aria-label="customized table"
+          stickyHeader
+        >
+          <TableHead>
+            <TableRow>
+              {columns.map(({ id, text, textAlign }) => (
                 <StyledTableCell
-                  key={`row-${index}-col-${id}`}
+                  key={id}
+                  id={id}
                   align={textAlign}
+                  headBgColor={headBgColor}
                 >
-                  {row[id]}
+                  {text}
                 </StyledTableCell>
               ))}
-            </StyledTableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {!loading &&
+              rows.map((row, index) => (
+                <StyledTableRow key={`row-${index}`}>
+                  {columns.map(({ id, textAlign }) => (
+                    <StyledTableCell
+                      key={`row-${index}-col-${id}`}
+                      align={textAlign}
+                    >
+                      {row[id]}
+                    </StyledTableCell>
+                  ))}
+                </StyledTableRow>
+              ))}
+          </TableBody>
+        </Table>
+        {loading && (
+          <Stack
+            justifyContent="center"
+            alignItems="center"
+            width="100%"
+            height="150px"
+          >
+            <Loading />
+          </Stack>
+        )}
+      </TableContainer>
+      {pagination && (
+        <Stack
+          justifyContent="end"
+          direction="row"
+          marginY="20px"
+          color="primary"
+        >
+          <TablePagination
+            count={pagination.count}
+            page={pagination.currentPage}
+            onPageChange={handlePageChange}
+            rowsPerPage={pagination.rowsPerPage}
+            rowsPerPageOptions={pagination.rowsPerPageOptions}
+            onRowsPerPageChange={handleRowsPerPageChange}
+            labelRowsPerPage="Filas por Página"
+            labelDisplayedRows={({ from, to, count }) =>
+              `${from}-${to} de ${count}`
+            }
+            getItemAriaLabel={(type) => `Ve a la ${itemLabel[type]} página`}
+          />
+        </Stack>
+      )}
+    </>
   );
 }
