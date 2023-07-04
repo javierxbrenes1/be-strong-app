@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-return */
 import React, { useEffect, useState } from 'react';
 import Box from '@mui/material/Box';
 import PersonAddAlt1Icon from '@mui/icons-material/PersonAddAlt1';
@@ -18,8 +19,6 @@ import {
   styled,
   CircularProgress,
 } from '@mui/material';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DateField } from '@mui/x-date-pickers/DateField';
 import { useMutation } from '@apollo/client';
 import BsButton from '../../components/BsButton';
@@ -62,6 +61,7 @@ function AddMember(props: { addNewMemberToList: (member: Member) => void }) {
   const [addMember, { loading }] = useMutation<{ addMember: Member }>(
     ADD_NEW_MEMBER,
     {
+      refetchQueries: ['getActiveMembers'],
       onCompleted(data) {
         addNewMemberToList(data.addMember);
         setOpen(false);

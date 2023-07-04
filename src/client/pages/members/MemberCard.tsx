@@ -7,6 +7,7 @@ import ScaleIcon from '@mui/icons-material/Scale';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import Member from '../../../common/models/Member';
 import { createAvatarLink } from '../../utils/helpers';
+import BsAvatar from '../../components/BsAvatar';
 
 const Img = styled('img')({
   objectFit: 'cover',
@@ -73,7 +74,7 @@ function MemberCard(props: {
           gap: '12px',
         }}
       >
-        <Img
+        <BsAvatar
           alt={member.name}
           src={member.avatar || createAvatarLink(member.name)}
         />

@@ -6,22 +6,18 @@ import {
   Tooltip,
   styled,
   Button,
-  Typography,
 } from '@mui/material';
-import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import { useState } from 'react';
 import { encode } from 'js-base64';
 import QRCode from 'react-qr-code';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { PATHS } from '../../constants';
 
-const CopyToCb = styled(Button)({
-  padding: '10px',
-  background: '#393e46',
-  borderRadius: '10px',
-  color: '#fff',
-  '&:hover': {
-    cursor: 'pointer',
+const QRWrapper = styled('div')({
+  '& > svg': {
+    display: 'block',
+    height: 'auto',
+    width: '100%',
   },
 });
 
@@ -62,7 +58,9 @@ function VisitLink(props: { name?: string; code: string }) {
             alignItems: 'center',
           }}
         >
-          <QRCode value={link} />
+          <QRWrapper>
+            <QRCode value={link} />
+          </QRWrapper>
           <CopyToClipboard text={forClipboard}>
             <Button
               variant="contained"

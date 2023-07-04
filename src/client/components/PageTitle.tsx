@@ -4,6 +4,7 @@ import Divider from '@mui/material/Divider';
 import { styled } from '@mui/material/styles';
 import { ReactNode } from 'react';
 import IconType from '../../common/models/Icon';
+import BsAvatar from './BsAvatar';
 
 const Img = styled('img')({
   objectFit: 'cover',
@@ -37,7 +38,7 @@ function PageTitle(props: {
             <Icon fontSize="large" sx={{ color: '#FF6E31' }} />
           )}
           {Icon && typeof Icon === 'string' && (
-            <Img alt="Title Icon" src={Icon} />
+            <BsAvatar alt="Title Icon" src={Icon} />
           )}
           <Typography variant="h4" sx={{ color: '#393e46' }}>
             {text}

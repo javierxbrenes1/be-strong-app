@@ -16,6 +16,7 @@ import Pagination from '../../../common/models/Pagination';
 import AddMember from './AddMember';
 import BsButton from '../../components/BsButton';
 import BsInput from '../../components/BsInput';
+import { apolloClient } from '../../GraphqlClient';
 
 const LIMIT = 20;
 
@@ -115,6 +116,21 @@ function MembersPage() {
   const addNewMemberToList = (member: Member) => {
     setCodesToIgnore((prevState) => [...prevState, member.code]);
     setMembers((prevState) => [member, ...prevState]);
+
+    // apolloClient.cache.writeQuery({
+    //   query: GET_ACTIVE_MEMBERS,
+    //   variables: {
+    //     offset,
+    //     limit: LIMIT,
+    //     ignore: codesToIgnore,
+    //   },
+    //   data: {
+    //     getAllMembers: {
+    //       members: [member],
+    //       pagination: {},
+    //     },
+    //   },
+    // });
   };
 
   const handleFilter = (text: string) => {

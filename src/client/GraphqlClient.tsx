@@ -57,7 +57,7 @@ const logoutLink = onError((obj) => {
   }
 });
 
-const client = new ApolloClient({
+export const apolloClient = new ApolloClient({
   link: ApolloLink.from([retryLink, authLink, logoutLink, httpLink]),
   cache: new InMemoryCache({
     typePolicies: {
@@ -70,7 +70,7 @@ const client = new ApolloClient({
 
 function GraphqlClient(props: { children: ReactNode | ReactNode[] }) {
   const { children } = props;
-  return <ApolloProvider client={client}>{children}</ApolloProvider>;
+  return <ApolloProvider client={apolloClient}>{children}</ApolloProvider>;
 }
 
 export default GraphqlClient;

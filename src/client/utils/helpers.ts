@@ -2,7 +2,8 @@ import { ApolloError } from '@apollo/client';
 import dayjs from 'dayjs';
 
 export const createAvatarLink = (name: string): string =>
-  `https://ui-avatars.com/api/?name=${name}&background=random`;
+  `https://robohash.org/${name}?size=64x64&bgset=bg2`;
+// `https://ui-avatars.com/api/?name=${name}&background=random`;
 
 export function getApolloErrorMessages(error: ApolloError) {
   const messages = [];
