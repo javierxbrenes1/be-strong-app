@@ -1,2 +1,0 @@
--- AlterTable
-ALTER TABLE "memberMeasures" ALTER COLUMN "date" SET DEFAULT CURRENT_TIMESTAMP;

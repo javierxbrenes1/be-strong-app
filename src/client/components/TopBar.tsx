@@ -61,7 +61,7 @@ function TopBar(props: { onBurgerMenuClick: () => void }) {
             <Avatar
               sx={{ width: '28px', height: '28px', background: '#FF6E31' }}
             >
-              {whoAmI.name[0].toUpperCase()}
+              {whoAmI.name[0]?.toUpperCase() || 'U'}
             </Avatar>
           </IconButton>
         )}

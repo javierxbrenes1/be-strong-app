@@ -45,6 +45,7 @@ function MembersPage() {
     };
   }>(GET_ACTIVE_MEMBERS, {
     onCompleted(data) {
+      console.log('Data was updated, ', data);
       const { getAllMembers } = data;
       setMembers((prev) => [...prev, ...getAllMembers.members]);
       setOffset(getAllMembers.pagination.nextPageStart);

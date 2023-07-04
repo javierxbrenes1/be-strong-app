@@ -66,6 +66,7 @@ function AddMember(props: { addNewMemberToList: (member: Member) => void }) {
         cache.modify({
           fields: {
             getAllMembers: (value, details) => {
+              console.log('Updating cache');
               if (!details.storeFieldName.includes('"offset":0')) {
                 return value;
               }
