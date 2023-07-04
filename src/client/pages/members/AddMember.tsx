@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-unsafe-return */
 import React, { useEffect, useState } from 'react';
 import Box from '@mui/material/Box';
@@ -61,7 +62,30 @@ function AddMember(props: { addNewMemberToList: (member: Member) => void }) {
   const [addMember, { loading }] = useMutation<{ addMember: Member }>(
     ADD_NEW_MEMBER,
     {
-      refetchQueries: ['getActiveMembers'],
+      update(cache, result) {
+        cache.modify({
+          fields: {
+            getAllMembers: (value, details) => {
+              if (!details.storeFieldName.includes('"offset":0')) {
+                return value;
+              }
+              // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+              const { members, ...theRest } = value;
+              return {
+                ...theRest,
+                members: result.data?.addMember
+                  ? [
+                      details.toReference(
+                        `Member:{"code":"${result.data.addMember.code}"}`
+                      ),
+                      ...members,
+                    ]
+                  : members,
+              };
+            },
+          },
+        });
+      },
       onCompleted(data) {
         addNewMemberToList(data.addMember);
         setOpen(false);
