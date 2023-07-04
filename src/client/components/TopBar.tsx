@@ -6,6 +6,7 @@ import { IconButton, ListItemIcon, MenuItem, Typography } from '@mui/material';
 import Menu from '@mui/material/Menu';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { Logout } from '@mui/icons-material';
+import MenuIcon from '@mui/icons-material/Menu';
 import useAuthStore from '../state/authState';
 import useWhoAmI from '../hooks/useWhoAmI';
 
@@ -18,7 +19,14 @@ const Container = styled(Grid)({
   boxShadow: '0 1px 4px #e3e3e3',
 });
 
-function TopBar() {
+const BurgerMenu = styled(MenuIcon)(({ theme }) => ({
+  [theme.breakpoints.up('md')]: {
+    display: 'none',
+  },
+}));
+
+function TopBar(props: { onBurgerMenuClick: () => void }) {
+  const { onBurgerMenuClick } = props;
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const resetAuth = useAuthStore((state) => state.reset);
   const whoAmI = useWhoAmI();
@@ -44,6 +52,7 @@ function TopBar() {
         justifyContent="space-between"
         alignItems="center"
       >
+        <BurgerMenu onClick={onBurgerMenuClick} />
         <Typography component="span" color="#4D4D4D">
           Be Strong App
         </Typography>

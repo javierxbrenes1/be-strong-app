@@ -6,19 +6,22 @@ import BsButton from '../../components/BsButton';
 import IconType from '../../../common/models/Icon';
 
 const Container = styled(Box)<{ gradientColors: string[] }>(
-  ({ gradientColors }) => ({
+  ({ gradientColors, theme }) => ({
     background: '#fff',
     borderRadius: '10px',
     padding: '20px',
-    width: '200px',
+    width: '100%',
     height: 'fit-content',
-    maxWidth: '80%',
 
     backgroundImage: `linear-gradient(${gradientColors.join(',')})`,
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
     gap: '10px',
+    [theme.breakpoints.up('sm')]: {
+      width: '200px',
+      maxWidth: '80%',
+    },
   })
 );
 

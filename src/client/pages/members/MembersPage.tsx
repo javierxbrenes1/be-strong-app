@@ -3,11 +3,9 @@ import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
 import Box from '@mui/material/Box';
 import { useLazyQuery } from '@apollo/client';
 import SearchIcon from '@mui/icons-material/Search';
-import { Typography } from '@mui/material';
+import { Stack, Typography, styled } from '@mui/material';
 import PageContainer from '../../components/PageContainer';
-import DataVisualizationSwitch, {
-  VisualizationType,
-} from './DataVisualizationSwitch';
+import { VisualizationType } from './DataVisualizationSwitch';
 import MemberCardsVisualization from './MemberCardsVisualization';
 import {
   GET_ACTIVE_MEMBERS,
@@ -21,8 +19,16 @@ import BsInput from '../../components/BsInput';
 
 const LIMIT = 20;
 
+const SearchBox = styled(Stack)(({ theme }) => ({
+  width: '100%',
+  [theme.breakpoints.up('md')]: {
+    maxWidth: '50%',
+  },
+}));
+
 function MembersPage() {
-  const [visualizationType, setVisualizationType] = useState<VisualizationType>(
+  // TODO: be able to select table here
+  const [visualizationType] = useState<VisualizationType>(
     VisualizationType.cards
   );
   const [members, setMembers] = useState<Member[]>([]);
@@ -48,8 +54,9 @@ function MembersPage() {
     },
   });
 
-  const [getFilteredMembers, { loading: loadingFilteredMembers }] =
-    useLazyQuery<{ getFilteredMembers: Member[] }>(GET_FILTERED_MEMBERS, {
+  const [getFilteredMembers] = useLazyQuery<{ getFilteredMembers: Member[] }>(
+    GET_FILTERED_MEMBERS,
+    {
       onCompleted(data) {
         const { getFilteredMembers: res } = data;
         if (res.length) {
@@ -62,7 +69,8 @@ function MembersPage() {
       onError(error) {
         console.error(error);
       },
-    });
+    }
+  );
 
   useEffect(() => {
     loadMoreMembers();
@@ -104,10 +112,6 @@ function MembersPage() {
     });
   };
 
-  // const onDataVisualizationChange = (newProp: VisualizationType) => {
-  //   setVisualizationType(newProp);
-  // };
-
   const addNewMemberToList = (member: Member) => {
     setCodesToIgnore((prevState) => [...prevState, member.code]);
     setMembers((prevState) => [member, ...prevState]);
@@ -119,26 +123,15 @@ function MembersPage() {
 
   return (
     <PageContainer Icon={PeopleAltIcon} text="Miembros">
-      <Box
-        sx={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-        }}
-      >
-        <Box sx={{ display: 'flex', flexDirection: 'row', gap: '10px' }}>
-          <AddMember addNewMemberToList={addNewMemberToList} />
-          <BsInput
-            placeholder="Buscar Miembro"
-            onChange={handleFilter}
-            Icon={SearchIcon}
-          />
-        </Box>
-        {/* <DataVisualizationSwitch
-          onVisualizationSwitch={onDataVisualizationChange}
-          selectedOption={visualizationType}
-        /> */}
-      </Box>
+      <SearchBox direction="row" gap="10px">
+        <AddMember addNewMemberToList={addNewMemberToList} />
+        <BsInput
+          placeholder="Buscar Miembro"
+          onChange={handleFilter}
+          Icon={SearchIcon}
+          sx={{ flex: 1 }}
+        />
+      </SearchBox>
       <Box sx={{ margin: '10px 0' }}>
         {filter && !filteredMembers.length && (
           <Typography textAlign="center" margin="20px">

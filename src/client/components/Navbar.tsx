@@ -34,16 +34,20 @@ const Container = styled(Box)({
   boxShadow: '0 1px 4px 0 #e3e3e3',
 });
 
-function Nabvar() {
+function Nabvar(props: { className?: string; onLinkClick?: () => void }) {
+  const { className, onLinkClick } = props;
   const navigate = useNavigate();
   const { pathname } = useLocation();
 
   const handleClick = (path: string) => () => {
     navigate(path, { replace: true });
+    if (onLinkClick) {
+      onLinkClick();
+    }
   };
 
   return (
-    <Container>
+    <Container className={className}>
       <NavbarLink
         onClick={handleClick(PATHS.HOME)}
         selected={pathname === PATHS.HOME}

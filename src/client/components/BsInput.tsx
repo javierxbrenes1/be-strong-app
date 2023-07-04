@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import Box from '@mui/material/Box';
-import { styled } from '@mui/material/styles';
+import { SxProps, Theme, styled } from '@mui/material/styles';
 import IconType from '../../common/models/Icon';
 
 const InputContainer = styled(Box)(({ theme }) => ({
@@ -27,9 +27,11 @@ function BsInput(props: {
   Icon?: IconType;
   placeholder: string;
   onChange: (newVal: string) => void;
+  className?: string;
+  sx?: SxProps<Theme>;
 }) {
   const [localValue, setLocalValue] = useState('');
-  const { Icon, placeholder, onChange } = props;
+  const { Icon, placeholder, onChange, className, sx } = props;
 
   const handleOnChange = (ev: React.ChangeEvent<HTMLInputElement>) => {
     const {
@@ -40,7 +42,7 @@ function BsInput(props: {
   };
 
   return (
-    <InputContainer>
+    <InputContainer className={className} sx={sx}>
       {Icon && <Icon />}
       <input
         placeholder={placeholder}

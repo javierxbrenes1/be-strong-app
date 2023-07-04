@@ -84,7 +84,7 @@ function Chart(props: {
           />
         </Box>
       </Grid>
-      <Box px="24px" width="100%">
+      <Box px="24px" width="100%" sx={{ minHeight: '400px' }}>
         <Component
           data={{
             labels,
@@ -100,7 +100,7 @@ function Chart(props: {
           }}
           options={{
             responsive: true,
-            maintainAspectRatio: true,
+            maintainAspectRatio: false,
             plugins: {
               legend: {
                 position: 'top' as const,
