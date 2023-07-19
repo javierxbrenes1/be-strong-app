@@ -1,4 +1,5 @@
 import { gql } from '@apollo/client';
+import { PAGINATION } from '../fragments/paginationFragment';
 
 // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 export const GET_ACTIVE_MEMBERS = gql`
@@ -10,13 +11,11 @@ export const GET_ACTIVE_MEMBERS = gql`
         name
       }
       pagination {
-        nextPageStart
-        pageSize
-        total
-        totalPages
+        ...pagination
       }
     }
   }
+  ${PAGINATION}
 `;
 
 export const GET_FILTERED_MEMBERS = gql`

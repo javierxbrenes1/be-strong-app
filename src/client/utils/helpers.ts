@@ -1,5 +1,6 @@
 import { ApolloError } from '@apollo/client';
 import dayjs from 'dayjs';
+import Member from '../../common/models/Member';
 
 export const createAvatarLink = (name: string): string =>
   `https://robohash.org/${name}?size=64x64&bgset=bg2`;
@@ -31,3 +32,17 @@ export const formatDate = (date: number | Date): string => {
     .map((x) => x[0].toLocaleUpperCase() + x.substring(1))
     .join(' ');
 };
+
+export const sortMemberListByName = (list: Member[]) =>
+  list.sort((a, b) => {
+    const nameA = a.name.toLowerCase();
+    const nameB = b.name.toLowerCase();
+
+    if (nameA < nameB) {
+      return -1;
+    }
+    if (nameA > nameB) {
+      return 1;
+    }
+    return 0;
+  });

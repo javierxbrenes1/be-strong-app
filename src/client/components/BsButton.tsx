@@ -24,10 +24,11 @@ function BsButton(props: {
   onClick: () => void;
   hoverColor?: string;
   Icon?: IconType;
+  disabled?: boolean;
 }) {
-  const { text, onClick, hoverColor, Icon } = props;
+  const { text, onClick, hoverColor, Icon, disabled } = props;
   return (
-    <MyButton onClick={onClick} hoverColor={hoverColor}>
+    <MyButton onClick={onClick} hoverColor={hoverColor} disabled={disabled}>
       {Icon && <Icon />} {text}
     </MyButton>
   );

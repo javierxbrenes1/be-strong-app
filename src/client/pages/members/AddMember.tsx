@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-unsafe-return */
 import React, { useEffect, useState } from 'react';
@@ -29,6 +30,7 @@ import { createAvatarLink, getApolloErrorMessages } from '../../utils/helpers';
 import Errors from '../../components/Errors';
 import Member from '../../../common/models/Member';
 import BsLocalizationProvider from '../../components/BsLocalizationProvider';
+import modifyGetAllMembersQuery from '../../cacheHelpers/getAllMembersModifier';
 
 const FormContainer = styled('form')(({ theme }) => ({
   display: 'grid',
@@ -46,7 +48,7 @@ const ObservationContainer = styled(FormControl)(({ theme }) => ({
   },
 }));
 
-function AddMember(props: { addNewMemberToList: (member: Member) => void }) {
+function AddMember(props: { addNewMemberToList?: (member: Member) => void }) {
   const { addNewMemberToList } = props;
   const [open, setOpen] = useState(false);
   const [readyToBeSaved, setReadyToBeSaved] = useState(false);
@@ -62,33 +64,17 @@ function AddMember(props: { addNewMemberToList: (member: Member) => void }) {
   const [addMember, { loading }] = useMutation<{ addMember: Member }>(
     ADD_NEW_MEMBER,
     {
-      update(cache, result) {
+      update(cache, { data }) {
         cache.modify({
           fields: {
-            getAllMembers: (value, details) => {
-              console.log('Updating cache');
-              if (!details.storeFieldName.includes('"offset":0')) {
-                return value;
-              }
-              // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-              const { members, ...theRest } = value;
-              return {
-                ...theRest,
-                members: result.data?.addMember
-                  ? [
-                      details.toReference(
-                        `Member:{"code":"${result.data.addMember.code}"}`
-                      ),
-                      ...members,
-                    ]
-                  : members,
-              };
-            },
+            getAllMembers: modifyGetAllMembersQuery(data?.addMember),
           },
         });
       },
       onCompleted(data) {
-        addNewMemberToList(data.addMember);
+        if (addNewMemberToList) {
+          addNewMemberToList(data.addMember);
+        }
         setOpen(false);
         toast.success('Nuevo miembro agregado satisfactoriamente.', {
           position: 'top-right',

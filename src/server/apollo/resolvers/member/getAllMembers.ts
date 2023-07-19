@@ -38,6 +38,7 @@ const getAllMembers = async (
   });
 
   let nextPageStart = limit + offset;
+  const currentPage = Math.floor(offset / limit);
   nextPageStart = nextPageStart >= totalMembers ? -1 : nextPageStart;
 
   return {
@@ -47,6 +48,7 @@ const getAllMembers = async (
       pageSize: limit,
       nextPageStart,
       totalPages: Math.ceil(totalMembers / limit),
+      currentPage,
     },
   };
 };

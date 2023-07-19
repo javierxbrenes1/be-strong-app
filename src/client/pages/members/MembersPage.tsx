@@ -34,7 +34,6 @@ function MembersPage() {
   );
   const [members, setMembers] = useState<Member[]>([]);
   const [filteredMembers, setFilteredMembers] = useState<Member[]>([]);
-  const [codesToIgnore, setCodesToIgnore] = useState<string[]>([]);
   const [offset, setOffset] = useState(0);
   const [filter, setFilter] = useState('');
 
@@ -63,7 +62,6 @@ function MembersPage() {
         const { getFilteredMembers: res } = data;
         if (res.length) {
           setMembers((prev) => [...prev, ...res]);
-          setCodesToIgnore((prev) => [...prev, ...res.map((m) => m.code)]);
           return;
         }
         setFilteredMembers([]);

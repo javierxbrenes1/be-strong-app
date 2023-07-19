@@ -1,6 +1,7 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import Grid from '@mui/material/Grid';
 import { useNavigate } from 'react-router';
+import Box from '@mui/material/Box/Box';
 import Member from '../../../common/models/Member';
 import MemberCard from './MemberCard';
 import AddMeasures from './AddMeasure';
@@ -25,8 +26,9 @@ function MemberCardsVisualization(props: { members: Member[] }) {
     setSelectedMember(null);
     setOpenMeasuresDialog(false);
   };
+
   return (
-    <>
+    <Box marginY="10px">
       <Grid container columnSpacing="16px" rowSpacing="16px">
         {members.map((member) => (
           <Grid item sm={4} md={3} width="100%" key={member.code}>
@@ -43,7 +45,7 @@ function MemberCardsVisualization(props: { members: Member[] }) {
         onClose={handleClose}
         member={selectedMember}
       />
-    </>
+    </Box>
   );
 }
 

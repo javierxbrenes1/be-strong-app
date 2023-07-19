@@ -1,9 +1,13 @@
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import {
   ApolloClient,
   InMemoryCache,
   ApolloProvider,
   ApolloLink,
   HttpLink,
+  Reference,
 } from '@apollo/client';
 
 import { RetryLink } from '@apollo/client/link/retry';
@@ -63,6 +67,35 @@ export const apolloClient = new ApolloClient({
     typePolicies: {
       Member: {
         keyFields: ['code'],
+      },
+      Query: {
+        fields: {
+          getAllMembers: {
+            keyArgs: false,
+            merge(existing, incoming, { readField }) {
+              const { pagination } = incoming;
+              const keysToAvoidDuplicates = {
+                ...(existing?.keysToAvoidDuplicates ?? {}),
+              };
+              const members = [...(existing?.members ?? [])];
+              (incoming?.members ?? []).forEach((m: Reference) => {
+                const code = readField<string>('code', m);
+
+                if (!code) {
+                  members.push({ ...m });
+                } else if (code && !keysToAvoidDuplicates[code]) {
+                  keysToAvoidDuplicates[code] = true;
+                  members.push({ ...m });
+                }
+              });
+              return {
+                members,
+                pagination,
+                keysToAvoidDuplicates,
+              };
+            },
+          },
+        },
       },
     },
   }),
