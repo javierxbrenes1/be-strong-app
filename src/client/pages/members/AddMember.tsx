@@ -64,6 +64,7 @@ function AddMember(props: { addNewMemberToList?: (member: Member) => void }) {
   const [addMember, { loading }] = useMutation<{ addMember: Member }>(
     ADD_NEW_MEMBER,
     {
+      refetchQueries: ['homeQueries'],
       update(cache, { data }) {
         cache.modify({
           fields: {
