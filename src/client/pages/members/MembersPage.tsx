@@ -1,24 +1,19 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
-import Box from '@mui/material/Box';
-import { useLazyQuery } from '@apollo/client';
+import { styled } from '@mui/material/styles';
+import Stack from '@mui/material/Stack';
 import SearchIcon from '@mui/icons-material/Search';
-import { Stack, Typography, styled } from '@mui/material';
+import { useQuery } from '@apollo/client';
+import Box from '@mui/material/Box';
 import PageContainer from '../../components/PageContainer';
-import { VisualizationType } from './DataVisualizationSwitch';
-import MemberCardsVisualization from './MemberCardsVisualization';
-import {
-  GET_ACTIVE_MEMBERS,
-  GET_FILTERED_MEMBERS,
-} from '../../queries/membersPage';
-import Member from '../../../common/models/Member';
-import Pagination from '../../../common/models/Pagination';
 import AddMember from './AddMember';
 import BsButton from '../../components/BsButton';
 import BsInput from '../../components/BsInput';
-import { apolloClient } from '../../GraphqlClient';
-
-const LIMIT = 20;
+import Member from '../../../common/models/Member';
+import Pagination from '../../../common/models/Pagination';
+import { GET_ACTIVE_MEMBERS } from '../../queries/membersPage';
+import MemberCardsVisualization from './MemberCardsVisualization';
+import FilteredMembers from './FilteredMembers';
 
 const SearchBox = styled(Stack)(({ theme }) => ({
   width: '100%',
@@ -27,27 +22,32 @@ const SearchBox = styled(Stack)(({ theme }) => ({
   },
 }));
 
+const LIMIT = 50;
+
 function MembersPage() {
-  // TODO: be able to select table here
-  const [visualizationType] = useState<VisualizationType>(
-    VisualizationType.cards
+  const [currentPagination, setCurrentPagination] = useState<Pagination | null>(
+    null
   );
-  const [members, setMembers] = useState<Member[]>([]);
-  const [filteredMembers, setFilteredMembers] = useState<Member[]>([]);
-  const [offset, setOffset] = useState(0);
   const [filter, setFilter] = useState('');
 
-  const [getMembers, { loading }] = useLazyQuery<{
+  const {
+    loading,
+    fetchMore,
+    data: activeMembers,
+  } = useQuery<{
     getAllMembers: {
       members: Member[];
       pagination: Pagination;
     };
   }>(GET_ACTIVE_MEMBERS, {
-    onCompleted(data) {
-      console.log('Data was updated, ', data);
-      const { getAllMembers } = data;
-      setMembers((prev) => [...prev, ...getAllMembers.members]);
-      setOffset(getAllMembers.pagination.nextPageStart);
+    variables: {
+      offset: 0,
+      limit: LIMIT,
+    },
+    onCompleted(onCompletedData) {
+      const { getAllMembers } = onCompletedData;
+      console.log({ onCompletedData });
+      setCurrentPagination(getAllMembers.pagination);
     },
     onError(error) {
       // do something
@@ -55,91 +55,25 @@ function MembersPage() {
     },
   });
 
-  const [getFilteredMembers] = useLazyQuery<{ getFilteredMembers: Member[] }>(
-    GET_FILTERED_MEMBERS,
-    {
-      onCompleted(data) {
-        const { getFilteredMembers: res } = data;
-        if (res.length) {
-          setMembers((prev) => [...prev, ...res]);
-          return;
-        }
-        setFilteredMembers([]);
-      },
-      onError(error) {
-        console.error(error);
-      },
-    }
-  );
-
-  useEffect(() => {
-    loadMoreMembers();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  useEffect(() => {
-    if (!filter) {
-      setFilteredMembers(members);
-      return;
-    }
-
-    const newFilteredMembers = members.filter((m) =>
-      m.name.toLowerCase().startsWith(filter.toLocaleLowerCase())
-    );
-
-    if (newFilteredMembers.length) {
-      setFilteredMembers(newFilteredMembers);
-    } else {
-      getFilteredMembers({
-        variables: {
-          column: 'name',
-          comparator: 'startsWith',
-          filter,
-        },
-      });
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [members, filter]);
-
   const loadMoreMembers = () => {
-    if (offset === -1) return;
-    getMembers({
+    if (!currentPagination || currentPagination?.nextPageStart === -1) return;
+
+    fetchMore({
       variables: {
-        offset,
-        limit: LIMIT,
-        ignore: codesToIgnore,
+        offset: currentPagination.nextPageStart,
       },
     });
-  };
-
-  const addNewMemberToList = (member: Member) => {
-    setCodesToIgnore((prevState) => [...prevState, member.code]);
-    setMembers((prevState) => [member, ...prevState]);
-
-    // apolloClient.cache.writeQuery({
-    //   query: GET_ACTIVE_MEMBERS,
-    //   variables: {
-    //     offset,
-    //     limit: LIMIT,
-    //     ignore: codesToIgnore,
-    //   },
-    //   data: {
-    //     getAllMembers: {
-    //       members: [member],
-    //       pagination: {},
-    //     },
-    //   },
-    // });
   };
 
   const handleFilter = (text: string) => {
     setFilter(text.length >= 3 ? text : '');
   };
 
+  const hideAll = !!filter;
   return (
     <PageContainer Icon={PeopleAltIcon} text="Miembros">
       <SearchBox direction="row" gap="10px">
-        <AddMember addNewMemberToList={addNewMemberToList} />
+        <AddMember />
         <BsInput
           placeholder="Buscar Miembro"
           onChange={handleFilter}
@@ -147,20 +81,23 @@ function MembersPage() {
           sx={{ flex: 1 }}
         />
       </SearchBox>
-      <Box sx={{ margin: '10px 0' }}>
-        {filter && !filteredMembers.length && (
-          <Typography textAlign="center" margin="20px">
-            No se encontró ningún miembro
-          </Typography>
-        )}
-        {visualizationType === VisualizationType.cards && (
-          <MemberCardsVisualization members={filteredMembers} />
-        )}
-      </Box>
-      {offset !== -1 && !filter && !loading && (
-        <Box sx={{ maxWidth: '200px', margin: '0 auto' }}>
-          <BsButton text="Cargar Mas" onClick={loadMoreMembers} />
-        </Box>
+      <FilteredMembers
+        filter={filter}
+        allMembers={activeMembers?.getAllMembers?.members || []}
+      />
+      {!hideAll && (
+        <>
+          <MemberCardsVisualization
+            members={activeMembers?.getAllMembers?.members || []}
+          />
+          {currentPagination &&
+            currentPagination.nextPageStart !== -1 &&
+            !loading && (
+              <Box sx={{ maxWidth: '200px', margin: '0 auto' }}>
+                <BsButton text="Cargar Mas" onClick={loadMoreMembers} />
+              </Box>
+            )}
+        </>
       )}
     </PageContainer>
   );

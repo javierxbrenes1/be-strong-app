@@ -67,7 +67,9 @@ function AddMember(props: { addNewMemberToList?: (member: Member) => void }) {
       update(cache, { data }) {
         cache.modify({
           fields: {
-            getAllMembers: modifyGetAllMembersQuery(data?.addMember),
+            getAllMembers: modifyGetAllMembersQuery(
+              data?.addMember ? [data?.addMember] : []
+            ),
           },
         });
       },

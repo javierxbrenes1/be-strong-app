@@ -4,6 +4,7 @@ import Typography from '@mui/material/Typography';
 import HomeIcon from '@mui/icons-material/Home';
 import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
 import SportsGymnasticsIcon from '@mui/icons-material/SportsGymnastics';
+import SettingsIcon from '@mui/icons-material/Settings';
 import { styled } from '@mui/material';
 import { useLocation, useNavigate } from 'react-router';
 import { PATHS } from '../constants';
@@ -31,6 +32,7 @@ const Container = styled(Box)({
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
+  justifyContent: 'space-between',
   boxShadow: '0 1px 4px 0 #e3e3e3',
 });
 
@@ -48,26 +50,35 @@ function Nabvar(props: { className?: string; onLinkClick?: () => void }) {
 
   return (
     <Container className={className}>
+      <Box>
+        <NavbarLink
+          onClick={handleClick(PATHS.HOME)}
+          selected={pathname === PATHS.HOME}
+        >
+          <HomeIcon fontSize="small" />
+          <Typography variant="caption">Inicio</Typography>
+        </NavbarLink>
+        <NavbarLink
+          onClick={handleClick(PATHS.MEMBERS)}
+          selected={pathname.includes(PATHS.MEMBERS)}
+        >
+          <PeopleAltIcon fontSize="small" />
+          <Typography variant="caption">Miembros</Typography>
+        </NavbarLink>
+        <NavbarLink
+          onClick={handleClick(PATHS.CLASSES)}
+          selected={pathname.includes(PATHS.CLASSES)}
+        >
+          <SportsGymnasticsIcon fontSize="small" />
+          <Typography variant="caption">Clases</Typography>
+        </NavbarLink>
+      </Box>
       <NavbarLink
-        onClick={handleClick(PATHS.HOME)}
-        selected={pathname === PATHS.HOME}
+        onClick={handleClick(PATHS.CONFIGURATIONS)}
+        selected={pathname.includes(PATHS.CONFIGURATIONS)}
+        sx={{ justifySelf: 'end' }}
       >
-        <HomeIcon fontSize="small" />
-        <Typography variant="caption">Inicio</Typography>
-      </NavbarLink>
-      <NavbarLink
-        onClick={handleClick(PATHS.MEMBERS)}
-        selected={pathname.includes(PATHS.MEMBERS)}
-      >
-        <PeopleAltIcon fontSize="small" />
-        <Typography variant="caption">Miembros</Typography>
-      </NavbarLink>
-      <NavbarLink
-        onClick={handleClick(PATHS.CLASSES)}
-        selected={pathname.includes(PATHS.CLASSES)}
-      >
-        <SportsGymnasticsIcon fontSize="small" />
-        <Typography variant="caption">Clases</Typography>
+        <SettingsIcon fontSize="small" />
       </NavbarLink>
     </Container>
   );

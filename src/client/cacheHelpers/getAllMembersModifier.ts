@@ -16,35 +16,40 @@ function compareNames(
   return name.toLocaleLowerCase().localeCompare(memberNameToCompare) >= 0;
 }
 
-function modifyGetAllMembersQuery(data?: Member | null) {
+function modifyGetAllMembersQuery(data?: Member[] | null) {
   return function (value: any, details: ModifierDetails): any {
     if (!data) return value;
-    const newMemberRef = details.toReference({
-      __typename: 'Member',
-      code: data.code,
-    });
-
     const members = [...(value?.members ?? [])];
+    const keysToAvoidDuplicates = {
+      ...(value?.keysToAvoidDuplicates ?? {}),
+    };
 
-    let insertIndex = 0;
-    while (
-      insertIndex < members.length &&
-      compareNames(
-        data.name,
-        members[insertIndex] as unknown as Reference,
-        details.readField
-      )
-    ) {
-      insertIndex += 1;
+    for (const member of data) {
+      if (!keysToAvoidDuplicates[member.code]) {
+        const newMemberRef = details.toReference({
+          __typename: 'Member',
+          code: member.code,
+        });
+
+        let insertIndex = 0;
+        while (
+          insertIndex < members.length &&
+          compareNames(
+            member.name,
+            members[insertIndex] as unknown as Reference,
+            details.readField
+          )
+        ) {
+          insertIndex += 1;
+        }
+        members.splice(insertIndex, 0, newMemberRef);
+        keysToAvoidDuplicates[member.code] = true;
+      }
     }
-    members.splice(insertIndex, 0, newMemberRef);
 
     return {
       ...value,
-      keysToAvoidDuplicates: {
-        ...(value?.keysToAvoidDuplicates ?? {}),
-        [data.code]: true,
-      },
+      keysToAvoidDuplicates,
       members,
     };
   };
