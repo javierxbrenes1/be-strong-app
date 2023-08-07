@@ -51,7 +51,7 @@ const defaultValue = {
   id: 'last-three-months',
   label: 'Últimos 3 meses',
   dates: {
-    from: dayjs().subtract(3, 'month'),
+    from: dayjs().subtract(3, 'month').date(1),
     to: dayjs(),
   },
 };
@@ -69,7 +69,7 @@ const shortcuts = [
     id: 'last-six-months',
     label: 'Últimos 6 meses',
     dates: {
-      from: dayjs().subtract(6, 'month'),
+      from: dayjs().subtract(6, 'month').date(1),
       to: dayjs(),
     },
   },
@@ -78,12 +78,18 @@ const shortcuts = [
 
 type Props = {
   onSearch: (from: Date, to: Date) => void;
-  activateReloading: boolean;
-  onReloadingClick: () => void;
+  activateReloading?: boolean;
+  onReloadingClick?: () => void;
+  iconFirst?: boolean;
 };
 
 function Filters(props: Props) {
-  const { onSearch, activateReloading, onReloadingClick } = props;
+  const {
+    onSearch,
+    activateReloading,
+    onReloadingClick,
+    iconFirst = false,
+  } = props;
   const [openPop, setOpenPop] = useState(false);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const isFirstTime = useFirstTimeBuild();
@@ -137,7 +143,9 @@ function Filters(props: Props) {
     type D = { $d: Date };
     onSearch((fromDate as unknown as D).$d, (toDate as unknown as D).$d);
     setOpenPop(false);
-    onReloadingClick(true);
+    if (onReloadingClick) {
+      onReloadingClick();
+    }
   };
 
   const hoverIconStyle = {
@@ -156,7 +164,11 @@ function Filters(props: Props) {
         <Box
           onClick={handlePopOpen}
           area-aria-describedby={id}
-          sx={{ display: 'flex', alignItems: 'end' }}
+          sx={{
+            display: 'flex',
+            alignItems: 'end',
+            flexDirection: iconFirst ? 'row-reverse' : 'row',
+          }}
         >
           {fromDate && toDate && (
             <Typography variant="caption" component="span">

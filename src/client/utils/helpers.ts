@@ -1,6 +1,8 @@
 import { ApolloError } from '@apollo/client';
 import dayjs from 'dayjs';
 import Member from '../../common/models/Member';
+import Measure from '../../common/models/Measure';
+import { Measures } from '../types';
 
 export const createAvatarLink = (name: string): string =>
   `https://robohash.org/${name}?size=64x64&bgset=bg2`;
@@ -33,6 +35,12 @@ export const formatDate = (date: number | Date): string => {
     .join(' ');
 };
 
+function getEnumKeys<T extends Record<string, any>>(
+  enumObject: T
+): Array<keyof T> {
+  return Object.keys(enumObject) as Array<keyof T>;
+}
+
 export const sortMemberListByName = (list: Member[]) =>
   list.sort((a, b) => {
     const nameA = a.name.toLowerCase();
@@ -46,3 +54,54 @@ export const sortMemberListByName = (list: Member[]) =>
     }
     return 0;
   });
+
+export const parseMeasureData = (measures: Measure[]) =>
+  measures.map((m) => {
+    const date = formatDate(m.date);
+    const newObj: Record<string, string> = {};
+    type Mtype = keyof typeof m;
+    Object.keys(m).forEach((x) => {
+      newObj[x] = String(m[x as Mtype]);
+    });
+    newObj.date = date;
+    return newObj;
+  });
+
+export function buildMeasureChartDataByMeasureType(
+  measures: Measure[],
+  selectedMeasureType: Measures
+) {
+  const labels: string[] = [];
+  const numbers: number[] = [];
+
+  measures.forEach((measure) => {
+    labels.push(formatDate(measure.date));
+    type MeasureT = keyof typeof measure;
+    numbers.push(Number(measure[selectedMeasureType as MeasureT]) || 0);
+  });
+
+  return { labels, numbers };
+}
+
+export function buildMeasureChartDataForAllMeasures(measures: Measure[]) {
+  const keys = getEnumKeys(Measures);
+  const labels: string[] = [];
+  const numbers: Record<string, number[]> = {};
+
+  measures.forEach((measure) => {
+    type MeasureT = keyof typeof measure;
+    labels.push(formatDate(measure.date));
+    keys.forEach((k) => {
+      if (!numbers[k]) {
+        numbers[k] = [];
+      }
+      const x = measure[k as MeasureT] as number;
+      numbers[k].push(x);
+    });
+  });
+
+  return {
+    labels,
+    numbers,
+  };
+}

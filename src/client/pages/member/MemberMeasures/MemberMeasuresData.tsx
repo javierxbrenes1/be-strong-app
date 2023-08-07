@@ -7,54 +7,21 @@ import { useLazyQuery } from '@apollo/client';
 import { toast } from 'react-toastify';
 import Measure from '../../../../common/models/Measure';
 import CardTitle from '../../../components/CardTitle';
-import { MeasureType } from '../../../utils/measureTypes';
 import SimpleTable from '../../../components/SimpleTable';
-import { formatDate } from '../../../utils/helpers';
+import {
+  buildMeasureChartDataByMeasureType,
+  parseMeasureData,
+} from '../../../utils/helpers';
 import Chart from './Chart';
-import { MEASURES_TITLES } from '../../../labels';
+import {
+  MEASURES_TITLES,
+  MeasuresTitlesProp,
+  getMeasureTableColumns,
+} from '../../../labels';
 import Filters from './Filters';
 import { GET_MEMBER_MEASURES } from '../../../queries/memberPage';
 import Pagination from '../../../../common/models/Pagination';
-
-type MeasuresTitlesProp = keyof typeof MEASURES_TITLES;
-
-const columnsIds: Record<MeasureType, string[]> = {
-  weight: ['weight'],
-  bodyMassIndex: ['bodyMassIndex', 'bodyMassIndexResult'],
-  calories: ['calories', 'caloriesResult'],
-  corporalFat: ['corporalFat', 'corporalFatResult'],
-  corporalWaterPct: ['corporalWaterPct', 'corporalWaterPctResult'],
-  muscle: ['muscle', 'muscleResult'],
-};
-
-const parseData = (measures: Measure[]) =>
-  measures.map((m) => {
-    const date = formatDate(m.date);
-    const newObj: Record<string, string> = {};
-    type Mtype = keyof typeof m;
-    Object.keys(m).forEach((x) => {
-      newObj[x] = String(m[x as Mtype]);
-    });
-    newObj.date = date;
-    return newObj;
-  });
-
-const buildChartData = (
-  measures: Measure[],
-  selectedMeasureType: MeasureType
-) => {
-  const aux = [...measures];
-  const labels: string[] = [];
-  const numbers: number[] = [];
-
-  aux.forEach((measure) => {
-    labels.push(formatDate(measure.date));
-    type MeasureT = keyof typeof measure;
-    numbers.push(Number(measure[selectedMeasureType as MeasureT]) || 0);
-  });
-
-  return { labels, numbers };
-};
+import { Measures } from '../../../types';
 
 /**
  * Member measure component
@@ -62,7 +29,7 @@ const buildChartData = (
  * @returns
  */
 function MemberMeasuresData(props: {
-  selectedMeasureType: MeasureType | null;
+  selectedMeasureType: Measures | null;
   memberCode: string;
   newMeasureWasAdded: boolean;
   updateMeasureWasAddedFlag: () => void;
@@ -119,27 +86,19 @@ function MemberMeasuresData(props: {
 
   const columns = useMemo(() => {
     if (!selectedMeasureType) return null;
-
-    const cIds = columnsIds[selectedMeasureType];
-    return [
-      {
-        id: 'date',
-        text: 'Fecha',
-      },
-      ...cIds.map((id) => ({
-        id,
-        text: MEASURES_TITLES[id as MeasuresTitlesProp] || 'Indicador',
-      })),
-    ];
+    return getMeasureTableColumns(selectedMeasureType);
   }, [selectedMeasureType]);
 
   const chartDetails = useMemo(() => {
     if (!selectedMeasureType || !memberMeasures.length) return null;
-    return buildChartData(memberMeasures, selectedMeasureType);
+    return buildMeasureChartDataByMeasureType(
+      memberMeasures,
+      selectedMeasureType
+    );
   }, [selectedMeasureType, memberMeasures]);
 
   const parsedMemberMeasures = useMemo(
-    () => parseData(memberMeasures),
+    () => parseMeasureData(memberMeasures),
     [memberMeasures]
   );
 

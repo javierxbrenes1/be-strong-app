@@ -12,12 +12,11 @@ import { createAvatarLink } from '../../utils/helpers';
 import MemberInfo from './MemberInfo';
 import MemberLastMeasure from './MemberLastMeasure';
 import MemberMeasures from './MemberMeasures';
-import { MeasureType } from '../../utils/measureTypes';
 import VisitLink from './VisitLink';
 import { UPDATE_MEMBER_INFO } from '../../mutations/updateMember';
 import { UPDATE_MEASURE } from '../../mutations/Measures';
 import UpdateMemberArgs from '../../../common/actionModels/UpdateMember';
-import { CrudAction } from '../../types';
+import { CrudAction, Measures } from '../../types';
 import { GENERAL_ERROR_MESSAGES } from '../../constants';
 import { DAYS } from '../../labels';
 
@@ -38,7 +37,7 @@ const showSucccessMessage = (autoCloseAt = 5000) => {
 function MemberPage() {
   const { code } = useParams();
   const [selectedMeasureType, setSelectedMeasureType] =
-    useState<MeasureType | null>(null);
+    useState<Measures | null>(null);
   const [member, setMember] = useState<Member | null>(null);
   const [newMeasureWasAdded, setNewMeasureWasAdded] = useState<boolean>(false);
 
@@ -107,7 +106,7 @@ function MemberPage() {
 
   const handleMeasureUpdate = (
     id: number,
-    measure: MeasureType,
+    measure: Measures,
     value: number
   ) => {
     updateLastMeasure({
@@ -177,7 +176,7 @@ function MemberPage() {
           <MemberLastMeasure
             member={member}
             selectedMeasureType={selectedMeasureType}
-            onSelectMeasureType={(ev: MeasureType) => {
+            onSelectMeasureType={(ev: Measures) => {
               setSelectedMeasureType(ev);
             }}
             onNewMeasureAdded={handleNewMeasureAdded}

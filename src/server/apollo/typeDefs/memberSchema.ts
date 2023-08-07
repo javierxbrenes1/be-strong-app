@@ -4,6 +4,13 @@ const memberSchema = `
 		date: String
 	}
 
+	type VisitMember {
+		code: String!
+		name: String
+		avatar: String
+		memberMeasures(take: Int, orderBy: MemberMeasuresOrderBy): [MemberMeasure]
+	}
+
     type Member {
 		code: String!
 		name: String
@@ -26,9 +33,11 @@ const memberSchema = `
 		pagination: Pagination
 	}
 
+
 	type Query {
 		getAllMembers(offset: Int, limit: Int, ignore: [String]): GetAllMembersResponse @auth
 		getMember(code: String): Member @auth
+		getVisitMember(code: String): VisitMember
 		getMembersCount: Int @auth
 		getBirthdateMembers(date: Date): [Member] @auth
 		getFilteredMembers(column: String, comparator: String, filter: String): [Member] @auth

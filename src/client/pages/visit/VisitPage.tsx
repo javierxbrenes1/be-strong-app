@@ -2,75 +2,62 @@ import Box from '@mui/material/Box';
 import { styled } from '@mui/material/styles';
 import { useSearchParams } from 'react-router-dom';
 import { decode } from 'js-base64';
-import { Grid, Typography } from '@mui/material';
+import { Typography } from '@mui/material';
 import { FC, ReactNode, useState } from 'react';
-import { useLazyQuery, useQuery } from '@apollo/client';
+import { useQuery } from '@apollo/client';
 import PageTitle from '../../components/PageTitle';
 import Loading from '../../components/Loading';
-import { GET_VISIT_MEASURES } from '../../queries/visitPage';
+import { GET_VISIT_MEMBER } from '../../queries/visitPage';
 import Measure from '../../../common/models/Measure';
-import Pagination from '../../../common/models/Pagination';
-import { MeasureType } from '../../utils/measureTypes';
-import MeasureDetails from './MeasureDetails';
+
+import { formatDate } from '../../utils/helpers';
+import LastMeasureDetails from './lastMeasureDetails';
+import VisitMeasures from './VisitMeasures';
 
 const Container = styled(Box)(({ theme }) => ({
-  height: '100vh',
+  minHeight: '100vh',
   width: '100%',
   padding: '10px',
-  background: theme.palette.primary.main,
+  background: theme.palette.grey[100],
 }));
 
-const InternalContainer = styled(Box)({
-  background: '#fff',
-  borderRadius: '10px',
-  padding: '16px',
-  width: '100%',
-  height: '100%',
-  overflow: 'auto',
-});
-
 const Wrapper: FC<{ children: ReactNode | ReactNode[] }> = ({ children }) => (
-  <Container>
-    <InternalContainer>{children}</InternalContainer>
-  </Container>
+  <Container>{children}</Container>
 );
-
-const items: { measure: MeasureType; color: string }[] = [
-  { measure: 'weight', color: '#4c9173' },
-  { measure: 'bodyMassIndex', color: '#453953' },
-  { measure: 'calories', color: '#f2910a' },
-  { measure: 'corporalFat', color: '#fc3a52' },
-  { measure: 'corporalWaterPct', color: '#418c9f' },
-  { measure: 'muscle', color: '#49beb7' },
-];
 
 function VisitPage() {
   const [searchParams] = useSearchParams();
   const [error, setError] = useState<string>('');
 
-  const { loading, data } = useQuery<{
-    getMeasures: {
-      member: {
-        name: string;
-        avatar: string;
-      };
-      measures: Measure[];
-      pagination: Pagination;
+  const code = decode(searchParams.get('code') || '') || '';
+
+  const { loading: LoadingMember, data: memberData } = useQuery<{
+    getVisitMember: {
+      name: string;
+      avatar: string;
+      code: string;
+      memberMeasures: Measure[];
     };
-  }>(GET_VISIT_MEASURES, {
+  }>(GET_VISIT_MEMBER, {
+    variables: {
+      ...(code ? { code } : {}),
+      take: 1,
+      orderBy: {
+        date: 'desc',
+      },
+    },
     onError(err) {
+      console.error(err);
       setError(
-        'Hubo un error intentando obtener la información solicitada. 😥'
+        'Hubo un error al obtener los datos del miembro o el código no existe. 🔗‍💥'
       );
     },
-    variables: {
-      memberCode: decode(searchParams.get('code') || '') || '',
-      offset: 0,
-      limit: 5,
+    onCompleted(data) {
+      document.title = data.getVisitMember.name ?? 'Be Strong';
     },
   });
 
-  if (loading) {
+  if (LoadingMember) {
     return (
       <Wrapper>
         <Loading />
@@ -78,54 +65,32 @@ function VisitPage() {
     );
   }
 
+  const { getVisitMember: member } = memberData || {};
+  const lastMeasure = member?.memberMeasures[0] ?? null;
+
   if (error) {
     return (
       <Wrapper>
-        <Typography textAlign="center" color="error">
+        <Typography variant="h6" sx={{ textAlign: 'center' }}>
           {error}
         </Typography>
       </Wrapper>
     );
   }
 
-  if (!data) {
-    return (
-      <Wrapper>
-        <Typography textAlign="center" color="error">
-          No Hay Datos.
-        </Typography>
-      </Wrapper>
-    );
-  }
-
-  const {
-    getMeasures: { member, measures },
-  } = data;
-
-  const hasMeasures = measures.length > 0;
-
   return (
     <Wrapper>
-      <PageTitle Icon={member.avatar} text={member.name} />
+      <PageTitle Icon={member?.avatar} text={member?.name ?? ''} />
       <Typography variant="subtitle1" color="#757a79">
-        👋 Howdy {member.name.split(' ')[0]},{' '}
-        {hasMeasures
-          ? 'a continuación podrás observar tus últimos registros.'
-          : 'parece que aún no tienes datos registrados 🤷'}
+        👋 Howdy {member?.name.split(' ')[0]}
+        {lastMeasure
+          ? `, estos son los datos de tu última medición del ${formatDate(
+              lastMeasure?.date
+            )}.`
+          : ', parece que aún no tienes datos registrados.'}
       </Typography>
-      {hasMeasures ? (
-        <Grid container py="20px" spacing={4}>
-          {items.map((it) => (
-            <Grid item md={6} key={it.measure}>
-              <MeasureDetails
-                memberMeasures={measures}
-                selectedMeasure={it.measure}
-                color={it.color}
-              />
-            </Grid>
-          ))}
-        </Grid>
-      ) : null}
+      {lastMeasure && <LastMeasureDetails measure={lastMeasure} />}
+      {lastMeasure && <VisitMeasures code={member?.code ?? ''} />}
     </Wrapper>
   );
 }

@@ -7,8 +7,9 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import { Stack, TablePagination } from '@mui/material';
+import { Stack, SxProps, Theme } from '@mui/material';
 import Loading from './Loading';
+import BsTablePagination from './BsTablePagination';
 
 const StyledTableCell = styled(TableCell)<{ headBgColor?: string }>(
   ({ theme, headBgColor }) => ({
@@ -40,18 +41,12 @@ export type ColumnType = {
 
 export type RowType = Record<string, string | ReactNode | ReactNode[]>;
 
-const itemLabel = {
-  first: 'primer',
-  last: 'ultima',
-  next: 'siguiente',
-  previous: 'anterior',
-};
-
 interface Props {
   columns: ColumnType[];
   rows: RowType[];
   headBgColor?: string;
-  loading: boolean;
+  loading?: boolean;
+  xs?: SxProps<Theme>;
   pagination?: {
     count: number;
     currentPage: number;
@@ -63,23 +58,16 @@ interface Props {
 }
 
 export default function SimpleTable(props: Props) {
-  const { columns, rows, loading, headBgColor, pagination } = props;
-
-  const handlePageChange = (ev: unknown, page: number) => {
-    pagination?.onPageChange(page);
-  };
-
-  const handleRowsPerPageChange = (
-    ev: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
-  ) => {
-    pagination?.onRowsPerPageChange(parseInt(ev.target.value));
-  };
+  const { columns, rows, loading, headBgColor, pagination, xs } = props;
 
   return (
     <>
-      <TableContainer component={Paper} sx={{ minHeight: '325px' }}>
+      <TableContainer
+        component={Paper}
+        sx={{ minHeight: '325px', ...(xs ?? {}) }}
+      >
         <Table
-          sx={{ width: '100%' }}
+          sx={{ width: '100%', position: 'relative', zIndex: 0 }}
           aria-label="customized table"
           stickyHeader
         >
@@ -125,26 +113,14 @@ export default function SimpleTable(props: Props) {
         )}
       </TableContainer>
       {pagination && (
-        <Stack
-          justifyContent="end"
-          direction="row"
-          marginY="20px"
-          color="primary"
-        >
-          <TablePagination
-            count={pagination.count}
-            page={pagination.currentPage}
-            onPageChange={handlePageChange}
-            rowsPerPage={pagination.rowsPerPage}
-            rowsPerPageOptions={pagination.rowsPerPageOptions}
-            onRowsPerPageChange={handleRowsPerPageChange}
-            labelRowsPerPage="Filas por Página"
-            labelDisplayedRows={({ from, to, count }) =>
-              `${from}-${to} de ${count}`
-            }
-            getItemAriaLabel={(type) => `Ve a la ${itemLabel[type]} página`}
-          />
-        </Stack>
+        <BsTablePagination
+          count={pagination.count}
+          currentPage={pagination.currentPage}
+          onPageChange={pagination?.onPageChange}
+          rowsPerPage={pagination.rowsPerPage}
+          rowsPerPageOptions={pagination.rowsPerPageOptions}
+          onRowsPerPageChange={pagination?.onRowsPerPageChange}
+        />
       )}
     </>
   );
