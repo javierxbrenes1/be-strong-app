@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "gymClassTime" ALTER COLUMN "isoTime" SET DATA TYPE VARCHAR(16);

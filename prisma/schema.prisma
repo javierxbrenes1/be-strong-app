@@ -10,20 +10,19 @@ datasource db {
 
 model gymClassTime {
   id              Int               @id @default(autoincrement())
-  time            String            @db.VarChar(6)
-  dayPeriod       String            @db.VarChar(2)
+  isoTime         String            @db.VarChar(16)
   member          member[]
   gymClassOnTimes gymClassOnTimes[]
 }
 
 model gymClass {
-  id                  Int                   @id @default(autoincrement())
-  classDate           DateTime?             @db.Date
-  classTime           Int?                  @db.Integer
-  classType           String?               @db.VarChar(50)
-  classDescription    String?
-  memberAttendanceLog memberAttendanceLog[]
-  gymClassOnTimes     gymClassOnTimes[]
+  id                     Int                   @id @default(autoincrement())
+  classDate              DateTime?             @db.Date
+  classDurationInMinutes Int?                  @db.Integer
+  classType              String?               @db.VarChar(50)
+  classDescription       String?
+  memberAttendanceLog    memberAttendanceLog[]
+  gymClassOnTimes        gymClassOnTimes[]
 }
 
 model gymClassOnTimes {

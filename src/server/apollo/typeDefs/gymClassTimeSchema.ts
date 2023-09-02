@@ -1,8 +1,7 @@
 export default `
 type GymClassTime {
     id: Int!
-    time: String!
-    dayPeriod: String!
+    isoTime: String!
   }
   
   type Query {
@@ -11,6 +10,6 @@ type GymClassTime {
   }
 
   type Mutation {
-    addGymClassTime(time: String!, dayPeriod: String!): GymClassTime
+    addGymClassTime(isoTime: String!): GymClassTime
   }
 `;
