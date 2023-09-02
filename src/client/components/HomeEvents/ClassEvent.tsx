@@ -15,21 +15,10 @@ const Container = styled(Box)({
   textTransform: 'capitalize',
 });
 
-const Schedule = styled(Box)({
-  padding: '15px',
-  background: '#fff',
-  borderRadius: '20px',
-  fontWeight: 'bold',
-  boxShadow: '0 1px 4px #e3e3e3',
-});
-
 function ClassEvent(props: { gymClass: GymClass }) {
   const { gymClass } = props;
   return (
     <Container>
-      <Schedule>
-        <Typography variant="h6">{gymClass.classTime}</Typography>
-      </Schedule>
       <Typography variant="h5">{gymClass.classType}</Typography>
       <ChevronRightIcon
         fontSize="large"

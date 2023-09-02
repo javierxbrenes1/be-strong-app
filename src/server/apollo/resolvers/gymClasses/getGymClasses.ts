@@ -24,6 +24,13 @@ const getGymClasses = async (
         classDate: 'desc',
       },
     ],
+    include: {
+      gymClassOnTimes: {
+        include: {
+          gymClassTime: true,
+        },
+      },
+    },
   });
 
   return classes;

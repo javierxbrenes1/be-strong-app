@@ -6,8 +6,6 @@ export const HOME_QUERY = gql`
     getGymClassesCount(year: $year)
     getGymClasses(gte: $today) {
       id
-      classDate
-      classTime
       classType
     }
     getBirthdateMembers(date: $today) {
