@@ -1,7 +1,6 @@
 interface GymClassTime {
-  dayPeriod: string;
-  time: string;
   id: number;
+  isoTime: string;
 }
 
 export default GymClassTime;

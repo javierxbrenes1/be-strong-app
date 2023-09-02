@@ -1,11 +1,15 @@
 const gymClassSchema = `
+ type GymClassOnTimes {
+   gymClassTime: GymClassTime
+ }
+
  type GymClass {
    id: Int
    classDate: Date
    classDurationInMinutes: Int
    classType: String
    classDescription: String
-   classTimes: [GymClassTime]
+   gymClassOnTimes: [GymClassOnTimes]
  }
 
  input AddClassInput {

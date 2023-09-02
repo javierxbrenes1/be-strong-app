@@ -38,6 +38,13 @@ const addGymClass = async (
         })),
       },
     },
+    include: {
+      gymClassOnTimes: {
+        include: {
+          gymClassTime: true,
+        },
+      },
+    },
   });
 
   return newGymClass;

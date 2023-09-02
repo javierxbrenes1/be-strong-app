@@ -1,10 +1,14 @@
+import dayjs from 'dayjs';
 import { DAYS } from '../labels';
 import GymClassTime from '../../common/models/GymClassTime';
 import MemberAttendance from '../../common/models/MemberAttendance';
 
 export const getGymClassTimeForUI = (gymClassTime?: GymClassTime) => {
   if (!gymClassTime) return '';
-  return `${gymClassTime.time} ${gymClassTime.dayPeriod}`;
+  const { isoTime } = gymClassTime;
+  const date = dayjs(`1971-01-01${isoTime}`);
+
+  return date.format('hh:mm A');
 };
 
 export const getClassAttendanceForUI = (
