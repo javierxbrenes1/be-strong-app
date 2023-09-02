@@ -26,6 +26,7 @@ function PageContainer(props: {
           initial={{ opacity: 0, transform: 'translateY(20px)' }}
           animate={{ opacity: 1, transform: 'translateY(0)' }}
           transition={{ duration: 1 }}
+          style={{ height: '100%' }}
         >
           <PageTitle Icon={Icon} text={text} RightAction={RightAction} />
           {children}

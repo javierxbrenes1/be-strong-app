@@ -13,7 +13,7 @@ import PersonIcon from '@mui/icons-material/Person';
 import PasswordIcon from '@mui/icons-material/Password';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import { useMutation } from '@apollo/client';
-import { useNavigate } from 'react-router';
+import { useNavigate, Navigate } from 'react-router';
 import { LOGIN } from '../../mutations/login';
 import useAuthStore from '../../state/authState';
 import { PATHS } from '../../constants';
@@ -52,6 +52,15 @@ const visible = keyframes`
   }
 `;
 
+const rotate = keyframes`
+from {
+  transform: rotate(0deg)
+}
+to {
+  transform: rotate(360deg)
+}
+`;
+
 const LoginForm = styled(Box)(({ theme }) => ({
   width: '100%',
   height: '100%',
@@ -66,15 +75,35 @@ const LoginForm = styled(Box)(({ theme }) => ({
 }));
 
 const LoginContainer = styled(Box)(({ theme }) => ({
+  position: 'relative',
   display: 'flex',
-  alignItems: 'start',
+  alignItems: 'center',
+  justifyContent: 'center',
   flexDirection: 'column',
   width: '50%',
   margin: '0 auto',
   animation: `${visible} 1s ease-out 1`,
+  overflow: 'hidden',
+  borderRadius: '16px',
+  '&:before': {
+    position: 'absolute',
+    content: '""',
+    height: '150vh',
+    width: '150px',
+    background: theme.palette.primary.main,
+    animation: `${rotate} 6s linear infinite`,
+  },
+  '&:after': {
+    content: '""',
+    position: 'absolute',
+    backgroundColor: '#F8f8f8',
+    inset: '2.5px',
+    borderRadius: '16px',
+  },
   [theme.breakpoints.down('md')]: {
     width: '85%',
   },
+  padding: '16px',
 }));
 
 const Form = styled('form')(() => ({
@@ -83,6 +112,7 @@ const Form = styled('form')(() => ({
   display: 'flex',
   flexDirection: 'column',
   width: '100%',
+  zIndex: 1,
 }));
 
 function LoginPage() {
@@ -90,9 +120,8 @@ function LoginPage() {
   const [password, setPassword] = useState('');
   const [error, setError] = useState(false);
   const [showPwd, setShowPwd] = useState(false);
-  const setAuth = useAuthStore((state) => state.setAuth);
+  const { setAuth, isAuth } = useAuthStore();
   const resetAuth = useAuthStore((state) => state.reset);
-  const navigate = useNavigate();
 
   const [loginMutation, { loading }] = useMutation(LOGIN, {
     onError() {
@@ -101,9 +130,12 @@ function LoginPage() {
     },
     onCompleted(data: { ownerSignIn: { jwt: string } }) {
       setAuth(data.ownerSignIn.jwt);
-      navigate(PATHS.HOME);
     },
   });
+
+  if (isAuth) {
+    return <Navigate to={PATHS.HOME} replace />;
+  }
 
   const handleOnChange = (
     ev: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -144,7 +176,9 @@ function LoginPage() {
       <Logo />
       <LoginForm>
         <LoginContainer>
-          <Typography variant="h6">Bienvenido</Typography>
+          <Typography variant="h6" sx={{ zIndex: '1', alignSelf: 'start' }}>
+            Bienvenido
+          </Typography>
           <Form>
             <FormControl fullWidth>
               <TextField
