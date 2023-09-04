@@ -1,71 +1,45 @@
-import React, { useMemo } from 'react';
-import { styled } from '@mui/material/styles';
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import SportsGymnasticsIcon from '@mui/icons-material/SportsGymnastics';
-import Box from '@mui/material/Box';
-import {
-  Calendar,
-  DateLocalizer,
-  Views,
-  dayjsLocalizer,
-} from 'react-big-calendar';
-import dayjs from 'dayjs';
+import { useState } from 'react';
+import { useLazyQuery } from '@apollo/client';
+import { Box, LinearProgress } from '@mui/material';
 import PageContainer from '../../components/PageContainer';
-import 'react-big-calendar/lib/css/react-big-calendar.css';
-import NewClassLink from './NewClassLink';
-
-const CalendarWrapper = styled(Box)(({ theme }) => ({
-  height: '90%',
-  margin: '10px 0',
-  fontFamily: theme.typography.fontFamily,
-  '& button': {
-    fontFamily: theme.typography.fontFamily,
-  },
-  '& .rbc-toolbar-label': {
-    textTransform: 'capitalize',
-  },
-}));
-
-const gLocalizer = dayjsLocalizer(dayjs);
+import BsDateTimeline from '../../components/BsDateTimeline';
+import NoClass from './noClass';
+import GymClass from '../../../common/models/GymClass';
+import { GET_CLASSES_BY_DATE } from '../../queries/classesPage';
+import GymClasses from './gymClasses';
 
 function ClassesPage() {
-  const formats = useMemo(
-    () => ({
-      timeGutterFormat: (
-        date: Date,
-        culture?: string,
-        localizer?: DateLocalizer
-      ) => localizer?.format(date, 'hh:mm a', culture) ?? '',
-    }),
-    []
-  );
+  const [classes, setClasses] = useState<GymClass[]>([]);
+  const [loadClasses, { loading }] = useLazyQuery<{
+    getGymClasses: GymClass[];
+  }>(GET_CLASSES_BY_DATE, {
+    onCompleted(data) {
+      const { getGymClasses } = data;
+      setClasses(getGymClasses);
+    },
+    onError(err) {
+      throw err;
+    },
+  });
+
+  const onDateAccept = (date: number) => {
+    loadClasses({
+      variables: {
+        gte: date,
+      },
+    });
+  };
 
   return (
-    <PageContainer
-      Icon={SportsGymnasticsIcon}
-      text="Clases"
-      RightAction={<NewClassLink />}
-    >
-      <CalendarWrapper>
-        <Calendar
-          localizer={gLocalizer}
-          culture="es"
-          formats={formats}
-          messages={{
-            week: 'Semana',
-            work_week: 'Semana de trabajo',
-            day: 'Día',
-            month: 'Mes',
-            previous: 'Atrás',
-            next: 'Después',
-            today: 'Hoy',
-            agenda: 'El Diario',
-
-            showMore: (total) => `+${total} más`,
-          }}
-          views={[Views.MONTH, Views.WEEK, Views.DAY]}
-          min={new Date(1972, 0, 1, 17, 0, 0)}
-        />
-      </CalendarWrapper>
+    <PageContainer Icon={SportsGymnasticsIcon} text="Clases">
+      <BsDateTimeline onDateAccept={onDateAccept} />
+      <Box sx={{ margin: '10px 0' }}>
+        {loading && <LinearProgress color="primary" />}
+        {!loading && !classes.length ? <NoClass /> : null}
+        {!loading && classes.length ? <GymClasses classes={classes} /> : null}
+      </Box>
     </PageContainer>
   );
 }

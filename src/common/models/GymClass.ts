@@ -7,8 +7,8 @@ interface GymClass {
   classType?: string;
   classDescription?: string;
   gymClassOnTimes?: {
-    gymClassTime: GymClassTime[];
-  };
+    gymClassTime: GymClassTime;
+  }[];
 }
 
 export default GymClass;

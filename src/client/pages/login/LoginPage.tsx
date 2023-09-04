@@ -13,7 +13,7 @@ import PersonIcon from '@mui/icons-material/Person';
 import PasswordIcon from '@mui/icons-material/Password';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import { useMutation } from '@apollo/client';
-import { useNavigate, Navigate } from 'react-router';
+import { Navigate } from 'react-router';
 import { LOGIN } from '../../mutations/login';
 import useAuthStore from '../../state/authState';
 import { PATHS } from '../../constants';

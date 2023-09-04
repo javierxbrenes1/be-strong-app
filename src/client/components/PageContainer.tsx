@@ -1,15 +1,26 @@
 import { ReactNode } from 'react';
-import { styled } from '@mui/material/styles';
+import { styled, keyframes } from '@mui/material/styles';
 import Box from '@mui/material/Box';
-import { motion } from 'framer-motion';
 import IconType from '../../common/models/Icon';
 import PageTitle from './PageTitle';
 import ErrorBoundary from './ErrorBoundary';
+
+const visible = keyframes`
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+`;
 
 const Container = styled(Box)({
   padding: '24px',
   height: '100%',
   overflowX: 'auto',
+  animation: `${visible} 1s ease-out 1`,
 });
 
 function PageContainer(props: {
@@ -22,15 +33,8 @@ function PageContainer(props: {
   return (
     <ErrorBoundary>
       <Container flexDirection="column">
-        <motion.div
-          initial={{ opacity: 0, transform: 'translateY(20px)' }}
-          animate={{ opacity: 1, transform: 'translateY(0)' }}
-          transition={{ duration: 1 }}
-          style={{ height: '100%' }}
-        >
-          <PageTitle Icon={Icon} text={text} RightAction={RightAction} />
-          {children}
-        </motion.div>
+        <PageTitle Icon={Icon} text={text} RightAction={RightAction} />
+        {children}
       </Container>
     </ErrorBoundary>
   );
