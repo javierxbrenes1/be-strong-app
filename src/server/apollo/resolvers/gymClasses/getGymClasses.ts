@@ -15,8 +15,6 @@ const getGymClasses = async (
     lt: lt ? getIsoTime(lt) : dayjs(gte).add(1, 'day').toISOString(),
   };
 
-  console.log(filters);
-
   const classes = await prisma.gymClass.findMany({
     where: {
       classDate: filters,
@@ -35,7 +33,7 @@ const getGymClasses = async (
     },
   });
 
-  return classes;
+  return classes.map((r) => ({ ...r, classDate: r.classDate?.toISOString() }));
 };
 
 export default getGymClasses;

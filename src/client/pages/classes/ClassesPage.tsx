@@ -16,6 +16,7 @@ import { isoFormatDate } from '../../utils/helpers';
 function ClassesPage() {
   const [classes, setClasses] = useState<GymClass[]>([]);
   const [openAddModal, setOpenAddModal] = useState(false);
+  const [dateInView, setDateInView] = useState<number | null>(null);
   const [loadClasses, { loading }] = useLazyQuery<{
     getGymClasses: GymClass[];
   }>(GET_CLASSES_BY_DATE, {
@@ -29,6 +30,7 @@ function ClassesPage() {
   });
 
   const onDateAccept = (date: number) => {
+    setDateInView(date);
     loadClasses({
       variables: {
         gte: isoFormatDate(dayjs(date).toDate()),
@@ -52,6 +54,7 @@ function ClassesPage() {
       <AddClassModal
         open={openAddModal}
         onClose={() => setOpenAddModal(false)}
+        date={dateInView}
       />
     </>
   );

@@ -5,7 +5,7 @@ const gymClassSchema = `
 
  type GymClass {
    id: Int
-   classDate: Date
+   classDate: String
    classDurationInMinutes: Int
    classType: String
    classDescription: String
@@ -13,7 +13,7 @@ const gymClassSchema = `
  }
 
  input AddClassInput {
-    classDate: Date
+    classDate: String
     classTimeIds: [Int]
     classDurationInMinutes: Int
     classType: String
@@ -21,7 +21,7 @@ const gymClassSchema = `
  }
 
  type Mutation {
-    addGymClass(input: AddClassInput): GymClass
+    addGymClass(input: AddClassInput): GymClass @auth
  }
 
  type Query {

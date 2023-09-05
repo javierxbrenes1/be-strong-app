@@ -12,11 +12,17 @@ import {
   Stack,
   InputLabel,
   Grid,
+  CircularProgress,
 } from '@mui/material';
 import MDEditor from '@uiw/react-md-editor';
 import rehypeSanitize from 'rehype-sanitize';
+import { useMutation } from '@apollo/client';
+import { toast } from 'react-toastify';
 import MultipleSelectChip from '../../components/BsMultiSelect';
 import useCatalogsStore from '../../state/catalogState';
+import { ADD_CLASS } from '../../mutations/addClass';
+import GymClass from '../../../common/models/GymClass';
+import { isoFormatDate } from '../../utils/helpers';
 
 const initialForm = {
   classDescription: '',
@@ -25,10 +31,33 @@ const initialForm = {
   classTimeIds: [],
 };
 
-function AddClassModal(props: { open: boolean; onClose: () => void }) {
-  const { open, onClose } = props;
+function AddClassModal(props: {
+  open: boolean;
+  onClose: () => void;
+  date: number | null;
+}) {
+  const { open, onClose, date } = props;
   const gymClassesTimes = useCatalogsStore((state) => state.gymClassUiLabels);
   const [form, setForm] = useState({ ...initialForm });
+
+  const [addClass, { loading }] = useMutation<{ addGymClass: GymClass }>(
+    ADD_CLASS,
+    {
+      refetchQueries: ['getGymClasses'],
+      onCompleted() {
+        handleClose(null, 'escapeKeyDown');
+      },
+      onError(err) {
+        console.error(err);
+        toast.error(
+          'Hubo un error creando la clase, intenta nuevamente, o refresca el browser',
+          {
+            position: 'top-right',
+          }
+        );
+      },
+    }
+  );
 
   const updateForm = (name: string, val: string | number | string[]) => {
     setForm((prev) => ({ ...prev, [name]: val }));
@@ -49,7 +78,19 @@ function AddClassModal(props: { open: boolean; onClose: () => void }) {
     onClose();
   };
 
-  console.log({ form, isValid: isValidForm() });
+  const handleAddClick = () => {
+    if (!date) return;
+    addClass({
+      variables: {
+        input: {
+          ...form,
+          classDurationInMinutes: Number(form.classDurationInMinutes),
+          classTimeIds: form.classTimeIds.map(Number),
+          classDate: isoFormatDate(new Date(date)),
+        },
+      },
+    });
+  };
 
   return (
     <Dialog fullScreen open={open} onClose={handleClose} disableEscapeKeyDown>
@@ -121,8 +162,10 @@ function AddClassModal(props: { open: boolean; onClose: () => void }) {
           color="success"
           variant="contained"
           sx={{ color: '#fff' }}
-          disabled={!isValidForm()}
+          onClick={handleAddClick}
+          disabled={!isValidForm() || loading}
         >
+          {loading && <CircularProgress color="primary" size="25px" />}
           Agregar
         </Button>
         <Button

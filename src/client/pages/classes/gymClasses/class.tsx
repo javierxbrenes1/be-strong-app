@@ -4,7 +4,6 @@ import {
   AccordionSummary,
   Typography,
   Box,
-  Stack,
   styled,
 } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
@@ -16,9 +15,12 @@ import ClassSchedules from './classSchedules';
 const MarkDown = styled(ReactMarkdown)(({ theme }) => ({
   fontFamily: theme.typography.fontFamily,
   whiteSpace: 'pre-wrap',
-  padding: '5px',
   background: theme.palette.grey[100],
   borderRadius: '10px',
+  padding: '10px',
+  '& ul': {
+    margin: '0 1rem',
+  },
 }));
 
 function Class(props: { gymClass: GymClass }) {
@@ -41,20 +43,24 @@ function Class(props: { gymClass: GymClass }) {
         </Typography>
       </AccordionSummary>
       <AccordionDetails>
-        <Stack flexDirection="row" gap="1rem">
+        <Box>
           <Box>
-            <Typography fontWeight="700">Tiempo de clase</Typography>
-            <Typography>{gymClass.classDurationInMinutes} Minutos</Typography>
+            <Typography fontWeight="700" component="span">
+              Tiempo de clase:
+            </Typography>
+            <Typography component="span" sx={{ paddingLeft: '10px' }}>
+              {gymClass.classDurationInMinutes} Minutos
+            </Typography>
           </Box>
           {gymClass.classDescription && (
             <Box>
-              <Typography fontWeight="700">Descripción</Typography>
+              <Typography fontWeight="700">Descripción:</Typography>
               <MarkDown remarkPlugins={[remarkGfm]}>
                 {gymClass.classDescription}
               </MarkDown>
             </Box>
           )}
-        </Stack>
+        </Box>
         <ClassSchedules
           classId={gymClass.id}
           schedules={gymClass.gymClassOnTimes?.map((g) => g.gymClassTime) ?? []}
