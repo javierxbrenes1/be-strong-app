@@ -11,9 +11,10 @@ import Member from '../../../common/models/Member';
 import GymClass from '../../../common/models/GymClass';
 import getHomeTitle from './HomeTitle';
 import PageContainer from '../../components/PageContainer';
+import { isoFormatDate } from '../../utils/helpers';
 
 const getCurrentYear = (): number => new Date().getFullYear();
-const getTodayDate = () => new Date().getTime();
+
 type QueryType = {
   getMembersCount: number;
   getGymClassesCount: number;
@@ -32,7 +33,7 @@ function HomePage() {
     getData({
       variables: {
         year: getCurrentYear(),
-        today: getTodayDate(),
+        today: isoFormatDate(new Date()),
       },
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps

@@ -3,15 +3,19 @@ import SportsGymnasticsIcon from '@mui/icons-material/SportsGymnastics';
 import { useState } from 'react';
 import { useLazyQuery } from '@apollo/client';
 import { Box, LinearProgress } from '@mui/material';
+import dayjs from 'dayjs';
 import PageContainer from '../../components/PageContainer';
 import BsDateTimeline from '../../components/BsDateTimeline';
 import NoClass from './noClass';
 import GymClass from '../../../common/models/GymClass';
 import { GET_CLASSES_BY_DATE } from '../../queries/classesPage';
 import GymClasses from './gymClasses';
+import AddClassModal from './addClassModal';
+import { isoFormatDate } from '../../utils/helpers';
 
 function ClassesPage() {
   const [classes, setClasses] = useState<GymClass[]>([]);
+  const [openAddModal, setOpenAddModal] = useState(false);
   const [loadClasses, { loading }] = useLazyQuery<{
     getGymClasses: GymClass[];
   }>(GET_CLASSES_BY_DATE, {
@@ -27,20 +31,29 @@ function ClassesPage() {
   const onDateAccept = (date: number) => {
     loadClasses({
       variables: {
-        gte: date,
+        gte: isoFormatDate(dayjs(date).toDate()),
+        lt: isoFormatDate(dayjs(date).add(1, 'day').toDate()),
       },
     });
   };
 
   return (
-    <PageContainer Icon={SportsGymnasticsIcon} text="Clases">
-      <BsDateTimeline onDateAccept={onDateAccept} />
-      <Box sx={{ margin: '10px 0' }}>
-        {loading && <LinearProgress color="primary" />}
-        {!loading && !classes.length ? <NoClass /> : null}
-        {!loading && classes.length ? <GymClasses classes={classes} /> : null}
-      </Box>
-    </PageContainer>
+    <>
+      <PageContainer Icon={SportsGymnasticsIcon} text="Clases">
+        <BsDateTimeline onDateAccept={onDateAccept} />
+        <Box sx={{ margin: '10px 0' }}>
+          {loading && <LinearProgress color="primary" />}
+          {!loading && !classes.length ? (
+            <NoClass onClick={() => setOpenAddModal(true)} />
+          ) : null}
+          {!loading && classes.length ? <GymClasses classes={classes} /> : null}
+        </Box>
+      </PageContainer>
+      <AddClassModal
+        open={openAddModal}
+        onClose={() => setOpenAddModal(false)}
+      />
+    </>
   );
 }
 

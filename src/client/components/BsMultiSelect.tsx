@@ -6,6 +6,7 @@ import { SelectChangeEvent } from '@mui/material/Select';
 import Chip from '@mui/material/Chip';
 import Checkbox from '@mui/material/Checkbox';
 import ListItemText from '@mui/material/ListItemText';
+import { InputLabel } from '@mui/material';
 import BsSelect from './BsSelect';
 
 const ITEM_HEIGHT = 48;
@@ -25,11 +26,12 @@ type Props = {
     label: string;
   }[];
   value?: string[];
+  selectLabel?: string;
   onChange: (vals: string[]) => void;
 };
 
 export default function MultipleSelectChip(props: Props) {
-  const { options, value = [], onChange } = props;
+  const { options, value = [], onChange, selectLabel } = props;
 
   const handleChange = (event: SelectChangeEvent<unknown>) => {
     const { target } = event;
@@ -56,24 +58,29 @@ export default function MultipleSelectChip(props: Props) {
   };
 
   return (
-    <BsSelect
-      labelId="multiple-selection"
-      id="multiple-selection"
-      multiple
-      variant="outlined"
-      sx={{ '& .MuiInputBase-input': { paddingY: '16px' } }}
-      value={value}
-      onChange={handleChange}
-      input={<OutlinedInput id="multiple-selection" />}
-      renderValue={handleRenderValue}
-      MenuProps={MenuProps}
-    >
-      {options.map((option: { value: string; label: string }) => (
-        <MenuItem key={option.value} value={option.value}>
-          <Checkbox checked={value.indexOf(option.value) > -1} />
-          <ListItemText primary={option.label} />
-        </MenuItem>
-      ))}
-    </BsSelect>
+    <>
+      {selectLabel && (
+        <InputLabel id="multiple-selection-label">{selectLabel}</InputLabel>
+      )}
+      <BsSelect
+        labelId="multiple-selection-label"
+        id="multiple-selection"
+        multiple
+        variant="outlined"
+        sx={{ '& .MuiInputBase-input': { paddingY: '16px' } }}
+        value={value}
+        onChange={handleChange}
+        input={<OutlinedInput id="multiple-selection" />}
+        renderValue={handleRenderValue}
+        MenuProps={MenuProps}
+      >
+        {options.map((option: { value: string; label: string }) => (
+          <MenuItem key={option.value} value={option.value}>
+            <Checkbox checked={value.indexOf(option.value) > -1} />
+            <ListItemText primary={option.label} />
+          </MenuItem>
+        ))}
+      </BsSelect>
+    </>
   );
 }

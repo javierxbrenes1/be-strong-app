@@ -26,7 +26,7 @@ const gymClassSchema = `
 
  type Query {
     getGymClassesCount(year: Int): Int @auth
-    getGymClasses(gte: Date!, lte: Date ): [GymClass] @auth
+    getGymClasses(gte: String!, lt: String): [GymClass] @auth
  }
  `;
 

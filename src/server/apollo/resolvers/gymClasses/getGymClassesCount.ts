@@ -8,12 +8,16 @@ const getGymClassesCount = async (
   const { prisma } = context;
   const { year } = args;
 
+  const classDate = {
+    gte: new Date(`${year}-01-01`).toISOString(),
+    lt: new Date(`${year + 1}-01-01`).toISOString(),
+  };
+
+  console.log({ getGymClassesCount: classDate });
+
   const counter = await prisma.gymClass.count({
     where: {
-      classDate: {
-        gte: new Date(`${year}-01-01 00:00:00`),
-        lte: new Date(`${year}-12-31 23:59:59`),
-      },
+      classDate,
     },
   });
 

@@ -39,7 +39,7 @@ const memberSchema = `
 		getMember(code: String): Member @auth
 		getVisitMember(code: String): VisitMember
 		getMembersCount: Int @auth
-		getBirthdateMembers(date: Date): [Member] @auth
+		getBirthdateMembers(date: String): [Member] @auth
 		getFilteredMembers(column: String, comparator: String, filter: String): [Member] @auth
 	}
 

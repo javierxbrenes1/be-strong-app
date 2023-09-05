@@ -1,23 +1,25 @@
+import dayjs from 'dayjs';
+import { getIsoTime } from '../../../utils/dateshelper';
 import { BeStrongContext } from '../../context';
 
 const getGymClasses = async (
   _parent: unknown,
-  args: { gte: Date; lte?: Date },
+  args: { gte: string; lt: string },
   context: BeStrongContext
 ) => {
   const { prisma } = context;
+  const { gte, lt } = args;
 
-  const { gte, lte } = args;
-  gte.setHours(0, 0, 0);
-  const lteDate = lte || new Date(gte);
-  lteDate.setHours(23, 59, 59);
+  const filters = {
+    gte: getIsoTime(gte),
+    lt: lt ? getIsoTime(lt) : dayjs(gte).add(1, 'day').toISOString(),
+  };
+
+  console.log(filters);
 
   const classes = await prisma.gymClass.findMany({
     where: {
-      classDate: {
-        gte,
-        lte: lteDate,
-      },
+      classDate: filters,
     },
     orderBy: [
       {

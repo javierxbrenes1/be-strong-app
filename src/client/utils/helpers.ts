@@ -105,3 +105,5 @@ export function buildMeasureChartDataForAllMeasures(measures: Measure[]) {
     numbers,
   };
 }
+
+export const isoFormatDate = (date: Date) => dayjs(date).format('YYYY-MM-DD');

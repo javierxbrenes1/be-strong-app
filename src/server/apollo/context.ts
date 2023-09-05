@@ -6,6 +6,12 @@ const prisma = new PrismaClient({
   log: ['query', 'info', 'warn', 'error'],
 });
 
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+/** @ts-ignore */
+prisma.$on('query', (e) => {
+  console.log(e);
+});
+
 export interface BeStrongContext {
   server: FastifyInstance;
   prisma: PrismaClient;

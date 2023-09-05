@@ -11,3 +11,9 @@ export const getDateAndTimeWithLimit = (
 
   return newDate;
 };
+
+/**
+ * Get the Iso time of a date
+ * @param date Always in yyyy-mm-dd
+ */
+export const getIsoTime = (date: string) => new Date(date).toISOString();

@@ -4,7 +4,9 @@ import Stack from '@mui/material/Stack';
 import Box from '@mui/material/Box';
 import BsButton from '../../components/BsButton';
 
-function NoClass() {
+function NoClass(props: { onClick: () => void }) {
+  const { onClick } = props;
+
   return (
     <Stack justifyContent="center" alignItems="center" rowGap="1rem">
       {/** @ts-ignore */}
@@ -19,12 +21,7 @@ function NoClass() {
         Parece que no tienes ninguna clase para este día.
       </Typography>
       <Box>
-        <BsButton
-          text="Nueva Clase"
-          onClick={() => {
-            console.log('here');
-          }}
-        />
+        <BsButton text="Nueva Clase" onClick={onClick} />
       </Box>
     </Stack>
   );

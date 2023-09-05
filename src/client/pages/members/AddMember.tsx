@@ -31,16 +31,7 @@ import Errors from '../../components/Errors';
 import Member from '../../../common/models/Member';
 import BsLocalizationProvider from '../../components/BsLocalizationProvider';
 import modifyGetAllMembersQuery from '../../cacheHelpers/getAllMembersModifier';
-
-const FormContainer = styled('form')(({ theme }) => ({
-  display: 'grid',
-  gridTemplateColumns: '1fr',
-  gap: '20px',
-  margin: '16px 0',
-  [theme.breakpoints.up('sm')]: {
-    gridTemplateColumns: '1fr 1fr',
-  },
-}));
+import FormContainer from '../../components/BsFormContainer';
 
 const ObservationContainer = styled(FormControl)(({ theme }) => ({
   [theme.breakpoints.up('sm')]: {
