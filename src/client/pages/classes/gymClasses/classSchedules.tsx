@@ -4,10 +4,11 @@ import GymClassTime from '../../../../common/models/GymClassTime';
 import { getGymClassTimeForUI } from '../../../utils/memberUtils';
 
 function ClassSchedules(props: {
+  day?: string;
   classId: number;
   schedules?: GymClassTime[];
 }) {
-  const { schedules, classId } = props;
+  const { schedules, classId, day } = props;
   const [tabIndex, setTabIndex] = useState(0);
   const [selectedGymClassTime, setSelectedGymClassTime] =
     useState<GymClassTime | null>(null);

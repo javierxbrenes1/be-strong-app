@@ -24,12 +24,12 @@ import { ADD_CLASS } from '../../mutations/addClass';
 import GymClass from '../../../common/models/GymClass';
 import { isoFormatDate } from '../../utils/helpers';
 
-const initialForm = {
-  classDescription: '',
-  classDurationInMinutes: '',
-  classType: '',
-  classTimeIds: [],
-};
+const initialForm: {
+  classDescription?: string;
+  classDurationInMinutes?: string;
+  classType: string;
+  classTimeIds: string[];
+} = { classType: '', classTimeIds: [] };
 
 function AddClassModal(props: {
   open: boolean;
@@ -63,12 +63,8 @@ function AddClassModal(props: {
     setForm((prev) => ({ ...prev, [name]: val }));
   };
 
-  const isValidForm = () => {
-    const valid = Object.values(form).every((v) =>
-      Array.isArray(v) ? v.length > 0 : !!v
-    );
-    return valid;
-  };
+  const isValidForm = () => form.classType && form.classTimeIds.length;
+
   const handleClose = (
     _ev: unknown,
     reason: 'backdropClick' | 'escapeKeyDown'
@@ -80,11 +76,14 @@ function AddClassModal(props: {
 
   const handleAddClick = () => {
     if (!date) return;
+
     addClass({
       variables: {
         input: {
           ...form,
-          classDurationInMinutes: Number(form.classDurationInMinutes),
+          ...(form.classDurationInMinutes
+            ? { classDurationInMinutes: Number(form.classDurationInMinutes) }
+            : {}),
           classTimeIds: form.classTimeIds.map(Number),
           classDate: isoFormatDate(new Date(date)),
         },
@@ -104,7 +103,7 @@ function AddClassModal(props: {
             <FormControl fullWidth component={Grid} item md={4}>
               <TextField
                 name="classType"
-                label="Tipo de clase"
+                label="Tipo de clase *"
                 variant="outlined"
                 value={form.classType}
                 onChange={(ev) => {
@@ -132,7 +131,7 @@ function AddClassModal(props: {
                   onChange={(vals) => {
                     updateForm('classTimeIds', vals);
                   }}
-                  selectLabel="Horarios"
+                  selectLabel="Horarios *"
                 />
               </FormControl>
             </Grid>

@@ -3,6 +3,11 @@ const gymClassSchema = `
    gymClassTime: GymClassTime
  }
 
+ type AttendanceList {
+   gymClassTimeId: Int
+   members: [Member]
+ }
+
  type GymClass {
    id: Int
    classDate: String
@@ -10,6 +15,7 @@ const gymClassSchema = `
    classType: String
    classDescription: String
    gymClassOnTimes: [GymClassOnTimes]
+   attendanceList: [AttendanceList]
  }
 
  input AddClassInput {

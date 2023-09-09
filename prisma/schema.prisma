@@ -9,10 +9,11 @@ datasource db {
 }
 
 model gymClassTime {
-  id              Int               @id @default(autoincrement())
-  isoTime         String            @db.VarChar(16)
-  member          member[]
-  gymClassOnTimes gymClassOnTimes[]
+  id                  Int                   @id @default(autoincrement())
+  isoTime             String                @db.VarChar(16)
+  member              member[]
+  gymClassOnTimes     gymClassOnTimes[]
+  memberAttendanceLog memberAttendanceLog[]
 }
 
 model gymClass {
@@ -68,11 +69,13 @@ model memberAttendance {
 }
 
 model memberAttendanceLog {
-  id         Int      @id @default(autoincrement())
-  memberCode String   @db.VarChar(16)
-  gymClassId Int      @default(autoincrement())
-  gymClass   gymClass @relation(fields: [gymClassId], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  member     member   @relation(fields: [memberCode], references: [code], onDelete: NoAction, onUpdate: NoAction)
+  id             Int          @id @default(autoincrement())
+  memberCode     String       @db.VarChar(16)
+  gymClassId     Int          @db.Integer
+  gymClassTimeId Int          @db.Integer
+  gymClass       gymClass     @relation(fields: [gymClassId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  gymClassTime   gymClassTime @relation(fields: [gymClassTimeId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  member         member       @relation(fields: [memberCode], references: [code], onDelete: NoAction, onUpdate: NoAction)
 }
 
 model memberMeasures {

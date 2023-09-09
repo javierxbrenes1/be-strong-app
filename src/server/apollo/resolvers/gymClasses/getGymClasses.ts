@@ -33,7 +33,10 @@ const getGymClasses = async (
     },
   });
 
-  return classes.map((r) => ({ ...r, classDate: r.classDate?.toISOString() }));
+  return classes.map((r) => ({
+    ...r,
+    classDate: r.classDate?.toISOString().split('T')[0],
+  }));
 };
 
 export default getGymClasses;

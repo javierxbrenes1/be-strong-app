@@ -13,5 +13,13 @@ export const GYM_CLASS_ALL_FIELDS = gql`
         isoTime
       }
     }
+    attendanceList {
+      gymClassTimeId
+      members {
+        avatar
+        code
+        name
+      }
+    }
   }
 `;

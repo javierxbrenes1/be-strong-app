@@ -91,6 +91,16 @@ export const DAYS = {
   sunday: 'Domingo',
 };
 
+export const INDEX_DAYS = [
+  'sunday',
+  'monday',
+  'tuesday',
+  'wednesda',
+  'thursday',
+  'friday',
+  'saturday',
+];
+
 export const MeasuresColorMap = {
   [Measures.weight]: '#4c9173',
   [Measures.bodyMassIndex]: '#453953',

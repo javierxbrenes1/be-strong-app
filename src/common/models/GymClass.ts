@@ -2,7 +2,7 @@ import GymClassTime from './GymClassTime';
 
 interface GymClass {
   id: number;
-  classDate?: Date;
+  classDate?: string;
   classDurationInMinutes?: number;
   classType?: string;
   classDescription?: string;
