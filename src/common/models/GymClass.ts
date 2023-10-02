@@ -1,4 +1,10 @@
 import GymClassTime from './GymClassTime';
+import Member from './Member';
+
+export interface AttendanceList {
+  gymClassTimeId: number;
+  members: Member[];
+}
 
 interface GymClass {
   id: number;
@@ -9,6 +15,7 @@ interface GymClass {
   gymClassOnTimes?: {
     gymClassTime: GymClassTime;
   }[];
+  attendanceList: AttendanceList[];
 }
 
 export default GymClass;

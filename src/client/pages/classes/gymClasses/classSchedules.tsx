@@ -2,13 +2,15 @@ import { useState, useEffect } from 'react';
 import { Box, Tabs, Tab } from '@mui/material';
 import GymClassTime from '../../../../common/models/GymClassTime';
 import { getGymClassTimeForUI } from '../../../utils/memberUtils';
+import { AttendanceList } from '../../../../common/models/GymClass';
+import Attendance from './attendance';
 
 function ClassSchedules(props: {
-  day?: string;
+  attendanceList: AttendanceList[];
   classId: number;
   schedules?: GymClassTime[];
 }) {
-  const { schedules, classId, day } = props;
+  const { schedules, classId, attendanceList } = props;
   const [tabIndex, setTabIndex] = useState(0);
   const [selectedGymClassTime, setSelectedGymClassTime] =
     useState<GymClassTime | null>(null);
@@ -44,7 +46,10 @@ function ClassSchedules(props: {
           })}
         </Tabs>
       </Box>
-      <Box>Here Render list of assistants</Box>
+      <Attendance
+        activeTimeId={selectedGymClassTime?.id}
+        attendanceList={attendanceList}
+      />
     </Box>
   );
 }

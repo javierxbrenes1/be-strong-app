@@ -9,13 +9,8 @@ import {
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
-import dayjs from 'dayjs';
-import utc from 'dayjs/plugin/utc';
 import GymClass from '../../../../common/models/GymClass';
 import ClassSchedules from './classSchedules';
-import { INDEX_DAYS } from '../../../labels';
-
-dayjs.extend(utc);
 
 const MarkDown = styled(ReactMarkdown)(({ theme }) => ({
   fontFamily: theme.typography.fontFamily,
@@ -30,11 +25,6 @@ const MarkDown = styled(ReactMarkdown)(({ theme }) => ({
 
 function Class(props: { gymClass: GymClass }) {
   const { gymClass } = props;
-
-  const dayIndex = gymClass.classDate
-    ? dayjs(gymClass.classDate.split('T')[0]).day()
-    : 7;
-  const classDay = INDEX_DAYS[dayIndex];
 
   return (
     <Accordion defaultExpanded>
@@ -74,9 +64,9 @@ function Class(props: { gymClass: GymClass }) {
           )}
         </Box>
         <ClassSchedules
-          day={classDay}
           classId={gymClass.id}
           schedules={gymClass.gymClassOnTimes?.map((g) => g.gymClassTime) ?? []}
+          attendanceList={gymClass.attendanceList}
         />
       </AccordionDetails>
     </Accordion>
