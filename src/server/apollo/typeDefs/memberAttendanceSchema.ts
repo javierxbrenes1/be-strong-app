@@ -21,8 +21,18 @@ const memberAttendanceSchema = `
         sunday: Boolean
     }
 
+    input AddMembersAttendancesInput {
+        memberCodes: [String]!
+        gymClassId: ID!
+        gymClassTimeId: ID!
+    }
+
     type Query {
         getMemberAttendance(memberCode: String!): MemberAttendance @auth
+    }
+
+    type Mutation {
+        addMembersAttendances(input: AddMembersAttendancesInput!): Boolean @auth
     }
 `;
 

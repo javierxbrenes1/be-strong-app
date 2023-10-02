@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState } from 'react';
 import Grid from '@mui/material/Grid';
 import { useNavigate } from 'react-router';
 import Box from '@mui/material/Box/Box';
@@ -7,7 +7,7 @@ import MemberCard from './MemberCard';
 import AddMeasures from './AddMeasure';
 import { PATHS } from '../../constants';
 
-function MemberCardsVisualization(props: { members: Member[] }) {
+function MemberCardsVisualization(props: { members?: Member[] }) {
   const { members } = props;
   const [selectedMember, setSelectedMember] = useState<Member | null>(null);
   const [openMeasuresDialog, setOpenMeasuresDialog] = useState(false);
@@ -30,7 +30,7 @@ function MemberCardsVisualization(props: { members: Member[] }) {
   return (
     <Box marginY="10px">
       <Grid container columnSpacing="16px" rowSpacing="16px">
-        {members.map((member) => (
+        {members?.map((member) => (
           <Grid item sm={4} md={3} width="100%" key={member.code}>
             <MemberCard
               member={member}

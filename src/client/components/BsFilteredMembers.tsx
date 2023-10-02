@@ -1,17 +1,20 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect, ReactNode } from 'react';
 import { useLazyQuery } from '@apollo/client';
 import { LinearProgress } from '@mui/material';
-import Member from '../../../common/models/Member';
-import { GET_FILTERED_MEMBERS } from '../../queries/membersPage';
-import MemberCardsVisualization from './MemberCardsVisualization';
-import { apolloClient } from '../../GraphqlClient';
-import modifyGetAllMembersQuery from '../../cacheHelpers/getAllMembersModifier';
+import Member from '../../common/models/Member';
+import { GET_FILTERED_MEMBERS } from '../queries/membersPage';
+import { apolloClient } from '../GraphqlClient';
+import modifyGetAllMembersQuery from '../cacheHelpers/getAllMembersModifier';
 
-function FilteredMembers(props: { filter: string; allMembers: Member[] }) {
-  const { filter, allMembers } = props;
+function BsFilteredMembers(props: {
+  filter: string;
+  allMembers: Member[];
+  showWithoutFilter?: boolean;
+  children: ReactNode;
+}) {
+  const { filter, allMembers, showWithoutFilter, children } = props;
   const [filteredMembers, setFilteredMembers] = useState<Member[]>([]);
   const validFilter = filter.length >= 3;
-
   const [getFilteredMembers, { loading }] = useLazyQuery<{
     getFilteredMembers: Member[];
   }>(GET_FILTERED_MEMBERS, {
@@ -50,22 +53,38 @@ function FilteredMembers(props: { filter: string; allMembers: Member[] }) {
           filter,
         },
       });
-    } else {
-      setFilteredMembers([]);
+      return;
     }
+    if (!filter && showWithoutFilter) {
+      setFilteredMembers(allMembers);
+      return;
+    }
+    setFilteredMembers([]);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filter, allMembers, validFilter]);
 
-  if (!validFilter) {
+  if (!validFilter && !showWithoutFilter) {
     return null;
   }
+
+  const childrenWithMembers = React.Children.map(
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    children,
+    (child: React.ReactElement<any>) =>
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+      React.cloneElement(child, {
+        ...child.props,
+        members: filteredMembers,
+      })
+  );
 
   return (
     <>
       {loading && <LinearProgress />}
-      <MemberCardsVisualization members={filteredMembers} />
+      {childrenWithMembers}
     </>
   );
 }
 
-export default FilteredMembers;
+export default BsFilteredMembers;

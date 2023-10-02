@@ -1,6 +1,6 @@
 generator client {
   provider      = "prisma-client-js"
-  binaryTargets = ["debian-openssl-3.0.x"]
+  binaryTargets = ["native", "debian-openssl-3.0.x"]
 }
 
 datasource db {
@@ -10,10 +10,11 @@ datasource db {
 
 model gymClassTime {
   id                  Int                   @id @default(autoincrement())
-  isoTime             String                @db.VarChar(16)
-  member              member[]
+  isoTime             String                @db.VarChar(16) @unique
+  member              member[]              
   gymClassOnTimes     gymClassOnTimes[]
   memberAttendanceLog memberAttendanceLog[]
+
 }
 
 model gymClass {

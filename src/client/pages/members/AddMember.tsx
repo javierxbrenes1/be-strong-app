@@ -70,6 +70,9 @@ function AddMember(props: { addNewMemberToList?: (member: Member) => void }) {
           addNewMemberToList(data.addMember);
         }
         setOpen(false);
+        setReadyToBeSaved(false);
+        setMemberDetails({});
+        setErrors([]);
         toast.success('Nuevo miembro agregado satisfactoriamente.', {
           position: 'top-right',
         });

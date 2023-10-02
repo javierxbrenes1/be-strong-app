@@ -1,8 +1,7 @@
 -- CreateTable
 CREATE TABLE "gymClassTime" (
     "id" SERIAL NOT NULL,
-    "time" VARCHAR(6) NOT NULL,
-    "dayPeriod" VARCHAR(2) NOT NULL,
+    "isoTime" VARCHAR(16) NOT NULL,
 
     CONSTRAINT "gymClassTime_pkey" PRIMARY KEY ("id")
 );
@@ -11,7 +10,7 @@ CREATE TABLE "gymClassTime" (
 CREATE TABLE "gymClass" (
     "id" SERIAL NOT NULL,
     "classDate" DATE,
-    "classTime" INTEGER,
+    "classDurationInMinutes" INTEGER,
     "classType" VARCHAR(50),
     "classDescription" TEXT,
 
@@ -63,7 +62,8 @@ CREATE TABLE "memberAttendance" (
 CREATE TABLE "memberAttendanceLog" (
     "id" SERIAL NOT NULL,
     "memberCode" VARCHAR(16) NOT NULL,
-    "gymClassId" SERIAL NOT NULL,
+    "gymClassId" INTEGER NOT NULL,
+    "gymClassTimeId" INTEGER NOT NULL,
 
     CONSTRAINT "memberAttendanceLog_pkey" PRIMARY KEY ("id")
 );
@@ -130,6 +130,9 @@ ALTER TABLE "memberAttendance" ADD CONSTRAINT "memberAttendance_memberCode_fkey"
 
 -- AddForeignKey
 ALTER TABLE "memberAttendanceLog" ADD CONSTRAINT "memberAttendanceLog_gymClassId_fkey" FOREIGN KEY ("gymClassId") REFERENCES "gymClass"("id") ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+-- AddForeignKey
+ALTER TABLE "memberAttendanceLog" ADD CONSTRAINT "memberAttendanceLog_gymClassTimeId_fkey" FOREIGN KEY ("gymClassTimeId") REFERENCES "gymClassTime"("id") ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 -- AddForeignKey
 ALTER TABLE "memberAttendanceLog" ADD CONSTRAINT "memberAttendanceLog_memberCode_fkey" FOREIGN KEY ("memberCode") REFERENCES "member"("code") ON DELETE NO ACTION ON UPDATE NO ACTION;
