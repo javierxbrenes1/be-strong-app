@@ -1,5 +1,8 @@
+import attendanceList from '../gymClasses/attendanceList';
 import getMember from '../member/getMember';
+import addMembersAttendances from './addMembersAttendances';
 import getMemberAttendance from './getMemberAttendance';
+import removeMembersAttendances from './removeMembersAttendances';
 
 const memberAttendanceResolvers = {
   Query: {
@@ -7,6 +10,13 @@ const memberAttendanceResolvers = {
   },
   MemberAttendance: {
     member: getMember,
+  },
+  Mutation: {
+    addMembersAttendances,
+    removeMembersAttendances,
+  },
+  GymClass: {
+    attendanceList,
   },
 };
 

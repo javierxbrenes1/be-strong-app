@@ -6,32 +6,22 @@ type Input = {
   gymClassTimeId: number;
 };
 
-const addMembersAttendances = async (
+const removeMembersAttendances = async (
   parent: unknown,
   args: { input: Input },
   context: BeStrongContext
 ) => {
   const { memberCodes, gymClassId, gymClassTimeId } = args.input;
   const { prisma } = context;
-  await prisma.$transaction(
-    memberCodes.map((memberCode) =>
-      prisma.memberAttendanceLog.upsert({
-        where: {
-          memberCode_gymClassId_gymClassTimeId: {
-            memberCode,
-            gymClassId,
-            gymClassTimeId,
-          },
-        },
-        update: {},
-        create: {
-          memberCode,
-          gymClassId,
-          gymClassTimeId,
-        },
-      })
-    )
-  );
+  await prisma.memberAttendanceLog.deleteMany({
+    where: {
+      gymClassId,
+      gymClassTimeId,
+      memberCode: {
+        in: memberCodes,
+      },
+    },
+  });
 
   const gymClass = await prisma.gymClass.findUnique({
     where: {
@@ -49,4 +39,4 @@ const addMembersAttendances = async (
   return gymClass;
 };
 
-export default addMembersAttendances;
+export default removeMembersAttendances;

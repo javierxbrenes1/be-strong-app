@@ -1,7 +1,7 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { Box, Tabs, Tab } from '@mui/material';
 import GymClassTime from '../../../../common/models/GymClassTime';
-import { getGymClassTimeForUI } from '../../../utils/memberUtils';
+import { getGymClassTimeForUI, sortIsoTimes } from '../../../utils/memberUtils';
 import { AttendanceList } from '../../../../common/models/GymClass';
 import Attendance from './attendance';
 
@@ -15,9 +15,15 @@ function ClassSchedules(props: {
   const [selectedGymClassTime, setSelectedGymClassTime] =
     useState<GymClassTime | null>(null);
 
+  const sortedSchedules = useMemo(
+    () =>
+      [...(schedules ?? [])].sort((a, b) => sortIsoTimes(a.isoTime, b.isoTime)),
+    [schedules]
+  );
+
   useEffect(() => {
-    if (schedules) {
-      setSelectedGymClassTime(schedules[tabIndex]);
+    if (sortedSchedules) {
+      setSelectedGymClassTime(sortedSchedules[tabIndex]);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [tabIndex]);
@@ -33,7 +39,7 @@ function ClassSchedules(props: {
     <Box sx={{ marginTop: '10px' }}>
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
         <Tabs value={tabIndex} onChange={handleChange}>
-          {schedules.map((s) => {
+          {sortedSchedules.map((s) => {
             const id = `${classId}-${s.id}`;
             return (
               <Tab
@@ -47,6 +53,7 @@ function ClassSchedules(props: {
         </Tabs>
       </Box>
       <Attendance
+        gymClassId={classId}
         activeTimeId={selectedGymClassTime?.id}
         attendanceList={attendanceList}
       />

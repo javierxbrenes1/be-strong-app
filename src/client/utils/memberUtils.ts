@@ -3,11 +3,35 @@ import { DAYS } from '../labels';
 import GymClassTime from '../../common/models/GymClassTime';
 import MemberAttendance from '../../common/models/MemberAttendance';
 
+export const parseIsoTimeToDate = (
+  isoTime: string,
+  asDayJs?: boolean
+): dayjs.Dayjs | Date => {
+  const dateAsString = `1971-01-01${isoTime}`;
+  if (asDayJs) {
+    return dayjs(dateAsString);
+  }
+  return new Date(dateAsString);
+};
+
+export const sortIsoTimes = (a: string, b: string) => {
+  const date1 = parseIsoTimeToDate(a) as Date;
+  const date2 = parseIsoTimeToDate(b) as Date;
+  const hoursAndMinutesA = date1.getHours() * 60 + date1.getMinutes();
+  const hoursAndMinutesB = date2.getHours() * 60 + date2.getMinutes();
+  if (hoursAndMinutesA < hoursAndMinutesB) {
+    return -1;
+  }
+  if (hoursAndMinutesA > hoursAndMinutesB) {
+    return 1;
+  }
+  return 0;
+};
+
 export const getGymClassTimeForUI = (gymClassTime?: GymClassTime) => {
   if (!gymClassTime) return '';
   const { isoTime } = gymClassTime;
-  const date = dayjs(`1971-01-01${isoTime}`);
-
+  const date = parseIsoTimeToDate(isoTime, true) as dayjs.Dayjs;
   return date.format('hh:mm A');
 };
 

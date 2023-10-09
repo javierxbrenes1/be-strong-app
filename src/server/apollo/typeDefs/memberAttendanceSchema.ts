@@ -21,10 +21,10 @@ const memberAttendanceSchema = `
         sunday: Boolean
     }
 
-    input AddMembersAttendancesInput {
+    input MembersAttendancesInput {
         memberCodes: [String]!
-        gymClassId: ID!
-        gymClassTimeId: ID!
+        gymClassId: Int!
+        gymClassTimeId: Int!
     }
 
     type Query {
@@ -32,7 +32,8 @@ const memberAttendanceSchema = `
     }
 
     type Mutation {
-        addMembersAttendances(input: AddMembersAttendancesInput!): Boolean @auth
+        addMembersAttendances(input: MembersAttendancesInput!): GymClass @auth
+        removeMembersAttendances(input: MembersAttendancesInput!): GymClass @auth
     }
 `;
 

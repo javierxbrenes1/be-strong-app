@@ -1,10 +1,34 @@
 import { useState, useEffect } from 'react';
-import { Typography, styled, Stack, Box, Button } from '@mui/material';
+import {
+  Typography,
+  Stack,
+  Box,
+  styled,
+  IconButton,
+  CircularProgress,
+} from '@mui/material';
+import RemoveIcon from '@mui/icons-material/Remove';
+import AddIcon from '@mui/icons-material/Add';
+import SaveIcon from '@mui/icons-material/Save';
+import CancelIcon from '@mui/icons-material/Cancel';
+import { useMutation } from '@apollo/client';
+import { toast } from 'react-toastify';
 import { AttendanceList } from '../../../../common/models/GymClass';
 import BsMembersList from '../../../components/BsMembersList';
-import BsButton from '../../../components/BsButton';
+import DisplayAttendanceMembers from './displayAttendanceMembers';
+import {
+  ADD_MEMBER_ATTENDANCES_LOG,
+  REMOVE_MEMBER_ATTENDANCES_LOG,
+} from '../../../queries/classesPage';
+
+const Total = styled('span')(({ theme }) => ({
+  marginLeft: '5px',
+  fontFamily: theme.typography.fontFamily,
+  ...theme.typography.body1,
+}));
 
 type Props = {
+  gymClassId: number;
   activeTimeId?: number;
   attendanceList: AttendanceList[];
 };
@@ -14,99 +38,183 @@ const Wrapper = styled(Box)({
 });
 
 const ListContainer = styled(Stack)({
-  height: '250px',
+  Height: '450px',
   overflowY: 'auto',
   padding: '5px',
   borderRadius: '5px',
 });
 
 function Attendance(props: Props) {
-  const { activeTimeId, attendanceList } = props;
-  const [editMode, setEditMode] = useState(false);
+  const { activeTimeId, attendanceList, gymClassId } = props;
+  const [addMode, setaddMode] = useState(false);
+  const [removeMode, setRemoveMode] = useState(false);
   const [attendance, setAttendance] = useState<AttendanceList | null>(null);
-  const [editModeCodes, setEditModeCodes] = useState<Record<string, boolean>>(
-    {}
-  );
+  const [addModeCodes, setaddModeCodes] = useState<Record<string, boolean>>({});
+  const [removeCodes, setRemoveCodes] = useState<string[]>([]);
 
-  useEffect(() => {
-    const at = attendanceList.find((a) => a.gymClassTimeId === activeTimeId);
-    if (at) {
-      setAttendance(at);
-      setEditModeCodes(
-        at.members.reduce(
-          (prev, member) => ({ ...prev, [member.code]: true }),
-          {}
-        )
-      );
-      return;
-    }
-    setAttendance(null);
-  }, [activeTimeId, attendanceList]);
+  const cleanUp = () => {
+    setaddMode(false);
+    setRemoveMode(false);
+    setRemoveCodes([]);
+  };
 
-  const handleOnEditModeCancel = () => {
-    setEditMode(false);
-    setEditModeCodes(
+  const handleOnModeCancel = () => {
+    cleanUp();
+    setaddModeCodes(
       attendance?.members.reduce(
         (prev, member) => ({ ...prev, [member.code]: true }),
         {}
       ) ?? {}
     );
   };
+  const [addMembersAttendances, { loading: loadingAddMembersAttendances }] =
+    useMutation(ADD_MEMBER_ATTENDANCES_LOG, {
+      onError(error) {
+        console.error(error);
+        toast.error(
+          'Hubo un error guardando los datos, intenta nuevamente, o refresca el browser',
+          {
+            position: 'top-right',
+          }
+        );
+      },
+      onCompleted() {
+        cleanUp();
+      },
+    });
+  const [
+    removeMembersAttendances,
+    { loading: loadingRemoveMembersAttendances },
+  ] = useMutation(REMOVE_MEMBER_ATTENDANCES_LOG, {
+    onError(error) {
+      console.log(error);
+      toast.error(
+        'Hubo un error eliminando los datos, intenta nuevamente, o refresca el browser',
+        {
+          position: 'top-right',
+        }
+      );
+    },
+    onCompleted() {
+      cleanUp();
+    },
+  });
+
+  useEffect(() => {
+    cleanUp();
+    const at = attendanceList.find((a) => a.gymClassTimeId === activeTimeId);
+    if (at) {
+      setAttendance(at);
+      setaddModeCodes(
+        at.members.reduce(
+          (prev, member) => ({ ...prev, [member.code]: true }),
+          {}
+        )
+      );
+    }
+  }, [activeTimeId, attendanceList]);
 
   const handleMemberClick = (code: string) => {
-    setEditModeCodes((s) => ({ ...s, [code]: true }));
+    setaddModeCodes((s) => ({ ...s, [code]: true }));
+  };
+
+  const classHasAttendances = !!attendance?.members.length;
+  const loading =
+    loadingAddMembersAttendances || loadingRemoveMembersAttendances;
+
+  const handleAddClick = () => {
+    setaddMode(true);
+  };
+
+  const handleRemoveClick = () => {
+    setRemoveMode(true);
+  };
+
+  const handleSaveClick = () => {
+    const input = {
+      gymClassId,
+      gymClassTimeId: activeTimeId,
+      memberCodes: [...(addMode ? Object.keys(addModeCodes) : removeCodes)],
+    };
+
+    if (addMode) {
+      addMembersAttendances({
+        variables: {
+          input,
+        },
+      });
+      return;
+    }
+    removeMembersAttendances({
+      variables: {
+        input,
+      },
+    });
   };
 
   return (
     <Box sx={{ margin: '1rem 0' }}>
-      <Typography variant="h5">Asistentes a la clase</Typography>
-      <Wrapper>
-        {editMode && (
-          <>
-            <ListContainer>
-              <BsMembersList
-                selectedMap={editModeCodes}
-                onClick={handleMemberClick}
-              />
-            </ListContainer>
-            <Stack direction="row" justifyContent="end" gap="8px" mt="10px">
-              <Button
-                color="success"
-                variant="contained"
-                sx={{ color: '#fff' }}
-              >
-                Aceptar
-              </Button>
-              <Button
-                color="primary"
-                variant="contained"
-                sx={{ color: '#fff' }}
-                onClick={handleOnEditModeCancel}
-              >
-                Cancelar
-              </Button>
-            </Stack>
-          </>
+      <Stack direction="row" justifyContent="space-between">
+        <Typography variant="h5">
+          Asistentes a la clase
+          {attendance ? (
+            <Total>(total: {attendance.members.length})</Total>
+          ) : null}
+        </Typography>
+        {!addMode && !removeMode && (
+          <Box>
+            {classHasAttendances && (
+              <IconButton>
+                <RemoveIcon onClick={handleRemoveClick} />
+              </IconButton>
+            )}
+            <IconButton>
+              <AddIcon onClick={handleAddClick} />
+            </IconButton>
+          </Box>
         )}
-        {!editMode && (
+        {(addMode || removeMode) && (
+          <Box>
+            {!loading ? (
+              <>
+                <IconButton>
+                  <SaveIcon onClick={handleSaveClick} />
+                </IconButton>
+                <IconButton>
+                  <CancelIcon onClick={handleOnModeCancel} />
+                </IconButton>
+              </>
+            ) : (
+              <CircularProgress />
+            )}
+          </Box>
+        )}
+      </Stack>
+      <Wrapper>
+        {addMode && (
+          <ListContainer>
+            <BsMembersList
+              selectedMap={addModeCodes}
+              onClick={handleMemberClick}
+            />
+          </ListContainer>
+        )}
+        {!addMode && (
           <Box sx={{ flex: 1 }}>
             {attendance === null && null}
-            {attendance?.members.length && 'there are members'}
-            {!attendance?.members.length && (
+            {classHasAttendances && (
+              <DisplayAttendanceMembers
+                members={attendance?.members}
+                removeMode={removeMode}
+                onMembersToDeleteChange={(newState: string[]) => {
+                  setRemoveCodes(newState);
+                }}
+              />
+            )}
+            {!classHasAttendances && (
               <Typography variant="h6" align="center">
                 No se encontrarón asistentes a la clase
               </Typography>
-            )}
-
-            {attendance === null && (
-              <Box sx={{ width: 'min(100%, 250px)', margin: '0 auto' }}>
-                <BsButton
-                  text="Agregar Asistencia"
-                  onClick={() => {
-                    setEditMode(true);
-                  }}
-                />
-              </Box>
             )}
           </Box>
         )}

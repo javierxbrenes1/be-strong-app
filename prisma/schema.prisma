@@ -77,6 +77,8 @@ model memberAttendanceLog {
   gymClass       gymClass     @relation(fields: [gymClassId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   gymClassTime   gymClassTime @relation(fields: [gymClassTimeId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   member         member       @relation(fields: [memberCode], references: [code], onDelete: NoAction, onUpdate: NoAction)
+
+  @@unique([memberCode, gymClassId, gymClassTimeId])
 }
 
 model memberMeasures {

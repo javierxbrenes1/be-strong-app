@@ -14,16 +14,11 @@ import AddClassModal from './addClassModal';
 import { isoFormatDate } from '../../utils/helpers';
 
 function ClassesPage() {
-  const [classes, setClasses] = useState<GymClass[]>([]);
   const [openAddModal, setOpenAddModal] = useState(false);
   const [dateInView, setDateInView] = useState<number | null>(null);
-  const [loadClasses, { loading }] = useLazyQuery<{
+  const [loadClasses, { loading, data }] = useLazyQuery<{
     getGymClasses: GymClass[];
   }>(GET_CLASSES_BY_DATE, {
-    onCompleted(data) {
-      const { getGymClasses } = data;
-      setClasses(getGymClasses);
-    },
     onError(err) {
       throw err;
     },
@@ -38,6 +33,8 @@ function ClassesPage() {
       },
     });
   };
+
+  const classes = data?.getGymClasses ?? [];
 
   return (
     <>
