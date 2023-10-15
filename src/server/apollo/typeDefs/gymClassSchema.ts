@@ -28,6 +28,7 @@ const gymClassSchema = `
 
  type Mutation {
     addGymClass(input: AddClassInput): GymClass @auth
+    addTimes(classId: Int, timeIds: [Int]): GymClass @auth
  }
 
  type Query {

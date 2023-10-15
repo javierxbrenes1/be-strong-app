@@ -102,16 +102,15 @@ function Attendance(props: Props) {
 
   useEffect(() => {
     cleanUp();
-    const at = attendanceList.find((a) => a.gymClassTimeId === activeTimeId);
-    if (at) {
-      setAttendance(at);
-      setaddModeCodes(
-        at.members.reduce(
-          (prev, member) => ({ ...prev, [member.code]: true }),
-          {}
-        )
-      );
-    }
+    const at =
+      attendanceList.find((a) => a.gymClassTimeId === activeTimeId) ?? null;
+    setAttendance(at);
+    setaddModeCodes(
+      at?.members.reduce(
+        (prev, member) => ({ ...prev, [member.code]: true }),
+        {}
+      ) ?? {}
+    );
   }, [activeTimeId, attendanceList]);
 
   const handleMemberClick = (code: string) => {

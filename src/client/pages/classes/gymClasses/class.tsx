@@ -27,7 +27,7 @@ function Class(props: { gymClass: GymClass }) {
   const { gymClass } = props;
 
   return (
-    <Accordion defaultExpanded>
+    <Accordion defaultExpanded sx={{ margin: '10px 0' }}>
       <AccordionSummary
         expandIcon={<ExpandMoreIcon />}
         aria-controls={`panel-${gymClass.id}-content`}

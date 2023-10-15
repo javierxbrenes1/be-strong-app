@@ -9,3 +9,12 @@ export const ADD_CLASS = gql`
   }
   ${GYM_CLASS_ALL_FIELDS}
 `;
+
+export const ADD_TIMES = gql`
+  mutation addTimes($classId: Int, $timeIds: [Int]) {
+    addTimes(classId: $classId, timeIds: $timeIds) {
+      ...getGymClassAllFields
+    }
+  }
+  ${GYM_CLASS_ALL_FIELDS}
+`;

@@ -45,7 +45,12 @@ function ClassesPage() {
           {!loading && !classes.length ? (
             <NoClass onClick={() => setOpenAddModal(true)} />
           ) : null}
-          {!loading && classes.length ? <GymClasses classes={classes} /> : null}
+          {!loading && classes.length ? (
+            <GymClasses
+              classes={classes}
+              onAddClass={() => setOpenAddModal(true)}
+            />
+          ) : null}
         </Box>
       </PageContainer>
       <AddClassModal
