@@ -1,12 +1,10 @@
 import {
-  Box,
   Chip,
   FormControl,
   MenuItem,
   TextField,
   Typography,
 } from '@mui/material';
-import { FC, ReactNode } from 'react';
 import { DatePicker } from '@mui/x-date-pickers';
 import dayjs from 'dayjs';
 import Member from '../../../common/models/Member';
@@ -14,18 +12,7 @@ import MultipleSelectChip from '../../components/BsMultiSelect';
 import BsSelect from '../../components/BsSelect';
 import MemberAttendance from '../../../common/models/MemberAttendance';
 import BsLocalizationProvider from '../../components/BsLocalizationProvider';
-
-const Wrapper: FC<{ label: string; children: ReactNode | ReactNode }> = ({
-  label,
-  children,
-}) => (
-  <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-    <Typography color="primary" variant="subtitle1">
-      {label}
-    </Typography>
-    {children}
-  </Box>
-);
+import BsWrapper from '../../components/BsWrapper';
 
 export type ValueType =
   | string
@@ -83,17 +70,17 @@ function MemberInfoInput(props: {
     }
 
     return (
-      <Wrapper label={label}>
+      <BsWrapper label={label}>
         <Typography color="#757a79" variant="subtitle2">
           {content || 'No Definido'}
         </Typography>
-      </Wrapper>
+      </BsWrapper>
     );
   }
 
   if (inputType === 'date') {
     return (
-      <Wrapper label={label}>
+      <BsWrapper label={label}>
         <FormControl fullWidth>
           <BsLocalizationProvider>
             <DatePicker
@@ -109,13 +96,13 @@ function MemberInfoInput(props: {
             />
           </BsLocalizationProvider>
         </FormControl>
-      </Wrapper>
+      </BsWrapper>
     );
   }
 
   if (inputType === 'select') {
     return (
-      <Wrapper label={label}>
+      <BsWrapper label={label}>
         <FormControl fullWidth>
           <BsSelect
             variant="outlined"
@@ -132,13 +119,13 @@ function MemberInfoInput(props: {
             ))}
           </BsSelect>
         </FormControl>
-      </Wrapper>
+      </BsWrapper>
     );
   }
 
   if (inputType === 'multiselect') {
     return (
-      <Wrapper label={label}>
+      <BsWrapper label={label}>
         <FormControl fullWidth>
           <MultipleSelectChip
             options={selectOptions ?? []}
@@ -148,12 +135,12 @@ function MemberInfoInput(props: {
             }}
           />
         </FormControl>
-      </Wrapper>
+      </BsWrapper>
     );
   }
 
   return (
-    <Wrapper label={label}>
+    <BsWrapper label={label}>
       <FormControl fullWidth>
         <TextField
           type={inputType}
@@ -167,7 +154,7 @@ function MemberInfoInput(props: {
           value={value || ''}
         />
       </FormControl>
-    </Wrapper>
+    </BsWrapper>
   );
 }
 

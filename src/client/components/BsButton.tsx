@@ -25,11 +25,25 @@ function BsButton(props: {
   hoverColor?: string;
   Icon?: IconType;
   disabled?: boolean;
+  iconPosition?: 'left' | 'right';
 }) {
-  const { text, onClick, hoverColor, Icon, disabled } = props;
+  const {
+    text,
+    onClick,
+    hoverColor,
+    Icon,
+    disabled,
+    iconPosition = 'left',
+  } = props;
   return (
     <MyButton onClick={onClick} hoverColor={hoverColor} disabled={disabled}>
-      {Icon && <Icon />} {text}
+      {Icon && iconPosition === 'left' && (
+        <Icon sx={{ paddingRight: '10px' }} />
+      )}{' '}
+      {text}{' '}
+      {Icon && iconPosition === 'right' && (
+        <Icon sx={{ paddingLeft: '10px' }} />
+      )}
     </MyButton>
   );
 }

@@ -27,6 +27,7 @@ const Members = lazy(() => import('./pages/members'));
 const Member = lazy(() => import('./pages/member'));
 const Visit = lazy(() => import('./pages/visit'));
 const Config = lazy(() => import('./pages/config'));
+const Profile = lazy(() => import('./pages/profile'));
 
 function AppRoutes() {
   return (
@@ -44,6 +45,7 @@ function AppRoutes() {
             path={PATHS.CONFIGURATIONS}
             element={withSuspense(Config, true)}
           />
+          <Route path={PATHS.PROFILE} element={withSuspense(Profile, true)} />
         </Route>
         <Route path={PATHS.LOGIN} element={withSuspense(Login)} />
         <Route path={PATHS.VISIT} element={withSuspense(Visit)} />

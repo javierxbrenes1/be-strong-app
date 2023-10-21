@@ -7,8 +7,10 @@ import Menu from '@mui/material/Menu';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { Logout } from '@mui/icons-material';
 import MenuIcon from '@mui/icons-material/Menu';
+import { useNavigate } from 'react-router';
 import useAuthStore from '../state/authState';
 import useWhoAmI from '../hooks/useWhoAmI';
+import { PATHS } from '../constants';
 
 const Container = styled(Grid)({
   height: '40px',
@@ -30,6 +32,7 @@ function TopBar(props: { onBurgerMenuClick: () => void }) {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const resetAuth = useAuthStore((state) => state.reset);
   const whoAmI = useWhoAmI();
+  const navigate = useNavigate();
 
   const open = Boolean(anchorEl);
 
@@ -38,6 +41,11 @@ function TopBar(props: { onBurgerMenuClick: () => void }) {
   };
   const handleClose = () => {
     setAnchorEl(null);
+  };
+
+  const handleGoToProfile = () => {
+    handleClose();
+    navigate(PATHS.PROFILE, { replace: true });
   };
 
   const handleOnLogout = () => {
@@ -102,7 +110,7 @@ function TopBar(props: { onBurgerMenuClick: () => void }) {
           },
         }}
       >
-        <MenuItem onClick={handleClose}>
+        <MenuItem onClick={handleGoToProfile}>
           <ListItemIcon>
             <AccountCircleIcon fontSize="small" />
           </ListItemIcon>

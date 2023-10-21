@@ -7,6 +7,7 @@ export const PATHS = {
   CONFIGURATIONS: '/config',
   LOGIN: '/login',
   VISIT: '/visit',
+  PROFILE: '/profile',
 };
 
 export const GENERAL_ERROR_MESSAGES: Record<CrudAction, string> = {
