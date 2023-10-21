@@ -19,12 +19,10 @@ import UpdateMemberArgs from '../../../common/actionModels/UpdateMember';
 import { CrudAction, Measures } from '../../types';
 import { GENERAL_ERROR_MESSAGES } from '../../constants';
 import { DAYS } from '../../labels';
+import BsShowError from '../../components/BsShowError';
 
 const handleError = (error: unknown, action: CrudAction) => {
-  console.error(error);
-  toast.error(GENERAL_ERROR_MESSAGES[action], {
-    position: 'top-right',
-  });
+  BsShowError(error, GENERAL_ERROR_MESSAGES[action]);
 };
 
 const showSucccessMessage = (autoCloseAt = 5000) => {

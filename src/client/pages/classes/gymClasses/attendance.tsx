@@ -20,6 +20,7 @@ import {
   ADD_MEMBER_ATTENDANCES_LOG,
   REMOVE_MEMBER_ATTENDANCES_LOG,
 } from '../../../queries/classesPage';
+import BsShowError from '../../../components/BsShowError';
 
 const Total = styled('span')(({ theme }) => ({
   marginLeft: '5px',
@@ -70,12 +71,9 @@ function Attendance(props: Props) {
   const [addMembersAttendances, { loading: loadingAddMembersAttendances }] =
     useMutation(ADD_MEMBER_ATTENDANCES_LOG, {
       onError(error) {
-        console.error(error);
-        toast.error(
-          'Hubo un error guardando los datos, intenta nuevamente, o refresca el browser',
-          {
-            position: 'top-right',
-          }
+        BsShowError(
+          error,
+          'Hubo un error guardando los datos, intenta nuevamente, o refresca el browser'
         );
       },
       onCompleted() {
@@ -87,12 +85,9 @@ function Attendance(props: Props) {
     { loading: loadingRemoveMembersAttendances },
   ] = useMutation(REMOVE_MEMBER_ATTENDANCES_LOG, {
     onError(error) {
-      console.log(error);
-      toast.error(
-        'Hubo un error eliminando los datos, intenta nuevamente, o refresca el browser',
-        {
-          position: 'top-right',
-        }
+      BsShowError(
+        error,
+        'Hubo un error eliminando los datos, intenta nuevamente, o refresca el browser'
       );
     },
     onCompleted() {

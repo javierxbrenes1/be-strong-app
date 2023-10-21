@@ -22,6 +22,7 @@ import Filters from './Filters';
 import { GET_MEMBER_MEASURES } from '../../../queries/memberPage';
 import Pagination from '../../../../common/models/Pagination';
 import { Measures } from '../../../types';
+import BsShowError from '../../../components/BsShowError';
 
 /**
  * Member measure component
@@ -60,12 +61,9 @@ function MemberMeasuresData(props: {
   }>(GET_MEMBER_MEASURES, {
     fetchPolicy: 'cache-and-network',
     onError(err) {
-      console.error(err);
-      toast.error(
-        'Hubo un error cargando los datos, intenta nuevamente, o refresca el browser',
-        {
-          position: 'top-right',
-        }
+      BsShowError(
+        err,
+        'Hubo un error cargando los datos, intenta nuevamente, o refresca el browser'
       );
     },
     onCompleted(data) {

@@ -18,6 +18,7 @@ import { useMutation } from '@apollo/client';
 import { toast } from 'react-toastify';
 import useCatalogsStore from '../../../state/catalogState';
 import { ADD_TIMES } from '../../../mutations/addClass';
+import BsShowError from '../../../components/BsShowError';
 
 type Props = {
   classId: number;
@@ -31,13 +32,9 @@ function AddTimeDialog(props: Props) {
 
   const [addTimes, { loading }] = useMutation(ADD_TIMES, {
     onError(err) {
-      console.error(err);
-
-      toast.error(
-        'Hubo un error actualizando la clase, intenta nuevamente, o refresca el browser',
-        {
-          position: 'top-right',
-        }
+      BsShowError(
+        err,
+        'Hubo un error actualizando la clase, intenta nuevamente, o refresca el browser'
       );
     },
     onCompleted() {

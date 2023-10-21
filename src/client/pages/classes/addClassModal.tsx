@@ -23,6 +23,7 @@ import useCatalogsStore from '../../state/catalogState';
 import { ADD_CLASS } from '../../mutations/addClass';
 import GymClass from '../../../common/models/GymClass';
 import { isoFormatDate } from '../../utils/helpers';
+import BsShowError from '../../components/BsShowError';
 
 const initialForm: {
   classDescription?: string;
@@ -48,12 +49,9 @@ function AddClassModal(props: {
         handleClose(null, 'escapeKeyDown');
       },
       onError(err) {
-        console.error(err);
-        toast.error(
-          'Hubo un error creando la clase, intenta nuevamente, o refresca el browser',
-          {
-            position: 'top-right',
-          }
+        BsShowError(
+          err,
+          'Hubo un error creando la clase, intenta nuevamente, o refresca el browser'
         );
       },
     }
