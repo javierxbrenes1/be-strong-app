@@ -16,13 +16,14 @@ const updatePwd = async (
     await prisma.ownerUser.update({
       data: {
         pwd: hashedPwd,
+        lastPasswordChangeDate: new Date(),
       },
       where: {
         username: user.username,
         role: user.role,
       },
     });
-    return false;
+    return true;
   } catch (err) {
     console.log(err);
     return false;

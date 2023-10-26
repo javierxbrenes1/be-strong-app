@@ -7,3 +7,9 @@ export const LOGIN = gql`
     }
   }
 `;
+
+export const UPDATE_PWD = gql`
+  mutation updatePwd($pwd: String!) {
+    updatePwd(pwd: $pwd)
+  }
+`;

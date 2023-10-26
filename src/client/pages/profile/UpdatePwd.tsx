@@ -16,6 +16,10 @@ import {
 import { useEffect, useState } from 'react';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import CancelIcon from '@mui/icons-material/Cancel';
+import { useMutation } from '@apollo/client';
+import { UPDATE_PWD } from '../../mutations/login';
+import BsShowError from '../../components/BsShowError';
+import useAuthStore from '../../state/authState';
 
 type Props = {
   onClose: () => void;
@@ -68,6 +72,29 @@ function UpdatePwd(props: Props) {
     hasUpperCase: false,
     confirmEqual: false,
   });
+  const resetAuth = useAuthStore((state) => state.reset);
+  const [updatePwd, { loading }] = useMutation<{ updatePwd: boolean }>(
+    UPDATE_PWD,
+    {
+      onError(err) {
+        BsShowError(
+          err,
+          'Hubo un error al actualizar los datos, intenta de nuevo o refresca la pagina'
+        );
+      },
+      onCompleted(data) {
+        if (data?.updatePwd) {
+          resetAuth();
+          onClose();
+          return;
+        }
+        BsShowError(
+          new Error('updatePwd responded false'),
+          'Hubo un error al actualizar los datos, intenta de nuevo o refresca la pagina'
+        );
+      },
+    }
+  );
 
   useEffect(() => {
     setRules(evaluateRules(pwd, confirmPwd));
@@ -83,6 +110,14 @@ function UpdatePwd(props: Props) {
         setConfirmPwd(value);
       }
     };
+
+  const handleSaveClick = () => {
+    updatePwd({
+      variables: {
+        pwd,
+      },
+    });
+  };
 
   const allRulesPass = Object.values(rules).every((val: boolean) => val);
 
@@ -164,8 +199,12 @@ function UpdatePwd(props: Props) {
         </Stack>
       </DialogContent>
       <DialogActions>
-        <Button disabled={!allRulesPass}>Guardar</Button>
-        <Button onClick={onClose}>Cerrar</Button>
+        <Button disabled={!allRulesPass || loading} onClick={handleSaveClick}>
+          Guardar
+        </Button>
+        <Button onClick={onClose} disabled={loading}>
+          Cerrar
+        </Button>
       </DialogActions>
     </Dialog>
   );
