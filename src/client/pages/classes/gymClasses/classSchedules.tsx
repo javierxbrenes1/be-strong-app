@@ -29,7 +29,7 @@ function ClassSchedules(props: {
       setSelectedGymClassTime(sortedSchedules[tabIndex]);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [tabIndex]);
+  }, [tabIndex, sortedSchedules]);
 
   if (!schedules) {
     return null;

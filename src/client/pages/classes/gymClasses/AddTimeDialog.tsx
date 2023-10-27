@@ -15,7 +15,6 @@ import {
 } from '@mui/material';
 import { useState } from 'react';
 import { useMutation } from '@apollo/client';
-import { toast } from 'react-toastify';
 import useCatalogsStore from '../../../state/catalogState';
 import { ADD_TIMES } from '../../../mutations/addClass';
 import BsShowError from '../../../components/BsShowError';

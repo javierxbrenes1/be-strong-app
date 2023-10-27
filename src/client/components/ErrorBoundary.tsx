@@ -1,4 +1,5 @@
 import React, { Component, ErrorInfo, ReactNode } from 'react';
+import BsError from './BsError';
 
 interface Props {
   children?: ReactNode;
@@ -30,7 +31,7 @@ class ErrorBoundary extends Component<Props, State> {
       props: { children },
     } = this;
     if (hasError) {
-      return <h1>Sorry.. there was an error</h1>;
+      return <BsError text="Parece que hubo un error" />;
     }
 
     return children;

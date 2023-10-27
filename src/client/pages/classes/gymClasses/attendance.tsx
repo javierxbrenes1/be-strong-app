@@ -12,7 +12,6 @@ import AddIcon from '@mui/icons-material/Add';
 import SaveIcon from '@mui/icons-material/Save';
 import CancelIcon from '@mui/icons-material/Cancel';
 import { useMutation } from '@apollo/client';
-import { toast } from 'react-toastify';
 import { AttendanceList } from '../../../../common/models/GymClass';
 import BsMembersList from '../../../components/BsMembersList';
 import DisplayAttendanceMembers from './displayAttendanceMembers';
@@ -109,7 +108,7 @@ function Attendance(props: Props) {
   }, [activeTimeId, attendanceList]);
 
   const handleMemberClick = (code: string) => {
-    setaddModeCodes((s) => ({ ...s, [code]: true }));
+    setaddModeCodes((s) => ({ ...s, [code]: !s[code] }));
   };
 
   const classHasAttendances = !!attendance?.members.length;
