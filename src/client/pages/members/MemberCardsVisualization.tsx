@@ -5,7 +5,7 @@ import Box from '@mui/material/Box/Box';
 import Member from '../../../common/models/Member';
 import MemberCard from './MemberCard';
 import AddMeasures from './AddMeasure';
-import { PATHS } from '../../constants';
+import { PATHS } from '../../../common/enums';
 
 function MemberCardsVisualization(props: { members?: Member[] }) {
   const { members } = props;

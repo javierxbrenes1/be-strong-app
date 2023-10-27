@@ -1,15 +1,5 @@
 import { CrudAction } from './types';
 
-export const PATHS = {
-  HOME: '/',
-  CLASSES: '/classes',
-  MEMBERS: '/members',
-  CONFIGURATIONS: '/config',
-  LOGIN: '/login',
-  VISIT: '/visit',
-  PROFILE: '/profile',
-};
-
 export const GENERAL_ERROR_MESSAGES: Record<CrudAction, string> = {
   adding: 'Hubo un error al agregando los datos, intentalo nuevamente',
   deleting:

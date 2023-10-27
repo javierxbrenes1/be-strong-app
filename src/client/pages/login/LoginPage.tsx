@@ -16,7 +16,7 @@ import { useMutation } from '@apollo/client';
 import { Navigate } from 'react-router';
 import { LOGIN } from '../../mutations/login';
 import useAuthStore from '../../state/authState';
-import { PATHS } from '../../constants';
+import { PATHS } from '../../../common/enums';
 
 const Container = styled(Box)(({ theme }) => ({
   width: '100%',
@@ -35,7 +35,7 @@ const Logo = styled(Box)(() => ({
   height: '100%',
   zIndex: '100',
   backgroundColor: '#000',
-  backgroundImage: 'url(/logo.jpeg)',
+  backgroundImage: 'url(/images/logo.jpeg)',
   backgroundRepeat: 'no-repeat',
   backgroundSize: 'contain',
   backgroundPosition: 'center',

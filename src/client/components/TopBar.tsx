@@ -10,7 +10,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import { useNavigate } from 'react-router';
 import useAuthStore from '../state/authState';
 import useWhoAmI from '../hooks/useWhoAmI';
-import { PATHS } from '../constants';
+import { PATHS } from '../../common/enums';
 
 const Container = styled(Grid)({
   height: '40px',

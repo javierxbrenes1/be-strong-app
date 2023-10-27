@@ -7,7 +7,7 @@ import SportsGymnasticsIcon from '@mui/icons-material/SportsGymnastics';
 import SettingsIcon from '@mui/icons-material/Settings';
 import { styled } from '@mui/material';
 import { useLocation, useNavigate } from 'react-router';
-import { PATHS } from '../constants';
+import { PATHS } from '../../common/enums';
 
 const NavbarLink = styled(Link)<{ selected?: boolean }>(({ selected }) => ({
   display: 'flex',

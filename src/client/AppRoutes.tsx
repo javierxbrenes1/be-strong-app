@@ -1,9 +1,9 @@
 import { ComponentType, Suspense, lazy, Fragment } from 'react';
 import { Route, Routes } from 'react-router';
 import { BrowserRouter } from 'react-router-dom';
-import { PATHS } from './constants';
 import ProtectedRoute from './components/ProtectedRoute';
 import Loading from './components/Loading';
+import { PATHS } from '../common/enums';
 
 const withSuspense = (
   WrappedComponent: ComponentType,

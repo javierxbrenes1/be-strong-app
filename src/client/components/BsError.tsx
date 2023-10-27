@@ -2,7 +2,7 @@ import { Stack, Button, Typography, styled, Box } from '@mui/material';
 import { ReactSVG } from 'react-svg';
 
 const ErrorImage = styled(Box)({
-  backgroundImage: 'url(/ops.svg)',
+  backgroundImage: 'url(/images/ops.svg)',
   backgroundRepeat: 'no-repeat',
   backgroundSize: 'cover',
   backgroundPosition: 'center',
@@ -15,7 +15,7 @@ function BsError(props: { text: string }) {
   return (
     <Stack alignItems="center" sx={{ margin: '0 auto' }}>
       <Box sx={{ height: '260px' }}>
-        <ReactSVG src="/ops.svg" />
+        <ReactSVG src="/images/ops.svg" />
       </Box>
       <Typography variant="h5">{text}</Typography>
       <Typography variant="h5">

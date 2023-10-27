@@ -14,7 +14,7 @@ function NoClass(props: { onClick: () => void }) {
         autoplay
         loop
         mode="normal"
-        src="./flex.json"
+        src="./images/flex.json"
         style={{ maxWidth: '12rem', height: 'auto' }}
       />
       <Typography variant="h6" textAlign="center">

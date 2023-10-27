@@ -29,10 +29,10 @@ const useCatalogsStore = create<CatalogsState>((set) => ({
     set({ reload: true });
   },
   setGymClassTimes: (gct: GymClassTime[]) => {
-    gct.sort((a, b) => sortIsoTimes(a.isoTime, b.isoTime));
+    const times = [...gct].sort((a, b) => sortIsoTimes(a.isoTime, b.isoTime));
     set({
-      gymClassTimes: gct,
-      gymClassUiLabels: buildUiLabels(gct),
+      gymClassTimes: times,
+      gymClassUiLabels: buildUiLabels(times),
       reload: false,
     });
   },

@@ -4,7 +4,6 @@ import FitnessCenterIcon from '@mui/icons-material/FitnessCenter';
 import { useLazyQuery } from '@apollo/client';
 import { useEffect } from 'react';
 import Indicator from './Indicator';
-import { PATHS } from '../../constants';
 import Events from '../../components/HomeEvents/Events';
 import { HOME_QUERY } from '../../queries/homePage';
 import Member from '../../../common/models/Member';
@@ -12,6 +11,7 @@ import GymClass from '../../../common/models/GymClass';
 import getHomeTitle from './HomeTitle';
 import PageContainer from '../../components/PageContainer';
 import { isoFormatDate } from '../../utils/helpers';
+import { PATHS } from '../../../common/enums';
 
 const getCurrentYear = (): number => new Date().getFullYear();
 

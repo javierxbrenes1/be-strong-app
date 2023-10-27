@@ -41,3 +41,13 @@ export enum Muscle {
 export enum Roles {
   'superAdmin' = 'superAdmin',
 }
+
+export const PATHS = {
+  HOME: '/',
+  CLASSES: '/classes',
+  MEMBERS: '/members',
+  CONFIGURATIONS: '/config',
+  LOGIN: '/login',
+  VISIT: '/visit',
+  PROFILE: '/profile',
+};

@@ -11,7 +11,7 @@ import { useState } from 'react';
 import { encode } from 'js-base64';
 import QRCode from 'react-qr-code';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
-import { PATHS } from '../../constants';
+import { PATHS } from '../../../common/enums';
 
 const QRWrapper = styled('div')({
   '& > svg': {

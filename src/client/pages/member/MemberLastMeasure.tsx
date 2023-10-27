@@ -8,12 +8,12 @@ import { styled } from '@mui/material/styles';
 import { useState } from 'react';
 import CardTitle from '../../components/CardTitle';
 import MeasureItem from './MeasureItem';
-import { MeasureType } from '../../utils/measureTypes';
 import AddMeasures from '../members/AddMeasure';
 import Member from '../../../common/models/Member';
 import Measure from '../../../common/models/Measure';
 import { formatDate } from '../../utils/helpers';
 import { MEASURES_TITLES } from '../../labels';
+import { Measures } from '../../types';
 
 const MeasureContainer = styled(Box)({
   display: 'flex',
@@ -23,10 +23,10 @@ const MeasureContainer = styled(Box)({
 
 function MemberLastMeasure(props: {
   member: Member;
-  selectedMeasureType: MeasureType | null;
-  onSelectMeasureType: (t: MeasureType) => void;
+  selectedMeasureType: Measures | null;
+  onSelectMeasureType: (t: Measures) => void;
   onNewMeasureAdded: (newMeasure: Measure) => void;
-  onEditMeasure: (id: number, measure: MeasureType, value: number) => void;
+  onEditMeasure: (id: number, measure: Measures, value: number) => void;
 }) {
   const {
     member,
@@ -52,7 +52,7 @@ function MemberLastMeasure(props: {
     },
   ];
 
-  const handleEditMeasure = (measure: MeasureType, value: number) => {
+  const handleEditMeasure = (measure: Measures, value: number) => {
     onEditMeasure(mostRecentMeasure.id, measure, value);
   };
 
@@ -77,7 +77,7 @@ function MemberLastMeasure(props: {
           {!!memberMeasures.length && (
             <MeasureContainer>
               <MeasureItem
-                id="weight"
+                id={Measures.weight}
                 selectedOption={selectedMeasureType}
                 onClick={onSelectMeasureType}
                 title={MEASURES_TITLES.weight}
@@ -86,7 +86,7 @@ function MemberLastMeasure(props: {
                 onUpdateMeasure={handleEditMeasure}
               />
               <MeasureItem
-                id="bodyMassIndex"
+                id={Measures.bodyMassIndex}
                 title={MEASURES_TITLES.bodyMassIndex}
                 selectedOption={selectedMeasureType}
                 onClick={onSelectMeasureType}
@@ -95,7 +95,7 @@ function MemberLastMeasure(props: {
                 onUpdateMeasure={handleEditMeasure}
               />
               <MeasureItem
-                id="corporalFat"
+                id={Measures.corporalFat}
                 title={MEASURES_TITLES.corporalFat}
                 onClick={onSelectMeasureType}
                 selectedOption={selectedMeasureType}
@@ -104,7 +104,7 @@ function MemberLastMeasure(props: {
                 onUpdateMeasure={handleEditMeasure}
               />
               <MeasureItem
-                id="calories"
+                id={Measures.calories}
                 title={MEASURES_TITLES.calories}
                 onClick={onSelectMeasureType}
                 selectedOption={selectedMeasureType}
@@ -113,7 +113,7 @@ function MemberLastMeasure(props: {
                 onUpdateMeasure={handleEditMeasure}
               />
               <MeasureItem
-                id="corporalWaterPct"
+                id={Measures.corporalWaterPct}
                 title={MEASURES_TITLES.corporalWaterPct}
                 onClick={onSelectMeasureType}
                 selectedOption={selectedMeasureType}
@@ -122,7 +122,7 @@ function MemberLastMeasure(props: {
                 onUpdateMeasure={handleEditMeasure}
               />
               <MeasureItem
-                id="muscle"
+                id={Measures.muscle}
                 title={MEASURES_TITLES.muscle}
                 onClick={onSelectMeasureType}
                 selectedOption={selectedMeasureType}

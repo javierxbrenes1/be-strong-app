@@ -4,7 +4,7 @@ import Box from '@mui/material/Box';
 import { styled } from '@mui/material/styles';
 import ContentEditable, { ContentEditableEvent } from 'react-contenteditable';
 import { getMeasureColorAndEmoji } from '../../utils/measureColorPicker';
-import { MeasureType } from '../../utils/measureTypes';
+import { Measures } from '../../types';
 
 const Container = styled(Box)<{ selected?: boolean }>(
   ({ selected, theme }) => ({
@@ -43,14 +43,14 @@ const EditableField = styled(ContentEditable)(({ theme }) => ({
 }));
 
 function MeasureItem(props: {
-  id: MeasureType;
-  selectedOption: MeasureType | null;
+  id: Measures;
+  selectedOption: Measures | null;
   title: string;
   value: string;
   suffix?: string;
   chipText?: string;
-  onUpdateMeasure: (id: MeasureType, value: number) => void;
-  onClick: (ev: MeasureType) => void;
+  onUpdateMeasure: (id: Measures, value: number) => void;
+  onClick: (ev: Measures) => void;
 }) {
   const {
     title,

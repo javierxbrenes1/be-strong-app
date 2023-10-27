@@ -2,16 +2,18 @@ import { ApolloFastifyContextFunction } from '@as-integrations/fastify';
 import { FastifyInstance, FastifyRequest } from 'fastify';
 import { PrismaClient } from '@prisma/client';
 
+const isProd = process.env.NODE_ENV === 'production';
 const prisma = new PrismaClient({
-  log: ['query', 'info', 'warn', 'error'],
+  log: !isProd ? ['query', 'info', 'warn', 'error'] : ['warn', 'error'],
 });
 
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-/** @ts-ignore */
-prisma.$on('query', (e) => {
-  console.log(e);
-});
-
+if (!isProd) {
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  /** @ts-ignore */
+  prisma.$on('query', (e) => {
+    console.log(e);
+  });
+}
 export interface BeStrongContext {
   server: FastifyInstance;
   prisma: PrismaClient;
