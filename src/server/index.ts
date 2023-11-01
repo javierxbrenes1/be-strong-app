@@ -24,22 +24,29 @@ const start = async () => {
     if (process.env.NODE_ENV === 'production') {
       ['assets', 'images'].forEach((t, index) => {
         server.register(fastifyStatic, {
-          root: path.join(__dirname, `../../../dist/${t}`),
+          root: path.join(__dirname, '..', '..', `/dist/${t}`),
           prefix: `/${t}`,
           decorateReply: index === 0,
         });
       });
 
       Object.values(PATHS).forEach((p: string) => {
-        server.get(p, (req, reply) =>
-          reply.sendFile('index.html', path.join(__dirname, '../../../dist/'), {
-            cacheControl: false,
-          })
-        );
+        server.get(p, (req, reply) => {
+          reply.sendFile(
+            'index.html',
+            path.join(__dirname, '..', '..', '/dist/'),
+            {
+              cacheControl: false,
+            }
+          );
+        });
       });
     }
 
-    const address = await server.listen({ port: 8080 });
+    const address = await server.listen({
+      port: 8080,
+      host: '0.0.0.0',
+    });
 
     console.log(`Server listening at ${address}`);
     console.log(server.printRoutes());

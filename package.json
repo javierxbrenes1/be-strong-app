@@ -7,10 +7,10 @@
     "build-server": "rimraf build && tsc -p tsconfig.server.json",
     "build-client": "rimraf dist && tsc && vite build",
     "build": "npm run build-server && npm run build-client",
-    "run-migrations": "npx prisma migrate deploy",
-    "run:prod:local": "NODE_ENV=production node ./build/src/server/index.js",
-    "build:run:local": "npm run build && npm run run:prod:local",
-    "run:prod": "node ./build/src/server/index.js",
+    "start:prod:local": "NODE_ENV=production node ./build/src/server/index.js",
+    "build:start:local": "npm run build && npm run run:prod:local",
+    "prisma": "npx prisma generate && npx prisma migrate deploy && npx prisma db seed",
+    "start:prod": "npm run prisma && node ./build/server/index.js",
     "dev-server": "npx nodemon ./src/server/index.ts",
     "dev-client": "vite",
     "lint": "eslint .",
@@ -93,6 +93,6 @@
     "vite": "^4.1.0"
   },
   "prisma": {
-    "seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} prisma/seed.ts"
+    "seed": "node ./prisma/seed.js"
   }
 }
