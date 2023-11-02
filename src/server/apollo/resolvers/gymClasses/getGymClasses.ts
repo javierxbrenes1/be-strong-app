@@ -2,6 +2,24 @@ import dayjs from 'dayjs';
 import { getIsoTime } from '../../../utils/dateshelper';
 import { BeStrongContext } from '../../context';
 
+type GymClass = {
+  gymClassOnTimes: ({
+    gymClassTime: {
+      id: number;
+      isoTime: string;
+    };
+  } & {
+    gymClassTimeId: number;
+    gymClassId: number;
+  })[];
+} & {
+  id: number;
+  classDate: Date | null;
+  classDurationInMinutes: number | null;
+  classType: string | null;
+  classDescription: string | null;
+};
+
 const getGymClasses = async (
   _parent: unknown,
   args: { gte: string; lt: string },
@@ -33,7 +51,7 @@ const getGymClasses = async (
     },
   });
 
-  return classes.map((r) => ({
+  return classes.map((r: GymClass) => ({
     ...r,
     classDate: r.classDate?.toISOString().split('T')[0],
   }));

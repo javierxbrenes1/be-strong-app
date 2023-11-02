@@ -24,11 +24,14 @@ export default async (
 
   const { memberAttendanceLog = [] } = result || {};
   const map = new Map<number, Member[]>();
-  memberAttendanceLog.forEach((m) => {
-    const { gymClassTimeId, member } = m;
+  memberAttendanceLog.forEach((m: unknown) => {
+    const { gymClassTimeId, member } = m as {
+      gymClassTimeId: number;
+      member: Member;
+    };
     const array = map.get(gymClassTimeId) || [];
 
-    map.set(m.gymClassTimeId, [...array, member as Member]);
+    map.set(gymClassTimeId, [...array, member]);
   });
 
   const attendanceList = [];

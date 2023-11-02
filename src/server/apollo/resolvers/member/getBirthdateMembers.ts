@@ -1,18 +1,18 @@
-import { member } from '@prisma/client';
 import dayjs from 'dayjs';
 import { BeStrongContext } from '../../context';
+import Member from '../../../../common/models/Member';
 
 const getBirthdateMembers = async (
   _parent: unknown,
   args: { date: string },
   context: BeStrongContext
-): Promise<member[]> => {
+): Promise<Member[]> => {
   const { prisma } = context;
 
   const format = dayjs(args.date).format('MM-DD');
 
   const members = await prisma.$queryRaw<
-    member[]
+    Member[]
   >`SELECT * from app.member where to_char("birthDate", 'MM-DD') = ${format}`;
   return members;
 };
