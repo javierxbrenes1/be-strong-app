@@ -2,18 +2,15 @@ FROM node:18-bullseye-slim as build
 
 WORKDIR /app
 
-ENV DATABASE_URL "postgresql://postgres:admin@172.18.0.2:5432/be-strong?schema=app"
-ENV SECRET_KEY "bestrong_app_cipreses_oreamuno"
-
 COPY package*.json ./
 
 RUN npm install
 
+ENV NODE_ENV "production"
+
 COPY . .
 
-RUN npm run build-client
-
-RUN npm run build-server
+RUN npm run build
 
 FROM node:18-bullseye-slim
 
