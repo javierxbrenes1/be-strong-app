@@ -140,9 +140,7 @@ function MemberPage() {
           ...(details.birthDate
             ? { birthDate: details.birthDate.getTime() }
             : {}),
-          ...(details.height
-            ? { height: parseInt(String(details.height)) }
-            : {}),
+          ...(details.height ? { height: Number(details.height) } : {}),
           ...(memberAttendance
             ? { memberAttendance: newMemberAttendance }
             : {}),
