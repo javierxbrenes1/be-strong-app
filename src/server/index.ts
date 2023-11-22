@@ -32,12 +32,13 @@ const start = async () => {
 
       Object.values(PATHS).forEach((p: string) => {
         server.get(p, (req, reply) => {
+          reply.header(
+            'cache-control',
+            'private, no-cache, no-store, max-age=0, s-maxage=0'
+          );
           reply.sendFile(
             'index.html',
-            path.join(__dirname, '..', '..', '/dist/'),
-            {
-              cacheControl: false,
-            }
+            path.join(__dirname, '..', '..', '/dist/')
           );
         });
       });

@@ -31,7 +31,6 @@ services:
       SECRET_KEY: ${SECRET_KEY}
     networks:
       - appnet
-    restart: unless-stopped
 networks:
   appnet:
     driver: bridge

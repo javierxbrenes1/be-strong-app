@@ -8,10 +8,7 @@ const getMemberAttendanceLogsDetails = async (
 ) => {
   const { prisma } = context;
   const { year, memberCode, month } = args;
-  const data = await prisma.$queryRaw(
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    Prisma.sql`
+  const data = await prisma.$queryRaw`
     SELECT cast(gc."classDate" as varchar) as "classDate", gc."classDurationInMinutes", gc."classType", gct."isoTime"
     FROM "memberAttendanceLog" mal 
     JOIN "gymClass" gc 
@@ -22,8 +19,7 @@ const getMemberAttendanceLogsDetails = async (
      AND DATE_PART('Month', gc."classDate") = ${month}
     AND mal."memberCode" = ${memberCode}
     ORDER BY gc."classDate" ASC
-  `
-  );
+  `;
 
   return data;
 };
