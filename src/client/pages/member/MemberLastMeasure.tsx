@@ -73,8 +73,9 @@ function MemberLastMeasure(props: {
               </Typography>
             </Box>
           </CardTitle>
-          {!memberMeasures.length && <Typography>No hay Datos.</Typography>}
-          {!!memberMeasures.length && (
+          {!memberMeasures.length ? (
+            <Typography>No hay Datos.</Typography>
+          ) : (
             <MeasureContainer>
               <MeasureItem
                 id={Measures.weight}
@@ -84,6 +85,7 @@ function MemberLastMeasure(props: {
                 value={String(mostRecentMeasure.weight)}
                 suffix="Kg."
                 onUpdateMeasure={handleEditMeasure}
+                triggerClickOnMount
               />
               <MeasureItem
                 id={Measures.bodyMassIndex}

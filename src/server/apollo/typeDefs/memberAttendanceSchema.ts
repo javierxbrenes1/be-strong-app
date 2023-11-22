@@ -11,6 +11,19 @@ const memberAttendanceSchema = `
         member: Member
     }
 
+    type MemberAttendanceLogByYear {
+        year: Int
+        month: Int
+        total: Int
+    }
+
+    type MemberAttendanceLogsDetails {
+        classDate: String
+        classDurationInMinutes: Int
+        classType: String
+        isoTime: String
+    }
+
     input MemberAttendanceInput {
         monday: Boolean
         tuesday: Boolean
@@ -29,6 +42,8 @@ const memberAttendanceSchema = `
 
     type Query {
         getMemberAttendance(memberCode: String!): MemberAttendance @auth
+        getMemberAttendanceLogByYear(year: Int!, memberCode: String!): [MemberAttendanceLogByYear]
+        getMemberAttendanceLogsDetails(year: Int!, month: Int!, memberCode: String!): [MemberAttendanceLogsDetails]
     }
 
     type Mutation {

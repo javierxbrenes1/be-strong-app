@@ -72,11 +72,7 @@ interface EnhancedTableProps {
 }
 
 function EnhancedTableHead(props: EnhancedTableProps) {
-  const { order, orderBy, onRequestSort, columns } = props;
-  const createSortHandler =
-    (property: string) => (event: React.MouseEvent<unknown>) => {
-      onRequestSort(event, property);
-    };
+  const { order, orderBy, columns } = props;
 
   return (
     <TableHead>
@@ -88,43 +84,11 @@ function EnhancedTableHead(props: EnhancedTableProps) {
             padding={column.disablePadding ? 'none' : 'normal'}
             sortDirection={orderBy === column.id ? order : false}
           >
-            <TableSortLabel
-              active={orderBy === column.id}
-              direction={orderBy === column.id ? order : 'asc'}
-              onClick={createSortHandler(column.id)}
-            >
-              {column.label}
-              {orderBy === column.id ? (
-                <Box component="span" sx={visuallyHidden}>
-                  {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
-                </Box>
-              ) : null}
-            </TableSortLabel>
+            {column.label}
           </TableCell>
         ))}
       </TableRow>
     </TableHead>
-  );
-}
-
-interface EnhancedTableToolbarProps {
-  tableName?: string;
-}
-
-function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
-  const { tableName } = props;
-
-  return (
-    <Toolbar>
-      <Typography
-        sx={{ flex: '1 1 100%' }}
-        variant="h6"
-        id="tableTitle"
-        component="div"
-      >
-        {tableName}
-      </Typography>
-    </Toolbar>
   );
 }
 
@@ -196,18 +160,13 @@ export default function BsTable(props: {
   return (
     <Box sx={{ width: '100%' }}>
       <Paper sx={{ width: '100%', mb: 2 }}>
-        <EnhancedTableToolbar tableName={tableName} />
         {loadingData && (
           <Skeleton variant="rounded" width="100%" height="100px" />
         )}
         {!loadingData && (
           <>
             <TableContainer>
-              <Table
-                sx={{ minWidth: 750 }}
-                aria-labelledby="tableTitle"
-                size="medium"
-              >
+              <Table aria-labelledby="tableTitle" size="medium">
                 <EnhancedTableHead
                   order={order}
                   orderBy={orderBy}

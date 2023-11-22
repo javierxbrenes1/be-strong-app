@@ -2,7 +2,7 @@ import { useMemo, useState } from 'react';
 import CardContent from '@mui/material/CardContent';
 import Card from '@mui/material/Card';
 import Grid from '@mui/material/Grid';
-import { Stack } from '@mui/material';
+import { Divider, Stack } from '@mui/material';
 import { useLazyQuery } from '@apollo/client';
 import { toast } from 'react-toastify';
 import Measure from '../../../../common/models/Measure';
@@ -182,6 +182,7 @@ function MemberMeasuresData(props: {
             onReloadingClick={updateMeasureWasAddedFlag}
           />
         </Stack>
+        <Divider sx={{ margin: '8px 0' }} />
         <Grid container spacing={1} sx={{ marginTop: '12px' }}>
           {columns && (
             <Grid item xs={12}>

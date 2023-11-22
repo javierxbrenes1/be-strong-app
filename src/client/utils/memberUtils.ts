@@ -1,4 +1,4 @@
-import dayjs from 'dayjs';
+import dayjs, { Dayjs } from 'dayjs';
 import { DAYS } from '../labels';
 import GymClassTime from '../../common/models/GymClassTime';
 import MemberAttendance from '../../common/models/MemberAttendance';
@@ -13,6 +13,11 @@ export const parseIsoTimeToDate = (
   }
   return new Date(dateAsString);
 };
+
+export function formatIsoTime(isoTime: string) {
+  const date = parseIsoTimeToDate(isoTime, true);
+  return (date as Dayjs).format('hh:mm A');
+}
 
 export const sortIsoTimes = (a: string, b: string) => {
   const date1 = parseIsoTimeToDate(a) as Date;

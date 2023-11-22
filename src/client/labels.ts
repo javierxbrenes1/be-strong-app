@@ -81,6 +81,21 @@ export const MONTHS = {
   11: 'Dic',
 };
 
+export const FULL_MONTHS = [
+  'Enero',
+  'Febrero',
+  'Marzo',
+  'Abril',
+  'Mayo',
+  'Junio',
+  'Julio',
+  'Agosto',
+  'Setiembre',
+  'Octubre',
+  'Noviembre',
+  'Diciembre',
+];
+
 export const DAYS = {
   monday: 'Lunes',
   tuesday: 'Martes',

@@ -2,13 +2,12 @@ import Box from '@mui/material/Box';
 import { styled } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
 import { ReactNode } from 'react';
-import { SxProps, Theme, Tooltip } from '@mui/material';
+import { Divider, SxProps, Theme, Tooltip } from '@mui/material';
 import IconType from '../../common/models/Icon';
 
 const InfoTitle = styled(Box)({
   display: 'flex',
   justifyContent: 'space-between',
-  marginBottom: '16px',
 });
 
 const StyledIcon = styled(Box)(({ theme }) => ({
@@ -25,6 +24,7 @@ const StyledIcon = styled(Box)(({ theme }) => ({
 
 function CardTitle(props: {
   title?: string;
+  titleVariant?: 'h5' | 'h6';
   actions?: {
     ActionIcon: IconType;
     onActionIconClick: () => void;
@@ -33,24 +33,30 @@ function CardTitle(props: {
   children?: ReactNode | ReactNode[];
   sx?: SxProps<Theme>;
 }) {
-  const { title, children, actions, sx } = props;
+  const { title, children, actions, sx, titleVariant = 'h5' } = props;
 
   return (
-    <InfoTitle sx={sx}>
-      <>
-        {title && <Typography variant="h6">{title}</Typography>}
-        {children}
-        {actions && (
-          <Box sx={{ display: 'flex' }}>
-            {actions.map((ac, index) => (
-              <Tooltip key={`${ac.tooltip}-${index}`} title={ac.tooltip}>
-                <StyledIcon as={ac.ActionIcon} onClick={ac.onActionIconClick} />
-              </Tooltip>
-            ))}
-          </Box>
-        )}
-      </>
-    </InfoTitle>
+    <>
+      <InfoTitle sx={sx}>
+        <>
+          {title && <Typography variant={titleVariant}>{title}</Typography>}
+          {children}
+          {actions && (
+            <Box sx={{ display: 'flex' }}>
+              {actions.map((ac, index) => (
+                <Tooltip key={`${ac.tooltip}-${index}`} title={ac.tooltip}>
+                  <StyledIcon
+                    as={ac.ActionIcon}
+                    onClick={ac.onActionIconClick}
+                  />
+                </Tooltip>
+              ))}
+            </Box>
+          )}
+        </>
+      </InfoTitle>
+      <Divider sx={{ margin: '8px 0' }} />
+    </>
   );
 }
 

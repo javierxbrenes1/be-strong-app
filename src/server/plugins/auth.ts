@@ -6,6 +6,7 @@ async function registerAuth(server: FastifyInstance) {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     secret: process.env.SECRET_KEY || 'supersecret',
     sign: {
+      algorithm: 'HS512',
       expiresIn: '2 days',
     },
   });

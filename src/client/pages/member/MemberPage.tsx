@@ -20,6 +20,7 @@ import { CrudAction, Measures } from '../../types';
 import { GENERAL_ERROR_MESSAGES } from '../../constants';
 import { DAYS } from '../../labels';
 import BsShowError from '../../components/BsShowError';
+import MemberGymClassHistory from './MemberGymClassHistory';
 
 const handleError = (error: unknown, action: CrudAction) => {
   BsShowError(error, GENERAL_ERROR_MESSAGES[action]);
@@ -187,6 +188,9 @@ function MemberPage() {
             updateMeasureWasAddedFlag={() => setNewMeasureWasAdded(false)}
           />
         </Grid>
+      </Grid>
+      <Grid item xs={12}>
+        <MemberGymClassHistory memberCode={member.code} />
       </Grid>
     </PageContainer>
   );

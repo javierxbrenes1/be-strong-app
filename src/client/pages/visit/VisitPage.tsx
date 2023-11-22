@@ -13,6 +13,7 @@ import Measure from '../../../common/models/Measure';
 import { formatDate } from '../../utils/helpers';
 import LastMeasureDetails from './lastMeasureDetails';
 import VisitMeasures from './VisitMeasures';
+import MemberGymClassHistory from '../member/MemberGymClassHistory';
 
 const Container = styled(Box)(({ theme }) => ({
   minHeight: '100vh',
@@ -91,6 +92,9 @@ function VisitPage() {
       </Typography>
       {lastMeasure && <LastMeasureDetails measure={lastMeasure} />}
       {lastMeasure && <VisitMeasures code={member?.code ?? ''} />}
+      {member && (
+        <MemberGymClassHistory memberCode={member.code} titleVariant="h5" />
+      )}
     </Wrapper>
   );
 }

@@ -49,6 +49,7 @@ function MeasureItem(props: {
   value: string;
   suffix?: string;
   chipText?: string;
+  triggerClickOnMount?: boolean;
   onUpdateMeasure: (id: Measures, value: number) => void;
   onClick: (ev: Measures) => void;
 }) {
@@ -60,6 +61,7 @@ function MeasureItem(props: {
     selectedOption,
     onClick,
     onUpdateMeasure,
+    triggerClickOnMount,
     suffix,
   } = props;
   const contentEditableRef = useRef(null);
@@ -68,6 +70,13 @@ function MeasureItem(props: {
   const [isEditing, setIsEditing] = useState(false);
 
   const { color, emoji } = getMeasureColorAndEmoji(chipText || '');
+
+  useEffect(() => {
+    if (triggerClickOnMount) {
+      onClick(id);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     comparativeValue.current = value;
