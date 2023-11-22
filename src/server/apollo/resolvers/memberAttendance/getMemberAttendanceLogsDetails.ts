@@ -9,6 +9,8 @@ const getMemberAttendanceLogsDetails = async (
   const { prisma } = context;
   const { year, memberCode, month } = args;
   const data = await prisma.$queryRaw(
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
     Prisma.sql`
     SELECT cast(gc."classDate" as varchar) as "classDate", gc."classDurationInMinutes", gc."classType", gct."isoTime"
     FROM "memberAttendanceLog" mal 
