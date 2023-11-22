@@ -2,7 +2,7 @@ import Box from '@mui/material/Box';
 import { styled } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
 import { ReactNode } from 'react';
-import { Divider, SxProps, Theme, Tooltip } from '@mui/material';
+import { Divider, Stack, SxProps, Theme, Tooltip } from '@mui/material';
 import IconType from '../../common/models/Icon';
 
 const InfoTitle = styled(Box)({
@@ -25,6 +25,7 @@ const StyledIcon = styled(Box)(({ theme }) => ({
 function CardTitle(props: {
   title?: string;
   titleVariant?: 'h5' | 'h6';
+  Icon?: IconType;
   actions?: {
     ActionIcon: IconType;
     onActionIconClick: () => void;
@@ -33,13 +34,18 @@ function CardTitle(props: {
   children?: ReactNode | ReactNode[];
   sx?: SxProps<Theme>;
 }) {
-  const { title, children, actions, sx, titleVariant = 'h5' } = props;
+  const { title, children, actions, sx, Icon, titleVariant = 'h5' } = props;
 
   return (
     <>
       <InfoTitle sx={sx}>
         <>
-          {title && <Typography variant={titleVariant}>{title}</Typography>}
+          {title && (
+            <Stack direction="row" alignItems="center" gap="5px">
+              {Icon && <Icon />}
+              <Typography variant={titleVariant}>{title}</Typography>
+            </Stack>
+          )}
           {children}
           {actions && (
             <Box sx={{ display: 'flex' }}>

@@ -2,6 +2,7 @@ import { Box, Card, CardContent, Stack, Typography } from '@mui/material';
 import { useEffect, useState, useCallback } from 'react';
 import dayjs from 'dayjs';
 import { useLazyQuery } from '@apollo/client';
+import ChecklistIcon from '@mui/icons-material/Checklist';
 import CardTitle from '../../components/CardTitle';
 import BsYearPopover from '../../components/BsYearPopover';
 import { GET_MEMBER_ATTENDANCE_LOG_BY_YEAR } from '../../queries/memberPage';
@@ -76,7 +77,11 @@ function MemberGymClassHistory(props: {
     <>
       <Card elevation={3} sx={{ margin: '16px 0' }}>
         <CardContent>
-          <CardTitle title={title} titleVariant={titleVariant} />
+          <CardTitle
+            title={title}
+            titleVariant={titleVariant}
+            Icon={ChecklistIcon}
+          />
           <Stack
             direction="row"
             justifyContent="space-between"

@@ -1,6 +1,5 @@
 import { useQuery } from '@apollo/client';
 import {
-  Box,
   Dialog,
   DialogContent,
   DialogTitle,
