@@ -73,10 +73,6 @@ function ClassesCalendarPage() {
     []
   );
 
-  const handleRangeChange = (range: Date[] | { start: Date; end: Date }) => {
-    console.log(range);
-  };
-
   return (
     <PageContainer
       Icon={SportsGymnasticsIcon}
@@ -85,7 +81,7 @@ function ClassesCalendarPage() {
     >
       <CalendarWrapper>
         {/* @ts-ignore */}
-        <Calendar onRangeChange={handleRangeChange} {...calendarProps} />
+        <Calendar {...calendarProps} />
       </CalendarWrapper>
     </PageContainer>
   );

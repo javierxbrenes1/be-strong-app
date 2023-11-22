@@ -74,8 +74,6 @@ function MemberGymClassDetails(props: {
     },
   });
 
-  console.log(buildRows(data));
-
   return (
     <Dialog open fullScreen onClose={onClose} maxWidth="lg" fullWidth>
       <DialogTitle>
