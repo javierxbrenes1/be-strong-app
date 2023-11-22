@@ -25,6 +25,7 @@ services:
     depends_on:
       db:
         condition: service_healthy
+    restart: always
     environment:
       NODE_ENV: ${NODE_ENV}
       DATABASE_URL: ${DATABASE_URL}
