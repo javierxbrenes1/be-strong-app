@@ -46,7 +46,7 @@ export const PATHS = {
   HOME: '/',
   CLASSES: '/classes',
   MEMBERS: '/members',
-  MEMBER: '/member/*',
+  MEMBER_DETAILS: '/members/*',
   CONFIGURATIONS: '/config',
   LOGIN: '/login',
   VISIT: '/visit',

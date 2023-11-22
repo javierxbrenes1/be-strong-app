@@ -7,7 +7,7 @@
     "build-server": "rimraf build && tsc -p tsconfig.server.json",
     "build-client": "rimraf dist && tsc && vite build",
     "build": "npm run build-server && npm run build-client",
-    "start:prod:local": "NODE_ENV=production node ./build/src/server/index.js",
+    "start:prod:local": "NODE_ENV=production node ./build/server/index.js",
     "build:start:local": "npm run build && npm run run:prod:local",
     "prisma": "npx prisma generate && npx prisma migrate deploy && npx prisma db seed",
     "start:prod": "npm run prisma && node ./build/server/index.js",
