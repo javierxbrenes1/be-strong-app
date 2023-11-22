@@ -1,5 +1,4 @@
 import { Prisma } from '@prisma/client';
-import MemberAttendanceLogByYear from '../../../../common/models/MemberAttendanceLogByYear';
 import { BeStrongContext } from '../../context';
 
 const getMemberAttendanceLogByYear = async (
@@ -9,7 +8,7 @@ const getMemberAttendanceLogByYear = async (
 ) => {
   const { prisma } = context;
   const { year, memberCode } = args;
-  const data = await prisma.$queryRaw<MemberAttendanceLogByYear[]>(
+  const data = await prisma.$queryRaw(
     Prisma.sql`
   SELECT DATE_PART('Year', gc."classDate") as year,
          DATE_PART('Month', gc."classDate") as month, 

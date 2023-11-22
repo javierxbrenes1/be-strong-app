@@ -1,5 +1,4 @@
 import { Prisma } from '@prisma/client';
-import MemberAttendanceLogsDetails from '../../../../common/models/MemberAttendanceLogsDetails';
 import { BeStrongContext } from '../../context';
 
 const getMemberAttendanceLogsDetails = async (
@@ -9,7 +8,7 @@ const getMemberAttendanceLogsDetails = async (
 ) => {
   const { prisma } = context;
   const { year, memberCode, month } = args;
-  const data = await prisma.$queryRaw<MemberAttendanceLogsDetails[]>(
+  const data = await prisma.$queryRaw(
     Prisma.sql`
     SELECT cast(gc."classDate" as varchar) as "classDate", gc."classDurationInMinutes", gc."classType", gct."isoTime"
     FROM "memberAttendanceLog" mal 
