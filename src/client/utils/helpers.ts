@@ -28,7 +28,7 @@ export function isValid(val?: unknown) {
 }
 
 export const formatDate = (date: number | Date): string => {
-  const text = dayjs(date).locale('es').format('DD MMMM YYYY');
+  const text = dayjs(date).locale('es').format('DD/MM/YYYY');
   return text
     .split(' ')
     .map((x) => x[0].toLocaleUpperCase() + x.substring(1))
