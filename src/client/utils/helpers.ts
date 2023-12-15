@@ -27,7 +27,7 @@ export function isValid(val?: unknown) {
   return val !== undefined && val !== null;
 }
 
-export const formatDate = (date: number | Date): string => {
+export const formatDate = (date: number | Date | string): string => {
   const text = dayjs(date).locale('es').format('DD/MM/YYYY');
   return text
     .split(' ')

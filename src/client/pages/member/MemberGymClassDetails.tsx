@@ -50,7 +50,7 @@ const buildRows = (data?: Data) => {
     ({ classDate, classDurationInMinutes, classType, isoTime }) => ({
       classDurationInMinutes,
       classType,
-      classDate: formatDate(dayjs(classDate).toDate()), // fix me
+      classDate: formatDate(classDate), // fix me
       schedule: formatIsoTime(isoTime),
     })
   );

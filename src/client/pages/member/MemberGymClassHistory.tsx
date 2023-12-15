@@ -1,16 +1,21 @@
 import { Box, Card, CardContent, Stack, Typography } from '@mui/material';
 import { useEffect, useState, useCallback } from 'react';
 import dayjs from 'dayjs';
-import { useLazyQuery } from '@apollo/client';
+import { useLazyQuery, useQuery } from '@apollo/client';
 import ChecklistIcon from '@mui/icons-material/Checklist';
 import CardTitle from '../../components/CardTitle';
 import BsYearPopover from '../../components/BsYearPopover';
-import { GET_MEMBER_ATTENDANCE_LOG_BY_YEAR } from '../../queries/memberPage';
-import Loading from '../../components/Loading';
+import {
+  GET_MEMBER_ATTENDANCE_LOG_BY_YEAR,
+  GET_MEMBER_ATTENDANCE_CLASSES,
+} from '../../queries/memberPage';
+import MemberAttendanceLogsDetails from '../../../common/models/MemberAttendanceLogsDetails';
 import { FULL_MONTHS } from '../../labels';
 import BsMonthCount from '../../components/BsMonthCount';
 import MemberAttendanceLogByYear from '../../../common/models/MemberAttendanceLogByYear';
 import MemberGymClassDetails from './MemberGymClassDetails';
+import { formatDate } from '../../utils/helpers';
+import { formatIsoTime } from '../../utils/memberUtils';
 
 function MemberGymClassHistory(props: {
   memberCode: string;
@@ -20,6 +25,19 @@ function MemberGymClassHistory(props: {
   const [date, setDate] = useState(dayjs());
   const [showDetails, setShowDetails] = useState(false);
   const [monthToShow, setMonthToShow] = useState<number | null>(null);
+  const { data: lastAttendanceClass } = useQuery<{
+    getMemberAttendanceClasses: MemberAttendanceLogsDetails[];
+  }>(GET_MEMBER_ATTENDANCE_CLASSES, {
+    fetchPolicy: 'network-only',
+    variables: {
+      memberCode,
+      order: 'desc',
+      take: 1,
+    },
+  });
+  const { getMemberAttendanceClasses } = lastAttendanceClass ?? {};
+  const [lastClass] = getMemberAttendanceClasses ?? [];
+
   const [getData, { data }] = useLazyQuery<{
     getMemberAttendanceLogByYear: MemberAttendanceLogByYear[];
   }>(GET_MEMBER_ATTENDANCE_LOG_BY_YEAR, {
@@ -91,7 +109,7 @@ function MemberGymClassHistory(props: {
               <Typography variant="h4">{date.year()}</Typography>
               <BsYearPopover date={date} onYearSelection={setDate} />
             </Stack>
-            <Box>
+            <Box sx={{ textAlign: 'right' }}>
               <Typography variant="h4">Total: {getTotal()}</Typography>
             </Box>
           </Stack>
@@ -109,6 +127,12 @@ function MemberGymClassHistory(props: {
               );
             })}
           </Stack>
+          {lastClass ? (
+            <Typography variant="h6" sx={{ margin: '.5rem 0' }}>
+              Última clase registrada: {formatDate(lastClass.classDate)}{' '}
+              {formatIsoTime(lastClass.isoTime)}
+            </Typography>
+          ) : null}
         </CardContent>
       </Card>
       {showDetails && monthToShow && (

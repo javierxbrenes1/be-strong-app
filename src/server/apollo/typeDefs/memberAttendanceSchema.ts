@@ -24,6 +24,7 @@ const memberAttendanceSchema = `
         isoTime: String
     }
 
+
     input MemberAttendanceInput {
         monday: Boolean
         tuesday: Boolean
@@ -44,6 +45,7 @@ const memberAttendanceSchema = `
         getMemberAttendance(memberCode: String!): MemberAttendance @auth
         getMemberAttendanceLogByYear(year: Int!, memberCode: String!): [MemberAttendanceLogByYear]
         getMemberAttendanceLogsDetails(year: Int!, month: Int!, memberCode: String!): [MemberAttendanceLogsDetails]
+        getMemberAttendanceClasses(memberCode: String!,order: String, take: Int): [MemberAttendanceLogsDetails]
     }
 
     type Mutation {

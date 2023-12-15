@@ -32,11 +32,28 @@ export const GET_MEMBER_MEASURES = gql`
 `;
 
 export const GET_MEMBER_ATTENDANCE_LOG_BY_YEAR = gql`
-  query getMemberAttendanceLogByYear($year: Int!, $memberCode: String!) {
+  query getMemberAttendanceLogDetails($year: Int!, $memberCode: String!) {
     getMemberAttendanceLogByYear(year: $year, memberCode: $memberCode) {
       year
       month
       total
+    }
+  }
+`;
+
+export const GET_MEMBER_ATTENDANCE_CLASSES = gql`
+  query getMemberAttendanceClasses(
+    $memberCode: String!
+    $order: String
+    $take: Int
+  ) {
+    getMemberAttendanceClasses(
+      memberCode: $memberCode
+      order: $order
+      take: $take
+    ) {
+      classDate
+      isoTime
     }
   }
 `;
