@@ -24,15 +24,29 @@ const getMemberAttendanceClasses = async (
     ...(take ? { take } : {}),
   });
 
-  return data.map((d) => {
-    const { isoTime } = d.gymClassTime;
-    const { id, classDate, ...gymClass } = d.gymClass;
-    return {
-      isoTime,
-      classDate: dayjs(classDate).toISOString().split('T')[0],
-      ...gymClass,
-    };
-  });
+  return data.map(
+    (d: {
+      gymClass: {
+        id: number;
+        classDate: Date | null;
+        classDurationInMinutes: number | null;
+        classType: string | null;
+        classDescription: string | null;
+      };
+      gymClassTime: {
+        id: number;
+        isoTime: string;
+      };
+    }) => {
+      const { isoTime } = d.gymClassTime;
+      const { id, classDate, ...gymClass } = d.gymClass;
+      return {
+        isoTime,
+        classDate: dayjs(classDate).toISOString().split('T')[0],
+        ...gymClass,
+      };
+    }
+  );
 };
 
 export default getMemberAttendanceClasses;
