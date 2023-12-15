@@ -29,7 +29,7 @@ const getMemberAttendanceClasses = async (
     const { id, classDate, ...gymClass } = d.gymClass;
     return {
       isoTime,
-      classDate: dayjs(classDate).toISOString(),
+      classDate: dayjs(classDate).toISOString().split('T')[0],
       ...gymClass,
     };
   });
