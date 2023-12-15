@@ -20,7 +20,7 @@ function MemberGymClassHistory(props: {
   const [date, setDate] = useState(dayjs());
   const [showDetails, setShowDetails] = useState(false);
   const [monthToShow, setMonthToShow] = useState<number | null>(null);
-  const [getData, { loading, data }] = useLazyQuery<{
+  const [getData, { data }] = useLazyQuery<{
     getMemberAttendanceLogByYear: MemberAttendanceLogByYear[];
   }>(GET_MEMBER_ATTENDANCE_LOG_BY_YEAR, {
     fetchPolicy: 'network-only',
@@ -95,28 +95,20 @@ function MemberGymClassHistory(props: {
               <Typography variant="h4">Total: {getTotal()}</Typography>
             </Box>
           </Stack>
-          {loading && <Loading />}
-          {!loading && (
-            <Stack
-              direction="row"
-              gap="20px"
-              flexWrap="wrap"
-              alignItems="center"
-            >
-              {FULL_MONTHS.map((month, index) => {
-                const monthIndex = index + 1;
-                const count = getCount(monthIndex);
-                return (
-                  <BsMonthCount
-                    key={month}
-                    onClick={count ? handleMonthClick(monthIndex) : undefined}
-                    month={month}
-                    count={count}
-                  />
-                );
-              })}
-            </Stack>
-          )}
+          <Stack direction="row" gap="20px" flexWrap="wrap" alignItems="center">
+            {FULL_MONTHS.map((month, index) => {
+              const monthIndex = index + 1;
+              const count = getCount(monthIndex);
+              return (
+                <BsMonthCount
+                  key={month}
+                  onClick={count ? handleMonthClick(monthIndex) : undefined}
+                  month={month}
+                  count={count}
+                />
+              );
+            })}
+          </Stack>
         </CardContent>
       </Card>
       {showDetails && monthToShow && (
