@@ -57,6 +57,7 @@ function AddMeasures(props: {
   const [addMeasure, { loading }] = useMutation<{ addMeasure: Measure }>(
     ADD_MEASURE,
     {
+      refetchQueries: ['getMemberMeasures'],
       onCompleted(data) {
         if (onSuccess) {
           onSuccess(data.addMeasure);

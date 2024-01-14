@@ -20,8 +20,8 @@ export const UPDATE_MEASURE = gql`
 `;
 
 export const DELETE_MEASURE = gql`
-  mutation deleteMeasure($deleteMeasureId: Int!) {
-    deleteMeasure(id: $deleteMeasureId) {
+  mutation deleteMeasure($id: Int!, $memberCode: String!) {
+    deleteMeasure(id: $id, memberCode: $memberCode) {
       ...MeasureAllFields
     }
   }

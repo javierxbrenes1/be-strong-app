@@ -2,7 +2,9 @@ import Button from '@mui/material/Button';
 import { styled } from '@mui/material/styles';
 import IconType from '../../common/models/Icon';
 
-const MyButton = styled(Button)<{ hoverColor?: string }>(({ hoverColor }) => ({
+const MyButton = styled(Button, {
+  shouldForwardProp: (prop) => prop !== 'hoverColor',
+})<{ hoverColor?: string }>(({ hoverColor }) => ({
   width: '100%',
   background: '#fff',
   fontSize: '14px',

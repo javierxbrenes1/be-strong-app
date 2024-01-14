@@ -18,6 +18,17 @@ const MEMBER_SCALAR_FIELDS = gql`
   }
 `;
 
+export const MEMBER_FIELDS_WITHOUT_MEASURE = gql`
+fragment memberWithoutMeasure on Member {
+  ...memberScalarFields
+  memberAttendance {
+    ...memberAttendanceAllFields
+  }
+}
+${MEMBER_SCALAR_FIELDS},
+${MEMBER_ATTENDANCE_ALL_FIELDS}
+`;
+
 export const MEMBER_ALL_FIELDS = gql`
   fragment memberAllFields on Member {
     ...memberScalarFields

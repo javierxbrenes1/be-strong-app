@@ -2,8 +2,7 @@ import { useMemo, useState } from 'react';
 import CardContent from '@mui/material/CardContent';
 import Card from '@mui/material/Card';
 import Grid from '@mui/material/Grid';
-import { Divider, Stack } from '@mui/material';
-import { useLazyQuery } from '@apollo/client';
+import { Divider, Stack, Switch, Typography } from '@mui/material';
 import Measure from '../../../../common/models/Measure';
 import CardTitle from '../../../components/CardTitle';
 import SimpleTable from '../../../components/SimpleTable';
@@ -18,10 +17,10 @@ import {
   getMeasureTableColumns,
 } from '../../../labels';
 import Filters from './Filters';
-import { GET_MEMBER_MEASURES } from '../../../queries/memberPage';
 import Pagination from '../../../../common/models/Pagination';
 import { Measures } from '../../../types';
-import BsShowError from '../../../components/BsShowError';
+import useGetMeasuresFromServer from './useGetMeasuresFromServer';
+import DeleteConfirmationModal from './DeleteConfirmationModal';
 
 /**
  * Member measure component
@@ -51,21 +50,11 @@ function MemberMeasuresData(props: {
     null
   );
   const [rowsPerPage, setRowsPerPage] = useState<number>(5);
+  const [showActions, setShowActions] = useState(false);
+  const [measureToDelete, setMeasureToDelete] = useState<Measure | null>(null);
 
-  const [getMeasuresFromServer, { loading }] = useLazyQuery<{
-    getMeasures: {
-      measures: Measure[];
-      pagination: Pagination;
-    };
-  }>(GET_MEMBER_MEASURES, {
-    fetchPolicy: 'cache-and-network',
-    onError(err) {
-      BsShowError(
-        err,
-        'Hubo un error cargando los datos, intenta nuevamente, o refresca el browser'
-      );
-    },
-    onCompleted(data) {
+  const { getMeasuresFromServer, loading } = useGetMeasuresFromServer(
+    (data) => {
       const { measures, pagination } = data.getMeasures;
       setPaginationDetails(pagination);
       setMeasuresPages((p) => ({
@@ -73,8 +62,8 @@ function MemberMeasuresData(props: {
         [pagination.currentPage]: measures,
       }));
       setCurrentPage(pagination.currentPage);
-    },
-  });
+    }
+  );
 
   const memberMeasures: Measure[] = useMemo(
     () => measuresPages[currentPage] ?? [],
@@ -161,63 +150,98 @@ function MemberMeasuresData(props: {
     });
   };
 
+  const deleteMemberMeasure = (id: string) => {
+    const measure = memberMeasures.find((m) => m.id === Number(id));
+    if (measure) {
+      setMeasureToDelete(measure);
+    }
+  };
+
   return (
-    <Card elevation={3}>
-      <CardContent>
-        <Stack
-          direction="row"
-          gap={1}
-          alignItems="center"
-          justifyContent="space-between"
-          sx={{ marginBottom: ' 16px' }}
-        >
-          <CardTitle
-            title={`Detalles${newMeasureWasAdded ? ' 🔗‍💥' : ''}`}
-            sx={{ marginBottom: 0 }}
-          />
-          <Filters
-            onSearch={handleOnSearch}
-            activateReloading={newMeasureWasAdded}
-            onReloadingClick={updateMeasureWasAddedFlag}
-          />
-        </Stack>
-        <Divider sx={{ margin: '8px 0' }} />
-        <Grid container spacing={1} sx={{ marginTop: '12px' }}>
-          {columns && (
-            <Grid item xs={12}>
-              <SimpleTable
-                columns={columns}
-                rows={parsedMemberMeasures}
-                loading={loading}
-                pagination={
-                  paginationDetails
-                    ? {
-                        count: paginationDetails.total,
-                        onPageChange: handlePageChange,
-                        currentPage,
-                        rowsPerPage,
-                        rowsPerPageOptions: [5, 10, 20, 50, 100],
-                        onRowsPerPageChange: handleOnRowsPerPageChange,
-                      }
-                    : undefined
-                }
-              />
-            </Grid>
-          )}
-          {chartDetails && (
-            <Grid item xs={12}>
-              <Chart
-                labels={chartDetails.labels}
-                numbers={chartDetails.numbers}
-                chartTitle={
-                  MEASURES_TITLES[selectedMeasureType as MeasuresTitlesProp]
-                }
-              />
-            </Grid>
-          )}
-        </Grid>
-      </CardContent>
-    </Card>
+    <>
+      <Card elevation={3}>
+        <CardContent>
+          <Stack
+            direction="row"
+            gap={1}
+            alignItems="center"
+            justifyContent="space-between"
+            sx={{ marginBottom: ' 16px' }}
+          >
+            <CardTitle
+              title={`Detalles${newMeasureWasAdded ? ' 🔗‍💥' : ''}`}
+              sx={{ marginBottom: 0 }}
+            />
+            <Filters
+              onSearch={handleOnSearch}
+              activateReloading={newMeasureWasAdded}
+              onReloadingClick={updateMeasureWasAddedFlag}
+            />
+          </Stack>
+          <Divider sx={{ margin: '8px 0' }} />
+          <Grid container spacing={1} sx={{ marginTop: '12px' }}>
+            {columns && (
+              <Grid item xs={12}>
+                <Stack
+                  direction="row"
+                  gap="0.25rem"
+                  justifyContent="end"
+                  alignItems="center"
+                >
+                  <Switch
+                    color="primary"
+                    checked={showActions}
+                    onChange={() => setShowActions((prev) => !prev)}
+                  />
+                  <Typography>Mostrar acciones</Typography>
+                </Stack>
+                <SimpleTable
+                  columns={columns}
+                  rows={parsedMemberMeasures}
+                  loading={loading}
+                  actions={{
+                    delete: deleteMemberMeasure,
+                  }}
+                  showActions={showActions}
+                  pagination={
+                    paginationDetails
+                      ? {
+                          count: paginationDetails.total,
+                          onPageChange: handlePageChange,
+                          currentPage,
+                          rowsPerPage,
+                          rowsPerPageOptions: [5, 10, 20, 50, 100],
+                          onRowsPerPageChange: handleOnRowsPerPageChange,
+                        }
+                      : undefined
+                  }
+                />
+              </Grid>
+            )}
+            {chartDetails && (
+              <Grid item xs={12}>
+                <Chart
+                  labels={chartDetails.labels}
+                  numbers={chartDetails.numbers}
+                  chartTitle={
+                    MEASURES_TITLES[selectedMeasureType as MeasuresTitlesProp]
+                  }
+                />
+              </Grid>
+            )}
+          </Grid>
+        </CardContent>
+      </Card>
+      {measureToDelete ? (
+        <DeleteConfirmationModal
+          measure={measureToDelete}
+          memberCode={memberCode}
+          onClose={() => {
+            setMeasureToDelete(null);
+          }}
+        />
+      ) : null}
+    </>
   );
 }
 

@@ -7,21 +7,39 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import { Stack, SxProps, Theme } from '@mui/material';
+import {
+  Stack,
+  SxProps,
+  Theme,
+  IconButton,
+  SvgIconTypeMap,
+} from '@mui/material';
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
+import { OverridableComponent } from '@mui/material/OverridableComponent';
 import Loading from './Loading';
 import BsTablePagination from './BsTablePagination';
 
-const StyledTableCell = styled(TableCell)<{ headBgColor?: string }>(
-  ({ theme, headBgColor }) => ({
-    [`&.${tableCellClasses.head}`]: {
-      backgroundColor: headBgColor || theme.palette.primary.main,
-      color: theme.palette.common.white,
-    },
-    [`&.${tableCellClasses.body}`]: {
-      fontSize: 14,
-    },
-  })
-);
+const IconMap: {
+  [key: string]: OverridableComponent<SvgIconTypeMap<unknown, 'svg'>> & {
+    muiName: string;
+  };
+} = {
+  edit: EditIcon,
+  delete: DeleteIcon,
+};
+
+const StyledTableCell = styled(TableCell, {
+  shouldForwardProp: (prop) => prop !== 'headBgColor',
+})<{ headBgColor?: string }>(({ theme, headBgColor }) => ({
+  [`&.${tableCellClasses.head}`]: {
+    backgroundColor: headBgColor || theme.palette.primary.main,
+    color: theme.palette.common.white,
+  },
+  [`&.${tableCellClasses.body}`]: {
+    fontSize: 14,
+  },
+}));
 
 const StyledTableRow = styled(TableRow)(({ theme }) => ({
   '&:nth-of-type(odd)': {
@@ -41,6 +59,11 @@ export type ColumnType = {
 
 export type RowType = Record<string, string | ReactNode | ReactNode[]>;
 
+enum ActionsTypes {
+  edit = 'edit',
+  delete = 'delete',
+}
+export type Actions = { [key in ActionsTypes]?: (id: string) => void };
 interface Props {
   columns: ColumnType[];
   rows: RowType[];
@@ -55,10 +78,47 @@ interface Props {
     rowsPerPageOptions: Array<number | { label: string; value: number }>;
     onRowsPerPageChange: (newRowNumber: number) => void;
   };
+  actions?: Actions;
+  showActions?: boolean;
+}
+
+function ActionsComponent(props: { actions: Actions; id: string }) {
+  const { actions, id } = props;
+
+  return (
+    <Stack direction="row" gap=".5rem">
+      {Object.keys(actions).map((action, index) => {
+        const Icon = IconMap[action];
+        const clickHandler = actions[action as ActionsTypes];
+        return (
+          <IconButton
+            key={`actions-for-${id}-${index}`}
+            size="small"
+            onClick={() => {
+              if (clickHandler) {
+                clickHandler(id);
+              }
+            }}
+          >
+            <Icon />
+          </IconButton>
+        );
+      })}
+    </Stack>
+  );
 }
 
 export default function SimpleTable(props: Props) {
-  const { columns, rows, loading, headBgColor, pagination, xs } = props;
+  const {
+    columns,
+    rows,
+    loading,
+    headBgColor,
+    pagination,
+    xs,
+    actions,
+    showActions,
+  } = props;
 
   return (
     <>
@@ -83,6 +143,9 @@ export default function SimpleTable(props: Props) {
                   {text}
                 </StyledTableCell>
               ))}
+              {actions && showActions ? (
+                <StyledTableCell>Acciones</StyledTableCell>
+              ) : null}
             </TableRow>
           </TableHead>
           <TableBody>
@@ -97,6 +160,14 @@ export default function SimpleTable(props: Props) {
                       {row[id]}
                     </StyledTableCell>
                   ))}
+                  {actions && showActions ? (
+                    <StyledTableCell>
+                      <ActionsComponent
+                        actions={actions}
+                        id={row.id as string}
+                      />
+                    </StyledTableCell>
+                  ) : null}
                 </StyledTableRow>
               ))}
           </TableBody>

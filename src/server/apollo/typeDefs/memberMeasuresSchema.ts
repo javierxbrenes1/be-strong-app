@@ -64,7 +64,7 @@ const memberMeasuresSchema = `
     type Mutation {
         addMeasure(measure: AddMeasureInput): MemberMeasure @auth
         updateMeasure(measure: UpdateMeasureInput): MemberMeasure @auth
-        deleteMeasure(id: Int!): MemberMeasure @auth
+        deleteMeasure(id: Int!, memberCode: String!): MemberMeasure @auth
     }
 `;
 

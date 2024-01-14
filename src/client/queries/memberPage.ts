@@ -1,19 +1,30 @@
 import { gql } from '@apollo/client';
-import { MEMBER_ALL_FIELDS } from '../fragments/memberFragment';
+import { MEMBER_FIELDS_WITHOUT_MEASURE } from '../fragments/memberFragment';
 import { PAGINATION } from '../fragments/paginationFragment';
 import { MEASURE_FRAGMENT_ALL_FIELDS } from '../fragments/measureFragment';
 
 export const GET_MEMBER_DETAILS = gql`
-  query getMemberDetails(
+  query getMemberDetails($code: String!) {
+    getMember(code: $code) {
+      ...memberWithoutMeasure
+    }
+  }
+  ${MEMBER_FIELDS_WITHOUT_MEASURE}
+`;
+
+export const GET_MEMBER_LAST_MEASURE = gql`
+  query getMemberLastMeasure(
     $code: String!
     $take: Int
     $orderBy: MemberMeasuresOrderBy
   ) {
     getMember(code: $code) {
-      ...memberAllFields
+      memberMeasures(take: $take, orderBy: $orderBy) {
+        ...MeasureAllFields
+      }
     }
   }
-  ${MEMBER_ALL_FIELDS}
+  ${MEASURE_FRAGMENT_ALL_FIELDS}
 `;
 
 export const GET_MEMBER_MEASURES = gql`

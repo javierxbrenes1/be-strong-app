@@ -49,6 +49,7 @@ function BsTablePagination(props: Props) {
     >
       <TablePagination
         count={count}
+        component="div"
         page={currentPage}
         onPageChange={handlePageChange}
         rowsPerPage={rowsPerPage}

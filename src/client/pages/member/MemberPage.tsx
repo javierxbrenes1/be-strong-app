@@ -53,17 +53,13 @@ function MemberPage() {
         memberMeasures: [measure],
       };
     });
-    setNewMeasureWasAdded(true);
+    // setNewMeasureWasAdded(true);
   };
 
   const { loading } = useQuery<{ getMember: Member }>(GET_MEMBER_DETAILS, {
     fetchPolicy: 'no-cache',
     variables: {
       code,
-      take: 1,
-      orderBy: {
-        date: 'desc',
-      },
     },
     onError(error) {
       handleError(error, 'loading');
@@ -173,10 +169,9 @@ function MemberPage() {
           <MemberLastMeasure
             member={member}
             selectedMeasureType={selectedMeasureType}
-            onSelectMeasureType={(ev: Measures) => {
+            onSelectMeasureType={(ev: Measures | null) => {
               setSelectedMeasureType(ev);
             }}
-            onNewMeasureAdded={handleNewMeasureAdded}
             onEditMeasure={handleMeasureUpdate}
           />
         </Grid>
