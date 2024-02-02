@@ -1,0 +1,5 @@
+-- AlterTable
+ALTER TABLE "member" ADD COLUMN     "category" VARCHAR(5),
+ALTER COLUMN "birthDate" DROP NOT NULL,
+ALTER COLUMN "height" DROP NOT NULL,
+ALTER COLUMN "genre" DROP NOT NULL;

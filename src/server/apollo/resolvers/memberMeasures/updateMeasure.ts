@@ -54,7 +54,7 @@ export default async (
   if (!member) {
     throw new Error('Member not found');
   }
-  const age = calculateAge(member.birthDate);
+  const age = member.birthDate ? calculateAge(member.birthDate) : 18;
   const typedGenre = member.genre as Genre;
 
   const details: Record<string, unknown> = {};

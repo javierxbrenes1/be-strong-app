@@ -48,10 +48,9 @@ const Actions = styled(CardActions)(({ theme }) => ({
 
 function MemberCard(props: {
   member: Member;
-  onAddMeasuresClick: (member: Member) => void;
   onViewClick: (code: string) => void;
 }) {
-  const { member, onAddMeasuresClick, onViewClick } = props;
+  const { member, onViewClick } = props;
 
   return (
     <Card
@@ -88,14 +87,6 @@ function MemberCard(props: {
         </Box>
       </CardContent>
       <Actions>
-        <Action
-          onClick={() => {
-            onAddMeasuresClick(member);
-          }}
-        >
-          <ScaleIcon />
-          <span>Medidas</span>
-        </Action>
         <Action
           onClick={() => {
             onViewClick(member.code);

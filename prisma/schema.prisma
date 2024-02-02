@@ -39,9 +39,9 @@ model gymClassOnTimes {
 model member {
   code                String                @id @db.VarChar(16)
   name                String                @db.VarChar(100)
-  birthDate           DateTime              @db.Date
-  height              Float
-  genre               String                @db.VarChar(10)
+  birthDate           DateTime?              @db.Date
+  height              Float?
+  genre               String?                @db.VarChar(10)
   phone               String?               @db.VarChar(10)
   email               String?               @db.VarChar(150)
   avatar              String?               @db.VarChar(150)
@@ -50,6 +50,7 @@ model member {
   preferredClassTime  Int?                  @db.Integer
   createAt            DateTime?             @default(now()) @db.Timestamp(6)
   modifyAt            DateTime?             @default(now()) @db.Timestamp(6)
+  category            String?               @db.VarChar(5)
   memberAttendance    memberAttendance?
   memberAttendanceLog memberAttendanceLog[]
   memberMeasures      memberMeasures[]

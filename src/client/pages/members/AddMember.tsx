@@ -6,6 +6,8 @@ import Box from '@mui/material/Box';
 import PersonAddAlt1Icon from '@mui/icons-material/PersonAddAlt1';
 import Dialog from '@mui/material/Dialog';
 import { toast } from 'react-toastify';
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 import {
   Button,
   DialogActions,
@@ -18,8 +20,9 @@ import {
   Select,
   SelectChangeEvent,
   TextField,
-  styled,
   CircularProgress,
+  Stack,
+  IconButton,
 } from '@mui/material';
 import { DateField } from '@mui/x-date-pickers/DateField';
 import { useMutation } from '@apollo/client';
@@ -31,19 +34,13 @@ import Errors from '../../components/Errors';
 import Member from '../../../common/models/Member';
 import BsLocalizationProvider from '../../components/BsLocalizationProvider';
 import modifyGetAllMembersQuery from '../../cacheHelpers/getAllMembersModifier';
-import FormContainer from '../../components/BsFormContainer';
-
-const ObservationContainer = styled(FormControl)(({ theme }) => ({
-  [theme.breakpoints.up('sm')]: {
-    gridColumn: 'span 2',
-  },
-}));
 
 function AddMember(props: { addNewMemberToList?: (member: Member) => void }) {
   const { addNewMemberToList } = props;
   const [open, setOpen] = useState(false);
   const [readyToBeSaved, setReadyToBeSaved] = useState(false);
   const [errors, setErrors] = useState<string[]>([]);
+  const [showInputs, setShowInputs] = useState(false);
   const [memberDetails, setMemberDetails] = useState<{
     name?: string;
     height?: number;
@@ -84,8 +81,8 @@ function AddMember(props: { addNewMemberToList?: (member: Member) => void }) {
   );
 
   useEffect(() => {
-    const { name, height, birthDate, genre } = memberDetails;
-    const canISaveIt = !!name && !!height && !!birthDate && !!genre;
+    const { name } = memberDetails;
+    const canISaveIt = !!name;
     setReadyToBeSaved(canISaveIt);
   }, [memberDetails]);
 
@@ -143,7 +140,9 @@ function AddMember(props: { addNewMemberToList?: (member: Member) => void }) {
   return (
     <>
       <Box>
-        <BsButton Icon={PersonAddAlt1Icon} onClick={handleClick} />
+        <IconButton onClick={handleClick}>
+          <PersonAddAlt1Icon color="primary" />
+        </IconButton>
       </Box>
       <Dialog open={open} onClose={handleClose} disableEscapeKeyDown>
         <DialogTitle>Nuevo Miembro</DialogTitle>
@@ -153,16 +152,25 @@ function AddMember(props: { addNewMemberToList?: (member: Member) => void }) {
             informacion puede ser proporcionada a travez del app mobile
             individualmente.
           </DialogContentText>
-          <FormContainer>
-            <FormControl fullWidth>
-              <TextField
-                onChange={handleInputsChange}
-                name="name"
-                label="Nombre"
-                variant="outlined"
-                value={memberDetails.name ?? ''}
-              />
-            </FormControl>
+          <FormControl fullWidth sx={{ marginTop: '.5rem' }}>
+            <TextField
+              onChange={handleInputsChange}
+              name="name"
+              label="Nombre"
+              variant="outlined"
+              value={memberDetails.name ?? ''}
+            />
+          </FormControl>
+          <Stack justifyContent="center" alignItems="center" paddingY=".5rem">
+            <IconButton onClick={() => setShowInputs((s) => !s)}>
+              {showInputs ? (
+                <RemoveCircleOutlineIcon />
+              ) : (
+                <AddCircleOutlineIcon />
+              )}
+            </IconButton>
+          </Stack>
+          <Stack gap=".5rem" sx={{ display: showInputs ? 'flex' : 'none' }}>
             <FormControl fullWidth>
               <TextField
                 type="number"
@@ -197,7 +205,7 @@ function AddMember(props: { addNewMemberToList?: (member: Member) => void }) {
                 />
               </BsLocalizationProvider>
             </FormControl>
-            <ObservationContainer fullWidth>
+            <FormControl fullWidth>
               <TextField
                 multiline
                 minRows={4}
@@ -206,8 +214,9 @@ function AddMember(props: { addNewMemberToList?: (member: Member) => void }) {
                 value={memberDetails.observations ?? ''}
                 onChange={handleInputsChange}
               />
-            </ObservationContainer>
-          </FormContainer>
+            </FormControl>
+          </Stack>
+
           <Errors errors={errors} addTitle />
         </DialogContent>
         <DialogActions>

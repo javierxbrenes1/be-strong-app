@@ -45,9 +45,9 @@ const memberSchema = `
 
 	input AddMemberInput {
 		name: String!
-		genre: String!
-		birthDate: Date!
-		height: Float!
+		genre: String
+		birthDate: Date
+		height: Float
 		observations: String
 		avatar: String
 	}

@@ -87,6 +87,15 @@ function MemberInfo(props: {
         },
       ];
 
+  const defineBirthDate = () => {
+    if (!editableMember?.birthDate) {
+      return '';
+    }
+    return editMode
+      ? editableMember?.birthDate
+      : formatDate(editableMember?.birthDate);
+  };
+
   return (
     <Card elevation={3}>
       <CardContent>
@@ -141,33 +150,33 @@ function MemberInfo(props: {
             onInputChange={handleChange}
             editMode={editMode}
           />
-          {editableMember.birthDate && (
-            <>
+
+          <>
+            <MemberInfoInput
+              label="Fecha de Nacimiento"
+              value={defineBirthDate()}
+              name="birthDate"
+              inputType="date"
+              editMode={editMode}
+              onInputChange={handleChange}
+            />
+            {!editMode && (
               <MemberInfoInput
-                label="Fecha de Nacimiento"
+                label="Edad"
                 value={
-                  editMode
-                    ? editableMember.birthDate
-                    : formatDate(editableMember.birthDate)
+                  editableMember.birthDate
+                    ? `${String(
+                        calculateAge(new Date(editableMember.birthDate))
+                      )} años`
+                    : ''
                 }
+                onInputChange={() => {}}
                 name="birthDate"
-                inputType="date"
-                editMode={editMode}
-                onInputChange={handleChange}
+                editMode={false}
               />
-              {!editMode && (
-                <MemberInfoInput
-                  label="Edad"
-                  value={`${String(
-                    calculateAge(new Date(editableMember.birthDate))
-                  )} años`}
-                  onInputChange={() => {}}
-                  name="birthDate"
-                  editMode={false}
-                />
-              )}
-            </>
-          )}
+            )}
+          </>
+
           <MemberInfoInput
             label="Horario de clases preferido"
             value={

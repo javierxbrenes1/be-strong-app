@@ -13,9 +13,9 @@ const createCode = (): string => {
 type AddMemberArgs = {
   avatar?: string;
   name: string;
-  birthDate: Date;
-  height: number;
-  genre: string;
+  birthDate?: Date;
+  height?: number;
+  genre?: string;
   observations?: string;
 };
 
