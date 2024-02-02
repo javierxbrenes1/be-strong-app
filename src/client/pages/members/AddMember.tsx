@@ -171,7 +171,7 @@ function AddMember(props: { addNewMemberToList?: (member: Member) => void }) {
               )}
             </IconButton>
           </Stack>
-          <Stack gap=".5rem" sx={{ display: showInputs ? 'flex' : 'none' }}>
+          <Stack gap="1.5rem" sx={{ display: showInputs ? 'flex' : 'none' }}>
             <FormControl fullWidth>
               <InputLabel id="genre">Categoria</InputLabel>
               <Select
