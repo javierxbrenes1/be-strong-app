@@ -11,6 +11,7 @@ import { formatDate } from '../../utils/helpers';
 import UpdateMemberArgs from '../../../common/actionModels/UpdateMember';
 import {
   daysOptions,
+  genreOptions,
   getClassAttendanceForUI,
   memberCategoriesOptions,
   memberStateOptions,
@@ -104,6 +105,17 @@ function MemberInfo(props: {
     return editMode ? editableMember.height : `${editableMember.height} M.`;
   };
 
+  const defineGenre = () => {
+    if (editMode) {
+      return editableMember.genre;
+    }
+    const val = genreOptions.find(
+      (option) => option.value === editableMember.genre ?? ''
+    );
+
+    return val ? val.label : '';
+  };
+
   return (
     <Card elevation={3}>
       <CardContent>
@@ -167,7 +179,17 @@ function MemberInfo(props: {
             onInputChange={handleChange}
             editMode={editMode}
           />
-
+          <MemberInfoInput
+            label="Género"
+            value={defineGenre()}
+            name="genre"
+            editMode={editMode}
+            inputType="select"
+            onInputChange={(name, value) => {
+              handleChange(name, value);
+            }}
+            selectOptions={genreOptions}
+          />
           <>
             <MemberInfoInput
               label="Fecha de Nacimiento"

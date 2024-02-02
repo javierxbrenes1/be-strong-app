@@ -209,6 +209,7 @@ function AddMember(props: { addNewMemberToList?: (member: Member) => void }) {
               >
                 <MenuItem value={Genre.male}>Masculino</MenuItem>
                 <MenuItem value={Genre.female}>Femenino</MenuItem>
+                <MenuItem value={Genre.other}>Otro</MenuItem>
               </Select>
             </FormControl>
             <FormControl fullWidth>

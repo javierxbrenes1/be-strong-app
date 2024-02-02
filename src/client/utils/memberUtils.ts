@@ -79,6 +79,21 @@ export const memberCategoriesOptions = Object.entries(MemberCategories).map(
   })
 );
 
+export const genreOptions = [
+  {
+    value: 'male',
+    label: 'Masculino',
+  },
+  {
+    value: 'female',
+    label: 'Femenino',
+  },
+  {
+    value: 'other',
+    label: 'Otro',
+  },
+];
+
 export const daysOptions = Object.entries(DAYS).reduce<
   { value: string; label: string }[]
 >((curr, entry) => {
