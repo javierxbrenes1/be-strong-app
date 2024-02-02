@@ -1,8 +1,9 @@
 import { useRef, useState, useEffect } from 'react';
-import { Chip, Typography } from '@mui/material';
+import { Chip, IconButton, Stack, Typography } from '@mui/material';
 import Box from '@mui/material/Box';
 import { styled } from '@mui/material/styles';
 import ContentEditable, { ContentEditableEvent } from 'react-contenteditable';
+import InfoIcon from '@mui/icons-material/Info';
 import { getMeasureColorAndEmoji } from '../../utils/measureColorPicker';
 import { Measures } from '../../types';
 
@@ -52,6 +53,8 @@ function MeasureItem(props: {
   triggerClickOnMount?: boolean;
   onUpdateMeasure: (id: Measures, value: number) => void;
   onClick: (ev: Measures) => void;
+  showExplanation?: boolean;
+  onShowExplanationClick?: (measure: Measures) => void;
 }) {
   const {
     title,
@@ -63,6 +66,8 @@ function MeasureItem(props: {
     onUpdateMeasure,
     triggerClickOnMount,
     suffix,
+    showExplanation,
+    onShowExplanationClick,
   } = props;
   const contentEditableRef = useRef(null);
   const newValue = useRef(value);
@@ -140,9 +145,27 @@ function MeasureItem(props: {
       role="button"
       onClick={handleClick}
     >
-      <Typography variant="h6" color="#393e46">
-        {title}
-      </Typography>
+      <Stack
+        direction="row"
+        justifyContent="space-between"
+        alignItems="center"
+        gap="0.125rem"
+      >
+        <Typography variant="h6" color="#393e46">
+          {title}
+        </Typography>
+        {showExplanation && (
+          <IconButton
+            onClick={(e) => {
+              e.stopPropagation();
+              e.preventDefault();
+              onShowExplanationClick?.(id);
+            }}
+          >
+            <InfoIcon sx={{ color: '#bfbdbd' }} />
+          </IconButton>
+        )}
+      </Stack>
       <ValueWrapper>
         <Box sx={{ display: 'flex' }}>
           <EditableField

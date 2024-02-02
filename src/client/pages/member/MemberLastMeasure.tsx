@@ -4,100 +4,21 @@ import ScaleIcon from '@mui/icons-material/Scale';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
-import { styled } from '@mui/material/styles';
+
 import { useState } from 'react';
 import dayjs from 'dayjs';
 import CardTitle from '../../components/CardTitle';
-import MeasureItem from './MeasureItem';
+
 import AddMeasures from '../members/AddMeasure';
 import Member from '../../../common/models/Member';
 import Measure from '../../../common/models/Measure';
 import { formatDate } from '../../utils/helpers';
-import { MEASURES_TITLES } from '../../labels';
+
 import { Measures } from '../../types';
 import useMemberLastMeasure from './useMemberLastMeasure';
 import Loading from '../../components/Loading';
 import { useMemberContext } from './MemberContext';
-
-const MeasureContainer = styled(Box)({
-  display: 'flex',
-  flexWrap: 'wrap',
-  gap: '16px',
-});
-
-function MeasureDetails(props: {
-  measure: Measure;
-  onSelectMeasureType: (t: Measures) => void;
-  selectedMeasureType: Measures | null;
-  handleEditMeasure: (measure: Measures, value: number) => void;
-}) {
-  const {
-    measure,
-    onSelectMeasureType,
-    selectedMeasureType,
-    handleEditMeasure,
-  } = props;
-
-  return (
-    <MeasureContainer>
-      <MeasureItem
-        id={Measures.weight}
-        selectedOption={selectedMeasureType}
-        onClick={onSelectMeasureType}
-        title={MEASURES_TITLES.weight}
-        value={String(measure.weight)}
-        suffix="Kg."
-        onUpdateMeasure={handleEditMeasure}
-        triggerClickOnMount
-      />
-      <MeasureItem
-        id={Measures.bodyMassIndex}
-        title={MEASURES_TITLES.bodyMassIndex}
-        selectedOption={selectedMeasureType}
-        onClick={onSelectMeasureType}
-        value={String(measure.bodyMassIndex)}
-        chipText={measure.bodyMassIndexResult}
-        onUpdateMeasure={handleEditMeasure}
-      />
-      <MeasureItem
-        id={Measures.corporalFat}
-        title={MEASURES_TITLES.corporalFat}
-        onClick={onSelectMeasureType}
-        selectedOption={selectedMeasureType}
-        value={String(measure.corporalFat)}
-        chipText={measure.corporalFatResult}
-        onUpdateMeasure={handleEditMeasure}
-      />
-      <MeasureItem
-        id={Measures.calories}
-        title={MEASURES_TITLES.calories}
-        onClick={onSelectMeasureType}
-        selectedOption={selectedMeasureType}
-        value={String(measure.calories)}
-        chipText={measure.caloriesResult}
-        onUpdateMeasure={handleEditMeasure}
-      />
-      <MeasureItem
-        id={Measures.corporalWaterPct}
-        title={MEASURES_TITLES.corporalWaterPct}
-        onClick={onSelectMeasureType}
-        selectedOption={selectedMeasureType}
-        value={String(measure.corporalWaterPct)}
-        chipText={measure.corporalWaterPctResult}
-        onUpdateMeasure={handleEditMeasure}
-      />
-      <MeasureItem
-        id={Measures.muscle}
-        title={MEASURES_TITLES.muscle}
-        onClick={onSelectMeasureType}
-        selectedOption={selectedMeasureType}
-        value={String(measure.muscle)}
-        chipText={measure.muscleResult}
-        onUpdateMeasure={handleEditMeasure}
-      />
-    </MeasureContainer>
-  );
-}
+import MeasureDetails from './MeasureDetails';
 
 function MemberLastMeasure(props: {
   member: Member;
