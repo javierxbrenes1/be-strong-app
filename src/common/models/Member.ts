@@ -14,6 +14,7 @@ interface Member {
   isActive: boolean;
   preferredClassTime: number;
   observations?: string;
+  category?: string;
   memberMeasures?: Measure[];
   gymClassTime?: GymClassTime;
   memberAttendance?: MemberAttendance;

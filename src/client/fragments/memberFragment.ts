@@ -15,6 +15,7 @@ const MEMBER_SCALAR_FIELDS = gql`
     avatar
     observations
     preferredClassTime
+    category
   }
 `;
 

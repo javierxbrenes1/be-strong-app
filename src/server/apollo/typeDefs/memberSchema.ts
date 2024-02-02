@@ -23,6 +23,7 @@ const memberSchema = `
 		avatar: String
 		observations: String
 		preferredClassTime: Int
+		category: String
 		memberAttendance: MemberAttendance
 		memberMeasures(take: Int, orderBy: MemberMeasuresOrderBy): [MemberMeasure]
 		gymClassTime: GymClassTime
@@ -50,6 +51,7 @@ const memberSchema = `
 		height: Float
 		observations: String
 		avatar: String
+		category: String
 	}
 
 	input UpdateMemberInput {
@@ -63,6 +65,7 @@ const memberSchema = `
 		email: String
 		avatar: String
 		observations: String
+		category: String
 		memberAttendance: MemberAttendanceInput
 		preferredClassTime: Int
 	}

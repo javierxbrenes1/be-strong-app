@@ -12,6 +12,7 @@ import UpdateMemberArgs from '../../../common/actionModels/UpdateMember';
 import {
   daysOptions,
   getClassAttendanceForUI,
+  memberCategoriesOptions,
   memberStateOptions,
 } from '../../utils/memberUtils';
 import useCatalogsStore from '../../state/catalogState';
@@ -96,6 +97,13 @@ function MemberInfo(props: {
       : formatDate(editableMember?.birthDate);
   };
 
+  const defineHeight = () => {
+    if (editableMember?.height == null) {
+      return '';
+    }
+    return editMode ? editableMember.height : `${editableMember.height} M.`;
+  };
+
   return (
     <Card elevation={3}>
       <CardContent>
@@ -108,6 +116,17 @@ function MemberInfo(props: {
             editMode={editMode}
             inputType="text"
             onInputChange={handleChange}
+          />
+          <MemberInfoInput
+            label="Categoria"
+            value={editableMember.category}
+            name="category"
+            editMode={editMode}
+            inputType="select"
+            onInputChange={(name, value) => {
+              handleChange(name, value);
+            }}
+            selectOptions={memberCategoriesOptions}
           />
           <MemberInfoInput
             label="Correo Electrónico"
@@ -142,9 +161,7 @@ function MemberInfo(props: {
           />
           <MemberInfoInput
             label="Altura"
-            value={
-              editMode ? editableMember.height : `${editableMember.height} M.`
-            }
+            value={defineHeight()}
             name="height"
             inputType="number"
             onInputChange={handleChange}

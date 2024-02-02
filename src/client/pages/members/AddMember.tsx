@@ -26,7 +26,6 @@ import {
 } from '@mui/material';
 import { DateField } from '@mui/x-date-pickers/DateField';
 import { useMutation } from '@apollo/client';
-import BsButton from '../../components/BsButton';
 import { Genre } from '../../../common/enums';
 import ADD_NEW_MEMBER from '../../mutations/addMember';
 import { createAvatarLink, getApolloErrorMessages } from '../../utils/helpers';
@@ -34,6 +33,7 @@ import Errors from '../../components/Errors';
 import Member from '../../../common/models/Member';
 import BsLocalizationProvider from '../../components/BsLocalizationProvider';
 import modifyGetAllMembersQuery from '../../cacheHelpers/getAllMembersModifier';
+import { MemberCategories } from '../../types';
 
 function AddMember(props: { addNewMemberToList?: (member: Member) => void }) {
   const { addNewMemberToList } = props;
@@ -47,6 +47,7 @@ function AddMember(props: { addNewMemberToList?: (member: Member) => void }) {
     observations?: string;
     birthDate?: Date;
     genre?: Genre;
+    category?: string;
   }>({});
 
   const [addMember, { loading }] = useMutation<{ addMember: Member }>(
@@ -171,6 +172,22 @@ function AddMember(props: { addNewMemberToList?: (member: Member) => void }) {
             </IconButton>
           </Stack>
           <Stack gap=".5rem" sx={{ display: showInputs ? 'flex' : 'none' }}>
+            <FormControl fullWidth>
+              <InputLabel id="genre">Categoria</InputLabel>
+              <Select
+                labelId="category"
+                name="category"
+                label="Categoria"
+                value={memberDetails.category ?? ''}
+                onChange={handleInputsChange}
+              >
+                {Object.keys(MemberCategories).map((cat) => (
+                  <MenuItem value={cat} key={cat}>
+                    {cat}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
             <FormControl fullWidth>
               <TextField
                 type="number"

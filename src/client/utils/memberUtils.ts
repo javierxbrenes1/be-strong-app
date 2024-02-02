@@ -2,6 +2,7 @@ import dayjs, { Dayjs } from 'dayjs';
 import { DAYS } from '../labels';
 import GymClassTime from '../../common/models/GymClassTime';
 import MemberAttendance from '../../common/models/MemberAttendance';
+import { MemberCategories } from '../types';
 
 export const parseIsoTimeToDate = (
   isoTime: string,
@@ -70,6 +71,13 @@ export const memberStateOptions = [
     label: 'Inactivo',
   },
 ];
+
+export const memberCategoriesOptions = Object.entries(MemberCategories).map(
+  ([key, value]) => ({
+    value,
+    label: key,
+  })
+);
 
 export const daysOptions = Object.entries(DAYS).reduce<
   { value: string; label: string }[]
