@@ -16,22 +16,18 @@ const MeasureContainer = styled(Box)({
 const explainingTableMap: Record<string, string> = {
   [Measures.bodyMassIndex]: '/images/body-mass-index.jpeg',
   [Measures.corporalFat]: '/images/corporal-fat.jpeg',
+  [Measures.corporalWaterPct]: '/images/corporal-fat.jpeg',
   [Measures.muscle]: '/images/muscle.jpeg',
+  [Measures.calories]: '/images/muscle.jpeg',
 };
 
 function MeasureDetails(props: {
   measure: Measure;
   onSelectMeasureType: (t: Measures) => void;
   selectedMeasureType: Measures | null;
-  handleEditMeasure: (measure: Measures, value: number) => void;
 }) {
   const [explainingTable, setExplainingTable] = useState<Measures | null>();
-  const {
-    measure,
-    onSelectMeasureType,
-    selectedMeasureType,
-    handleEditMeasure,
-  } = props;
+  const { measure, onSelectMeasureType, selectedMeasureType } = props;
 
   return (
     <>
@@ -43,7 +39,6 @@ function MeasureDetails(props: {
           title={MEASURES_TITLES.weight}
           value={String(measure.weight)}
           suffix="Kg."
-          onUpdateMeasure={handleEditMeasure}
           triggerClickOnMount
         />
         <MeasureItem
@@ -53,7 +48,6 @@ function MeasureDetails(props: {
           onClick={onSelectMeasureType}
           value={String(measure.bodyMassIndex)}
           chipText={measure.bodyMassIndexResult}
-          onUpdateMeasure={handleEditMeasure}
           showExplanation
           onShowExplanationClick={setExplainingTable}
         />
@@ -64,7 +58,6 @@ function MeasureDetails(props: {
           selectedOption={selectedMeasureType}
           value={String(measure.corporalFat)}
           chipText={measure.corporalFatResult}
-          onUpdateMeasure={handleEditMeasure}
           showExplanation
           onShowExplanationClick={setExplainingTable}
         />
@@ -75,7 +68,8 @@ function MeasureDetails(props: {
           selectedOption={selectedMeasureType}
           value={String(measure.calories)}
           chipText={measure.caloriesResult}
-          onUpdateMeasure={handleEditMeasure}
+          showExplanation
+          onShowExplanationClick={setExplainingTable}
         />
         <MeasureItem
           id={Measures.corporalWaterPct}
@@ -84,7 +78,8 @@ function MeasureDetails(props: {
           selectedOption={selectedMeasureType}
           value={String(measure.corporalWaterPct)}
           chipText={measure.corporalWaterPctResult}
-          onUpdateMeasure={handleEditMeasure}
+          showExplanation
+          onShowExplanationClick={setExplainingTable}
         />
         <MeasureItem
           id={Measures.muscle}
@@ -93,7 +88,6 @@ function MeasureDetails(props: {
           selectedOption={selectedMeasureType}
           value={String(measure.muscle)}
           chipText={measure.muscleResult}
-          onUpdateMeasure={handleEditMeasure}
           showExplanation
           onShowExplanationClick={setExplainingTable}
         />

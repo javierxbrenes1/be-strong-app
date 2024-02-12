@@ -5,7 +5,7 @@ import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import dayjs from 'dayjs';
 import CardTitle from '../../components/CardTitle';
 
@@ -24,13 +24,12 @@ function MemberLastMeasure(props: {
   member: Member;
   selectedMeasureType: Measures | null;
   onSelectMeasureType: (t: Measures | null) => void;
-  onEditMeasure: (id: number, measure: Measures, value: number) => void;
 }) {
-  const { member, selectedMeasureType, onSelectMeasureType, onEditMeasure } =
-    props;
+  const { member, selectedMeasureType, onSelectMeasureType } = props;
   const [openModal, setOpenModal] = useState<boolean>(false);
   const { lastMeasure, loading } = useMemberLastMeasure(member.code);
-  const { triggerReloadLastMeasure } = useMemberContext();
+  const { triggerReloadLastMeasure, triggerReloadMeasures } =
+    useMemberContext();
 
   const onAddClick = () => {
     setOpenModal(true);
@@ -44,24 +43,24 @@ function MemberLastMeasure(props: {
     },
   ];
 
-  const handleEditMeasure = (measure: Measures, value: number) => {
-    if (!lastMeasure) return;
-    onEditMeasure(lastMeasure.id, measure, value);
-  };
+  useEffect(() => {
+    if (!lastMeasure) {
+      onSelectMeasureType(null);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [lastMeasure]);
 
   let details;
   if (loading) {
     details = <Loading />;
   } else if (!lastMeasure) {
     details = <Typography>No hay Datos.</Typography>;
-    onSelectMeasureType(null);
   } else {
     details = (
       <MeasureDetails
         measure={lastMeasure}
         onSelectMeasureType={onSelectMeasureType}
         selectedMeasureType={selectedMeasureType}
-        handleEditMeasure={handleEditMeasure}
       />
     );
   }

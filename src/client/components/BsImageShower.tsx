@@ -5,7 +5,8 @@ import {
   DialogTitle,
   IconButton,
   DialogProps,
-  Icon,
+  useTheme,
+  useMediaQuery,
 } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import { TransformWrapper, TransformComponent } from 'react-zoom-pan-pinch';
@@ -19,6 +20,8 @@ function BsImageShower(props: {
   onClose: () => void;
 }) {
   const { src, alt, onClose } = props;
+  const theme = useTheme();
+  const isDesktopView = useMediaQuery(theme.breakpoints.up('md'));
 
   const handleClose: DialogProps['onClose'] = (event, reason) => {
     if (reason && reason === 'backdropClick') return;
@@ -26,7 +29,13 @@ function BsImageShower(props: {
   };
 
   return (
-    <Dialog open onClose={handleClose} disableEscapeKeyDown>
+    <Dialog
+      open
+      onClose={handleClose}
+      disableEscapeKeyDown
+      fullScreen={!isDesktopView}
+      maxWidth="lg"
+    >
       <DialogTitle>
         <Stack direction="row" justifyContent="end">
           <IconButton onClick={onClose}>

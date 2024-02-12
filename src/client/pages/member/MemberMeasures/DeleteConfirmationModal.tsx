@@ -18,9 +18,11 @@ function DeleteConfirmationModal(props: {
   measure: Measure;
   memberCode: string;
 }) {
-  const { lastMeasureId, triggerReloadLastMeasure } = useMemberContext();
+  const { lastMeasureId, triggerReloadLastMeasure, triggerReloadMeasures } =
+    useMemberContext();
   const { deleteMeasure, deletingMeasure } = useDeleteMeasure(() => {
     onClose();
+    triggerReloadMeasures();
     if (lastMeasureId === measure.id) {
       triggerReloadLastMeasure();
     }

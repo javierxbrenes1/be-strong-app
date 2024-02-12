@@ -19,6 +19,7 @@ export const GET_MEMBER_LAST_MEASURE = gql`
     $orderBy: MemberMeasuresOrderBy
   ) {
     getMember(code: $code) {
+      code
       memberMeasures(take: $take, orderBy: $orderBy) {
         ...MeasureAllFields
       }

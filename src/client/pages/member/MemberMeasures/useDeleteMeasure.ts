@@ -4,7 +4,7 @@ import BsShowError from '../../../components/BsShowError';
 
 function useDeleteMeasure(onCompleted: () => void) {
   const [deleteMeasure, { loading }] = useMutation(DELETE_MEASURE, {
-    refetchQueries: ['getMemberMeasures'],
+    // refetchQueries: ['getMemberMeasures'],
     onError(err) {
       BsShowError(
         err,

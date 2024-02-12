@@ -59,6 +59,13 @@ function BsChart(props: {
         options={{
           responsive: true,
           maintainAspectRatio: false,
+          // scales: {
+          //   y: {
+          //     ticks: {
+          //       stepSize: 10,
+          //     },
+          //   },
+          // },
           plugins: {
             legend: {
               position: 'top' as const,

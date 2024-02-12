@@ -12,10 +12,10 @@ type GetMeasures = {
 };
 
 function useGetMeasuresFromServer(onCompleted: (data: GetMeasures) => void) {
-  const [getMeasuresFromServer, { loading }] = useLazyQuery<GetMeasures>(
-    GET_MEMBER_MEASURES,
-    {
+  const [getMeasuresFromServer, { loading, refetch }] =
+    useLazyQuery<GetMeasures>(GET_MEMBER_MEASURES, {
       fetchPolicy: 'cache-and-network',
+      notifyOnNetworkStatusChange: true,
       onError(err) {
         BsShowError(
           err,
@@ -23,10 +23,10 @@ function useGetMeasuresFromServer(onCompleted: (data: GetMeasures) => void) {
         );
       },
       onCompleted,
-    }
-  );
+      refetchWritePolicy: 'overwrite',
+    });
 
-  return { getMeasuresFromServer, loading };
+  return { getMeasuresFromServer, loading, refetchMeasures: refetch };
 }
 
 export default useGetMeasuresFromServer;

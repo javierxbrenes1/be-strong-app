@@ -1,4 +1,4 @@
-import { useState, ChangeEvent, useEffect } from 'react';
+import { useState, ChangeEvent } from 'react';
 import {
   Button,
   Dialog,
@@ -11,17 +11,14 @@ import {
   FormControl,
   TextField,
 } from '@mui/material';
-import { toast } from 'react-toastify';
-import { DatePicker } from '@mui/x-date-pickers';
 import dayjs from 'dayjs';
-import { useMutation } from '@apollo/client';
-import Member from '../../../common/models/Member';
-import { getApolloErrorMessages, isValid } from '../../utils/helpers';
-import { ADD_MEASURE } from '../../mutations/Measures';
-import Errors from '../../components/Errors';
+import BsShowError from '../../components/BsShowError';
 import Measure from '../../../common/models/Measure';
 import { MEASURES_TITLES } from '../../labels';
-import BsLocalizationProvider from '../../components/BsLocalizationProvider';
+import { useUpdateMeasure } from '../../hooks/useUpdateMeasure';
+import { GENERAL_ERROR_MESSAGES } from '../../constants';
+import { CrudAction } from '../../types';
+import { useMemberContext } from '../member/MemberContext';
 
 const FormContainer = styled('form')(({ theme }) => ({
   display: 'grid',
@@ -33,78 +30,36 @@ const FormContainer = styled('form')(({ theme }) => ({
   },
 }));
 
-function AddMeasures(props: {
-  open: boolean;
+function EditMeasures(props: {
   onClose: () => void;
-  member: Member | null;
-  onSuccess?: (newMeasure: Measure) => void;
+  memberCode: string;
+  measure: Measure;
 }) {
-  const { open, onClose, member, onSuccess } = props;
-  const [errors, setErrors] = useState<string[]>([]);
-  const [measures, setMeasures] = useState<{
-    weight?: number;
-    corporalFat?: number;
-    muscle?: number;
-    bodyMassIndex?: number;
-    corporalWaterPct?: number;
-    calories?: number;
-    date: Date;
-  }>({
-    date: new Date(),
-  });
-  const [readyToSave, setReadyToSave] = useState(false);
+  const { onClose, measure, memberCode } = props;
 
-  const [addMeasure, { loading }] = useMutation<{ addMeasure: Measure }>(
-    ADD_MEASURE,
-    {
-      // refetchQueries: ['getMemberMeasures'],
-      onCompleted(data) {
-        if (onSuccess) {
-          onSuccess(data.addMeasure);
-        }
-        onClose();
-        toast.success('Medida agregada satisfactoriamente.', {
-          position: 'top-right',
-        });
-      },
-      onError(error) {
-        setErrors(getApolloErrorMessages(error));
-      },
+  const { triggerReloadMeasures } = useMemberContext();
+  const { executeUpdateMeasure, updatingMeasure } = useUpdateMeasure(
+    (error, action) => {
+      BsShowError(error, GENERAL_ERROR_MESSAGES[action as CrudAction]);
+    },
+    () => {
+      onClose();
+      triggerReloadMeasures();
     }
   );
 
-  useEffect(() => {
-    const {
-      weight,
-      corporalFat,
-      muscle,
-      bodyMassIndex,
-      corporalWaterPct,
-      calories,
-    } = measures;
-    setReadyToSave(
-      isValid(weight) &&
-        isValid(corporalFat) &&
-        isValid(muscle) &&
-        isValid(bodyMassIndex) &&
-        isValid(corporalWaterPct) &&
-        isValid(calories)
-    );
-  }, [measures]);
+  const [editableMeasure, setEditableMeasure] = useState<
+    Record<string, number>
+  >({});
 
   const handleInputChanges = (ev: ChangeEvent<HTMLInputElement>) => {
     const {
       target: { name, value },
     } = ev;
-    setMeasures((prev) => ({
+    setEditableMeasure((prev) => ({
       ...prev,
       [name]: Number(value),
     }));
-  };
-
-  const handleDateChange = (ev: unknown) => {
-    const parseEv = ev as { $d: Date };
-    setMeasures((prev) => ({ ...prev, date: parseEv.$d }));
   };
 
   const handleClose = (
@@ -116,37 +71,27 @@ function AddMeasures(props: {
   };
 
   const handleSaveClick = () => {
-    addMeasure({
+    executeUpdateMeasure({
       variables: {
         measure: {
-          ...measures,
-          date: measures.date.getTime(),
-          memberCode: member?.code,
+          id: measure.id,
+          ...editableMeasure,
+          memberCode,
         },
       },
     });
   };
 
   return (
-    <Dialog open={open} onClose={handleClose} disableEscapeKeyDown>
-      <DialogTitle>Nuevas Medidas Corporales</DialogTitle>
+    <Dialog open onClose={handleClose} disableEscapeKeyDown>
+      <DialogTitle>
+        Medidas tomadas el {dayjs(measure.date).format('DD/MM/YYYY')}
+      </DialogTitle>
       <DialogContent>
         <DialogContentText>
-          Ingresa las medidas corporales que arrojó la balanza para{' '}
-          {member?.name}.
+          Puedes modificar el valor que desees.
         </DialogContentText>
         <FormContainer>
-          <FormControl fullWidth>
-            <BsLocalizationProvider>
-              <DatePicker
-                value={dayjs(measures.date)}
-                label="Fecha"
-                format="DD/MM/YYYY"
-                onChange={handleDateChange}
-                disableFuture
-              />
-            </BsLocalizationProvider>
-          </FormControl>
           <FormControl fullWidth>
             <TextField
               type="number"
@@ -154,6 +99,7 @@ function AddMeasures(props: {
               label={MEASURES_TITLES.weight}
               variant="outlined"
               onChange={handleInputChanges}
+              value={editableMeasure.weight ?? measure.weight}
             />
           </FormControl>
           <FormControl fullWidth>
@@ -163,6 +109,7 @@ function AddMeasures(props: {
               label={MEASURES_TITLES.corporalFat}
               variant="outlined"
               onChange={handleInputChanges}
+              value={editableMeasure.corporalFat ?? measure.corporalFat}
             />
           </FormControl>
           <FormControl fullWidth>
@@ -172,6 +119,7 @@ function AddMeasures(props: {
               label={MEASURES_TITLES.muscle}
               variant="outlined"
               onChange={handleInputChanges}
+              value={editableMeasure.muscle ?? measure.muscle}
             />
           </FormControl>
           <FormControl fullWidth>
@@ -181,6 +129,7 @@ function AddMeasures(props: {
               label={MEASURES_TITLES.bodyMassIndex}
               variant="outlined"
               onChange={handleInputChanges}
+              value={editableMeasure.bodyMassIndex ?? measure.bodyMassIndex}
             />
           </FormControl>
           <FormControl fullWidth>
@@ -190,6 +139,9 @@ function AddMeasures(props: {
               label={MEASURES_TITLES.corporalWaterPct}
               variant="outlined"
               onChange={handleInputChanges}
+              value={
+                editableMeasure.corporalWaterPct ?? measure.corporalWaterPct
+              }
             />
           </FormControl>
           <FormControl fullWidth>
@@ -199,10 +151,10 @@ function AddMeasures(props: {
               label={MEASURES_TITLES.calories}
               variant="outlined"
               onChange={handleInputChanges}
+              value={editableMeasure.calories ?? measure.calories}
             />
           </FormControl>
         </FormContainer>
-        <Errors errors={errors} addTitle />
       </DialogContent>
       <DialogActions>
         <Button
@@ -210,12 +162,12 @@ function AddMeasures(props: {
           variant="contained"
           onClick={handleSaveClick}
           sx={{ color: '#fff' }}
-          disabled={!readyToSave}
+          disabled={updatingMeasure}
         >
-          {loading ? (
+          {updatingMeasure ? (
             <CircularProgress color="primary" size="25px" />
           ) : (
-            'Agregar'
+            'Actualizar'
           )}
         </Button>
         <Button
@@ -223,6 +175,7 @@ function AddMeasures(props: {
           variant="contained"
           onClick={onClose}
           sx={{ color: '#fff' }}
+          disabled={updatingMeasure}
         >
           Cancelar
         </Button>
@@ -231,4 +184,4 @@ function AddMeasures(props: {
   );
 }
 
-export default AddMeasures;
+export default EditMeasures;

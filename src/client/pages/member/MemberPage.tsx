@@ -5,7 +5,6 @@ import { useParams } from 'react-router';
 import { toast } from 'react-toastify';
 import Loading from '../../components/Loading';
 import PageContainer from '../../components/PageContainer';
-import Measure from '../../../common/models/Measure';
 import Member from '../../../common/models/Member';
 import { GET_MEMBER_DETAILS } from '../../queries/memberPage';
 import { createAvatarLink } from '../../utils/helpers';
@@ -14,7 +13,6 @@ import MemberLastMeasure from './MemberLastMeasure';
 import MemberMeasures from './MemberMeasures';
 import VisitLink from './VisitLink';
 import { UPDATE_MEMBER_INFO } from '../../mutations/updateMember';
-import { UPDATE_MEASURE } from '../../mutations/Measures';
 import UpdateMemberArgs from '../../../common/actionModels/UpdateMember';
 import { CrudAction, Measures } from '../../types';
 import { GENERAL_ERROR_MESSAGES } from '../../constants';
@@ -22,8 +20,8 @@ import { DAYS } from '../../labels';
 import BsShowError from '../../components/BsShowError';
 import MemberGymClassHistory from './MemberGymClassHistory';
 
-const handleError = (error: unknown, action: CrudAction) => {
-  BsShowError(error, GENERAL_ERROR_MESSAGES[action]);
+const handleError = (error: unknown, action: string) => {
+  BsShowError(error, GENERAL_ERROR_MESSAGES[action as CrudAction]);
 };
 
 const showSucccessMessage = (autoCloseAt = 5000) => {
@@ -39,22 +37,6 @@ function MemberPage() {
     useState<Measures | null>(null);
   const [member, setMember] = useState<Member | null>(null);
   const [newMeasureWasAdded, setNewMeasureWasAdded] = useState<boolean>(false);
-
-  const handleNewMeasureAdded = (measure: Measure) => {
-    setMember((prev) => {
-      if (!prev) return prev;
-      const [latestMemberMeasure] = prev.memberMeasures || [];
-      if (latestMemberMeasure && latestMemberMeasure.date > measure.date) {
-        return prev;
-      }
-
-      return {
-        ...prev,
-        memberMeasures: [measure],
-      };
-    });
-    // setNewMeasureWasAdded(true);
-  };
 
   const { loading } = useQuery<{ getMember: Member }>(GET_MEMBER_DETAILS, {
     fetchPolicy: 'no-cache',
@@ -84,36 +66,6 @@ function MemberPage() {
       },
     }
   );
-
-  const [updateLastMeasure] = useMutation<{ updateMeasure: Measure }>(
-    UPDATE_MEASURE,
-    {
-      onError(error) {
-        handleError(error, 'updating');
-      },
-      onCompleted(data) {
-        const { updateMeasure } = data;
-        handleNewMeasureAdded(updateMeasure);
-        showSucccessMessage(1000);
-      },
-    }
-  );
-
-  const handleMeasureUpdate = (
-    id: number,
-    measure: Measures,
-    value: number
-  ) => {
-    updateLastMeasure({
-      variables: {
-        measure: {
-          [measure]: value,
-          id,
-          memberCode: member?.code ?? code,
-        },
-      },
-    });
-  };
 
   if (loading) {
     return <Loading />;
@@ -172,7 +124,6 @@ function MemberPage() {
             onSelectMeasureType={(ev: Measures | null) => {
               setSelectedMeasureType(ev);
             }}
-            onEditMeasure={handleMeasureUpdate}
           />
         </Grid>
         <Grid item xs={12} md={9}>

@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useMemo, useState, useEffect } from 'react';
 import CardContent from '@mui/material/CardContent';
 import Card from '@mui/material/Card';
 import Grid from '@mui/material/Grid';
@@ -21,6 +21,8 @@ import Pagination from '../../../../common/models/Pagination';
 import { Measures } from '../../../types';
 import useGetMeasuresFromServer from './useGetMeasuresFromServer';
 import DeleteConfirmationModal from './DeleteConfirmationModal';
+import EditMeasures from '../../members/EditMeasure';
+import { useMemberContext } from '../MemberContext';
 
 /**
  * Member measure component
@@ -52,9 +54,11 @@ function MemberMeasuresData(props: {
   const [rowsPerPage, setRowsPerPage] = useState<number>(5);
   const [showActions, setShowActions] = useState(false);
   const [measureToDelete, setMeasureToDelete] = useState<Measure | null>(null);
+  const [measureToEdit, setMeasureToEdit] = useState<Measure | null>(null);
+  const { reloadMeasures } = useMemberContext();
 
-  const { getMeasuresFromServer, loading } = useGetMeasuresFromServer(
-    (data) => {
+  const { getMeasuresFromServer, loading, refetchMeasures } =
+    useGetMeasuresFromServer((data) => {
       const { measures, pagination } = data.getMeasures;
       setPaginationDetails(pagination);
       setMeasuresPages((p) => ({
@@ -62,8 +66,14 @@ function MemberMeasuresData(props: {
         [pagination.currentPage]: measures,
       }));
       setCurrentPage(pagination.currentPage);
+    });
+
+  useEffect(() => {
+    if (reloadMeasures) {
+      refetchMeasures();
     }
-  );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [reloadMeasures]);
 
   const memberMeasures: Measure[] = useMemo(
     () => measuresPages[currentPage] ?? [],
@@ -157,6 +167,13 @@ function MemberMeasuresData(props: {
     }
   };
 
+  const editMemberMeasure = (id: string) => {
+    const measure = memberMeasures.find((m) => m.id === Number(id));
+    if (measure) {
+      setMeasureToEdit(measure);
+    }
+  };
+
   return (
     <>
       <Card elevation={3}>
@@ -201,6 +218,7 @@ function MemberMeasuresData(props: {
                   loading={loading}
                   actions={{
                     delete: deleteMemberMeasure,
+                    edit: editMemberMeasure,
                   }}
                   showActions={showActions}
                   pagination={
@@ -241,6 +259,15 @@ function MemberMeasuresData(props: {
           }}
         />
       ) : null}
+      {measureToEdit && (
+        <EditMeasures
+          measure={measureToEdit}
+          memberCode={memberCode}
+          onClose={() => {
+            setMeasureToEdit(null);
+          }}
+        />
+      )}
     </>
   );
 }
