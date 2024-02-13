@@ -102,6 +102,8 @@ function MemberLastMeasure(props: {
               dayjs(newMeasure.date).isAfter(lastMeasure?.date)
             ) {
               triggerReloadLastMeasure();
+            } else {
+              triggerReloadMeasures();
             }
           }}
         />
