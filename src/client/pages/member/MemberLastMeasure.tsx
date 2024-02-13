@@ -7,6 +7,7 @@ import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 
 import { useEffect, useState } from 'react';
 import dayjs from 'dayjs';
+import { CircularProgress } from '@mui/material';
 import CardTitle from '../../components/CardTitle';
 
 import AddMeasures from '../members/AddMeasure';
@@ -51,9 +52,8 @@ function MemberLastMeasure(props: {
   }, [lastMeasure]);
 
   let details;
-  if (loading) {
-    details = <Loading />;
-  } else if (!lastMeasure) {
+
+  if (!lastMeasure) {
     details = <Typography>No hay Datos.</Typography>;
   } else {
     details = (
@@ -74,9 +74,15 @@ function MemberLastMeasure(props: {
               <ScaleIcon />
               <Typography variant="h6" component="p">
                 Últimas Medidas
-                <Typography variant="body2" component="span">
-                  {lastMeasure?.date ? ` ${formatDate(lastMeasure.date)}` : ''}
-                </Typography>
+                {!loading ? (
+                  <Typography variant="body2" component="span">
+                    {lastMeasure?.date
+                      ? ` ${formatDate(lastMeasure.date)}`
+                      : ''}
+                  </Typography>
+                ) : (
+                  <CircularProgress size="1rem" />
+                )}
               </Typography>
             </Box>
           </CardTitle>

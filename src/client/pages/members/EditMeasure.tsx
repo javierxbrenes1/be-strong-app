@@ -162,7 +162,9 @@ function EditMeasures(props: {
           variant="contained"
           onClick={handleSaveClick}
           sx={{ color: '#fff' }}
-          disabled={updatingMeasure}
+          disabled={
+            updatingMeasure || Object.keys(editableMeasure).length === 0
+          }
         >
           {updatingMeasure ? (
             <CircularProgress color="primary" size="25px" />

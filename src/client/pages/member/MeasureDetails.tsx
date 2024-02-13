@@ -39,7 +39,7 @@ function MeasureDetails(props: {
           title={MEASURES_TITLES.weight}
           value={String(measure.weight)}
           suffix="Kg."
-          triggerClickOnMount
+          newMeasureId={measure.id}
         />
         <MeasureItem
           id={Measures.bodyMassIndex}

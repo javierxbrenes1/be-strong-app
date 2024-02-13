@@ -36,7 +36,7 @@ function MeasureItem(props: {
   value: string;
   suffix?: string;
   chipText?: string;
-  triggerClickOnMount?: boolean;
+  newMeasureId?: number;
   onClick: (ev: Measures) => void;
   showExplanation?: boolean;
   onShowExplanationClick?: (measure: Measures) => void;
@@ -48,7 +48,7 @@ function MeasureItem(props: {
     id,
     selectedOption,
     onClick,
-    triggerClickOnMount,
+    newMeasureId,
     suffix,
     showExplanation,
     onShowExplanationClick,
@@ -58,11 +58,11 @@ function MeasureItem(props: {
   const { color, emoji } = getMeasureColorAndEmoji(chipText || '');
 
   useEffect(() => {
-    if (triggerClickOnMount) {
+    if (newMeasureId) {
       onClick(id);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [newMeasureId]);
 
   useEffect(() => {
     comparativeValue.current = value;
