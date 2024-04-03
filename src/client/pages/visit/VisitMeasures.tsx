@@ -5,7 +5,6 @@ import {
   Stack,
   Divider,
   LinearProgress,
-  Switch,
 } from '@mui/material';
 import { useLazyQuery } from '@apollo/client';
 import Filters from '../member/MemberMeasures/Filters';
@@ -18,7 +17,6 @@ import BsError from '../../components/BsError';
 
 function VisitMeasures(props: { code: string }) {
   const { code } = props;
-  const [showAllTogether, setShowAllTogether] = useState(false);
 
   const [paginationDetails, setPaginationDetails] = useState<Pagination | null>(
     null
@@ -110,14 +108,6 @@ function VisitMeasures(props: { code: string }) {
     <Paper elevation={3} sx={{ padding: '10px' }}>
       <Stack direction="row" justifyContent="space-between" flexWrap="wrap">
         <Typography variant="h5">Mis Datos</Typography>
-        <Stack direction="row" alignItems="center" sx={{ padding: '0 5px' }}>
-          <Switch
-            color="primary"
-            checked={showAllTogether}
-            onChange={() => setShowAllTogether(!showAllTogether)}
-          />
-          <Typography>Ver todo junto</Typography>
-        </Stack>
       </Stack>
       <Divider sx={{ margin: '5px 0' }} />
       {loading && <LinearProgress color="primary" />}
@@ -137,10 +127,7 @@ function VisitMeasures(props: { code: string }) {
         )}
       </Stack>
       {!error && (
-        <VisitMeasureDataViews
-          measures={measuresPages[currentPage] ?? []}
-          showIndividually={!showAllTogether}
-        />
+        <VisitMeasureDataViews measures={measuresPages[currentPage] ?? []} />
       )}
       {error && (
         <BsError text="Parece que hubo un problema al cargar tus datos." />

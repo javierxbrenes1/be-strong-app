@@ -12,7 +12,7 @@ import VisitMeasureDataViewGroup from './VisitMeasureDataViewGroup';
 
 function VisitMeasureDataViews(props: {
   measures: Measure[];
-  showIndividually: boolean;
+  showIndividually?: boolean;
 }) {
   const { measures, showIndividually = true } = props;
 
