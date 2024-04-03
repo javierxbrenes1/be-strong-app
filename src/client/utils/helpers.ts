@@ -106,4 +106,10 @@ export function buildMeasureChartDataForAllMeasures(measures: Measure[]) {
   };
 }
 
+export function removeTypeName<T>(obj: { __typename?: string } & T): T {
+  const newObj = { ...obj };
+  delete newObj.__typename;
+  return newObj;
+}
+
 export const isoFormatDate = (date: Date) => dayjs(date).format('YYYY-MM-DD');

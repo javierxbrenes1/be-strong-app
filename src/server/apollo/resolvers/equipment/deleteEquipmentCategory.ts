@@ -6,12 +6,12 @@ const deleteEquipmentCategory = async (
   context: BeStrongContext
 ) => {
   const { prisma } = context;
-  await prisma.equipmentCategory.delete({
+  const deleted = await prisma.equipmentCategory.delete({
     where: {
       uuid: args.categoryUuid,
     },
   });
-  return true;
+  return deleted;
 };
 
 export default deleteEquipmentCategory;

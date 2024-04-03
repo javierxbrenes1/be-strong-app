@@ -1,7 +1,7 @@
 import { keyframes, styled, useMediaQuery, useTheme } from '@mui/material';
 import Box from '@mui/material/Box';
-import { Outlet } from 'react-router-dom';
-import { useState, useRef, useEffect } from 'react';
+import { Outlet, useLocation } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 import NavBar from './Navbar';
 import TopBar from './TopBar';
 

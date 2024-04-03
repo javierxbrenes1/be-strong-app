@@ -34,6 +34,7 @@ import Member from '../../../common/models/Member';
 import BsLocalizationProvider from '../../components/BsLocalizationProvider';
 import modifyGetAllMembersQuery from '../../cacheHelpers/getAllMembersModifier';
 import { MemberCategories } from '../../types';
+import BsExpandButton from '../../components/BsExpandButton';
 
 function AddMember(props: { addNewMemberToList?: (member: Member) => void }) {
   const { addNewMemberToList } = props;
@@ -161,15 +162,12 @@ function AddMember(props: { addNewMemberToList?: (member: Member) => void }) {
               value={memberDetails.name ?? ''}
             />
           </FormControl>
-          <Stack justifyContent="center" alignItems="center" paddingY=".5rem">
-            <IconButton onClick={() => setShowInputs((s) => !s)}>
-              {showInputs ? (
-                <RemoveCircleOutlineIcon />
-              ) : (
-                <AddCircleOutlineIcon />
-              )}
-            </IconButton>
-          </Stack>
+          <BsExpandButton
+            onButtonClick={() => {
+              setShowInputs((s) => !s);
+            }}
+            showLessIcon={showInputs}
+          />
           <Stack gap="1.5rem" sx={{ display: showInputs ? 'flex' : 'none' }}>
             <FormControl fullWidth>
               <InputLabel id="genre">Categoria</InputLabel>

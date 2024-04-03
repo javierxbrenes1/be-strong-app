@@ -1,8 +1,10 @@
-interface Equipment {
-  uuid: string;
+export interface EquipmentInput {
   description: string;
-  total: number;
+  total?: number;
   brand: string;
+}
+interface Equipment extends EquipmentInput {
+  uuid: string;
 }
 
 export default Equipment;

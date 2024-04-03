@@ -6,13 +6,13 @@ const deleteEquipment = async (
   context: BeStrongContext
 ) => {
   const { prisma } = context;
-  await prisma.equipment.delete({
+  const deleted = await prisma.equipment.delete({
     where: {
       uuid: args.equipmentUuid,
     },
   });
 
-  return true;
+  return deleted;
 };
 
 export default deleteEquipment;

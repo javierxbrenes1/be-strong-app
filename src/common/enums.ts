@@ -52,4 +52,5 @@ export const PATHS = {
   LOGIN: '/login',
   VISIT: '/visit',
   PROFILE: '/profile',
+  EQUIPMENT: '/equipment',
 };

@@ -1,4 +1,9 @@
-import Equipment from './Equipment';
+import Equipment, { EquipmentInput } from './Equipment';
+
+export interface EquipmentCategoryInput {
+  name: string;
+  equipment?: EquipmentInput[];
+}
 
 interface EquipmentCategory {
   uuid: string;

@@ -13,7 +13,8 @@ type EquipmentCategory {
     equipment: [Equipment]
 }
 
-input AddEquipmentInput {
+input UpsertEquipmentInput {
+    uuid: UUID
     description: String
     total: Float
     brand: String
@@ -28,11 +29,12 @@ input UpdateEquipmentInput {
 }
 
 type Mutation {
-    addEquipmentCategory(name: String!): EquipmentCategory @auth
-    addEquipment(input: AddEquipmentInput!): Equipment @auth
+    addEquipmentCategory(name: String!, equipment: [UpsertEquipmentInput]): EquipmentCategory @auth
+    updateEquipmentCategoryName(uuid: UUID!, name: String!): EquipmentCategory @auth
+    upsertEquipment(input: UpsertEquipmentInput!): Equipment @auth
     updateEquipment(input: UpdateEquipmentInput!): Equipment @auth 
-    deleteEquipment(equipmentUuid: UUID!): Boolean @auth
-    deleteEquipmentCategory(categoryUuid: UUID!): Boolean @auth
+    deleteEquipment(equipmentUuid: UUID!): Equipment @auth
+    deleteEquipmentCategory(categoryUuid: UUID!): EquipmentCategory @auth
 }
 
 type Query {
