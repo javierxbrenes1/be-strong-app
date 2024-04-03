@@ -6,8 +6,6 @@ import Box from '@mui/material/Box';
 import PersonAddAlt1Icon from '@mui/icons-material/PersonAddAlt1';
 import Dialog from '@mui/material/Dialog';
 import { toast } from 'react-toastify';
-import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
-import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 import {
   Button,
   DialogActions,
