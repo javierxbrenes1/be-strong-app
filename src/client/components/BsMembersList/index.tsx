@@ -18,7 +18,8 @@ function BsMembersList(props: {
   onClick: (memberCode: string) => void;
 }) {
   const { selectedMap, onClick } = props;
-  const { members } = useMembers(50, 'active');
+  // TODO fix this component so we can load more members
+  const { members } = useMembers(1000, 'active');
   const [filter, setFilter] = useState('');
 
   const handleFilter = (text: string) => {
