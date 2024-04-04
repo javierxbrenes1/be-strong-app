@@ -3,14 +3,10 @@
 
 import { PrismaSelect } from '@paljs/plugins';
 import { PrismaClient } from '@prisma/client';
-import {
-  DefaultArgs,
-  PrismaClientOptions,
-} from '@prisma/client/runtime/library';
 import { GraphQLResolveInfo } from 'graphql';
 
 async function getMembersPage(args: {
-  prisma: PrismaClient<PrismaClientOptions, never, DefaultArgs>;
+  prisma: PrismaClient;
   offset: number;
   limit: number;
   ignore: string[];
