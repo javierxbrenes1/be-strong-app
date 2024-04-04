@@ -17,7 +17,7 @@ const returnQueryProp = {
   inactive: 'getAllInactiveMembers',
 };
 
-function useMembers(limit: number, status: 'active' | 'inactive') {
+function useMembers(limit: number, status: 'active' | 'inactive' = 'active') {
   const [currentPagination, setCurrentPagination] = useState<Pagination | null>(
     null
   );
