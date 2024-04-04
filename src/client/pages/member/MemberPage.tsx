@@ -19,6 +19,7 @@ import { GENERAL_ERROR_MESSAGES } from '../../constants';
 import { DAYS } from '../../labels';
 import BsShowError from '../../components/BsShowError';
 import MemberGymClassHistory from './MemberGymClassHistory';
+import updateMembersCacheAfterModifyMember from '../../cacheHelpers/updateMembersCacheAfterModifyMember';
 
 const handleError = (error: unknown, action: string) => {
   BsShowError(error, GENERAL_ERROR_MESSAGES[action as CrudAction]);
@@ -63,6 +64,16 @@ function MemberPage() {
         const { updateMember } = data;
         setMember((st) => ({ ...st, ...updateMember }));
         showSucccessMessage();
+      },
+      update(cache, { data }) {
+        cache.modify({
+          fields: {
+            getAllMembers: updateMembersCacheAfterModifyMember(
+              cache,
+              data as unknown as { updateMember: Member }
+            ),
+          },
+        });
       },
     }
   );

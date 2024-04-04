@@ -9,6 +9,24 @@ export const GET_ACTIVE_MEMBERS = gql`
         avatar
         code
         name
+        isActive
+      }
+      pagination {
+        ...pagination
+      }
+    }
+  }
+  ${PAGINATION}
+`;
+
+export const GET_INACTIVE_MEMBERS = gql`
+  query getInactiveActiveMembers($offset: Int, $limit: Int, $ignore: [String]) {
+    getAllInactiveMembers(offset: $offset, limit: $limit, ignore: $ignore) {
+      members {
+        avatar
+        code
+        name
+        isActive
       }
       pagination {
         ...pagination

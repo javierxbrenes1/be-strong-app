@@ -3,16 +3,10 @@ import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import { styled, Typography } from '@mui/material';
 import Box from '@mui/material/Box';
-import ScaleIcon from '@mui/icons-material/Scale';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import Member from '../../../common/models/Member';
 import { createAvatarLink } from '../../utils/helpers';
 import BsAvatar from '../../components/BsAvatar';
-
-const Img = styled('img')({
-  objectFit: 'cover',
-  borderRadius: '100%',
-});
 
 const Action = styled('button')({
   display: 'flex',
@@ -76,6 +70,7 @@ function MemberCard(props: {
         <BsAvatar
           alt={member.name}
           src={member.avatar || createAvatarLink(member.name)}
+          sx={member.isActive ? {} : { filter: 'grayscale(100%)' }}
         />
         <Box sx={{ textAlign: 'center' }}>
           <Typography variant="h6" sx={{ margin: 0, padding: 0 }}>

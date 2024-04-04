@@ -140,11 +140,10 @@ function AddMember(props: { addNewMemberToList?: (member: Member) => void }) {
 
   return (
     <>
-      <Box>
-        <IconButton onClick={handleClick}>
-          <PersonAddAlt1Icon color="primary" />
-        </IconButton>
-      </Box>
+      <IconButton onClick={handleClick}>
+        <PersonAddAlt1Icon color="primary" />
+      </IconButton>
+
       <Dialog open={open} onClose={handleClose} disableEscapeKeyDown>
         <DialogTitle>Nuevo Miembro</DialogTitle>
         <DialogContent>

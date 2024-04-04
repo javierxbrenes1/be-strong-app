@@ -4,7 +4,7 @@ import { ModifierDetails, Reference } from '@apollo/client/cache';
 import { ReadFieldFunction } from '@apollo/client/cache/core/types/common';
 import Member from '../../common/models/Member';
 
-function compareNames(
+export function compareNames(
   name: string,
   reference: Reference,
   readField: ReadFieldFunction
@@ -18,7 +18,7 @@ function compareNames(
 
 function modifyGetAllMembersQuery(data?: Member[] | null) {
   return function (value: any, details: ModifierDetails): any {
-    if (!data) return value;
+    if (!value || !data) return value;
     const members = [...(value?.members ?? [])];
     const keysToAvoidDuplicates = {
       ...(value?.keysToAvoidDuplicates ?? {}),

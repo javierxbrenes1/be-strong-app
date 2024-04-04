@@ -37,6 +37,7 @@ const memberSchema = `
 
 	type Query {
 		getAllMembers(offset: Int, limit: Int, ignore: [String]): GetAllMembersResponse @auth
+		getAllInactiveMembers(offset: Int, limit: Int, ignore: [String]): GetAllMembersResponse @auth
 		getMember(code: String): Member @auth
 		getVisitMember(code: String): VisitMember
 		getMembersCount: Int @auth

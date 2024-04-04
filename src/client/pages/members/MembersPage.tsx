@@ -4,6 +4,8 @@ import { styled } from '@mui/material/styles';
 import Stack from '@mui/material/Stack';
 import SearchIcon from '@mui/icons-material/Search';
 import Box from '@mui/material/Box';
+import { MenuItem, Select } from '@mui/material';
+import FormControl from '@mui/material/FormControl';
 import PageContainer from '../../components/PageContainer';
 import AddMember from './AddMember';
 import BsButton from '../../components/BsButton';
@@ -12,15 +14,28 @@ import MemberCardsVisualization from './MemberCardsVisualization';
 import useMembers from '../../hooks/useMembers';
 import BsFilteredMembers from '../../components/BsFilteredMembers';
 
+const TopContainer = styled(Stack)(({ theme }) => ({
+  flexDirection: 'column-reverse',
+  [theme.breakpoints.up('sm')]: {
+    flexDirection: 'row',
+  },
+}));
+
 const SearchBox = styled(Stack)(({ theme }) => ({
   width: '100%',
-  [theme.breakpoints.up('md')]: {
+  [theme.breakpoints.up('sm')]: {
     maxWidth: '50%',
   },
 }));
 
 function MembersPage() {
-  const { loading, members, loadMoreMembers, canLoadMore } = useMembers(50);
+  const [membersStatus, setMemberStatus] = useState<'active' | 'inactive'>(
+    'active'
+  );
+  const { loading, members, loadMoreMembers, canLoadMore } = useMembers(
+    50,
+    membersStatus
+  );
   const [filter, setFilter] = useState('');
 
   const handleFilter = (text: string) => {
@@ -30,15 +45,29 @@ function MembersPage() {
   const hideAll = !!filter;
   return (
     <PageContainer Icon={PeopleAltIcon} text="Miembros">
-      <SearchBox direction="row" gap="10px">
-        <AddMember />
-        <BsInput
-          placeholder="Buscar Miembro"
-          onChange={handleFilter}
-          Icon={SearchIcon}
-          sx={{ flex: 1 }}
-        />
-      </SearchBox>
+      <TopContainer gap="10px" justifyContent="space-between">
+        <SearchBox direction="row" gap="10px">
+          <AddMember />
+          <BsInput
+            placeholder="Buscar Miembro"
+            onChange={handleFilter}
+            Icon={SearchIcon}
+            sx={{ flex: 1 }}
+          />
+        </SearchBox>
+        <FormControl>
+          <Select
+            value={membersStatus}
+            onChange={(e) =>
+              setMemberStatus(e.target.value as 'active' | 'inactive')
+            }
+            sx={{ backgroundColor: '#fff' }}
+          >
+            <MenuItem value="active">Activos</MenuItem>
+            <MenuItem value="inactive">Inactivos</MenuItem>
+          </Select>
+        </FormControl>
+      </TopContainer>
       <BsFilteredMembers filter={filter} allMembers={members}>
         <MemberCardsVisualization />
       </BsFilteredMembers>

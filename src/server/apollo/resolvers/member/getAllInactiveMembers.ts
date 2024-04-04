@@ -2,7 +2,7 @@ import { GraphQLResolveInfo } from 'graphql';
 import { BeStrongContext } from '../../context';
 import getMembersPage from './actions/getMembersPage';
 
-const getAllMembers = async (
+const getAllInactiveMembers = async (
   _parent: unknown,
   args: { offset: number; limit: number; ignore: string[] },
   context: BeStrongContext,
@@ -16,10 +16,10 @@ const getAllMembers = async (
     limit,
     ignore,
     info,
-    status: 'active',
+    status: 'inactive',
   });
 
   return details;
 };
 
-export default getAllMembers;
+export default getAllInactiveMembers;
