@@ -5,11 +5,14 @@ import memberMeasuresSchema from './memberMeasuresSchema';
 import gymClassSchema from './gymClassSchema';
 import loginSchema from './loginSchema';
 import gymClassTimeSchema from './gymClassTimeSchema';
+import equipmentSchema from './equipmentSchema';
 
 const scalarDefinitions = `
 directive @auth on FIELD_DEFINITION
 
 scalar Date
+
+scalar UUID
 
 type Pagination {
     total: Int
@@ -28,6 +31,7 @@ const typeDefs = mergeTypeDefs([
   gymClassSchema,
   loginSchema,
   gymClassTimeSchema,
+  equipmentSchema,
 ]);
 
 export default typeDefs;

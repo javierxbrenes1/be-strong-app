@@ -28,6 +28,7 @@ const Member = lazy(() => import('./pages/member'));
 const Visit = lazy(() => import('./pages/visit'));
 const Config = lazy(() => import('./pages/config'));
 const Profile = lazy(() => import('./pages/profile'));
+const Equipment = lazy(() => import('./pages/equipment'));
 
 function AppRoutes() {
   return (
@@ -41,6 +42,10 @@ function AppRoutes() {
             element={withSuspense(Member, true)}
           />
           <Route path={PATHS.CLASSES} element={withSuspense(Classes, true)} />
+          <Route
+            path={PATHS.EQUIPMENT}
+            element={withSuspense(Equipment, true)}
+          />
           <Route
             path={PATHS.CONFIGURATIONS}
             element={withSuspense(Config, true)}

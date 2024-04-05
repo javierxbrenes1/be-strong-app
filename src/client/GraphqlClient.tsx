@@ -67,6 +67,12 @@ export const apolloClient = new ApolloClient({
       Member: {
         keyFields: ['code'],
       },
+      EquipmentCategory: {
+        keyFields: ['uuid'],
+      },
+      Equipment: {
+        keyFields: ['uuid'],
+      },
       Query: {
         fields: {
           getAllMembers: {

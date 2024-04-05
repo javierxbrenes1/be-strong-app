@@ -25,13 +25,14 @@ const InputContainer = styled(Box)(({ theme }) => ({
 
 function BsInput(props: {
   Icon?: IconType;
-  placeholder: string;
+  placeholder?: string;
   onChange: (newVal: string) => void;
   className?: string;
   sx?: SxProps<Theme>;
+  initValue?: string;
 }) {
-  const [localValue, setLocalValue] = useState('');
-  const { Icon, placeholder, onChange, className, sx } = props;
+  const { Icon, placeholder, onChange, className, sx, initValue = '' } = props;
+  const [localValue, setLocalValue] = useState(initValue);
 
   const handleOnChange = (ev: React.ChangeEvent<HTMLInputElement>) => {
     const {

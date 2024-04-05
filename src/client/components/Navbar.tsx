@@ -5,6 +5,7 @@ import HomeIcon from '@mui/icons-material/Home';
 import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
 import SportsGymnasticsIcon from '@mui/icons-material/SportsGymnastics';
 import SettingsIcon from '@mui/icons-material/Settings';
+import FitnessCenterIcon from '@mui/icons-material/FitnessCenter';
 import { styled } from '@mui/material';
 import { useLocation, useNavigate } from 'react-router';
 import { PATHS } from '../../common/enums';
@@ -71,6 +72,13 @@ function Nabvar(props: { className?: string; onLinkClick?: () => void }) {
         >
           <SportsGymnasticsIcon fontSize="small" />
           <Typography variant="caption">Clases</Typography>
+        </NavbarLink>
+        <NavbarLink
+          onClick={handleClick(PATHS.EQUIPMENT)}
+          selected={pathname.includes(PATHS.EQUIPMENT)}
+        >
+          <FitnessCenterIcon fontSize="small" />
+          <Typography variant="caption">Equipo</Typography>
         </NavbarLink>
       </Box>
       <NavbarLink

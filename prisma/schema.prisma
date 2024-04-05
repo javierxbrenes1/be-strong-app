@@ -10,11 +10,10 @@ datasource db {
 
 model gymClassTime {
   id                  Int                   @id @default(autoincrement())
-  isoTime             String                @db.VarChar(16) @unique
-  member              member[]              
+  isoTime             String                @unique @db.VarChar(16)
+  member              member[]
   gymClassOnTimes     gymClassOnTimes[]
   memberAttendanceLog memberAttendanceLog[]
-
 }
 
 model gymClass {
@@ -39,9 +38,9 @@ model gymClassOnTimes {
 model member {
   code                String                @id @db.VarChar(16)
   name                String                @db.VarChar(100)
-  birthDate           DateTime?              @db.Date
+  birthDate           DateTime?             @db.Date
   height              Float?
-  genre               String?                @db.VarChar(10)
+  genre               String?               @db.VarChar(10)
   phone               String?               @db.VarChar(10)
   email               String?               @db.VarChar(150)
   avatar              String?               @db.VarChar(150)
@@ -121,4 +120,19 @@ model ownerUser {
   lastLoginDate          DateTime?
   lastPasswordChangeDate DateTime?
   registeredAt           DateTime  @default(now())
+}
+
+model equipmentCategory {
+  uuid      String      @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  name      String
+  equipment equipment[]
+}
+
+model equipment {
+  uuid                  String            @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  description           String
+  total                 Float
+  brand                 String?           @db.VarChar(25)
+  category              equipmentCategory @relation(fields: [equipmentCategoryUuid], references: [uuid], onDelete: Cascade)
+  equipmentCategoryUuid String            @db.Uuid
 }

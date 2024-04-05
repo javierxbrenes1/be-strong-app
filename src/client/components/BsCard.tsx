@@ -1,7 +1,6 @@
 import Box from '@mui/material/Box';
 import { alpha, styled } from '@mui/material';
 import React, { ReactNode } from 'react';
-import { StyledOptions } from '@emotion/styled';
 
 const Container = styled(Box)<{ overwrites?: Record<string, string> }>(
   ({ overwrites }) => ({
