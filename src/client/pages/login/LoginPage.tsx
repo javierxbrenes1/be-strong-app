@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import React, { useState } from 'react';
 import { keyframes, styled } from '@mui/material/styles';
 import {
@@ -6,6 +7,7 @@ import {
   CircularProgress,
   FormControl,
   InputAdornment,
+  Stack,
   TextField,
   Typography,
 } from '@mui/material';
@@ -19,26 +21,16 @@ import useAuthStore from '../../state/authState';
 import { PATHS } from '../../../common/enums';
 
 const Container = styled(Box)(({ theme }) => ({
-  width: '100%',
   height: '100vh',
   display: 'grid',
-  gridTemplateColumns: '1fr 1fr',
-  backgroundColor: '#F8f8f8',
+  gridTemplateColumns: '2fr 1fr',
+  padding: '2rem',
   [theme.breakpoints.down('md')]: {
-    gridTemplateColumns: 'none',
-    gridTemplateRows: '1fr 2fr',
+    gridTemplateColumns: '1fr',
+    '& .animation': {
+      display: 'none',
+    },
   },
-}));
-
-const Logo = styled(Box)(() => ({
-  width: '100%',
-  height: '100%',
-  zIndex: '100',
-  backgroundColor: '#000',
-  backgroundImage: 'url(/images/logo.jpeg)',
-  backgroundRepeat: 'no-repeat',
-  backgroundSize: 'contain',
-  backgroundPosition: 'center',
 }));
 
 const visible = keyframes`
@@ -52,15 +44,6 @@ const visible = keyframes`
   }
 `;
 
-const rotate = keyframes`
-from {
-  transform: rotate(0deg)
-}
-to {
-  transform: rotate(360deg)
-}
-`;
-
 const LoginForm = styled(Box)(({ theme }) => ({
   width: '100%',
   height: '100%',
@@ -68,10 +51,13 @@ const LoginForm = styled(Box)(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
+  background: '#F9f9f9',
+  borderRadius: '1rem',
   [theme.breakpoints.down('md')]: {
     alignItems: 'start',
     paddingTop: '10%',
   },
+  boxShadow: '-1px 1px 15px -3px rgba(0,0,0,0.75)',
 }));
 
 const LoginContainer = styled(Box)(({ theme }) => ({
@@ -80,26 +66,11 @@ const LoginContainer = styled(Box)(({ theme }) => ({
   alignItems: 'center',
   justifyContent: 'center',
   flexDirection: 'column',
-  width: '50%',
+  width: '90%',
   margin: '0 auto',
   animation: `${visible} 1s ease-out 1`,
   overflow: 'hidden',
   borderRadius: '16px',
-  '&:before': {
-    position: 'absolute',
-    content: '""',
-    height: '150vh',
-    width: '150px',
-    background: theme.palette.primary.main,
-    animation: `${rotate} 6s linear infinite`,
-  },
-  '&:after': {
-    content: '""',
-    position: 'absolute',
-    backgroundColor: '#F8f8f8',
-    inset: '2.5px',
-    borderRadius: '16px',
-  },
   [theme.breakpoints.down('md')]: {
     width: '85%',
   },
@@ -107,7 +78,7 @@ const LoginContainer = styled(Box)(({ theme }) => ({
 }));
 
 const Form = styled('form')(() => ({
-  margin: '24px 0',
+  margin: '1rem 0',
   gap: '12px',
   display: 'flex',
   flexDirection: 'column',
@@ -173,12 +144,46 @@ function LoginPage() {
 
   return (
     <Container>
-      <Logo />
+      <Stack className="animation" justifyContent="center" alignItems="center">
+        <Box sx={{ width: '60%' }}>
+          {/** @ts-ignore */}
+          <lottie-player
+            autoplay
+            loop
+            mode="normal"
+            src="./images/login.json"
+          />
+        </Box>
+      </Stack>
       <LoginForm>
         <LoginContainer>
-          <Typography variant="h6" sx={{ zIndex: '1', alignSelf: 'start' }}>
-            Bienvenido
+          <Box
+            sx={{
+              borderRadius: '50%',
+              background: '#000',
+              overflow: 'hidden',
+            }}
+          >
+            <img
+              src="/images/logo.jpeg"
+              alt="logo"
+              width="100px"
+              height="100px"
+              style={{ objectFit: 'contain' }}
+            />
+          </Box>
+          <Typography
+            variant="h4"
+            sx={{
+              zIndex: '1',
+              alignSelf: 'center',
+              marginTop: '1rem',
+              fontWeight: 800,
+            }}
+          >
+            Be Strong App
           </Typography>
+          <Typography variant="h6">Bienvenido</Typography>
           <Form>
             <FormControl fullWidth>
               <TextField

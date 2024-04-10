@@ -15,6 +15,9 @@ declare module '@mui/material/styles' {
 }
 
 const theme = createTheme({
+  typography: {
+    fontFamily: '"Cabin Condensed", "Roboto","Helvetica","Arial",sans-serif',
+  },
   components: {
     MuiTextField: {
       styleOverrides: {
