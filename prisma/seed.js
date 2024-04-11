@@ -66,7 +66,7 @@ async function main() {
     }
   });
 
-  await updateBirthDate();
+  // await updateBirthDate();
 
 }
 main()
