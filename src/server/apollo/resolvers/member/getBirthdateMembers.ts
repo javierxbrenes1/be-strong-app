@@ -10,10 +10,9 @@ const getBirthdateMembers = async (
   const { prisma } = context;
 
   const format = dayjs(args.date).format('MM-DD');
-
   const members = await prisma.$queryRaw<
     Member[]
-  >`SELECT * from app.member where to_char("birthDate", 'MM-DD') = ${format}`;
+  >`SELECT * from app.member where "isActive" = TRUE and to_char("birthDate", 'MM-DD') = ${format}`;
   return members;
 };
 

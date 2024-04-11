@@ -24,6 +24,7 @@ import {
 } from '@mui/material';
 import { DateField } from '@mui/x-date-pickers/DateField';
 import { useMutation } from '@apollo/client';
+import dayjs from 'dayjs';
 import { Genre } from '../../../common/enums';
 import ADD_NEW_MEMBER from '../../mutations/addMember';
 import { createAvatarLink, getApolloErrorMessages } from '../../utils/helpers';
@@ -131,6 +132,13 @@ function AddMember(props: { addNewMemberToList?: (member: Member) => void }) {
         member: {
           ...memberDetails,
           birthDate: memberDetails.birthDate?.getTime(),
+          ...(memberDetails.birthDate
+            ? {
+                birthDateAsString: dayjs(memberDetails.birthDate).format(
+                  'MM-DD'
+                ),
+              }
+            : {}),
           ...(avatar ? { avatar } : {}),
         },
       },

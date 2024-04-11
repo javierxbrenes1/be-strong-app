@@ -39,6 +39,7 @@ model member {
   code                String                @id @db.VarChar(16)
   name                String                @db.VarChar(100)
   birthDate           DateTime?             @db.Date
+  birthDateAsString   String?               @db.VarChar(12)
   height              Float?
   genre               String?               @db.VarChar(10)
   phone               String?               @db.VarChar(10)

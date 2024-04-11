@@ -16,6 +16,7 @@ const memberSchema = `
 		name: String
 		genre: String
 		birthDate: Date
+		birthDateAsString: String
 		height: Float
 		isActive: Boolean
 		phone: String
@@ -49,6 +50,7 @@ const memberSchema = `
 		name: String!
 		genre: String
 		birthDate: Date
+		birthDateAsString: String
 		height: Float
 		observations: String
 		avatar: String
@@ -60,6 +62,7 @@ const memberSchema = `
 		name: String
 		genre: String
 		birthDate: Date
+		birthDateAsString: String
 		height: Float
 		isActive: Boolean
 		phone: String

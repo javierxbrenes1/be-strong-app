@@ -3,6 +3,7 @@ import Grid from '@mui/material/Grid';
 import { useState } from 'react';
 import { useParams } from 'react-router';
 import { toast } from 'react-toastify';
+import dayjs from 'dayjs';
 import Loading from '../../components/Loading';
 import PageContainer from '../../components/PageContainer';
 import Member from '../../../common/models/Member';
@@ -99,6 +100,9 @@ function MemberPage() {
           ...details,
           ...(details.birthDate
             ? { birthDate: details.birthDate.getTime() }
+            : {}),
+          ...(details.birthDate
+            ? { birthDateAsString: dayjs(details.birthDate).format('MM-DD') }
             : {}),
           ...(details.height ? { height: Number(details.height) } : {}),
           ...(memberAttendance
