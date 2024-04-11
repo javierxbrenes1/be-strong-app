@@ -16,6 +16,7 @@ async function updateBirthDate() {
 
   for (const member of members) {
     if(member.birthDate) {
+    member.birthDate.setDate(member.birthDate.getDate - 1);
     const year = member.birthDate.getFullYear();
     const month = member.birthDate.getMonth() + 1;
     const date = member.birthDate.getDate();
