@@ -112,4 +112,5 @@ export function removeTypeName<T>(obj: { __typename?: string } & T): T {
   return newObj;
 }
 
-export const isoFormatDate = (date: Date) => dayjs(date).format('YYYY-MM-DD');
+export const isoFormatDate = (date: Date, withTime = false) =>
+  `${dayjs(date).format('YYYY-MM-DD')}${withTime ? 'T00:00:00.000Z' : ''}`;

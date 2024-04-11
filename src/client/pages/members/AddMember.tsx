@@ -2,7 +2,6 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-unsafe-return */
 import React, { useEffect, useState } from 'react';
-import Box from '@mui/material/Box';
 import PersonAddAlt1Icon from '@mui/icons-material/PersonAddAlt1';
 import Dialog from '@mui/material/Dialog';
 import { toast } from 'react-toastify';
@@ -24,10 +23,13 @@ import {
 } from '@mui/material';
 import { DateField } from '@mui/x-date-pickers/DateField';
 import { useMutation } from '@apollo/client';
-import dayjs from 'dayjs';
 import { Genre } from '../../../common/enums';
 import ADD_NEW_MEMBER from '../../mutations/addMember';
-import { createAvatarLink, getApolloErrorMessages } from '../../utils/helpers';
+import {
+  createAvatarLink,
+  getApolloErrorMessages,
+  isoFormatDate,
+} from '../../utils/helpers';
 import Errors from '../../components/Errors';
 import Member from '../../../common/models/Member';
 import BsLocalizationProvider from '../../components/BsLocalizationProvider';
@@ -134,9 +136,7 @@ function AddMember(props: { addNewMemberToList?: (member: Member) => void }) {
           birthDate: memberDetails.birthDate?.getTime(),
           ...(memberDetails.birthDate
             ? {
-                birthDateAsString: dayjs(memberDetails.birthDate).format(
-                  'MM-DD'
-                ),
+                birthDateAsString: isoFormatDate(memberDetails.birthDate, true),
               }
             : {}),
           ...(avatar ? { avatar } : {}),

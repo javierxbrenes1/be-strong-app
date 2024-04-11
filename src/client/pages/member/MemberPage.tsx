@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { useMutation, useQuery } from '@apollo/client';
 import Grid from '@mui/material/Grid';
 import { useState } from 'react';
@@ -8,7 +10,7 @@ import Loading from '../../components/Loading';
 import PageContainer from '../../components/PageContainer';
 import Member from '../../../common/models/Member';
 import { GET_MEMBER_DETAILS } from '../../queries/memberPage';
-import { createAvatarLink } from '../../utils/helpers';
+import { createAvatarLink, isoFormatDate } from '../../utils/helpers';
 import MemberInfo from './MemberInfo';
 import MemberLastMeasure from './MemberLastMeasure';
 import MemberMeasures from './MemberMeasures';
@@ -99,10 +101,10 @@ function MemberPage() {
         member: {
           ...details,
           ...(details.birthDate
-            ? { birthDate: details.birthDate.getTime() }
+            ? { birthDate: details.birthDate?.getTime() }
             : {}),
           ...(details.birthDate
-            ? { birthDateAsString: dayjs(details.birthDate).format('MM-DD') }
+            ? { birthDateAsString: isoFormatDate(details.birthDate, true) }
             : {}),
           ...(details.height ? { height: Number(details.height) } : {}),
           ...(memberAttendance
