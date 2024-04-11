@@ -1,8 +1,38 @@
 const { PrismaClient } = require('@prisma/client');
 
 const prisma = new PrismaClient()
-async function main() {
 
+async function updateBirthDate() {
+  const members = await prisma.member.findMany({
+    where: {
+      birthDateAsString: {
+        equals: null
+      },
+      birthDate: {
+        not: null
+      }
+    }
+  });
+
+  for (const member of members) {
+    if(member.birthDate) {
+    const year = member.birthDate.getFullYear();
+    const month = member.birthDate.getMonth() + 1;
+    const date = member.birthDate.getDate();
+    const isoDate = `${year}-${month.toString().padStart(2, '0')}-${date.toString().padStart(2, '0')}T00:00:00.000Z`;
+    await prisma.member.update({
+      where: {
+        code: member.code
+      },
+      data: {
+        birthDateAsString: isoDate
+      }
+    });
+  }
+  }
+}
+
+async function main() {
 
   await prisma.ownerUser.upsert({
     where: { username: 'thomas' },
@@ -34,6 +64,9 @@ async function main() {
         isoTime: 'T01:00:00.000Z'
     }
   });
+
+  await updateBirthDate();
+
 }
 main()
   .then(async () => {
