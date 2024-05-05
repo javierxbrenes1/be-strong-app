@@ -1,5 +1,6 @@
 import { getDateAndTimeWithLimit } from '../../../utils/dateshelper';
 import { BeStrongContext } from '../../context';
+import Measure from '../../../../common/models/Measure';
 
 type ArgsType = {
   input: {
@@ -41,14 +42,52 @@ const getMeasures = async (
   const currentPage = Math.floor(offset / limit);
   nextPageStart = nextPageStart >= totalMeasures ? -1 : nextPageStart;
 
-  const measures = await prisma.memberMeasures.findMany({
-    orderBy: {
-      date: 'asc',
-    },
-    skip: offset,
-    take: limit,
-    where,
-  });
+  let rawSql = `
+SELECT "id", 
+"date", 
+"weight",
+weight - COALESCE(lag(weight, 1) over(partition by "memberCode" order by "date" asc), "weight") "weightDiff",
+"corporalFat", 
+"corporalFat" - COALESCE(lag("corporalFat", 1) over(partition by "memberCode" order by "date" asc), "corporalFat") "corporalFatDiff",
+"muscle",
+"muscle" - COALESCE(lag("muscle", 1) over(partition by "memberCode" order by "date" asc), "muscle") "muscleDiff",
+"bodyMassIndex",
+"bodyMassIndex" - COALESCE(lag("bodyMassIndex", 1) over(partition by "memberCode" order by "date" asc), "bodyMassIndex") "bodyMassIndexDiff",
+"corporalWaterPct", 
+"corporalWaterPct" - COALESCE(lag("corporalWaterPct", 1) over(partition by "memberCode" order by "date" asc), "corporalWaterPct") "corporalWaterPctDiff",
+"calories",
+"calories" - COALESCE(lag("calories", 1) over(partition by "memberCode" order by "date" asc), "calories") "caloriesDiff",
+"muscleResult", 
+"bodyMassIndexResult", 
+"corporalFatResult", 
+"corporalWaterPctResult",
+"caloriesResult", 
+"memberCode" 
+FROM "app"."memberMeasures" 
+WHERE "memberCode" = $1
+`;
+  if (filters) {
+    rawSql += ` AND "date" >= $4 AND "date" <= $5`;
+  }
+  rawSql += ` ORDER BY "date" ASC LIMIT $2 OFFSET $3`;
+
+  const measures = await prisma.$queryRawUnsafe<Measure[]>(
+    rawSql,
+    code,
+    limit,
+    offset,
+    filters ? getDateAndTimeWithLimit(filters.from, 'min') : null,
+    filters ? getDateAndTimeWithLimit(filters.to, 'max') : null
+  );
+
+  // const measures = await prisma.memberMeasures.findMany({
+  //   orderBy: {
+  //     date: 'asc',
+  //   },
+  //   skip: offset,
+  //   take: limit,
+  //   where,
+  // });
 
   const memberDetails = await prisma.member.findUnique({
     where: {

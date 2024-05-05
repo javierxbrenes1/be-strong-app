@@ -70,6 +70,7 @@ interface Props {
   headBgColor?: string;
   loading?: boolean;
   xs?: SxProps<Theme>;
+  rowDecorator?: (id: string, value: unknown) => ReactNode;
   pagination?: {
     count: number;
     currentPage: number;
@@ -118,6 +119,7 @@ export default function SimpleTable(props: Props) {
     xs,
     actions,
     showActions,
+    rowDecorator,
   } = props;
 
   return (
@@ -157,7 +159,7 @@ export default function SimpleTable(props: Props) {
                       key={`row-${index}-col-${id}`}
                       align={textAlign}
                     >
-                      {row[id]}
+                      {rowDecorator ? rowDecorator(id, row[id]) : row[id]}
                     </StyledTableCell>
                   ))}
                   {actions && showActions ? (

@@ -5,11 +5,17 @@ export const MEASURE_FRAGMENT_ALL_FIELDS = gql`
     id
     date
     weight
+    weightDiff
     corporalFat
+    corporalFatDiff
     muscle
+    muscleDiff
     bodyMassIndex
+    bodyMassIndexDiff
     corporalWaterPct
+    corporalWaterPctDiff
     calories
+    caloriesDiff
     muscleResult
     bodyMassIndexResult
     corporalFatResult
