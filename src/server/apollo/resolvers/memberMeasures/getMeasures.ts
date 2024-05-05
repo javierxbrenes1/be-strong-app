@@ -1,6 +1,5 @@
 import { getDateAndTimeWithLimit } from '../../../utils/dateshelper';
 import { BeStrongContext } from '../../context';
-import Measure from '../../../../common/models/Measure';
 
 type ArgsType = {
   input: {
@@ -71,7 +70,7 @@ WHERE "memberCode" = $1
   }
   rawSql += ` ORDER BY "date" ASC LIMIT $2 OFFSET $3`;
 
-  const measures = await prisma.$queryRawUnsafe<Measure[]>(
+  const measures = await prisma.$queryRawUnsafe(
     rawSql,
     code,
     limit,
