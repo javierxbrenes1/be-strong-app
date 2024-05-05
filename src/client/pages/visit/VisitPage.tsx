@@ -37,6 +37,7 @@ function VisitPage() {
       name: string;
       avatar: string;
       code: string;
+      lastMeasure: Measure;
       memberMeasures: Measure[];
     };
   }>(GET_VISIT_MEMBER, {
@@ -67,7 +68,7 @@ function VisitPage() {
   }
 
   const { getVisitMember: member } = memberData || {};
-  const lastMeasure = member?.memberMeasures[0] ?? null;
+  const lastMeasure = member?.lastMeasure ?? member?.memberMeasures[0] ?? null;
 
   if (error) {
     return (

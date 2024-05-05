@@ -7,8 +7,15 @@ import getMembersCount from './getMembersCount';
 import getBirthdateMembers from './getBirthdateMembers';
 import getFilteredMembers from './getFilteredMembers';
 import getVisitMember from './getVisitMember';
+import getLastMeasure from '../memberMeasures/getLastMeasure';
 
 const memberResolvers = {
+  Member: {
+    lastMeasure: getLastMeasure,
+  },
+  VisitMember: {
+    lastMeasure: getLastMeasure,
+  },
   Query: {
     getAllMembers,
     getAllInactiveMembers,

@@ -34,59 +34,71 @@ function MeasureDetails(props: {
       <MeasureContainer>
         <MeasureItem
           id={Measures.weight}
+          idDiff={Measures.weightDiff}
           selectedOption={selectedMeasureType}
           onClick={onSelectMeasureType}
           title={MEASURES_TITLES.weight}
           value={String(measure.weight)}
+          valueDiff={measure.weightDiff}
           suffix="Kg."
           newMeasureId={measure.id}
         />
         <MeasureItem
           id={Measures.bodyMassIndex}
+          idDiff={Measures.bodyMassIndexDiff}
           title={MEASURES_TITLES.bodyMassIndex}
           selectedOption={selectedMeasureType}
           onClick={onSelectMeasureType}
           value={String(measure.bodyMassIndex)}
+          valueDiff={measure.bodyMassIndexDiff}
           chipText={measure.bodyMassIndexResult}
           showExplanation
           onShowExplanationClick={setExplainingTable}
         />
         <MeasureItem
           id={Measures.corporalFat}
+          idDiff={Measures.corporalFatDiff}
           title={MEASURES_TITLES.corporalFat}
           onClick={onSelectMeasureType}
           selectedOption={selectedMeasureType}
           value={String(measure.corporalFat)}
+          valueDiff={measure.corporalFatDiff}
           chipText={measure.corporalFatResult}
           showExplanation
           onShowExplanationClick={setExplainingTable}
         />
         <MeasureItem
           id={Measures.calories}
+          idDiff={Measures.caloriesDiff}
           title={MEASURES_TITLES.calories}
           onClick={onSelectMeasureType}
           selectedOption={selectedMeasureType}
           value={String(measure.calories)}
+          valueDiff={measure.caloriesDiff}
           chipText={measure.caloriesResult}
           showExplanation
           onShowExplanationClick={setExplainingTable}
         />
         <MeasureItem
           id={Measures.corporalWaterPct}
+          idDiff={Measures.corporalWaterPctDiff}
           title={MEASURES_TITLES.corporalWaterPct}
           onClick={onSelectMeasureType}
           selectedOption={selectedMeasureType}
           value={String(measure.corporalWaterPct)}
+          valueDiff={measure.corporalWaterPctDiff}
           chipText={measure.corporalWaterPctResult}
           showExplanation
           onShowExplanationClick={setExplainingTable}
         />
         <MeasureItem
           id={Measures.muscle}
+          idDiff={Measures.muscleDiff}
           title={MEASURES_TITLES.muscle}
           onClick={onSelectMeasureType}
           selectedOption={selectedMeasureType}
           value={String(measure.muscle)}
+          valueDiff={measure.muscleDiff}
           chipText={measure.muscleResult}
           showExplanation
           onShowExplanationClick={setExplainingTable}

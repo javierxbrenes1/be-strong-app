@@ -1,3 +1,4 @@
+/* eslint-disable eqeqeq */
 import { useRef, useEffect } from 'react';
 import { Chip, IconButton, Stack, Typography } from '@mui/material';
 import Box from '@mui/material/Box';
@@ -5,6 +6,7 @@ import { styled } from '@mui/material/styles';
 import InfoIcon from '@mui/icons-material/Info';
 import { getMeasureColorAndEmoji } from '../../utils/measureColorPicker';
 import { Measures } from '../../types';
+import measuresDecorator from './measuresDiffsDecorator';
 
 const Container = styled(Box)<{ selected?: boolean }>(
   ({ selected, theme }) => ({
@@ -22,6 +24,7 @@ const ValueWrapper = styled(Box)({
   display: 'flex',
   gap: '20px',
   alignItems: 'center',
+  justifyContent: 'space-between',
   flexWrap: 'wrap',
   '& *': {
     margin: 0,
@@ -31,9 +34,11 @@ const ValueWrapper = styled(Box)({
 
 function MeasureItem(props: {
   id: Measures;
+  idDiff?: Measures;
   selectedOption: Measures | null;
   title: string;
   value: string;
+  valueDiff?: number;
   suffix?: string;
   chipText?: string;
   newMeasureId?: number;
@@ -44,8 +49,10 @@ function MeasureItem(props: {
   const {
     title,
     value,
+    valueDiff,
     chipText,
     id,
+    idDiff,
     selectedOption,
     onClick,
     newMeasureId,
@@ -113,6 +120,9 @@ function MeasureItem(props: {
             }}
           />
         )}
+        {idDiff &&
+          valueDiff != undefined &&
+          measuresDecorator(idDiff, valueDiff)}
       </ValueWrapper>
     </Container>
   );

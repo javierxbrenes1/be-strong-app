@@ -26,8 +26,8 @@ function useMemberLastMeasure(code: string) {
   });
 
   useEffect(() => {
-    const { memberMeasures = [] } = pickingData?.getMember || {};
-    const m = memberMeasures[0];
+    const { lastMeasure: m } = pickingData?.getMember || {};
+    // const m = memberMeasures[0];
     setLastMeasureId(m ? m.id : -1);
     setLastMeasure(m ?? null);
     // eslint-disable-next-line react-hooks/exhaustive-deps

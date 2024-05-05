@@ -15,12 +15,16 @@ export const GET_VISIT_MEMBER = gql`
       code
       name
       avatar
+      lastMeasure {
+        ...MeasureAllFields
+      }
       memberMeasures(take: $take, orderBy: $orderBy) {
         ...MeasureNoDiffs
       }
     }
   }
-  ${MEASURE_FRAGMENT_NO_DIFFS}
+  ${MEASURE_FRAGMENT_NO_DIFFS},
+  ${MEASURE_FRAGMENT_ALL_FIELDS}
 `;
 
 export const GET_VISIT_MEASURES = gql`

@@ -23,12 +23,16 @@ export const GET_MEMBER_LAST_MEASURE = gql`
   ) {
     getMember(code: $code) {
       code
+      lastMeasure {
+        ...MeasureAllFields
+      }
       memberMeasures(take: $take, orderBy: $orderBy) {
         ...MeasureNoDiffs
       }
     }
   }
-  ${MEASURE_FRAGMENT_NO_DIFFS}
+  ${MEASURE_FRAGMENT_NO_DIFFS},
+  ${MEASURE_FRAGMENT_ALL_FIELDS}
 `;
 
 export const GET_MEMBER_MEASURES = gql`

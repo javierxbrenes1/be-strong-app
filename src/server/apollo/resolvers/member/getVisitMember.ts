@@ -13,7 +13,11 @@ const getVisitMember = async (
 
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   const select = new PrismaSelect(info).value;
-
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+  if (select?.select?.lastMeasure) {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+    delete select.select.lastMeasure;
+  }
   // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
   const member = await prisma.member.findUnique({
     where: {

@@ -2,6 +2,7 @@ import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import { Typography } from '@mui/material';
 import { ReactNode } from 'react';
+import { Measures } from '../../types';
 
 const upWarningDownSuccess = (value: number) =>
   value > 0 ? 'error' : 'success';
@@ -17,7 +18,7 @@ const measureRules = {
   muscleDiff: upSuccessDownWarning,
 };
 
-function measuresDecorator(id: string, value: unknown): ReactNode {
+function measuresDecorator(id: Measures, value: unknown): ReactNode {
   const valueAsNumber = value as number;
   const color = measureRules[id as keyof typeof measureRules]?.(valueAsNumber);
   if (!color) {

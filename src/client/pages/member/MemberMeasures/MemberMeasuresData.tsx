@@ -221,7 +221,9 @@ function MemberMeasuresData(props: {
                     delete: deleteMemberMeasure,
                     edit: editMemberMeasure,
                   }}
-                  rowDecorator={measuresDecorator}
+                  rowDecorator={(id, value) =>
+                    measuresDecorator(id as Measures, value)
+                  }
                   showActions={showActions}
                   pagination={
                     paginationDetails
