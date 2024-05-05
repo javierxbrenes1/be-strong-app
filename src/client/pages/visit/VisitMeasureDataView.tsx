@@ -42,7 +42,9 @@ function VisitMeasureDataView(props: Props) {
           rows={tableData}
           headBgColor={MeasuresColorMap[measure]}
           xs={{ height: '400px' }}
-          rowDecorator={measuresDecorator}
+          rowDecorator={(id: string, value: unknown) =>
+            measuresDecorator(id as Measures, value)
+          }
         />
       )}
       {['bar', 'line'].includes(viewElement) && (

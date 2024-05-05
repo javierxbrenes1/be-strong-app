@@ -17,7 +17,7 @@ export const MEASURES_TITLES = {
 
 export type MeasuresTitlesProp = keyof typeof MEASURES_TITLES;
 
-const MeasuresColumnsIds: Record<Measures, string[]> = {
+const MeasuresColumnsIds: Record<string, string[]> = {
   weight: ['weight', 'weightDiff'],
   bodyMassIndex: ['bodyMassIndex', 'bodyMassIndexDiff', 'bodyMassIndexResult'],
   calories: ['calories', 'caloriesDiff', 'caloriesResult'],
@@ -125,7 +125,7 @@ export const INDEX_DAYS = [
   'saturday',
 ];
 
-export const MeasuresColorMap = {
+export const MeasuresColorMap: Record<string, string> = {
   [Measures.weight]: '#4c9173',
   [Measures.bodyMassIndex]: '#453953',
   [Measures.corporalFat]: '#fc3a52',

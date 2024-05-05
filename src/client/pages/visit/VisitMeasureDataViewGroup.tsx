@@ -35,8 +35,8 @@ function VisitMeasureDataViewGroup(props: Props) {
       dataSets.push({
         numbers: charts.numbers[key],
         title: MEASURES_TITLES[key as MeasuresTitlesProp],
-        borderColor: MeasuresColorMap[key as keyof typeof MeasuresColorMap],
-        bgColor: MeasuresColorMap[key as keyof typeof MeasuresColorMap],
+        borderColor: MeasuresColorMap[key],
+        bgColor: MeasuresColorMap[key],
       });
     });
     return dataSets;
