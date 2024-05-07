@@ -1,5 +1,5 @@
 import { gql } from '@apollo/client';
-import { MEASURE_FRAGMENT_ALL_FIELDS } from './measureFragment';
+import { MEASURE_FRAGMENT_NO_DIFFS } from './measureFragment';
 import { MEMBER_ATTENDANCE_ALL_FIELDS } from './memberAttendanceFragment';
 
 const MEMBER_SCALAR_FIELDS = gql`
@@ -34,14 +34,14 @@ export const MEMBER_ALL_FIELDS = gql`
   fragment memberAllFields on Member {
     ...memberScalarFields
     memberMeasures(take: $take, orderBy: $orderBy) {
-      ...MeasureAllFields
+      ...MeasureNoDiffs
     }
     memberAttendance {
       ...memberAttendanceAllFields
     }
   }
   ${MEMBER_SCALAR_FIELDS},
-  ${MEASURE_FRAGMENT_ALL_FIELDS},
+  ${MEASURE_FRAGMENT_NO_DIFFS},
   ${MEMBER_ATTENDANCE_ALL_FIELDS}
 `;
 

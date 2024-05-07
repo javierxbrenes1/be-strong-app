@@ -2,23 +2,32 @@ import { Measures } from './types';
 
 export const MEASURES_TITLES = {
   weight: 'Peso',
+  weightDiff: 'Aum / Dis',
   bodyMassIndex: 'Índice de masa corporal',
-
+  bodyMassIndexDiff: 'Aum / Dis',
   corporalFat: 'Grasa corporal',
+  corporalFatDiff: 'Aum / Dis',
   calories: 'Calorías',
+  caloriesDiff: 'Aum / Dis',
   corporalWaterPct: 'Porcentaje de agua',
+  corporalWaterPctDiff: 'Aum / Dis',
   muscle: 'Músculo',
+  muscleDiff: 'Aum / Dis',
 };
 
 export type MeasuresTitlesProp = keyof typeof MEASURES_TITLES;
 
-const MeasuresColumnsIds: Record<Measures, string[]> = {
-  weight: ['weight'],
-  bodyMassIndex: ['bodyMassIndex', 'bodyMassIndexResult'],
-  calories: ['calories', 'caloriesResult'],
-  corporalFat: ['corporalFat', 'corporalFatResult'],
-  corporalWaterPct: ['corporalWaterPct', 'corporalWaterPctResult'],
-  muscle: ['muscle', 'muscleResult'],
+const MeasuresColumnsIds: Record<string, string[]> = {
+  weight: ['weight', 'weightDiff'],
+  bodyMassIndex: ['bodyMassIndex', 'bodyMassIndexDiff', 'bodyMassIndexResult'],
+  calories: ['calories', 'caloriesDiff', 'caloriesResult'],
+  corporalFat: ['corporalFat', 'corporalFatDiff', 'corporalFatResult'],
+  corporalWaterPct: [
+    'corporalWaterPct',
+    'corporalWaterPctDiff',
+    'corporalWaterPctResult',
+  ],
+  muscle: ['muscle', 'muscleDiff', 'muscleResult'],
 };
 
 export const getMeasureTableColumns = (measureType: Measures) => {
@@ -116,7 +125,7 @@ export const INDEX_DAYS = [
   'saturday',
 ];
 
-export const MeasuresColorMap = {
+export const MeasuresColorMap: Record<string, string> = {
   [Measures.weight]: '#4c9173',
   [Measures.bodyMassIndex]: '#453953',
   [Measures.corporalFat]: '#fc3a52',

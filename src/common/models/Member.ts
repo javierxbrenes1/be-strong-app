@@ -15,6 +15,7 @@ interface Member {
   preferredClassTime: number;
   observations?: string;
   category?: string;
+  lastMeasure?: Measure;
   memberMeasures?: Measure[];
   gymClassTime?: GymClassTime;
   memberAttendance?: MemberAttendance;

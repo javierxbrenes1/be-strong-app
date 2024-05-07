@@ -9,6 +9,7 @@ const memberSchema = `
 		name: String
 		avatar: String
 		memberMeasures(take: Int, orderBy: MemberMeasuresOrderBy): [MemberMeasure]
+		lastMeasure: MemberMeasure
 	}
 
     type Member {
@@ -27,6 +28,7 @@ const memberSchema = `
 		category: String
 		memberAttendance: MemberAttendance
 		memberMeasures(take: Int, orderBy: MemberMeasuresOrderBy): [MemberMeasure]
+		lastMeasure: MemberMeasure
 		gymClassTime: GymClassTime
 	}
 

@@ -23,6 +23,7 @@ import useGetMeasuresFromServer from './useGetMeasuresFromServer';
 import DeleteConfirmationModal from './DeleteConfirmationModal';
 import EditMeasures from '../../members/EditMeasure';
 import { useMemberContext } from '../MemberContext';
+import measuresDecorator from '../measuresDiffsDecorator';
 
 /**
  * Member measure component
@@ -220,6 +221,9 @@ function MemberMeasuresData(props: {
                     delete: deleteMemberMeasure,
                     edit: editMemberMeasure,
                   }}
+                  rowDecorator={(id, value) =>
+                    measuresDecorator(id as Measures, value)
+                  }
                   showActions={showActions}
                   pagination={
                     paginationDetails

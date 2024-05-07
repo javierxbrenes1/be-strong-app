@@ -5,6 +5,30 @@ export const MEASURE_FRAGMENT_ALL_FIELDS = gql`
     id
     date
     weight
+    weightDiff
+    corporalFat
+    corporalFatDiff
+    muscle
+    muscleDiff
+    bodyMassIndex
+    bodyMassIndexDiff
+    corporalWaterPct
+    corporalWaterPctDiff
+    calories
+    caloriesDiff
+    muscleResult
+    bodyMassIndexResult
+    corporalFatResult
+    corporalWaterPctResult
+    caloriesResult
+  }
+`;
+
+export const MEASURE_FRAGMENT_NO_DIFFS = gql`
+  fragment MeasureNoDiffs on MemberMeasure {
+    id
+    date
+    weight
     corporalFat
     muscle
     bodyMassIndex

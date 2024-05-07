@@ -4,11 +4,17 @@ const memberMeasuresSchema = `
         memberCode: String!
         date: Date
         weight: Float
+        weightDiff: Float
         corporalFat: Float
+        corporalFatDiff: Float
         muscle: Float
+        muscleDiff: Float
         bodyMassIndex: Float
+        bodyMassIndexDiff: Float
         corporalWaterPct: Float
+        corporalWaterPctDiff: Float
         calories: Float
+        caloriesDiff: Float
         muscleResult: String
         bodyMassIndexResult: String
         corporalFatResult: String

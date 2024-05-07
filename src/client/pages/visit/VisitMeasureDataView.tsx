@@ -4,6 +4,7 @@ import { MeasuresColorMap, getMeasureTableColumns } from '../../labels';
 import SimpleTable from '../../components/SimpleTable';
 import BsChart from '../../components/BsChart';
 import VisitMeasureDataViewWrapper from './VisitMeasureDataViewWrapper';
+import measuresDecorator from '../member/measuresDiffsDecorator';
 
 type Props = {
   title: string;
@@ -41,6 +42,9 @@ function VisitMeasureDataView(props: Props) {
           rows={tableData}
           headBgColor={MeasuresColorMap[measure]}
           xs={{ height: '400px' }}
+          rowDecorator={(id: string, value: unknown) =>
+            measuresDecorator(id as Measures, value)
+          }
         />
       )}
       {['bar', 'line'].includes(viewElement) && (

@@ -1,5 +1,8 @@
 import { gql } from '@apollo/client';
-import { MEASURE_FRAGMENT_ALL_FIELDS } from '../fragments/measureFragment';
+import {
+  MEASURE_FRAGMENT_ALL_FIELDS,
+  MEASURE_FRAGMENT_NO_DIFFS,
+} from '../fragments/measureFragment';
 import { PAGINATION } from '../fragments/paginationFragment';
 
 export const GET_VISIT_MEMBER = gql`
@@ -12,11 +15,15 @@ export const GET_VISIT_MEMBER = gql`
       code
       name
       avatar
-      memberMeasures(take: $take, orderBy: $orderBy) {
+      lastMeasure {
         ...MeasureAllFields
+      }
+      memberMeasures(take: $take, orderBy: $orderBy) {
+        ...MeasureNoDiffs
       }
     }
   }
+  ${MEASURE_FRAGMENT_NO_DIFFS},
   ${MEASURE_FRAGMENT_ALL_FIELDS}
 `;
 
