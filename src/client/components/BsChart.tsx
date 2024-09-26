@@ -57,6 +57,7 @@ function BsChart(props: {
           })),
         }}
         options={{
+          ...(type === 'bar' ? { indexAxis: 'y' } : {}),
           responsive: true,
           maintainAspectRatio: false,
           // scales: {
