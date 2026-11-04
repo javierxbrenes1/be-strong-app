@@ -19,6 +19,9 @@ type Documents = {
     "\n  query whoAmIProfile {\n    whoAmI {\n      username\n      name\n      email\n      role\n      lastPasswordChangeDate\n    }\n  }\n": typeof types.WhoAmIProfileDocument,
     "\n  query gymClassTimes {\n    allGymClassTimes {\n      id\n      localTime\n    }\n  }\n": typeof types.GymClassTimesDocument,
     "\n  mutation addGymClassTimeConfig($localTime: LocalTime!) {\n    addGymClassTime(localTime: $localTime) {\n      id\n      localTime\n    }\n  }\n": typeof types.AddGymClassTimeConfigDocument,
+    "\n  query activeMembers($offset: Int, $limit: Int) {\n    getAllMembers(offset: $offset, limit: $limit) {\n      members {\n        code\n        name\n        category\n        isActive\n        lastAttendanceDate\n        currentWeight\n      }\n      pagination {\n        total\n        nextPageStart\n      }\n    }\n  }\n": typeof types.ActiveMembersDocument,
+    "\n  query inactiveMembers($offset: Int, $limit: Int) {\n    getAllInactiveMembers(offset: $offset, limit: $limit) {\n      members {\n        code\n        name\n        category\n        isActive\n        lastAttendanceDate\n        currentWeight\n      }\n      pagination {\n        total\n        nextPageStart\n      }\n    }\n  }\n": typeof types.InactiveMembersDocument,
+    "\n  query searchMembers($filter: String) {\n    getFilteredMembers(\n      column: \"name\"\n      comparator: \"contains\"\n      filter: $filter\n    ) {\n      code\n      name\n      category\n      isActive\n      lastAttendanceDate\n      currentWeight\n    }\n  }\n": typeof types.SearchMembersDocument,
 };
 const documents: Documents = {
     "\n  mutation login($input: OwnerSignInInput) {\n    ownerSignIn(input: $input) {\n      jwt\n    }\n  }\n": types.LoginDocument,
@@ -26,6 +29,9 @@ const documents: Documents = {
     "\n  query whoAmIProfile {\n    whoAmI {\n      username\n      name\n      email\n      role\n      lastPasswordChangeDate\n    }\n  }\n": types.WhoAmIProfileDocument,
     "\n  query gymClassTimes {\n    allGymClassTimes {\n      id\n      localTime\n    }\n  }\n": types.GymClassTimesDocument,
     "\n  mutation addGymClassTimeConfig($localTime: LocalTime!) {\n    addGymClassTime(localTime: $localTime) {\n      id\n      localTime\n    }\n  }\n": types.AddGymClassTimeConfigDocument,
+    "\n  query activeMembers($offset: Int, $limit: Int) {\n    getAllMembers(offset: $offset, limit: $limit) {\n      members {\n        code\n        name\n        category\n        isActive\n        lastAttendanceDate\n        currentWeight\n      }\n      pagination {\n        total\n        nextPageStart\n      }\n    }\n  }\n": types.ActiveMembersDocument,
+    "\n  query inactiveMembers($offset: Int, $limit: Int) {\n    getAllInactiveMembers(offset: $offset, limit: $limit) {\n      members {\n        code\n        name\n        category\n        isActive\n        lastAttendanceDate\n        currentWeight\n      }\n      pagination {\n        total\n        nextPageStart\n      }\n    }\n  }\n": types.InactiveMembersDocument,
+    "\n  query searchMembers($filter: String) {\n    getFilteredMembers(\n      column: \"name\"\n      comparator: \"contains\"\n      filter: $filter\n    ) {\n      code\n      name\n      category\n      isActive\n      lastAttendanceDate\n      currentWeight\n    }\n  }\n": types.SearchMembersDocument,
 };
 
 /**
@@ -62,6 +68,18 @@ export function graphql(source: "\n  query gymClassTimes {\n    allGymClassTimes
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(source: "\n  mutation addGymClassTimeConfig($localTime: LocalTime!) {\n    addGymClassTime(localTime: $localTime) {\n      id\n      localTime\n    }\n  }\n"): (typeof documents)["\n  mutation addGymClassTimeConfig($localTime: LocalTime!) {\n    addGymClassTime(localTime: $localTime) {\n      id\n      localTime\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  query activeMembers($offset: Int, $limit: Int) {\n    getAllMembers(offset: $offset, limit: $limit) {\n      members {\n        code\n        name\n        category\n        isActive\n        lastAttendanceDate\n        currentWeight\n      }\n      pagination {\n        total\n        nextPageStart\n      }\n    }\n  }\n"): (typeof documents)["\n  query activeMembers($offset: Int, $limit: Int) {\n    getAllMembers(offset: $offset, limit: $limit) {\n      members {\n        code\n        name\n        category\n        isActive\n        lastAttendanceDate\n        currentWeight\n      }\n      pagination {\n        total\n        nextPageStart\n      }\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  query inactiveMembers($offset: Int, $limit: Int) {\n    getAllInactiveMembers(offset: $offset, limit: $limit) {\n      members {\n        code\n        name\n        category\n        isActive\n        lastAttendanceDate\n        currentWeight\n      }\n      pagination {\n        total\n        nextPageStart\n      }\n    }\n  }\n"): (typeof documents)["\n  query inactiveMembers($offset: Int, $limit: Int) {\n    getAllInactiveMembers(offset: $offset, limit: $limit) {\n      members {\n        code\n        name\n        category\n        isActive\n        lastAttendanceDate\n        currentWeight\n      }\n      pagination {\n        total\n        nextPageStart\n      }\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  query searchMembers($filter: String) {\n    getFilteredMembers(\n      column: \"name\"\n      comparator: \"contains\"\n      filter: $filter\n    ) {\n      code\n      name\n      category\n      isActive\n      lastAttendanceDate\n      currentWeight\n    }\n  }\n"): (typeof documents)["\n  query searchMembers($filter: String) {\n    getFilteredMembers(\n      column: \"name\"\n      comparator: \"contains\"\n      filter: $filter\n    ) {\n      code\n      name\n      category\n      isActive\n      lastAttendanceDate\n      currentWeight\n    }\n  }\n"];
 
 export function graphql(source: string) {
   return (documents as any)[source] ?? {};
