@@ -1,6 +1,7 @@
 import { PrismaSelect } from '@paljs/plugins';
 import { GraphQLResolveInfo } from 'graphql';
 import { BeStrongContext } from '../../context';
+import { parseMemberFilter } from './memberFilter';
 
 const getFilteredMembers = async (
   _parent: unknown,
@@ -9,7 +10,8 @@ const getFilteredMembers = async (
   info: GraphQLResolveInfo
 ) => {
   const { prisma } = context;
-  const { column, comparator, filter } = args;
+  const { filter } = args;
+  const { column, comparator } = parseMemberFilter(args.column, args.comparator);
 
   const where = {
     isActive: true,
