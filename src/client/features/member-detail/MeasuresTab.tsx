@@ -90,7 +90,12 @@ function MeasuresTab({ code, onEdit }: Props) {
   const points = rows
     .filter((r) => r.date != null && r[metricKey] != null)
     .map((r) => ({ date: r.date as number, value: r[metricKey] as number }));
-  const pageRows = rows.slice(page * PAGE_SIZE, (page + 1) * PAGE_SIZE);
+  // Al borrar la última fila de la última página, la página deja de existir.
+  const safePage = Math.min(
+    page,
+    Math.max(0, Math.ceil(rows.length / PAGE_SIZE) - 1)
+  );
+  const pageRows = rows.slice(safePage * PAGE_SIZE, (safePage + 1) * PAGE_SIZE);
   const dateOf = (r: MeasureRow) =>
     r.date == null ? '' : formatInstant(r.date, 'DD/MM/YYYY');
 
@@ -252,7 +257,7 @@ function MeasuresTab({ code, onEdit }: Props) {
           />
         }
         pagination={{
-          page,
+          page: safePage,
           pageSize: PAGE_SIZE,
           total: rows.length,
           onPageChange: setPage,
