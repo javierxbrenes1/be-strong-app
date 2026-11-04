@@ -10,6 +10,15 @@ export const ActiveMembersDocument = graphql(`
         isActive
         lastAttendanceDate
         currentWeight
+        memberAttendance {
+          monday
+          tuesday
+          wednesday
+          thursday
+          friday
+          saturday
+          sunday
+        }
       }
       pagination {
         total

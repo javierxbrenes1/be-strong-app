@@ -7,8 +7,13 @@ import { EmptyState, PageHeader } from '../../design-system';
 import { GymClassesByDayDocument } from './api';
 import { GymClassTimesDocument } from '../config/api';
 import DayNavigator from './DayNavigator';
+import AttendanceSheet from './AttendanceSheet';
 import ClassCard from './ClassCard';
-import { isLocalDate, todayLocalDate } from '../../../common/dates';
+import {
+  formatLocalTime,
+  isLocalDate,
+  todayLocalDate,
+} from '../../../common/dates';
 
 function ClassesPage() {
   const [params, setParams] = useSearchParams();
@@ -20,8 +25,27 @@ function ClassesPage() {
   });
   const times = useQuery(GymClassTimesDocument);
   const [, setNewClassOpen] = useState(false);
+  const [attending, setAttending] = useState<{
+    classId: number;
+    timeId: number;
+  } | null>(null);
   const classes = (data?.getGymClasses ?? []).filter(Boolean);
   const totalTimes = times.data?.allGymClassTimes?.length ?? 0;
+
+  const attendingClass = classes.find((c) => c?.id === attending?.classId);
+  const attendingTime = attendingClass?.gymClassOnTimes
+    ?.map((t) => t?.gymClassTime)
+    .find((t) => t?.id === attending?.timeId);
+  const attendingTimeLabel = attendingTime
+    ? formatLocalTime(attendingTime.localTime)
+    : '';
+  const registered = (
+    attendingClass?.attendanceList?.find(
+      (a) => a?.gymClassTimeId === attending?.timeId
+    )?.members ?? []
+  )
+    .filter(Boolean)
+    .map((m) => m?.code ?? '');
 
   const newClassButton = (
     <Button
@@ -46,7 +70,9 @@ function ClassesPage() {
             key={c?.id}
             gymClass={c ?? {}}
             totalTimes={totalTimes}
-            onTakeAttendance={() => undefined}
+            onTakeAttendance={(classId, timeId) =>
+              setAttending({ classId, timeId })
+            }
             onAddTimes={() => undefined}
           />
         ))}
@@ -57,6 +83,20 @@ function ClassesPage() {
           />
         )}
       </Stack>
+      {attendingClass && attending && (
+        <AttendanceSheet
+          open
+          gymClass={{
+            id: attending.classId,
+            classType: attendingClass.classType ?? '',
+            classDate: date,
+          }}
+          timeId={attending.timeId}
+          timeLabel={attendingTimeLabel}
+          registered={registered}
+          onClose={() => setAttending(null)}
+        />
+      )}
     </Box>
   );
 }
