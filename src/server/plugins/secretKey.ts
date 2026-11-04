@@ -1,11 +1,8 @@
-const MIN_SECRET_KEY_LENGTH = 32;
-
+// Solo exige que exista: la longitud mínima se quitó para conservar el secret que ya usan las sesiones.
 export function getSecretKey(env: NodeJS.ProcessEnv = process.env): string {
   const secret = (env.SECRET_KEY ?? '').trim();
-  if (secret.length < MIN_SECRET_KEY_LENGTH) {
-    throw new Error(
-      `SECRET_KEY is missing or shorter than ${MIN_SECRET_KEY_LENGTH} characters`
-    );
+  if (!secret) {
+    throw new Error('SECRET_KEY is missing or empty');
   }
   return secret;
 }

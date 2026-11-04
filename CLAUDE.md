@@ -16,7 +16,7 @@ npm run prisma         # prisma generate + migrate deploy + db seed
 npm test               # vitest
 ```
 
-Env vars: `DATABASE_URL`, `SECRET_KEY`, `NODE_ENV`, plus `POSTGRES_USER`/`POSTGRES_PASSWORD` for docker-compose. Nothing loads `.env` at runtime (no dotenv): Prisma CLI and docker-compose read it themselves, but for `dev-server` export it first (`set -a; source .env; set +a`). `SECRET_KEY` is required (≥ 32 chars after trim); the server refuses to start otherwise.
+Env vars: `DATABASE_URL`, `SECRET_KEY`, `NODE_ENV`, plus `POSTGRES_USER`/`POSTGRES_PASSWORD` for docker-compose. Nothing loads `.env` at runtime (no dotenv): Prisma CLI and docker-compose read it themselves, but for `dev-server` export it first (`set -a; source .env; set +a`). `SECRET_KEY` is required (non-empty after trim, no minimum length); the server refuses to start otherwise.
 
 `DATABASE_URL` must use `?schema=app`: migration `20240228070527_add_equipment_tables` hardcodes `CREATE EXTENSION ... SCHEMA app`, and fails on any other schema.
 
