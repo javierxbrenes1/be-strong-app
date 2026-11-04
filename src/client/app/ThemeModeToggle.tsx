@@ -1,16 +1,14 @@
 import { ToggleButton, ToggleButtonGroup } from '@mui/material';
 import LightModeRoundedIcon from '@mui/icons-material/LightModeRounded';
 import DarkModeRoundedIcon from '@mui/icons-material/DarkModeRounded';
-import SettingsBrightnessRoundedIcon from '@mui/icons-material/SettingsBrightnessRounded';
 import { useColorScheme } from '@mui/material/styles';
 import { ENABLE_DARK_MODE } from './flags';
 
-type Mode = 'light' | 'dark' | 'system';
+type Mode = 'light' | 'dark';
 
 const MODES = [
   { value: 'light', label: 'Claro', Icon: LightModeRoundedIcon },
   { value: 'dark', label: 'Oscuro', Icon: DarkModeRoundedIcon },
-  { value: 'system', label: 'Sistema', Icon: SettingsBrightnessRoundedIcon },
 ] as const;
 
 type Props = { force?: boolean };
@@ -23,7 +21,8 @@ function ThemeModeToggle({ force = false }: Props) {
     <ToggleButtonGroup
       exclusive
       size="small"
-      value={mode ?? null}
+      // Sin elección del usuario el modo es 'system': ningún botón queda marcado.
+      value={mode === 'light' || mode === 'dark' ? mode : null}
       onChange={(_e, value: Mode | null) => {
         if (value) setMode(value);
       }}
