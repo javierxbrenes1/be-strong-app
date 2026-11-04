@@ -11,9 +11,10 @@ import {
 import AccountCircleRoundedIcon from '@mui/icons-material/AccountCircleRounded';
 import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded';
 import SettingsRoundedIcon from '@mui/icons-material/SettingsRounded';
+import { useQuery } from '@apollo/client';
 import { useLocation, useNavigate } from 'react-router-dom';
 import useAuthStore from '../../state/authState';
-import useWhoAmI from '../../hooks/useWhoAmI';
+import { WhoAmIDocument } from '../../features/auth/api';
 import MemberAvatar from '../../design-system/MemberAvatar';
 import ThemeModeToggle from '../ThemeModeToggle';
 import { ENABLE_DARK_MODE } from '../flags';
@@ -23,7 +24,7 @@ import { PATHS } from '../../../common/enums';
 function TopBar() {
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
   const resetAuth = useAuthStore((state) => state.reset);
-  const whoAmI = useWhoAmI();
+  const whoAmI = useQuery(WhoAmIDocument).data?.whoAmI;
   const navigate = useNavigate();
   const { pathname } = useLocation();
 
@@ -58,7 +59,7 @@ function TopBar() {
           aria-label="Menú de usuario"
           onClick={(e: MouseEvent<HTMLElement>) => setAnchorEl(e.currentTarget)}
         >
-          <MemberAvatar name={whoAmI.name} size={32} />
+          <MemberAvatar name={whoAmI.name ?? whoAmI.username ?? ''} size={32} />
         </IconButton>
       )}
       <Menu

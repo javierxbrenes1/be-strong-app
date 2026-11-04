@@ -4,7 +4,8 @@ type UpdateMemberArgs = {
   code: string;
   name?: string;
   genre?: string;
-  birthDate?: string;
+  // LocalDate llega ya parseado a Date (00:00Z); null borra la fecha.
+  birthDate?: Date | null;
   height?: number;
   isActive?: boolean;
   phone?: string;

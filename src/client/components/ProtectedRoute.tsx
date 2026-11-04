@@ -3,7 +3,6 @@ import { Navigate } from 'react-router';
 import { ReactNode } from 'react';
 import { useApolloClient } from '@apollo/client';
 import useAuthStore from '../state/authState';
-import CatalogsLoader from './CatalogsLoader';
 import { PATHS } from '../../common/enums';
 
 function ProtectedRoute(props: { children: ReactNode | ReactNode[] }) {
@@ -15,7 +14,7 @@ function ProtectedRoute(props: { children: ReactNode | ReactNode[] }) {
     return <Navigate to={PATHS.LOGIN} replace />;
   }
   const { children } = props;
-  return <CatalogsLoader>{children}</CatalogsLoader>;
+  return <>{children}</>;
 }
 
 export default ProtectedRoute;

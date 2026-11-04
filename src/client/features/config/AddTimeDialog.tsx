@@ -13,7 +13,6 @@ import {
 } from '@mui/material';
 import { AddGymClassTimeDocument, GymClassTimesDocument } from './api';
 import { FormTimePicker, zLocalTime } from '../../design-system/form';
-import useCatalogsStore from '../../state/catalogState';
 import BsShowError from '../../components/BsShowError';
 
 const schema = z.object({ localTime: zLocalTime() });
@@ -25,7 +24,6 @@ const isDuplicate = (err: unknown) =>
   /P2002|Unique/i.test(JSON.stringify(err, Object.getOwnPropertyNames(err)));
 
 function AddTimeDialog({ open, onClose }: Props) {
-  const reloadCatalogs = useCatalogsStore((s) => s.reloadCatalogs);
   const { control, handleSubmit, setError, reset } = useForm<Values>({
     resolver: zodResolver(schema),
     defaultValues: { localTime: '' },
@@ -41,7 +39,6 @@ function AddTimeDialog({ open, onClose }: Props) {
   const onSubmit = async (values: Values) => {
     try {
       await addTime({ variables: values });
-      reloadCatalogs(); // otros módulos aún leen el store de catálogos
       onClose();
     } catch (err) {
       if (isDuplicate(err)) {

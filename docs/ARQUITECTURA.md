@@ -55,7 +55,7 @@ flowchart LR
 ### Cliente
 
 - `app/` (providers, tema Iron claro/oscuro, layout con `TopBar` y navegación), `design-system/`, `features/<pantalla>/` y `gql/` (tipos generados con codegen). `AppRoutes.tsx` define las rutas con lazy loading; `ProtectedRoute` redirige a `/login` si no hay JWT.
-- Estado global con zustand: `authState` (JWT persistido en `localStorage["auth"]`) y `catalogState`.
+- Estado global con zustand: `authState` (JWT persistido en `localStorage["auth"]`).
 
 ## 4. Modelo de datos
 
