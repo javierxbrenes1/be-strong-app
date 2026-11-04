@@ -10,7 +10,7 @@ export const GYM_CLASS_ALL_FIELDS = gql`
     gymClassOnTimes {
       gymClassTime {
         id
-        isoTime
+        localTime
       }
     }
     attendanceList {

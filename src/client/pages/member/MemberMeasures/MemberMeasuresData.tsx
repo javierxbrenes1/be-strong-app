@@ -1,3 +1,4 @@
+import dayjs from 'dayjs';
 import { useMemo, useState, useEffect } from 'react';
 import CardContent from '@mui/material/CardContent';
 import Card from '@mui/material/Card';
@@ -49,7 +50,7 @@ function MemberMeasuresData(props: {
   const [paginationDetails, setPaginationDetails] = useState<Pagination | null>(
     null
   );
-  const [filters, setFilters] = useState<{ from: number; to: number } | null>(
+  const [filters, setFilters] = useState<{ from: string; to: string } | null>(
     null
   );
   const [rowsPerPage, setRowsPerPage] = useState<number>(5);
@@ -110,8 +111,8 @@ function MemberMeasuresData(props: {
 
   const handleOnSearch = (from: Date, to: Date) => {
     const newFilters = {
-      from: from.getTime(),
-      to: to.getTime(),
+      from: dayjs(from).format('YYYY-MM-DD'),
+      to: dayjs(to).format('YYYY-MM-DD'),
     };
     setFilters(newFilters);
     resetStates();

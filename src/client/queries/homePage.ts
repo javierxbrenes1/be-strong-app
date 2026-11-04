@@ -1,7 +1,7 @@
 import { gql } from '@apollo/client';
 
 export const HOME_QUERY = gql`
-  query homeQueries($year: Int, $today: String!) {
+  query homeQueries($year: Int, $today: LocalDate!) {
     getMembersCount
     getGymClassesCount(year: $year)
     getGymClasses(gte: $today) {

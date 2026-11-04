@@ -84,12 +84,14 @@ function MemberInfoInput(props: {
         <FormControl fullWidth>
           <BsLocalizationProvider>
             <DatePicker
-              value={dayjs(value as Date)}
+              value={dayjs(value as string)}
               format="DD/MM/YYYY"
               onChange={(ev: unknown) => {
                 if (ev) {
-                  const parseEv = ev as { $d: Date };
-                  onInputChange(name, parseEv.$d);
+                  const picked = dayjs(ev as dayjs.Dayjs);
+                  if (picked.isValid()) {
+                    onInputChange(name, picked.format('YYYY-MM-DD'));
+                  }
                 }
               }}
               disableFuture

@@ -5,9 +5,8 @@ import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import SaveIcon from '@mui/icons-material/Save';
 import Member from '../../../common/models/Member';
 import MemberInfoInput, { OnInputChangeFn } from './MemberInfoInput';
-import { calculateAge } from '../../../common/utils';
+import { ageOn, formatLocalDate, todayLocalDate } from '../../../common/dates';
 import CardTitle from '../../components/CardTitle';
-import { formatDate } from '../../utils/helpers';
 import UpdateMemberArgs from '../../../common/actionModels/UpdateMember';
 import {
   daysOptions,
@@ -95,7 +94,7 @@ function MemberInfo(props: {
     }
     return editMode
       ? editableMember?.birthDate
-      : formatDate(editableMember?.birthDate);
+      : formatLocalDate(editableMember?.birthDate);
   };
 
   const defineHeight = () => {
@@ -205,7 +204,7 @@ function MemberInfo(props: {
                 value={
                   editableMember.birthDate
                     ? `${String(
-                        calculateAge(new Date(editableMember.birthDate))
+                        ageOn(editableMember.birthDate, todayLocalDate())
                       )} años`
                     : ''
                 }

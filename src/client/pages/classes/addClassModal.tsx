@@ -18,11 +18,11 @@ import MDEditor from '@uiw/react-md-editor';
 import rehypeSanitize from 'rehype-sanitize';
 import { useMutation } from '@apollo/client';
 import { toast } from 'react-toastify';
+import dayjs from 'dayjs';
 import MultipleSelectChip from '../../components/BsMultiSelect';
 import useCatalogsStore from '../../state/catalogState';
 import { ADD_CLASS } from '../../mutations/addClass';
 import GymClass from '../../../common/models/GymClass';
-import { isoFormatDate } from '../../utils/helpers';
 import BsShowError from '../../components/BsShowError';
 
 const initialForm: {
@@ -83,7 +83,7 @@ function AddClassModal(props: {
             ? { classDurationInMinutes: Number(form.classDurationInMinutes) }
             : {}),
           classTimeIds: form.classTimeIds.map(Number),
-          classDate: isoFormatDate(new Date(date)),
+          classDate: dayjs(date).format('YYYY-MM-DD'), // date = picker day (epoch, local)
         },
       },
     });

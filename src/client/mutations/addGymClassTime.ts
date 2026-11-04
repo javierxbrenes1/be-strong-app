@@ -1,10 +1,10 @@
 import { gql } from '@apollo/client';
 
 const ADD_GYM_CLASS_TIME = gql`
-  mutation addGymClassTime($isoTime: String!) {
-    addGymClassTime(isoTime: $isoTime) {
+  mutation addGymClassTime($localTime: LocalTime!) {
+    addGymClassTime(localTime: $localTime) {
       id
-      isoTime
+      localTime
     }
   }
 `;

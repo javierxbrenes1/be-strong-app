@@ -11,7 +11,6 @@ import GymClass from '../../../common/models/GymClass';
 import { GET_CLASSES_BY_DATE } from '../../queries/classesPage';
 import GymClasses from './gymClasses';
 import AddClassModal from './addClassModal';
-import { isoFormatDate } from '../../utils/helpers';
 
 function ClassesPage() {
   const [openAddModal, setOpenAddModal] = useState(false);
@@ -28,8 +27,8 @@ function ClassesPage() {
     setDateInView(date);
     loadClasses({
       variables: {
-        gte: isoFormatDate(dayjs(date).toDate()),
-        lt: isoFormatDate(dayjs(date).add(1, 'day').toDate()),
+        gte: dayjs(date).format('YYYY-MM-DD'),
+        lt: dayjs(date).add(1, 'day').format('YYYY-MM-DD'),
       },
     });
   };

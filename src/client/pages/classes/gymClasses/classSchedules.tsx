@@ -2,7 +2,8 @@ import { useState, useEffect, useMemo } from 'react';
 import { Box, Tabs, Tab, IconButton, Stack } from '@mui/material';
 import AlarmAddIcon from '@mui/icons-material/AlarmAdd';
 import GymClassTime from '../../../../common/models/GymClassTime';
-import { getGymClassTimeForUI, sortIsoTimes } from '../../../utils/memberUtils';
+import { compareLocalTime } from '../../../../common/dates';
+import { getGymClassTimeForUI } from '../../../utils/memberUtils';
 import { AttendanceList } from '../../../../common/models/GymClass';
 import Attendance from './attendance';
 import AddTimeDialog from './AddTimeDialog';
@@ -20,7 +21,9 @@ function ClassSchedules(props: {
 
   const sortedSchedules = useMemo(
     () =>
-      [...(schedules ?? [])].sort((a, b) => sortIsoTimes(a.isoTime, b.isoTime)),
+      [...(schedules ?? [])].sort((a, b) =>
+        compareLocalTime(a.localTime, b.localTime)
+      ),
     [schedules]
   );
 

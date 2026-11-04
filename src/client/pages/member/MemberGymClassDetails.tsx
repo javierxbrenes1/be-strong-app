@@ -13,8 +13,7 @@ import SportsGymnasticsIcon from '@mui/icons-material/SportsGymnastics';
 import dayjs from 'dayjs';
 import { GET_MEMBER_ATTENDANCE_LOG_DETAILS } from '../../queries/memberPage';
 import MemberAttendanceLogsDetails from '../../../common/models/MemberAttendanceLogsDetails';
-import { formatDate } from '../../utils/helpers';
-import { formatIsoTime } from '../../utils/memberUtils';
+import { formatLocalDate, formatLocalTime } from '../../../common/dates';
 import SimpleTable from '../../components/SimpleTable';
 import { FULL_MONTHS } from '../../labels';
 
@@ -47,11 +46,11 @@ const buildRows = (data?: Data) => {
   }
   const { getMemberAttendanceLogsDetails } = data;
   return getMemberAttendanceLogsDetails.map(
-    ({ classDate, classDurationInMinutes, classType, isoTime }) => ({
+    ({ classDate, classDurationInMinutes, classType, localTime }) => ({
       classDurationInMinutes,
       classType,
-      classDate: formatDate(classDate), // fix me
-      schedule: formatIsoTime(isoTime),
+      classDate: formatLocalDate(classDate),
+      schedule: formatLocalTime(localTime),
     })
   );
 };

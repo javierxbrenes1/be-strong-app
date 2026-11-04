@@ -1,7 +1,8 @@
 import { create } from 'zustand';
 import GymClassTime from '../../common/models/GymClassTime';
 import mountStateOnDevTools from '../components/zustandDevTools';
-import { getGymClassTimeForUI, sortIsoTimes } from '../utils/memberUtils';
+import { compareLocalTime } from '../../common/dates';
+import { getGymClassTimeForUI } from '../utils/memberUtils';
 
 type CatalogsState = {
   gymClassTimes: GymClassTime[];
@@ -29,7 +30,9 @@ const useCatalogsStore = create<CatalogsState>((set) => ({
     set({ reload: true });
   },
   setGymClassTimes: (gct: GymClassTime[]) => {
-    const times = [...gct].sort((a, b) => sortIsoTimes(a.isoTime, b.isoTime));
+    const times = [...gct].sort((a, b) =>
+      compareLocalTime(a.localTime, b.localTime)
+    );
     set({
       gymClassTimes: times,
       gymClassUiLabels: buildUiLabels(times),
