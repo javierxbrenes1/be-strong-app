@@ -4,6 +4,7 @@
 import { PrismaSelect } from '@paljs/plugins';
 import { PrismaClient } from '@prisma/client';
 import { GraphQLResolveInfo } from 'graphql';
+import omitComputed from './omitComputed';
 
 async function getMembersPage(args: {
   prisma: PrismaClient;
@@ -25,6 +26,8 @@ async function getMembersPage(args: {
   const {
     select: { members: selectFields = {} },
   } = new PrismaSelect(info).value;
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+  omitComputed({ select: selectFields.select });
 
   const members = prisma.member.findMany({
     where: {

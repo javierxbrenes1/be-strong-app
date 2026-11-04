@@ -2,6 +2,11 @@ import { ApolloFastifyContextFunction } from '@as-integrations/fastify';
 import { FastifyInstance, FastifyRequest } from 'fastify';
 import { PrismaClient } from '@prisma/client';
 
+import DataLoader from 'dataloader';
+import memberSummaryLoader, {
+  MemberSummary,
+} from './loaders/memberSummaryLoader';
+
 const isProd = process.env.NODE_ENV === 'production';
 const prisma = new PrismaClient({
   log: !isProd ? ['query', 'info', 'warn', 'error'] : ['warn', 'error'],
@@ -19,6 +24,7 @@ export interface BeStrongContext {
   prisma: PrismaClient;
   saltRounds: number;
   request: FastifyRequest;
+  loaders: { memberSummary: DataLoader<string, MemberSummary> };
 }
 
 export const beStrongContextFunction: ApolloFastifyContextFunction<
@@ -29,4 +35,5 @@ export const beStrongContextFunction: ApolloFastifyContextFunction<
   server: request.server,
   prisma,
   saltRounds: 8,
+  loaders: { memberSummary: memberSummaryLoader(prisma) },
 });
