@@ -30,7 +30,7 @@ Production deploy: `scripts/start.sh` (`docker compose --env-file .env.productio
 ## Architecture
 
 - `src/server/index.ts` — Fastify app. Registers Apollo at `/graphql`, the JWT plugin (`plugins/auth.ts`, HS512, 2-day expiry, decorates `server.authenticate`), and in production serves `dist/` plus `index.html` for every route in `PATHS` (`src/common/enums.ts`). **A new client route must be added to `PATHS` or it 404s on refresh in production.**
-- `src/server/apollo/` — schema built with `makeExecutableSchema` from `typeDefs/*Schema.ts` (SDL strings, one per domain) and `resolvers/<domain>/` (one file per operation, merged in each `index.ts`, then `mergeResolvers` in `resolvers/index.ts`). Auth is the `@auth` SDL directive, implemented in `directives/auth.ts` (wraps the resolver with `server.authenticate`). `middlewares/authUser.ts` is unused.
+- `src/server/apollo/` — schema built with `makeExecutableSchema` from `typeDefs/*Schema.ts` (SDL strings, one per domain) and `resolvers/<domain>/` (one file per operation, merged in each `index.ts`, then `mergeResolvers` in `resolvers/index.ts`). Auth is the `@auth` SDL directive, implemented in `directives/auth.ts` (wraps the resolver with `server.authenticate`).
 - Resolver context (`apollo/context.ts`): `{ prisma, server, request, saltRounds }`. One shared `PrismaClient`; in dev it logs every query.
 - `src/server/logic/measuresCalculator.ts` + `measuresTables/` — derived body-measure results (BMI, fat, water, muscle, calories), used by `addMeasure`/`updateMeasure` resolvers.
 - `src/common/` — enums, models and utils imported by both server and client (`tsconfig.server.json` compiles `src/common` + `src/server`; client imports via `../common`).
