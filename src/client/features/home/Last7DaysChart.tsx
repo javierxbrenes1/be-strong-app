@@ -12,16 +12,16 @@ import { LocalDate } from '../../../common/dates';
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Tooltip);
 
-const INITIALS = ['D', 'L', 'M', 'M', 'J', 'V', 'S'];
-const initialOf = (d: LocalDate) =>
-  INITIALS[new Date(`${d}T00:00:00Z`).getUTCDay()];
+const DAY_LABELS = ['DO', 'LU', 'MA', 'MI', 'JU', 'VI', 'SA'];
+const dayLabel = (d: LocalDate) =>
+  DAY_LABELS[new Date(`${d}T00:00:00Z`).getUTCDay()];
 
 type Props = { days: { date: LocalDate; count: number }[] };
 
 function Last7DaysChart({ days }: Props) {
   const colors = useChartColors();
   const data = {
-    labels: days.map((d) => initialOf(d.date)),
+    labels: days.map((d) => dayLabel(d.date)),
     datasets: [
       {
         label: 'Asistencias',
