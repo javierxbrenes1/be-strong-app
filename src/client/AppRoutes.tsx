@@ -29,6 +29,7 @@ const Visit = lazy(() => import('./pages/visit'));
 const Config = lazy(() => import('./features/config/ConfigPage'));
 const Profile = lazy(() => import('./features/auth/ProfilePage'));
 const Equipment = lazy(() => import('./pages/equipment'));
+const MembersNew = lazy(() => import('./features/members/MembersPage'));
 const DesignPage = lazy(() => import('./app/DesignPage'));
 
 function AppRoutes() {
@@ -52,6 +53,7 @@ function AppRoutes() {
             element={withSuspense(Config, true)}
           />
           <Route path={PATHS.PROFILE} element={withSuspense(Profile, true)} />
+          <Route path="/members-new" element={withSuspense(MembersNew, true)} />
           {import.meta.env.DEV && (
             <Route path="/_design" element={withSuspense(DesignPage)} />
           )}

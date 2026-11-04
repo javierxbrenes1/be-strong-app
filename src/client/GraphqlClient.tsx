@@ -5,6 +5,7 @@ import {
   ApolloLink,
   HttpLink,
   Reference,
+  FieldPolicy,
 } from '@apollo/client';
 
 import { RetryLink } from '@apollo/client/link/retry';
@@ -64,6 +65,36 @@ const logoutLink = onError((obj) => {
   }
 });
 
+const membersPolicy: FieldPolicy<MembersCache> = {
+  keyArgs: false,
+  merge(
+    existing: MembersCache | undefined,
+    incoming: MembersCache,
+    { readField }
+  ): MembersCache {
+    const { pagination } = incoming;
+    const keysToAvoidDuplicates = {
+      ...(existing?.keysToAvoidDuplicates ?? {}),
+    };
+    const members = [...(existing?.members ?? [])];
+    (incoming.members ?? []).forEach((m) => {
+      const code = readField<string>('code', m);
+
+      if (!code) {
+        members.push({ ...m });
+      } else if (code && !keysToAvoidDuplicates[code]) {
+        keysToAvoidDuplicates[code] = true;
+        members.push({ ...m });
+      }
+    });
+    return {
+      members,
+      pagination,
+      keysToAvoidDuplicates,
+    };
+  },
+};
+
 export const apolloClient = new ApolloClient({
   link: ApolloLink.from([retryLink, authLink, logoutLink, httpLink]),
   cache: new InMemoryCache({
@@ -79,35 +110,8 @@ export const apolloClient = new ApolloClient({
       },
       Query: {
         fields: {
-          getAllMembers: {
-            keyArgs: false,
-            merge(
-              existing: MembersCache | undefined,
-              incoming: MembersCache,
-              { readField }
-            ): MembersCache {
-              const { pagination } = incoming;
-              const keysToAvoidDuplicates = {
-                ...(existing?.keysToAvoidDuplicates ?? {}),
-              };
-              const members = [...(existing?.members ?? [])];
-              (incoming.members ?? []).forEach((m) => {
-                const code = readField<string>('code', m);
-
-                if (!code) {
-                  members.push({ ...m });
-                } else if (code && !keysToAvoidDuplicates[code]) {
-                  keysToAvoidDuplicates[code] = true;
-                  members.push({ ...m });
-                }
-              });
-              return {
-                members,
-                pagination,
-                keysToAvoidDuplicates,
-              };
-            },
-          },
+          getAllMembers: membersPolicy,
+          getAllInactiveMembers: membersPolicy,
         },
       },
     },
