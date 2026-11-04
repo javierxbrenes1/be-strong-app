@@ -25,6 +25,7 @@ import {
   UpdateMemberDocument,
 } from './api';
 import { GymClassTimesDocument } from '../config/api';
+import { HomeSummaryDocument } from '../home/api';
 import {
   DAYS,
   MemberFormInput,
@@ -115,7 +116,11 @@ function MemberSheet({ open, member, onClose, onSaved }: Props) {
     defaultValues: toDefaults(member),
   });
   const times = useQuery(GymClassTimesDocument, { skip: !open });
-  const refetchQueries = [ActiveMembersDocument, InactiveMembersDocument];
+  const refetchQueries = [
+    ActiveMembersDocument,
+    InactiveMembersDocument,
+    HomeSummaryDocument,
+  ];
   const [addMember, adding] = useMutation(AddMemberDocument, {
     refetchQueries,
   });

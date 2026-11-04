@@ -20,6 +20,7 @@ import {
   RemoveMembersAttendancesDocument,
 } from './api';
 import { ActiveMembersDocument } from '../members/api';
+import { HomeSummaryDocument } from '../home/api';
 import { diffAttendance } from './diffAttendance';
 import BsShowError from '../../components/BsShowError';
 import { LocalDate, formatLocalDate } from '../../../common/dates';
@@ -57,7 +58,7 @@ function AttendanceSheet({
     variables: { offset: 0, limit: 500 },
     skip: !open,
   });
-  const refetchQueries = [GymClassesByDayDocument];
+  const refetchQueries = [GymClassesByDayDocument, HomeSummaryDocument];
   const [addAttendance, adding] = useMutation(AddMembersAttendancesDocument, {
     refetchQueries,
   });
