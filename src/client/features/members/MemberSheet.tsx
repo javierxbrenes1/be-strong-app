@@ -190,12 +190,18 @@ function MemberSheet({ open, member, onClose, onSaved }: Props) {
         loading: adding.loading || updating.loading,
       }}
     >
-      <form id={FORM_ID} noValidate onSubmit={handleSubmit(onSubmit)}>
+      <form
+        id={FORM_ID}
+        noValidate
+        autoComplete="off"
+        onSubmit={handleSubmit(onSubmit)}
+      >
         <Stack spacing={2.5}>
           <Section title="Datos" />
           <FormTextField
             control={control}
             name="name"
+            autoComplete="nope"
             label="Nombre"
             autoFocus
           />
@@ -231,12 +237,14 @@ function MemberSheet({ open, member, onClose, onSaved }: Props) {
             <FormTextField
               control={control}
               name="phone"
+              autoComplete="nope"
               label="Teléfono"
               type="tel"
             />
             <FormTextField
               control={control}
               name="email"
+              autoComplete="nope"
               label="Correo"
               type="email"
             />
@@ -291,6 +299,7 @@ function MemberSheet({ open, member, onClose, onSaved }: Props) {
           <FormTextField
             control={control}
             name="observations"
+            autoComplete="nope"
             label="Observaciones"
             multiline
             minRows={3}
