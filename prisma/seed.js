@@ -2,37 +2,6 @@ const { PrismaClient } = require('@prisma/client');
 
 const prisma = new PrismaClient()
 
-async function updateBirthDate() {
-  const members = await prisma.member.findMany({
-    where: {
-      birthDateAsString: {
-        equals: null
-      },
-      birthDate: {
-        not: null
-      }
-    }
-  });
-
-  for (const member of members) {
-    if(member.birthDate) {
-    member.birthDate.setDate(member.birthDate.getDate() - 1);
-    const year = member.birthDate.getFullYear();
-    const month = member.birthDate.getMonth() + 1;
-    const date = member.birthDate.getDate();
-    const isoDate = `${year}-${month.toString().padStart(2, '0')}-${date.toString().padStart(2, '0')}T00:00:00.000Z`;
-    await prisma.member.update({
-      where: {
-        code: member.code
-      },
-      data: {
-        birthDateAsString: isoDate
-      }
-    });
-  }
-  }
-}
-
 async function main() {
 
   await prisma.ownerUser.upsert({
@@ -48,25 +17,23 @@ async function main() {
 
   await prisma.gymClassTime.upsert({
     where: {
-        isoTime: 'T23:30:00.000Z'
+        localTime: '17:30'
     },
     update: {},
     create: {
-        isoTime: 'T23:30:00.000Z'
+        localTime: '17:30'
     }
   });
 
   await prisma.gymClassTime.upsert({
     where: {
-        isoTime: 'T01:00:00.000Z'
+        localTime: '19:00'
     },
     update: {},
     create: {
-        isoTime: 'T01:00:00.000Z'
+        localTime: '19:00'
     }
   });
-
-  // await updateBirthDate();
 
 }
 main()
