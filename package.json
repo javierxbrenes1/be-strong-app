@@ -97,5 +97,10 @@
   },
   "prisma": {
     "seed": "node ./prisma/seed.js"
+  },
+  "overrides": {
+    "eslint-config-wesbos": {
+      "typescript": "$typescript"
+    }
   }
 }
