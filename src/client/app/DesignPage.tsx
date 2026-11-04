@@ -74,7 +74,7 @@ function DemoForm({ formId }: { formId?: string }) {
         Validar
       </Button>
       <output data-testid="weight-raw" hidden>
-        {watch('weight')}
+        {String(watch('weight') ?? '')}
       </output>
     </Box>
   );
@@ -210,6 +210,8 @@ function DesignPage() {
   const [tab, setTab] = useState(0);
   const [selected, setSelected] = useState('Peso');
   const [dirtyText, setDirtyText] = useState('');
+  const [rowClicks, setRowClicks] = useState(0);
+  const [editClicks, setEditClicks] = useState(0);
   const closeSheet = () => {
     setSheet(null);
     setDirtyText('');
@@ -335,10 +337,24 @@ function DesignPage() {
         </Box>
         <Card>
           <DataTable
-            columns={COLUMNS}
+            columns={[
+              ...COLUMNS,
+              {
+                id: 'edit',
+                header: '',
+                render: () => (
+                  <Button
+                    size="small"
+                    onClick={() => setEditClicks((n) => n + 1)}
+                  >
+                    Editar
+                  </Button>
+                ),
+              },
+            ]}
             rows={MEMBERS}
             getRowId={(m) => m.code}
-            onRowClick={() => undefined}
+            onRowClick={() => setRowClicks((n) => n + 1)}
             pagination={{
               page: 0,
               pageSize: 10,
@@ -347,6 +363,7 @@ function DesignPage() {
             }}
           />
         </Card>
+        <output data-testid="clicks">{`${rowClicks}/${editClicks}`}</output>
         <Card sx={{ mt: 2 }}>
           <DataTable
             columns={COLUMNS}
