@@ -4,7 +4,7 @@ type UpdateMemberArgs = {
   code: string;
   name?: string;
   genre?: string;
-  birthDate?: Date;
+  birthDate?: string;
   height?: number;
   isActive?: boolean;
   phone?: string;

@@ -1,3 +1,4 @@
+import dayjs from 'dayjs';
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-unsafe-return */
@@ -25,11 +26,7 @@ import { DateField } from '@mui/x-date-pickers/DateField';
 import { useMutation } from '@apollo/client';
 import { Genre } from '../../../common/enums';
 import ADD_NEW_MEMBER from '../../mutations/addMember';
-import {
-  createAvatarLink,
-  getApolloErrorMessages,
-  isoFormatDate,
-} from '../../utils/helpers';
+import { createAvatarLink, getApolloErrorMessages } from '../../utils/helpers';
 import Errors from '../../components/Errors';
 import Member from '../../../common/models/Member';
 import BsLocalizationProvider from '../../components/BsLocalizationProvider';
@@ -47,7 +44,7 @@ function AddMember(props: { addNewMemberToList?: (member: Member) => void }) {
     name?: string;
     height?: number;
     observations?: string;
-    birthDate?: Date;
+    birthDate?: string;
     genre?: Genre;
     category?: string;
   }>({});
@@ -104,13 +101,13 @@ function AddMember(props: { addNewMemberToList?: (member: Member) => void }) {
   };
 
   const handleBirthDateChange = (newDate: unknown) => {
-    const parseNewDate = newDate as { $d: Date };
-    const isValid = !Number.isNaN(parseNewDate.$d.getTime());
+    const parsed = dayjs(newDate as dayjs.Dayjs);
+    const isValid = parsed.isValid();
     setErrors([]);
     if (isValid) {
       setMemberDetails((prev) => ({
         ...prev,
-        birthDate: parseNewDate.$d,
+        birthDate: parsed.format('YYYY-MM-DD'),
       }));
     }
   };
@@ -133,12 +130,6 @@ function AddMember(props: { addNewMemberToList?: (member: Member) => void }) {
       variables: {
         member: {
           ...memberDetails,
-          birthDate: memberDetails.birthDate?.getTime(),
-          ...(memberDetails.birthDate
-            ? {
-                birthDateAsString: isoFormatDate(memberDetails.birthDate, true),
-              }
-            : {}),
           ...(avatar ? { avatar } : {}),
         },
       },
@@ -219,7 +210,11 @@ function AddMember(props: { addNewMemberToList?: (member: Member) => void }) {
               <BsLocalizationProvider>
                 <DateField
                   onChange={handleBirthDateChange}
-                  value={memberDetails.birthDate}
+                  value={
+                    memberDetails.birthDate
+                      ? dayjs(memberDetails.birthDate)
+                      : null
+                  }
                   label="F. Nacimiento"
                   format="DD/MM/YYYY"
                   disableFuture

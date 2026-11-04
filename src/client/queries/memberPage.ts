@@ -72,7 +72,7 @@ export const GET_MEMBER_ATTENDANCE_CLASSES = gql`
       take: $take
     ) {
       classDate
-      isoTime
+      localTime
     }
   }
 `;
@@ -91,7 +91,7 @@ export const GET_MEMBER_ATTENDANCE_LOG_DETAILS = gql`
       classDate
       classDurationInMinutes
       classType
-      isoTime
+      localTime
     }
   }
 `;

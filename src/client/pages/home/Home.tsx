@@ -10,7 +10,7 @@ import Member from '../../../common/models/Member';
 import GymClass from '../../../common/models/GymClass';
 import getHomeTitle from './HomeTitle';
 import PageContainer from '../../components/PageContainer';
-import { isoFormatDate } from '../../utils/helpers';
+import { todayLocalDate } from '../../../common/dates';
 import { PATHS } from '../../../common/enums';
 
 const getCurrentYear = (): number => new Date().getFullYear();
@@ -33,7 +33,7 @@ function HomePage() {
     getData({
       variables: {
         year: getCurrentYear(),
-        today: isoFormatDate(new Date()),
+        today: todayLocalDate(),
       },
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps

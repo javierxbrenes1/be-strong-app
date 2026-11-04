@@ -37,13 +37,12 @@ function TimePickerDialog(props: Props) {
 
   const { onClose } = props;
   const handleSaveClick = () => {
-    const isoTime = date?.toISOString().split('T')[1];
-    if (!isoTime) {
+    if (!date?.isValid()) {
       return;
     }
     addTime({
       variables: {
-        isoTime: `T${isoTime}`,
+        localTime: date.format('HH:mm'),
       },
     });
   };

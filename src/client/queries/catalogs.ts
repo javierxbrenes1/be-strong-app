@@ -4,7 +4,7 @@ export const CATALOGS_QUERY = gql`
   query catalogs {
     allGymClassTimes {
       id
-      isoTime
+      localTime
     }
   }
 `;

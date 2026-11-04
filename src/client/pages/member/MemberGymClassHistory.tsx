@@ -14,8 +14,7 @@ import { FULL_MONTHS } from '../../labels';
 import BsMonthCount from '../../components/BsMonthCount';
 import MemberAttendanceLogByYear from '../../../common/models/MemberAttendanceLogByYear';
 import MemberGymClassDetails from './MemberGymClassDetails';
-import { formatDate } from '../../utils/helpers';
-import { formatIsoTime } from '../../utils/memberUtils';
+import { formatLocalDate, formatLocalTime } from '../../../common/dates';
 
 function MemberGymClassHistory(props: {
   memberCode: string;
@@ -129,8 +128,8 @@ function MemberGymClassHistory(props: {
           </Stack>
           {lastClass ? (
             <Typography variant="h6" sx={{ margin: '.5rem 0' }}>
-              Última clase registrada: {formatDate(lastClass.classDate)}{' '}
-              {formatIsoTime(lastClass.isoTime)}
+              Última clase registrada: {formatLocalDate(lastClass.classDate)}{' '}
+              {formatLocalTime(lastClass.localTime)}
             </Typography>
           ) : null}
         </CardContent>
