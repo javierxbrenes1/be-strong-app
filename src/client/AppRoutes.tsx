@@ -24,7 +24,6 @@ const Login = lazy(() => import('./features/auth/LoginPage'));
 const Home = lazy(() => import('./pages/home'));
 const Classes = lazy(() => import('./features/classes/ClassesPage'));
 const Members = lazy(() => import('./features/members/MembersPage'));
-const Member = lazy(() => import('./pages/member'));
 const MemberDetail = lazy(
   () => import('./features/member-detail/MemberDetailPage')
 );
@@ -43,10 +42,6 @@ function AppRoutes() {
           <Route path={PATHS.MEMBERS} element={withSuspense(Members, true)} />
           <Route
             path={`${PATHS.MEMBERS}/:code`}
-            element={withSuspense(Member, true)}
-          />
-          <Route
-            path="/members-new/:code"
             element={withSuspense(MemberDetail, true)}
           />
           <Route path={PATHS.CLASSES} element={withSuspense(Classes, true)} />
