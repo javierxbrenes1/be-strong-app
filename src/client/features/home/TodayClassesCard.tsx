@@ -35,12 +35,28 @@ function TodayClassesCard({ rows, onTakeAttendance }: Props) {
         rows.map((r) => (
           <Box
             key={`${r.classId}-${r.timeId}`}
-            sx={{ display: 'flex', alignItems: 'center', gap: 2, py: 1 }}
+            sx={{
+              display: 'flex',
+              flexWrap: 'wrap',
+              alignItems: 'center',
+              columnGap: 2,
+              rowGap: 0.5,
+              py: 1,
+            }}
           >
-            <Typography variant="metric" sx={{ minWidth: 96 }}>
+            <Typography
+              variant="metric"
+              sx={{ flex: { xs: 1, sm: 'none' }, minWidth: { sm: 96 } }}
+            >
               {formatLocalTime(r.localTime)}
             </Typography>
-            <Box sx={{ flex: 1, minWidth: 0 }}>
+            <Box
+              sx={{
+                order: { xs: 3, sm: 0 },
+                flex: { xs: '1 0 100%', sm: 1 },
+                minWidth: 0,
+              }}
+            >
               <Typography noWrap>{r.classType}</Typography>
               <Typography variant="body2" color="text.secondary">
                 {r.attendees} asistentes
