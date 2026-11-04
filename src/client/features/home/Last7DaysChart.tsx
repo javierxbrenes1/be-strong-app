@@ -12,7 +12,7 @@ import { LocalDate } from '../../../common/dates';
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Tooltip);
 
-const DAY_LABELS = ['DO', 'LU', 'MA', 'MI', 'JU', 'VI', 'SA'];
+const DAY_LABELS = ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sa'];
 const dayLabel = (d: LocalDate) =>
   DAY_LABELS[new Date(`${d}T00:00:00Z`).getUTCDay()];
 
