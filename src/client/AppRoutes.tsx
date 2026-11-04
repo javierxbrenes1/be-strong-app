@@ -29,6 +29,7 @@ const Visit = lazy(() => import('./pages/visit'));
 const Config = lazy(() => import('./pages/config'));
 const Profile = lazy(() => import('./pages/profile'));
 const Equipment = lazy(() => import('./pages/equipment'));
+const DesignPage = lazy(() => import('./app/DesignPage'));
 
 function AppRoutes() {
   return (
@@ -51,6 +52,9 @@ function AppRoutes() {
             element={withSuspense(Config, true)}
           />
           <Route path={PATHS.PROFILE} element={withSuspense(Profile, true)} />
+          {import.meta.env.DEV && (
+            <Route path="/_design" element={withSuspense(DesignPage)} />
+          )}
         </Route>
         <Route path={PATHS.LOGIN} element={withSuspense(Login)} />
         <Route path={PATHS.VISIT} element={withSuspense(Visit)} />
