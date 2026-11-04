@@ -12,6 +12,17 @@ export type AddClassInput = {
   classType?: string | null | undefined;
 };
 
+export type AddMeasureInput = {
+  bodyMassIndex: number;
+  calories: number;
+  corporalFat: number;
+  corporalWaterPct: number;
+  date: number;
+  memberCode: string;
+  muscle: number;
+  weight: number;
+};
+
 export type AddMemberInput = {
   avatar?: string | null | undefined;
   birthDate?: string | null | undefined;
@@ -20,6 +31,18 @@ export type AddMemberInput = {
   height?: number | null | undefined;
   name: string;
   observations?: string | null | undefined;
+};
+
+export type GetMeasuresInput = {
+  filters?: MeasureFiltersInput | null | undefined;
+  limit?: number | null | undefined;
+  memberCode?: string | null | undefined;
+  offset?: number | null | undefined;
+};
+
+export type MeasureFiltersInput = {
+  from?: string | null | undefined;
+  to?: string | null | undefined;
 };
 
 export type MemberAttendanceInput = {
@@ -41,6 +64,17 @@ export type MembersAttendancesInput = {
 export type OwnerSignInInput = {
   pwd: string;
   username: string;
+};
+
+export type UpdateMeasureInput = {
+  bodyMassIndex?: number | null | undefined;
+  calories?: number | null | undefined;
+  corporalFat?: number | null | undefined;
+  corporalWaterPct?: number | null | undefined;
+  id: number;
+  memberCode: string;
+  muscle?: number | null | undefined;
+  weight?: number | null | undefined;
 };
 
 export type UpdateMemberInput = {
@@ -132,6 +166,66 @@ export type AddGymClassTimeConfigMutationVariables = Exact<{
 
 export type AddGymClassTimeConfigMutation = { addGymClassTime: { id: number, localTime: string } | null };
 
+export type MemberDetailQueryVariables = Exact<{
+  code: string;
+}>;
+
+
+export type MemberDetailQuery = { getMember: { code: string, name: string | null, genre: string | null, birthDate: string | null, height: number | null, isActive: boolean | null, phone: string | null, email: string | null, observations: string | null, preferredClassTime: number | null, category: string | null, lastAttendanceDate: string | null, memberAttendance: { memberCode: string, monday: boolean | null, tuesday: boolean | null, wednesday: boolean | null, thursday: boolean | null, friday: boolean | null, saturday: boolean | null, sunday: boolean | null } | null, lastMeasure: { id: number, date: number | null, weight: number | null, weightDiff: number | null, corporalFat: number | null, corporalFatDiff: number | null, muscle: number | null, muscleDiff: number | null, bodyMassIndex: number | null, bodyMassIndexDiff: number | null, corporalWaterPct: number | null, corporalWaterPctDiff: number | null, calories: number | null, caloriesDiff: number | null, muscleResult: string | null, bodyMassIndexResult: string | null, corporalFatResult: string | null, corporalWaterPctResult: string | null, caloriesResult: string | null } | null, memberMeasures: Array<{ id: number, date: number | null, weight: number | null, corporalFat: number | null, muscle: number | null, bodyMassIndex: number | null, corporalWaterPct: number | null, calories: number | null } | null> | null } | null };
+
+export type MemberMeasuresQueryVariables = Exact<{
+  input?: GetMeasuresInput | null | undefined;
+}>;
+
+
+export type MemberMeasuresQuery = { getMeasures: { measures: Array<{ id: number, date: number | null, weight: number | null, weightDiff: number | null, corporalFat: number | null, corporalFatDiff: number | null, muscle: number | null, muscleDiff: number | null, bodyMassIndex: number | null, bodyMassIndexDiff: number | null, corporalWaterPct: number | null, corporalWaterPctDiff: number | null, calories: number | null, caloriesDiff: number | null, muscleResult: string | null, bodyMassIndexResult: string | null, corporalFatResult: string | null, corporalWaterPctResult: string | null, caloriesResult: string | null } | null> | null, pagination: { total: number | null, pageSize: number | null } | null } | null };
+
+export type AttendanceByYearQueryVariables = Exact<{
+  year: number;
+  memberCode: string;
+}>;
+
+
+export type AttendanceByYearQuery = { getMemberAttendanceLogByYear: Array<{ year: number | null, month: number | null, total: number | null } | null> | null };
+
+export type AttendanceMonthDetailsQueryVariables = Exact<{
+  year: number;
+  month: number;
+  memberCode: string;
+}>;
+
+
+export type AttendanceMonthDetailsQuery = { getMemberAttendanceLogsDetails: Array<{ classDate: string | null, classDurationInMinutes: number | null, classType: string | null, localTime: string | null } | null> | null };
+
+export type FirstAttendanceQueryVariables = Exact<{
+  memberCode: string;
+}>;
+
+
+export type FirstAttendanceQuery = { getMemberAttendanceClasses: Array<{ classDate: string | null } | null> | null };
+
+export type AddMeasureSheetMutationVariables = Exact<{
+  measure?: AddMeasureInput | null | undefined;
+}>;
+
+
+export type AddMeasureSheetMutation = { addMeasure: { id: number } | null };
+
+export type UpdateMeasureSheetMutationVariables = Exact<{
+  measure?: UpdateMeasureInput | null | undefined;
+}>;
+
+
+export type UpdateMeasureSheetMutation = { updateMeasure: { id: number } | null };
+
+export type DeleteMeasureRowMutationVariables = Exact<{
+  id: number;
+  memberCode: string;
+}>;
+
+
+export type DeleteMeasureRowMutation = { deleteMeasure: { id: number } | null };
+
 export type ActiveMembersQueryVariables = Exact<{
   offset?: number | null | undefined;
   limit?: number | null | undefined;
@@ -181,6 +275,14 @@ export const AddTimesDialogDocument = {"kind":"Document","definitions":[{"kind":
 export const GymClassTypesDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"gymClassTypes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"getGymClassTypes"}}]}}]} as unknown as DocumentNode<GymClassTypesQuery, GymClassTypesQueryVariables>;
 export const GymClassTimesDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"gymClassTimes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"allGymClassTimes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"localTime"}}]}}]}}]} as unknown as DocumentNode<GymClassTimesQuery, GymClassTimesQueryVariables>;
 export const AddGymClassTimeConfigDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"addGymClassTimeConfig"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"localTime"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"LocalTime"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"addGymClassTime"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"localTime"},"value":{"kind":"Variable","name":{"kind":"Name","value":"localTime"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"localTime"}}]}}]}}]} as unknown as DocumentNode<AddGymClassTimeConfigMutation, AddGymClassTimeConfigMutationVariables>;
+export const MemberDetailDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"memberDetail"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"code"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"getMember"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"code"},"value":{"kind":"Variable","name":{"kind":"Name","value":"code"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"code"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"genre"}},{"kind":"Field","name":{"kind":"Name","value":"birthDate"}},{"kind":"Field","name":{"kind":"Name","value":"height"}},{"kind":"Field","name":{"kind":"Name","value":"isActive"}},{"kind":"Field","name":{"kind":"Name","value":"phone"}},{"kind":"Field","name":{"kind":"Name","value":"email"}},{"kind":"Field","name":{"kind":"Name","value":"observations"}},{"kind":"Field","name":{"kind":"Name","value":"preferredClassTime"}},{"kind":"Field","name":{"kind":"Name","value":"category"}},{"kind":"Field","name":{"kind":"Name","value":"memberAttendance"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"memberCode"}},{"kind":"Field","name":{"kind":"Name","value":"monday"}},{"kind":"Field","name":{"kind":"Name","value":"tuesday"}},{"kind":"Field","name":{"kind":"Name","value":"wednesday"}},{"kind":"Field","name":{"kind":"Name","value":"thursday"}},{"kind":"Field","name":{"kind":"Name","value":"friday"}},{"kind":"Field","name":{"kind":"Name","value":"saturday"}},{"kind":"Field","name":{"kind":"Name","value":"sunday"}}]}},{"kind":"Field","name":{"kind":"Name","value":"lastAttendanceDate"}},{"kind":"Field","name":{"kind":"Name","value":"lastMeasure"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"date"}},{"kind":"Field","name":{"kind":"Name","value":"weight"}},{"kind":"Field","name":{"kind":"Name","value":"weightDiff"}},{"kind":"Field","name":{"kind":"Name","value":"corporalFat"}},{"kind":"Field","name":{"kind":"Name","value":"corporalFatDiff"}},{"kind":"Field","name":{"kind":"Name","value":"muscle"}},{"kind":"Field","name":{"kind":"Name","value":"muscleDiff"}},{"kind":"Field","name":{"kind":"Name","value":"bodyMassIndex"}},{"kind":"Field","name":{"kind":"Name","value":"bodyMassIndexDiff"}},{"kind":"Field","name":{"kind":"Name","value":"corporalWaterPct"}},{"kind":"Field","name":{"kind":"Name","value":"corporalWaterPctDiff"}},{"kind":"Field","name":{"kind":"Name","value":"calories"}},{"kind":"Field","name":{"kind":"Name","value":"caloriesDiff"}},{"kind":"Field","name":{"kind":"Name","value":"muscleResult"}},{"kind":"Field","name":{"kind":"Name","value":"bodyMassIndexResult"}},{"kind":"Field","name":{"kind":"Name","value":"corporalFatResult"}},{"kind":"Field","name":{"kind":"Name","value":"corporalWaterPctResult"}},{"kind":"Field","name":{"kind":"Name","value":"caloriesResult"}}]}},{"kind":"Field","name":{"kind":"Name","value":"memberMeasures"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"take"},"value":{"kind":"IntValue","value":"6"}},{"kind":"Argument","name":{"kind":"Name","value":"orderBy"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"date"},"value":{"kind":"StringValue","value":"desc","block":false}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"date"}},{"kind":"Field","name":{"kind":"Name","value":"weight"}},{"kind":"Field","name":{"kind":"Name","value":"corporalFat"}},{"kind":"Field","name":{"kind":"Name","value":"muscle"}},{"kind":"Field","name":{"kind":"Name","value":"bodyMassIndex"}},{"kind":"Field","name":{"kind":"Name","value":"corporalWaterPct"}},{"kind":"Field","name":{"kind":"Name","value":"calories"}}]}}]}}]}}]} as unknown as DocumentNode<MemberDetailQuery, MemberDetailQueryVariables>;
+export const MemberMeasuresDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"memberMeasures"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"GetMeasuresInput"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"getMeasures"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"measures"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"date"}},{"kind":"Field","name":{"kind":"Name","value":"weight"}},{"kind":"Field","name":{"kind":"Name","value":"weightDiff"}},{"kind":"Field","name":{"kind":"Name","value":"corporalFat"}},{"kind":"Field","name":{"kind":"Name","value":"corporalFatDiff"}},{"kind":"Field","name":{"kind":"Name","value":"muscle"}},{"kind":"Field","name":{"kind":"Name","value":"muscleDiff"}},{"kind":"Field","name":{"kind":"Name","value":"bodyMassIndex"}},{"kind":"Field","name":{"kind":"Name","value":"bodyMassIndexDiff"}},{"kind":"Field","name":{"kind":"Name","value":"corporalWaterPct"}},{"kind":"Field","name":{"kind":"Name","value":"corporalWaterPctDiff"}},{"kind":"Field","name":{"kind":"Name","value":"calories"}},{"kind":"Field","name":{"kind":"Name","value":"caloriesDiff"}},{"kind":"Field","name":{"kind":"Name","value":"muscleResult"}},{"kind":"Field","name":{"kind":"Name","value":"bodyMassIndexResult"}},{"kind":"Field","name":{"kind":"Name","value":"corporalFatResult"}},{"kind":"Field","name":{"kind":"Name","value":"corporalWaterPctResult"}},{"kind":"Field","name":{"kind":"Name","value":"caloriesResult"}}]}},{"kind":"Field","name":{"kind":"Name","value":"pagination"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"total"}},{"kind":"Field","name":{"kind":"Name","value":"pageSize"}}]}}]}}]}}]} as unknown as DocumentNode<MemberMeasuresQuery, MemberMeasuresQueryVariables>;
+export const AttendanceByYearDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"attendanceByYear"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"year"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"memberCode"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"getMemberAttendanceLogByYear"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"year"},"value":{"kind":"Variable","name":{"kind":"Name","value":"year"}}},{"kind":"Argument","name":{"kind":"Name","value":"memberCode"},"value":{"kind":"Variable","name":{"kind":"Name","value":"memberCode"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"year"}},{"kind":"Field","name":{"kind":"Name","value":"month"}},{"kind":"Field","name":{"kind":"Name","value":"total"}}]}}]}}]} as unknown as DocumentNode<AttendanceByYearQuery, AttendanceByYearQueryVariables>;
+export const AttendanceMonthDetailsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"attendanceMonthDetails"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"year"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"month"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"memberCode"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"getMemberAttendanceLogsDetails"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"year"},"value":{"kind":"Variable","name":{"kind":"Name","value":"year"}}},{"kind":"Argument","name":{"kind":"Name","value":"month"},"value":{"kind":"Variable","name":{"kind":"Name","value":"month"}}},{"kind":"Argument","name":{"kind":"Name","value":"memberCode"},"value":{"kind":"Variable","name":{"kind":"Name","value":"memberCode"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"classDate"}},{"kind":"Field","name":{"kind":"Name","value":"classDurationInMinutes"}},{"kind":"Field","name":{"kind":"Name","value":"classType"}},{"kind":"Field","name":{"kind":"Name","value":"localTime"}}]}}]}}]} as unknown as DocumentNode<AttendanceMonthDetailsQuery, AttendanceMonthDetailsQueryVariables>;
+export const FirstAttendanceDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"firstAttendance"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"memberCode"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"getMemberAttendanceClasses"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"memberCode"},"value":{"kind":"Variable","name":{"kind":"Name","value":"memberCode"}}},{"kind":"Argument","name":{"kind":"Name","value":"order"},"value":{"kind":"StringValue","value":"asc","block":false}},{"kind":"Argument","name":{"kind":"Name","value":"take"},"value":{"kind":"IntValue","value":"1"}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"classDate"}}]}}]}}]} as unknown as DocumentNode<FirstAttendanceQuery, FirstAttendanceQueryVariables>;
+export const AddMeasureSheetDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"addMeasureSheet"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"measure"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"AddMeasureInput"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"addMeasure"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"measure"},"value":{"kind":"Variable","name":{"kind":"Name","value":"measure"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]} as unknown as DocumentNode<AddMeasureSheetMutation, AddMeasureSheetMutationVariables>;
+export const UpdateMeasureSheetDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"updateMeasureSheet"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"measure"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"UpdateMeasureInput"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"updateMeasure"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"measure"},"value":{"kind":"Variable","name":{"kind":"Name","value":"measure"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]} as unknown as DocumentNode<UpdateMeasureSheetMutation, UpdateMeasureSheetMutationVariables>;
+export const DeleteMeasureRowDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"deleteMeasureRow"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"memberCode"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"deleteMeasure"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}},{"kind":"Argument","name":{"kind":"Name","value":"memberCode"},"value":{"kind":"Variable","name":{"kind":"Name","value":"memberCode"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]} as unknown as DocumentNode<DeleteMeasureRowMutation, DeleteMeasureRowMutationVariables>;
 export const ActiveMembersDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"activeMembers"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"offset"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"limit"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"getAllMembers"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"offset"},"value":{"kind":"Variable","name":{"kind":"Name","value":"offset"}}},{"kind":"Argument","name":{"kind":"Name","value":"limit"},"value":{"kind":"Variable","name":{"kind":"Name","value":"limit"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"members"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"code"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"category"}},{"kind":"Field","name":{"kind":"Name","value":"isActive"}},{"kind":"Field","name":{"kind":"Name","value":"lastAttendanceDate"}},{"kind":"Field","name":{"kind":"Name","value":"currentWeight"}},{"kind":"Field","name":{"kind":"Name","value":"memberAttendance"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"monday"}},{"kind":"Field","name":{"kind":"Name","value":"tuesday"}},{"kind":"Field","name":{"kind":"Name","value":"wednesday"}},{"kind":"Field","name":{"kind":"Name","value":"thursday"}},{"kind":"Field","name":{"kind":"Name","value":"friday"}},{"kind":"Field","name":{"kind":"Name","value":"saturday"}},{"kind":"Field","name":{"kind":"Name","value":"sunday"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"pagination"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"total"}},{"kind":"Field","name":{"kind":"Name","value":"nextPageStart"}}]}}]}}]}}]} as unknown as DocumentNode<ActiveMembersQuery, ActiveMembersQueryVariables>;
 export const InactiveMembersDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"inactiveMembers"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"offset"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"limit"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"getAllInactiveMembers"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"offset"},"value":{"kind":"Variable","name":{"kind":"Name","value":"offset"}}},{"kind":"Argument","name":{"kind":"Name","value":"limit"},"value":{"kind":"Variable","name":{"kind":"Name","value":"limit"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"members"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"code"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"category"}},{"kind":"Field","name":{"kind":"Name","value":"isActive"}},{"kind":"Field","name":{"kind":"Name","value":"lastAttendanceDate"}},{"kind":"Field","name":{"kind":"Name","value":"currentWeight"}}]}},{"kind":"Field","name":{"kind":"Name","value":"pagination"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"total"}},{"kind":"Field","name":{"kind":"Name","value":"nextPageStart"}}]}}]}}]}}]} as unknown as DocumentNode<InactiveMembersQuery, InactiveMembersQueryVariables>;
 export const SearchMembersDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"searchMembers"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"filter"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"getFilteredMembers"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"column"},"value":{"kind":"StringValue","value":"name","block":false}},{"kind":"Argument","name":{"kind":"Name","value":"comparator"},"value":{"kind":"StringValue","value":"contains","block":false}},{"kind":"Argument","name":{"kind":"Name","value":"filter"},"value":{"kind":"Variable","name":{"kind":"Name","value":"filter"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"code"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"category"}},{"kind":"Field","name":{"kind":"Name","value":"isActive"}},{"kind":"Field","name":{"kind":"Name","value":"lastAttendanceDate"}},{"kind":"Field","name":{"kind":"Name","value":"currentWeight"}}]}}]}}]} as unknown as DocumentNode<SearchMembersQuery, SearchMembersQueryVariables>;
