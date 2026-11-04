@@ -16,8 +16,7 @@ const memberSchema = `
 		code: String!
 		name: String
 		genre: String
-		birthDate: Date
-		birthDateAsString: String
+		birthDate: LocalDate
 		height: Float
 		isActive: Boolean
 		phone: String
@@ -44,15 +43,14 @@ const memberSchema = `
 		getMember(code: String): Member @auth
 		getVisitMember(code: String): VisitMember
 		getMembersCount: Int @auth
-		getBirthdateMembers(date: String): [Member] @auth
+		getBirthdateMembers(date: LocalDate): [Member] @auth
 		getFilteredMembers(column: String, comparator: String, filter: String): [Member] @auth
 	}
 
 	input AddMemberInput {
 		name: String!
 		genre: String
-		birthDate: Date
-		birthDateAsString: String
+		birthDate: LocalDate
 		height: Float
 		observations: String
 		avatar: String
@@ -63,8 +61,7 @@ const memberSchema = `
 		code: String!
 		name: String
 		genre: String
-		birthDate: Date
-		birthDateAsString: String
+		birthDate: LocalDate
 		height: Float
 		isActive: Boolean
 		phone: String

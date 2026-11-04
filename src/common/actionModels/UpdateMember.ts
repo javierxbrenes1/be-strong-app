@@ -5,7 +5,6 @@ type UpdateMemberArgs = {
   name?: string;
   genre?: string;
   birthDate?: Date;
-  birthDateAsString?: string;
   height?: number;
   isActive?: boolean;
   phone?: string;

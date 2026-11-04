@@ -52,8 +52,8 @@ const memberMeasuresSchema = `
     }
 
     input  MeasureFiltersInput {
-        from: Date
-        to: Date
+        from: LocalDate
+        to: LocalDate
     }
 
     input GetMeasuresInput {

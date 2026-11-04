@@ -1,3 +1,4 @@
+import { LocalDate } from '../dates';
 import GymClassTime from './GymClassTime';
 import Measure from './Measure';
 import MemberAttendance from './MemberAttendance';
@@ -7,7 +8,7 @@ interface Member {
   name: string;
   phone?: string;
   avatar?: string;
-  birthDate?: Date;
+  birthDate?: LocalDate;
   email?: string;
   genre: string;
   height: number;
