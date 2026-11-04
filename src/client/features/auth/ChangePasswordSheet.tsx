@@ -64,14 +64,22 @@ function PasswordField(props: {
 function ChangePasswordSheet({ open, onClose }: Props) {
   const navigate = useNavigate();
   const resetAuth = useAuthStore((s) => s.reset);
+  const [currentPwd, setCurrentPwd] = useState('');
   const [pwd, setPwd] = useState('');
   const [confirm, setConfirm] = useState('');
   const [updatePwd, { loading }] = useMutation(UpdatePwdDocument);
   const rules = passwordRules(pwd, confirm);
 
+  const close = () => {
+    setCurrentPwd('');
+    setPwd('');
+    setConfirm('');
+    onClose();
+  };
+
   const save = async () => {
     try {
-      const { data } = await updatePwd({ variables: { pwd } });
+      const { data } = await updatePwd({ variables: { currentPwd, pwd } });
       if (!data?.updatePwd) throw new Error('updatePwd responded false');
       toast.success('Contraseña actualizada. Inicia sesión de nuevo.');
       resetAuth();
@@ -84,14 +92,14 @@ function ChangePasswordSheet({ open, onClose }: Props) {
   return (
     <AppSheet
       open={open}
-      onClose={onClose}
+      onClose={close}
       title="Cambiar contraseña"
-      dirty={Boolean(pwd || confirm)}
+      dirty={Boolean(currentPwd || pwd || confirm)}
       primaryAction={{
         label: 'Guardar',
         onClick: save,
         loading,
-        disabled: !rules.every((r) => r.ok),
+        disabled: !currentPwd || !rules.every((r) => r.ok),
       }}
     >
       <Stack spacing={2.5}>
@@ -99,11 +107,12 @@ function ChangePasswordSheet({ open, onClose }: Props) {
           Al actualizar la contraseña se cerrará la sesión.
         </Typography>
         <PasswordField
-          label="Contraseña"
-          value={pwd}
-          onChange={setPwd}
+          label="Contraseña actual"
+          value={currentPwd}
+          onChange={setCurrentPwd}
           autoFocus
         />
+        <PasswordField label="Contraseña nueva" value={pwd} onChange={setPwd} />
         <PasswordField
           label="Confirmar contraseña"
           value={confirm}

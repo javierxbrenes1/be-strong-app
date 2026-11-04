@@ -9,8 +9,8 @@ export const LoginDocument = graphql(`
 `);
 
 export const UpdatePwdDocument = graphql(`
-  mutation updatePwd($pwd: String!) {
-    updatePwd(pwd: $pwd)
+  mutation updatePwd($currentPwd: String!, $pwd: String!) {
+    updatePwd(currentPwd: $currentPwd, pwd: $pwd)
   }
 `);
 

@@ -1,7 +1,8 @@
 /* eslint-disable prettier/prettier */
 import { mapSchema, getDirective, MapperKind } from '@graphql-tools/utils';
 import { defaultFieldResolver, GraphQLError, GraphQLSchema } from 'graphql';
-import { ServerWithAuth } from '../../types';
+import { AuthenticatedRequest, ServerWithAuth } from '../../types';
+import { isTokenStale } from '../../plugins/tokenStale';
 import { BeStrongContext } from '../context';
 
 function authDirectiveTransformer(schema: GraphQLSchema, directiveName: string) {
@@ -18,11 +19,20 @@ function authDirectiveTransformer(schema: GraphQLSchema, directiveName: string) 
         // is authenticated, then resolves the field
         fieldConfig.resolve = async function (source, args, context, info) {
 
-            const {server, request} = context as BeStrongContext;
+            const {server, request, prisma} = context as BeStrongContext;
             const authenticatedServer = server as ServerWithAuth;
 
             try {
-                await authenticatedServer.authenticate(request); 
+                await authenticatedServer.authenticate(request);
+                // Un cambio de contraseña invalida los tokens emitidos antes.
+                const { user } = request as AuthenticatedRequest;
+                const owner = await prisma.ownerUser.findUnique({
+                    where: { username: user.username },
+                    select: { lastPasswordChangeDate: true },
+                });
+                if (!owner || isTokenStale(user.iat, owner.lastPasswordChangeDate)) {
+                    throw new Error('stale token');
+                }
             }catch(err) {
                 throw new GraphQLError('user unauthorized', {
                     extensions: {

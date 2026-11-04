@@ -15,7 +15,7 @@ import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/
  */
 type Documents = {
     "\n  mutation login($input: OwnerSignInInput) {\n    ownerSignIn(input: $input) {\n      jwt\n    }\n  }\n": typeof types.LoginDocument,
-    "\n  mutation updatePwd($pwd: String!) {\n    updatePwd(pwd: $pwd)\n  }\n": typeof types.UpdatePwdDocument,
+    "\n  mutation updatePwd($currentPwd: String!, $pwd: String!) {\n    updatePwd(currentPwd: $currentPwd, pwd: $pwd)\n  }\n": typeof types.UpdatePwdDocument,
     "\n  query whoAmIProfile {\n    whoAmI {\n      username\n      name\n      email\n      role\n      lastPasswordChangeDate\n    }\n  }\n": typeof types.WhoAmIProfileDocument,
     "\n  query gymClassesByDay($gte: LocalDate!, $lt: LocalDate) {\n    getGymClasses(gte: $gte, lt: $lt) {\n      id\n      classDate\n      classType\n      classDurationInMinutes\n      classDescription\n      gymClassOnTimes {\n        gymClassTime {\n          id\n          localTime\n        }\n      }\n      attendanceList {\n        gymClassTimeId\n        members {\n          code\n          name\n        }\n      }\n    }\n  }\n": typeof types.GymClassesByDayDocument,
     "\n  mutation addAttendances($input: MembersAttendancesInput!) {\n    addMembersAttendances(input: $input) {\n      id\n    }\n  }\n": typeof types.AddAttendancesDocument,
@@ -51,7 +51,7 @@ type Documents = {
 };
 const documents: Documents = {
     "\n  mutation login($input: OwnerSignInInput) {\n    ownerSignIn(input: $input) {\n      jwt\n    }\n  }\n": types.LoginDocument,
-    "\n  mutation updatePwd($pwd: String!) {\n    updatePwd(pwd: $pwd)\n  }\n": types.UpdatePwdDocument,
+    "\n  mutation updatePwd($currentPwd: String!, $pwd: String!) {\n    updatePwd(currentPwd: $currentPwd, pwd: $pwd)\n  }\n": types.UpdatePwdDocument,
     "\n  query whoAmIProfile {\n    whoAmI {\n      username\n      name\n      email\n      role\n      lastPasswordChangeDate\n    }\n  }\n": types.WhoAmIProfileDocument,
     "\n  query gymClassesByDay($gte: LocalDate!, $lt: LocalDate) {\n    getGymClasses(gte: $gte, lt: $lt) {\n      id\n      classDate\n      classType\n      classDurationInMinutes\n      classDescription\n      gymClassOnTimes {\n        gymClassTime {\n          id\n          localTime\n        }\n      }\n      attendanceList {\n        gymClassTimeId\n        members {\n          code\n          name\n        }\n      }\n    }\n  }\n": types.GymClassesByDayDocument,
     "\n  mutation addAttendances($input: MembersAttendancesInput!) {\n    addMembersAttendances(input: $input) {\n      id\n    }\n  }\n": types.AddAttendancesDocument,
@@ -107,7 +107,7 @@ export function graphql(source: "\n  mutation login($input: OwnerSignInInput) {\
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n  mutation updatePwd($pwd: String!) {\n    updatePwd(pwd: $pwd)\n  }\n"): (typeof documents)["\n  mutation updatePwd($pwd: String!) {\n    updatePwd(pwd: $pwd)\n  }\n"];
+export function graphql(source: "\n  mutation updatePwd($currentPwd: String!, $pwd: String!) {\n    updatePwd(currentPwd: $currentPwd, pwd: $pwd)\n  }\n"): (typeof documents)["\n  mutation updatePwd($currentPwd: String!, $pwd: String!) {\n    updatePwd(currentPwd: $currentPwd, pwd: $pwd)\n  }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

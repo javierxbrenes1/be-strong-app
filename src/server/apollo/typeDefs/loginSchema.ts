@@ -23,7 +23,7 @@ type Query {
 
 type Mutation {
     ownerSignIn(input: OwnerSignInInput): OwnerSignInResponse
-    updatePwd(pwd: String!): Boolean @auth
+    updatePwd(currentPwd: String!, pwd: String!): Boolean @auth
 }
 `;
 

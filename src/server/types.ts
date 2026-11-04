@@ -8,5 +8,6 @@ export type AuthenticatedRequest = FastifyRequest & {
   user: {
     username: string;
     role: string;
+    iat?: number;
   };
 };
