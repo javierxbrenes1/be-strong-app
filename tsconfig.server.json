@@ -10,5 +10,5 @@
     "skipLibCheck": true, 
   },
   "include": ["prisma", "src/common", "src/server"],
-  "exclude": ["src/client"]
+  "exclude": ["src/client", "**/*.test.ts"]
 }
