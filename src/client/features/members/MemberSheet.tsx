@@ -55,6 +55,19 @@ const CATEGORIES = Object.values(MemberCategories).map((c) => ({
   label: c,
 }));
 
+// Chrome ofrece historial/direcciones según el atributo name del input:
+// se le da un name distinto al del campo y se apagan los gestores de contraseñas.
+const noAutofill = (field: string) => ({
+  autoComplete: 'off',
+  slotProps: {
+    htmlInput: {
+      name: `member-${field}-x`,
+      'data-lpignore': 'true',
+      'data-form-type': 'other',
+    },
+  },
+});
+
 function toDefaults(member?: MemberDetails): MemberFormInput {
   const att = member?.memberAttendance;
   return {
@@ -201,7 +214,7 @@ function MemberSheet({ open, member, onClose, onSaved }: Props) {
           <FormTextField
             control={control}
             name="name"
-            autoComplete="nope"
+            {...noAutofill('name')}
             label="Nombre"
             autoFocus
           />
@@ -237,14 +250,14 @@ function MemberSheet({ open, member, onClose, onSaved }: Props) {
             <FormTextField
               control={control}
               name="phone"
-              autoComplete="nope"
+              {...noAutofill('phone')}
               label="Teléfono"
               type="tel"
             />
             <FormTextField
               control={control}
               name="email"
-              autoComplete="nope"
+              {...noAutofill('email')}
               label="Correo"
               type="email"
             />
@@ -299,7 +312,7 @@ function MemberSheet({ open, member, onClose, onSaved }: Props) {
           <FormTextField
             control={control}
             name="observations"
-            autoComplete="nope"
+            {...noAutofill('observations')}
             label="Observaciones"
             multiline
             minRows={3}
