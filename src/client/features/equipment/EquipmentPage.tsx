@@ -5,6 +5,7 @@ import AddRoundedIcon from '@mui/icons-material/AddRounded';
 import { EmptyState, PageHeader } from '../../design-system';
 import { Category, Equipment, EquipmentCategoriesDocument } from './api';
 import CategoryCard from './CategoryCard';
+import CategorySheet from './CategorySheet';
 
 export type Dialog =
   | { kind: 'category'; category?: Category }
@@ -97,6 +98,11 @@ function EquipmentPage() {
           />
         ))}
       </Box>
+      <CategorySheet
+        open={dialog?.kind === 'category'}
+        category={dialog?.kind === 'category' ? dialog.category : undefined}
+        onClose={() => setDialog(null)}
+      />
       {!loading && categories.length === 0 && (
         <EmptyState title="Aún no hay equipo registrado" action={newCategory} />
       )}
