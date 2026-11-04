@@ -3,6 +3,7 @@ import { PrismaSelect } from '@paljs/plugins';
 import { GraphQLResolveInfo } from 'graphql';
 import UpdateMemberArgs from '../../../../common/actionModels/UpdateMember';
 import { BeStrongContext } from '../../context';
+import omitComputed from './actions/omitComputed';
 
 const updateMember = async (
   _p: unknown,
@@ -13,7 +14,7 @@ const updateMember = async (
   const { prisma } = context;
   const { code, memberAttendance, ...memberDetails } = args.member;
 
-  const { select } = new PrismaSelect(info).value;
+  const { select } = omitComputed(new PrismaSelect(info).value);
 
   const data = {
     ...memberDetails,

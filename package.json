@@ -55,6 +55,7 @@
     "@uiw/react-md-editor": "^3.23.5",
     "bcrypt": "^5.1.0",
     "chart.js": "^4.2.1",
+    "dataloader": "^2.2.3",
     "dayjs": "^1.11.7",
     "eslint-config-wesbos": "^3.2.3",
     "fastify": "^4.12.0",

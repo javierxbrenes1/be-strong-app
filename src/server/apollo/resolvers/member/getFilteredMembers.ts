@@ -2,6 +2,7 @@ import { PrismaSelect } from '@paljs/plugins';
 import { GraphQLResolveInfo } from 'graphql';
 import { BeStrongContext } from '../../context';
 import { parseMemberFilter } from './memberFilter';
+import omitComputed from './actions/omitComputed';
 
 const getFilteredMembers = async (
   _parent: unknown,
@@ -25,7 +26,7 @@ const getFilteredMembers = async (
   };
 
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-  const select = new PrismaSelect(info).value;
+  const select = omitComputed(new PrismaSelect(info).value);
 
   // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
   const members = await prisma.member.findMany({ where, ...select });

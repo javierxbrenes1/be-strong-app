@@ -1,6 +1,7 @@
 import { PrismaSelect } from '@paljs/plugins';
 import { GraphQLResolveInfo } from 'graphql';
 import { BeStrongContext } from '../../context';
+import omitComputed from './actions/omitComputed';
 
 const getMember = async (
   parent: { memberCode: string } | null,
@@ -12,7 +13,7 @@ const getMember = async (
   const { prisma } = context;
 
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-  const select = new PrismaSelect(info).value;
+  const select = omitComputed(new PrismaSelect(info).value);
   // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
   if (select?.select?.lastMeasure) {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access

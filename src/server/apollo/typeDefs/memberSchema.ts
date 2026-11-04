@@ -29,6 +29,8 @@ const memberSchema = `
 		memberMeasures(take: Int, orderBy: MemberMeasuresOrderBy): [MemberMeasure]
 		lastMeasure: MemberMeasure
 		gymClassTime: GymClassTime
+		lastAttendanceDate: LocalDate
+		currentWeight: Float
 	}
 
 	type GetAllMembersResponse {
