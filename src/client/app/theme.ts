@@ -143,7 +143,32 @@ const baseTheme = createTheme({
     MuiButton: {
       defaultProps: { disableElevation: true },
       styleOverrides: {
-        root: { textTransform: 'none', fontWeight: 600 },
+        root: ({ ownerState, theme: t }) => ({
+          textTransform: 'none',
+          fontWeight: 600,
+          // El amarillo nunca es color de texto: los acentos usan primaryInk.
+          ...(ownerState.color === 'primary' &&
+            ownerState.variant !== 'contained' && {
+              color: t.vars.palette.primaryInk,
+              ...(ownerState.variant === 'outlined' && {
+                borderColor: t.vars.palette.primaryInk,
+              }),
+            }),
+        }),
+      },
+    },
+    MuiTab: {
+      styleOverrides: {
+        root: ({ theme: t }) => ({
+          textTransform: 'none',
+          fontWeight: 600,
+          '&.Mui-selected': { color: t.vars.palette.primaryInk },
+        }),
+      },
+    },
+    MuiLink: {
+      styleOverrides: {
+        root: ({ theme: t }) => ({ color: t.vars.palette.primaryInk }),
       },
     },
     MuiOutlinedInput: {
