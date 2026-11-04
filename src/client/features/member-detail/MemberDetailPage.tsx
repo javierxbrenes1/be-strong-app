@@ -14,6 +14,8 @@ import AddRoundedIcon from '@mui/icons-material/AddRounded';
 import EditRoundedIcon from '@mui/icons-material/EditRounded';
 import { Breadcrumbs, EmptyState, MemberAvatar } from '../../design-system';
 import { MemberDetailDocument } from './api';
+import AttendanceTab from './AttendanceTab';
+import DataTab from './DataTab';
 import MeasuresTab, { MeasureRow } from './MeasuresTab';
 import MeasureSheet from '../measures/MeasureSheet';
 import SummaryTab from './SummaryTab';
@@ -147,6 +149,10 @@ function MemberDetailPage() {
             setSheet({ open: true, measure, previous })
           }
         />
+      )}
+      {tab === 'asistencia' && <AttendanceTab code={member.code} />}
+      {tab === 'datos' && (
+        <DataTab member={member} onEdit={() => setEditOpen(true)} />
       )}
       <MeasureSheet
         open={sheet.open}
