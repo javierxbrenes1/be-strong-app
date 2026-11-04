@@ -3,6 +3,8 @@
 > Inventario de pantallas y funcionalidades capturado con Playwright el 2026-11-03 (escritorio 1440px y móvil 390px).
 > Las capturas están en [`docs/screenshots/`](./screenshots). Arquitectura y bugs: [ARQUITECTURA.md](./ARQUITECTURA.md).
 
+> **Estado actual:** las capturas del rediseño (claro y oscuro) están en [`docs/screenshots/after/`](./screenshots/after). Este documento describe el estado previo.
+
 ---
 
 ## 1. Mapa de la app

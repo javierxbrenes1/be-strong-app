@@ -54,11 +54,9 @@ flowchart LR
 
 ### Cliente
 
-- `AppRoutes.tsx` define las rutas con lazy loading. `ProtectedRoute` redirige a `/login` si no hay JWT.
-- `MainLayout` combina el `TopBar` con el `Navbar` lateral, que en móvil se convierte en drawer.
-- Documentos GraphQL en `queries/`, `mutations/` y `fragments/`; actualizaciones manuales del cache en `cacheHelpers/`.
-- Estado global con zustand: `authState` (JWT persistido en `localStorage["auth"]`) y `catalogState` (horarios de clase).
-- Componentes compartidos con prefijo `Bs*` en `components/`. Las páginas están en `pages/<ruta>/`.
+- `app/` (providers, tema Iron claro/oscuro, layout con `TopBar` y navegación), `design-system/`, `features/<pantalla>/` y `gql/` (tipos generados con codegen). `AppRoutes.tsx` define las rutas con lazy loading; `ProtectedRoute` redirige a `/login` si no hay JWT.
+- Estado global con zustand: `authState` (JWT persistido en `localStorage["auth"]`) y `catalogState`.
+- Pendiente: `/equipment` sigue en `pages/equipment` (código viejo, `Bs*`, `queries/`, `mutations/`, `fragments/`) hasta que se haga el plan 4.1.
 
 ## 4. Modelo de datos
 
@@ -182,7 +180,9 @@ Patrones concretos:
 - No hay tests, ni siquiera de `measuresCalculator`, que es la lógica más valiosa y la más fácil de testear.
 - Las migraciones y el seed corren en cada arranque del contenedor.
 
-## 7. Arquitectura objetivo (propuesta para el frontend)
+## 7. Arquitectura objetivo (implementada, salvo Equipo)
+
+> Estado: implementado en el rediseño. Cerrados B1–B6 y B8–B10 y S1, S4 y S6; B7 sigue abierto porque pertenece a la pantalla Equipo (pendiente).
 
 La regla es mantener el backend GraphQL y reescribir el cliente por *features*, con estado del servidor manejado por la librería y no a mano.
 
