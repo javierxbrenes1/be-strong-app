@@ -8,12 +8,6 @@ declare module '@mui/material/styles' {
     primarySoft: string;
     nav: { bg: string; text: string; activeBg: string; activeText: string };
     soft: { success: string; warning: string; error: string; info: string };
-    /** @deprecated usar tokens Iron; solo para pantallas viejas */
-    white: Palette['primary'];
-    /** @deprecated usar tokens Iron; solo para pantallas viejas */
-    bsYellow: Palette['primary'];
-    /** @deprecated usar tokens Iron; solo para pantallas viejas */
-    bsBrown: Palette['primary'];
   }
   interface PaletteOptions {
     surface2?: string;
@@ -21,12 +15,6 @@ declare module '@mui/material/styles' {
     primarySoft?: string;
     nav?: { bg: string; text: string; activeBg: string; activeText: string };
     soft?: { success: string; warning: string; error: string; info: string };
-    /** @deprecated */
-    white?: PaletteOptions['primary'];
-    /** @deprecated */
-    bsYellow?: PaletteOptions['primary'];
-    /** @deprecated */
-    bsBrown?: PaletteOptions['primary'];
   }
   interface TypographyVariants {
     metric: React.CSSProperties;
@@ -41,12 +29,6 @@ declare module '@mui/material/Typography' {
     metric: true;
   }
 }
-
-const legacy = {
-  white: { main: '#fff' },
-  bsYellow: { main: '#FFF009' },
-  bsBrown: { main: '#51503C' },
-};
 
 const DISPLAY = '"Barlow Condensed", "Inter", sans-serif';
 const display = {
@@ -84,7 +66,6 @@ const baseTheme = createTheme(
             activeBg: '#FACC15',
             activeText: '#18181B',
           },
-          ...legacy,
         },
       },
       dark: {
@@ -112,7 +93,6 @@ const baseTheme = createTheme(
             activeBg: '#FACC15',
             activeText: '#18181B',
           },
-          ...legacy,
         },
       },
     },

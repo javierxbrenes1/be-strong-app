@@ -12,7 +12,7 @@ function MemberAvatar({ name, size = 34 }: Props) {
         width: size,
         height: size,
         bgcolor: avatarColor(name),
-        color: '#fff',
+        color: 'common.white',
         fontSize: size * 0.4,
         fontWeight: 700,
       }}

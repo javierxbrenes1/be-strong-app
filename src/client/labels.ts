@@ -124,12 +124,3 @@ export const INDEX_DAYS = [
   'friday',
   'saturday',
 ];
-
-export const MeasuresColorMap: Record<string, string> = {
-  [Measures.weight]: '#4c9173',
-  [Measures.bodyMassIndex]: '#453953',
-  [Measures.corporalFat]: '#fc3a52',
-  [Measures.calories]: '#f2910a',
-  [Measures.corporalWaterPct]: '#418c9f',
-  [Measures.muscle]: '#49beb7',
-};
