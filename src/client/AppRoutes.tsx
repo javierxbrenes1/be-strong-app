@@ -19,7 +19,7 @@ const withSuspense = (
   );
 };
 
-const MainPage = lazy(() => import('./components/MainLayout'));
+const MainPage = lazy(() => import('./app/layout/AppLayout'));
 const Login = lazy(() => import('./pages/login'));
 const Home = lazy(() => import('./pages/home'));
 const Classes = lazy(() => import('./pages/classes'));
