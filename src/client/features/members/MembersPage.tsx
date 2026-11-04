@@ -19,7 +19,6 @@ import {
   EmptyState,
   MemberAvatar,
   PageHeader,
-  StatusChip,
 } from '../../design-system';
 import {
   ActiveMembersDocument,
@@ -27,8 +26,8 @@ import {
   SearchMembersDocument,
 } from './api';
 import MemberSheet from './MemberSheet';
+import MemberStatusChip from './MemberStatusChip';
 import useDebouncedValue from './useDebouncedValue';
-import { memberStatus } from '../../../common/memberStatus';
 import { todayLocalDate } from '../../../common/dates';
 import { PATHS } from '../../../common/enums';
 
@@ -129,18 +128,13 @@ function MembersPage() {
     {
       id: 'status',
       header: 'Estado',
-      render: (m) => {
-        const s = memberStatus(
-          Boolean(m.isActive),
-          m.lastAttendanceDate ?? null,
-          today
-        );
-        if (s === 'inactive')
-          return <StatusChip variant="neutral" label="Inactivo" />;
-        if (s === 'risk')
-          return <StatusChip variant="warning" label="En riesgo" />;
-        return <StatusChip variant="success" label="Activo" />;
-      },
+      render: (m) => (
+        <MemberStatusChip
+          isActive={Boolean(m.isActive)}
+          lastAttendanceDate={m.lastAttendanceDate ?? null}
+          today={today}
+        />
+      ),
     },
     {
       id: 'weight',
