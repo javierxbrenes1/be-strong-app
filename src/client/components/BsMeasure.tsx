@@ -18,11 +18,12 @@ function BsMeasure(props: {
       <Typography variant="h6">{title}</Typography>
       <Stack
         direction="row"
-        alignItems="center"
-        justifyContent="space-between"
-        gap="10px"
-        flexWrap="wrap"
-      >
+        sx={{
+          alignItems: "center",
+          justifyContent: "space-between",
+          gap: "10px",
+          flexWrap: "wrap"
+        }}>
         <Typography variant="h3">{`${value} ${suffix ?? ''}`}</Typography>
         {label && (
           <Chip

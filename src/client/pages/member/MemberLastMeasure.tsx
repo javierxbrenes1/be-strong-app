@@ -3,7 +3,7 @@ import Card from '@mui/material/Card';
 import ScaleIcon from '@mui/icons-material/Scale';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
-import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutlineOutlined';
 
 import { useEffect, useState } from 'react';
 import dayjs from 'dayjs';

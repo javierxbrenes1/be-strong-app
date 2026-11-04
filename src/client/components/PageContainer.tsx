@@ -32,7 +32,7 @@ function PageContainer(props: {
   const { children, Icon, text, RightAction } = props;
   return (
     <ErrorBoundary>
-      <Container flexDirection="column">
+      <Container>
         <PageTitle Icon={Icon} text={text} RightAction={RightAction} />
         {children}
       </Container>

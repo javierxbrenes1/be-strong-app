@@ -98,7 +98,9 @@ function EquipmentCategoryCard(props: {
         elevation={2}
         sx={{ padding: '1rem', width: 'auto', height: 'fit-content' }}
       >
-        <Stack direction="row" justifyContent="space-between">
+        <Stack direction="row" sx={{
+          justifyContent: "space-between"
+        }}>
           {updatingCategoryName ? (
             <CircularProgress size="1rem" />
           ) : (
@@ -117,7 +119,12 @@ function EquipmentCategoryCard(props: {
               </Typography>
             </NameContainer>
           )}
-          <Stack direction="row" alignItems="center" gap=".5rem">
+          <Stack
+            direction="row"
+            sx={{
+              alignItems: "center",
+              gap: ".5rem"
+            }}>
             <Typography variant="h5">
               Total:{' '}
               {category.equipment?.reduce(

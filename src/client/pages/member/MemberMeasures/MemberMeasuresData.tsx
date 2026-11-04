@@ -182,11 +182,12 @@ function MemberMeasuresData(props: {
         <CardContent>
           <Stack
             direction="row"
-            gap={1}
-            alignItems="center"
-            justifyContent="space-between"
-            sx={{ marginBottom: ' 16px' }}
-          >
+            sx={{
+              gap: 1,
+              alignItems: "center",
+              justifyContent: "space-between",
+              marginBottom: ' 16px'
+            }}>
             <CardTitle
               title={`Detalles${newMeasureWasAdded ? ' 🔗‍💥' : ''}`}
               sx={{ marginBottom: 0 }}
@@ -200,13 +201,14 @@ function MemberMeasuresData(props: {
           <Divider sx={{ margin: '8px 0' }} />
           <Grid container spacing={1} sx={{ marginTop: '12px' }}>
             {columns && (
-              <Grid item xs={12}>
+              <Grid size={12}>
                 <Stack
                   direction="row"
-                  gap="0.25rem"
-                  justifyContent="end"
-                  alignItems="center"
-                >
+                  sx={{
+                    gap: "0.25rem",
+                    justifyContent: "end",
+                    alignItems: "center"
+                  }}>
                   <Switch
                     color="primary"
                     checked={showActions}
@@ -242,7 +244,7 @@ function MemberMeasuresData(props: {
               </Grid>
             )}
             {chartDetails && (
-              <Grid item xs={12}>
+              <Grid size={12}>
                 <Chart
                   labels={chartDetails.labels}
                   numbers={chartDetails.numbers}

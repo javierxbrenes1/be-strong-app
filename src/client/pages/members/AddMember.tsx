@@ -115,7 +115,7 @@ function AddMember(props: { addNewMemberToList?: (member: Member) => void }) {
     _ev: unknown,
     reason: 'backdropClick' | 'escapeKeyDown'
   ) => {
-    if (reason === 'backdropClick') return;
+    if (reason === 'backdropClick' || reason === 'escapeKeyDown') return;
     setOpen(false);
   };
   const handleClick = () => {
@@ -142,7 +142,7 @@ function AddMember(props: { addNewMemberToList?: (member: Member) => void }) {
         <PersonAddAlt1Icon color="primary" />
       </IconButton>
 
-      <Dialog open={open} onClose={handleClose} disableEscapeKeyDown>
+      <Dialog open={open} onClose={handleClose}>
         <DialogTitle>Nuevo Miembro</DialogTitle>
         <DialogContent>
           <DialogContentText>
@@ -165,7 +165,11 @@ function AddMember(props: { addNewMemberToList?: (member: Member) => void }) {
             }}
             showLessIcon={showInputs}
           />
-          <Stack gap="1.5rem" sx={{ display: showInputs ? 'flex' : 'none' }}>
+          <Stack
+            sx={{
+              gap: "1.5rem",
+              display: showInputs ? 'flex' : 'none'
+            }}>
             <FormControl fullWidth>
               <InputLabel id="genre">Categoria</InputLabel>
               <Select

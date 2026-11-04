@@ -44,7 +44,12 @@ function BsChart(props: {
   const Component = chartMap[type];
 
   return (
-    <Box width="100%" sx={{ minHeight: '400px', ...(sx ?? {}) }}>
+    <Box
+      sx={{
+        width: "100%",
+        minHeight: '400px',
+        ...(sx ?? {})
+      }}>
       <Component
         data={{
           labels,

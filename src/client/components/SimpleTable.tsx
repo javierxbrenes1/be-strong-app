@@ -87,7 +87,9 @@ function ActionsComponent(props: { actions: Actions; id: string }) {
   const { actions, id } = props;
 
   return (
-    <Stack direction="row" gap=".5rem">
+    <Stack direction="row" sx={{
+      gap: ".5rem"
+    }}>
       {Object.keys(actions).map((action, index) => {
         const Icon = IconMap[action];
         const clickHandler = actions[action as ActionsTypes];
@@ -176,11 +178,12 @@ export default function SimpleTable(props: Props) {
         </Table>
         {loading && (
           <Stack
-            justifyContent="center"
-            alignItems="center"
-            width="100%"
-            height="150px"
-          >
+            sx={{
+              justifyContent: "center",
+              alignItems: "center",
+              width: "100%",
+              height: "150px"
+            }}>
             <Loading />
           </Stack>
         )}

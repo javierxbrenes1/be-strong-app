@@ -15,6 +15,8 @@ import useMembers from '../../hooks/useMembers';
 import BsFilteredMembers from '../../components/BsFilteredMembers';
 
 const TopContainer = styled(Stack)(({ theme }) => ({
+  gap: "10px",
+  justifyContent: "space-between",
   flexDirection: 'column-reverse',
   [theme.breakpoints.up('sm')]: {
     flexDirection: 'row',
@@ -22,6 +24,8 @@ const TopContainer = styled(Stack)(({ theme }) => ({
 }));
 
 const SearchBox = styled(Stack)(({ theme }) => ({
+  flexDirection: "row",
+  gap: "10px",
   width: '100%',
   [theme.breakpoints.up('sm')]: {
     maxWidth: '50%',
@@ -45,8 +49,8 @@ function MembersPage() {
   const hideAll = !!filter;
   return (
     <PageContainer Icon={PeopleAltIcon} text="Miembros">
-      <TopContainer gap="10px" justifyContent="space-between">
-        <SearchBox direction="row" gap="10px">
+      <TopContainer>
+        <SearchBox>
           <AddMember />
           <BsInput
             placeholder="Buscar Miembro"

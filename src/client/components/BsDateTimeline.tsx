@@ -80,10 +80,11 @@ function BsDateTimeline(props: {
   return (
     <Stack>
       <Stack
-        flexDirection="row"
-        justifyContent="space-between"
-        alignItems="center"
-      >
+        sx={{
+          flexDirection: "row",
+          justifyContent: "space-between",
+          alignItems: "center"
+        }}>
         <IconButton onClick={moveDate(-1)}>
           <ArrowBackIosNewIcon />
         </IconButton>

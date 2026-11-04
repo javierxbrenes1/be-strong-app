@@ -147,7 +147,9 @@ function Attendance(props: Props) {
 
   return (
     <Box sx={{ margin: '1rem 0' }}>
-      <Stack direction="row" justifyContent="space-between">
+      <Stack direction="row" sx={{
+        justifyContent: "space-between"
+      }}>
         <Typography variant="h5">
           Asistentes a la clase
           {attendance ? (

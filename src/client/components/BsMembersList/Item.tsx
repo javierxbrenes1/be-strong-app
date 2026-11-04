@@ -2,6 +2,9 @@ import { styled, Stack, Typography } from '@mui/material';
 import Member from '../../../common/models/Member';
 
 const MemberItemWrapper = styled(Stack)(({ theme }) => ({
+  flexDirection: "row",
+  alignItems: "center",
+  gap: "5px",
   padding: '10px',
   borderRadius: '10px',
   '&:hover': {
@@ -23,9 +26,6 @@ function MemberItem(props: {
 
   return (
     <MemberItemWrapper
-      direction="row"
-      alignItems="center"
-      gap="5px"
       role="button"
       onClick={() => {
         onClick(member.code);
@@ -40,13 +40,12 @@ function MemberItem(props: {
         style={{ borderRadius: '100px' }}
       />
       <Typography
-        typography="h6"
         sx={{
+          typography: "h6",
           textOverflow: 'ellipsis',
           whiteSpace: 'nowrap',
-          overflow: 'hidden',
-        }}
-      >
+          overflow: 'hidden'
+        }}>
         {member.name}
       </Typography>
     </MemberItemWrapper>

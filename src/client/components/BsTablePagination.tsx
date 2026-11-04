@@ -42,11 +42,12 @@ function BsTablePagination(props: Props) {
 
   return (
     <Stack
-      justifyContent={justifyAt}
       direction="row"
-      marginY={marginY}
-      color="primary"
-    >
+      sx={{
+        justifyContent: justifyAt,
+        marginY: marginY,
+        color: "primary"
+      }}>
       <TablePagination
         count={count}
         component="div"

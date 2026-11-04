@@ -45,11 +45,13 @@ function ClassSchedules(props: {
     <>
       <Box sx={{ marginTop: '10px' }}>
         <Stack
-          sx={{ borderBottom: 1, borderColor: 'divider' }}
           direction="row"
-          justifyContent="space-between"
-          alignItems="center"
-        >
+          sx={{
+            justifyContent: "space-between",
+            alignItems: "center",
+            borderBottom: 1,
+            borderColor: 'divider'
+          }}>
           <Tabs value={tabIndex} onChange={handleChange}>
             {sortedSchedules.map((s) => {
               const id = `${classId}-${s.id}`;

@@ -83,7 +83,9 @@ function VisitPage() {
   return (
     <Wrapper>
       <PageTitle Icon={member?.avatar} text={member?.name ?? ''} />
-      <Typography variant="subtitle1" color="#757a79">
+      <Typography variant="subtitle1" sx={{
+        color: "#757a79"
+      }}>
         👋 Howdy {member?.name.split(' ')[0]}
         {lastMeasure
           ? `, estos son los datos de tu última medición del ${formatDate(

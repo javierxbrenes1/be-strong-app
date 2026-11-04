@@ -43,7 +43,12 @@ function HomePage() {
 
   return (
     <PageContainer Icon={Icon} text={text}>
-      <Grid container gap="32px" padding="10px">
+      <Grid
+        container
+        sx={{
+          gap: "32px",
+          padding: "10px"
+        }}>
         <Indicator
           Icon={PeopleOutlineTwoToneIcon}
           gradientColors={['#ffcbc2', '#ffa08e']}

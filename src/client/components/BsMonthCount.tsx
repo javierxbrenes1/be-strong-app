@@ -35,7 +35,9 @@ function BsMonthCount(props: {
           {month}
         </Typography>
       </MonthContainer>
-      <Typography variant="h4" textAlign="center">
+      <Typography variant="h4" sx={{
+        textAlign: "center"
+      }}>
         {count}
       </Typography>
     </Paper>

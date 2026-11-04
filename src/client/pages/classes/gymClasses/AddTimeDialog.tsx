@@ -80,7 +80,9 @@ function AddTimeDialog(props: Props) {
             <Typography>No hay Horarios disponibles</Typography>
           ) : (
             <FormGroup>
-              <Stack direction="row" flexWrap="wrap">
+              <Stack direction="row" sx={{
+                flexWrap: "wrap"
+              }}>
                 {timesToRender.map((t) => (
                   <FormControlLabel
                     key={t.value}

@@ -7,7 +7,9 @@ function GymClasses(props: { classes: GymClass[]; onAddClass: () => void }) {
   const { classes, onAddClass } = props;
   return (
     <>
-      <Stack justifyContent="end" direction="row">
+      <Stack direction="row" sx={{
+        justifyContent: "end"
+      }}>
         <Box sx={{ maxWidth: '180px' }}>
           <BsButton text="Nueva Clase" onClick={onAddClass} />
         </Box>

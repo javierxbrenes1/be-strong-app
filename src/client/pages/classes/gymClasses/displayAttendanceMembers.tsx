@@ -1,5 +1,5 @@
 import { Paper, Stack, Typography } from '@mui/material';
-import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
+import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutlineOutlined';
 import { useEffect, useState, memo } from 'react';
 import Member from '../../../../common/models/Member';
 import BsAvatar from '../../../components/BsAvatar';
@@ -26,7 +26,12 @@ function DisplayAttendanceMembers(props: {
   }, [membersToDelete]);
 
   return (
-    <Stack direction="row" gap=".5rem" flexWrap="wrap">
+    <Stack
+      direction="row"
+      sx={{
+        gap: ".5rem",
+        flexWrap: "wrap"
+      }}>
       {members.map((member) => (
         <Paper
           elevation={3}
@@ -36,11 +41,12 @@ function DisplayAttendanceMembers(props: {
         >
           <Stack
             direction="row"
-            alignItems="center"
-            gap="10px"
-            padding="10px"
-            sx={{ position: 'relative' }}
-          >
+            sx={{
+              alignItems: "center",
+              gap: "10px",
+              padding: "10px",
+              position: 'relative'
+            }}>
             {member.avatar ? (
               <BsAvatar
                 src={member.avatar}

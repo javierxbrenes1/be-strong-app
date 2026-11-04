@@ -144,7 +144,12 @@ function LoginPage() {
 
   return (
     <Container>
-      <Stack className="animation" justifyContent="center" alignItems="center">
+      <Stack
+        className="animation"
+        sx={{
+          justifyContent: "center",
+          alignItems: "center"
+        }}>
         <Box sx={{ width: '60%' }}>
           {/** @ts-ignore */}
           <lottie-player
@@ -194,13 +199,13 @@ function LoginPage() {
                 error={error}
                 helperText={helperText}
                 onChange={handleOnChange}
-                InputProps={{
+                slotProps={{ input: {
                   startAdornment: (
                     <InputAdornment position="start">
                       <PersonIcon color="primary" />
                     </InputAdornment>
                   ),
-                }}
+                }}}
               />
             </FormControl>
             <FormControl fullWidth>
@@ -214,7 +219,7 @@ function LoginPage() {
                 onChange={handleOnChange}
                 onKeyDown={handleOnKeyPress}
                 color="primary"
-                InputProps={{
+                slotProps={{ input: {
                   startAdornment: (
                     <InputAdornment position="start">
                       <PasswordIcon color="primary" />
@@ -229,7 +234,7 @@ function LoginPage() {
                       />
                     </InputAdornment>
                   ),
-                }}
+                }}}
               />
             </FormControl>
             <Button

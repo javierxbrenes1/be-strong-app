@@ -35,10 +35,11 @@ function Class(props: { gymClass: GymClass }) {
       >
         <Typography
           variant="h5"
-          sx={{ textTransform: 'capitalize' }}
           color="primary"
-          fontWeight="600"
-        >
+          sx={{
+            fontWeight: "600",
+            textTransform: 'capitalize'
+          }}>
           {gymClass.classType}
         </Typography>
       </AccordionSummary>
@@ -46,7 +47,9 @@ function Class(props: { gymClass: GymClass }) {
         <Box>
           {gymClass.classDurationInMinutes && (
             <Box>
-              <Typography fontWeight="700" component="span">
+              <Typography component="span" sx={{
+                fontWeight: "700"
+              }}>
                 Tiempo de clase:
               </Typography>
               <Typography component="span" sx={{ paddingLeft: '10px' }}>
@@ -56,7 +59,9 @@ function Class(props: { gymClass: GymClass }) {
           )}
           {gymClass.classDescription && (
             <Box>
-              <Typography fontWeight="700">Descripción:</Typography>
+              <Typography sx={{
+                fontWeight: "700"
+              }}>Descripción:</Typography>
               <MarkDown remarkPlugins={[remarkGfm]}>
                 {gymClass.classDescription}
               </MarkDown>

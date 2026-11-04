@@ -107,12 +107,22 @@ function VisitMeasures(props: { code: string }) {
 
   return (
     <Paper elevation={3} sx={{ padding: '10px' }}>
-      <Stack direction="row" justifyContent="space-between" flexWrap="wrap">
+      <Stack
+        direction="row"
+        sx={{
+          justifyContent: "space-between",
+          flexWrap: "wrap"
+        }}>
         <Typography variant="h5">Mis Datos</Typography>
       </Stack>
       <Divider sx={{ margin: '5px 0' }} />
       {loading && <LinearProgress color="primary" />}
-      <Stack direction="row" justifyContent="space-between" flexWrap="wrap">
+      <Stack
+        direction="row"
+        sx={{
+          justifyContent: "space-between",
+          flexWrap: "wrap"
+        }}>
         <Filters onSearch={handleOnSearch} iconFirst />
         {paginationDetails && (
           <BsTablePagination

@@ -27,12 +27,22 @@ function EquipmentElement(props: {
 
   return (
     <>
-      <Stack direction="row" justifyContent="space-between" width="100%">
+      <Stack
+        direction="row"
+        sx={{
+          justifyContent: "space-between",
+          width: "100%"
+        }}>
         <Typography variant="h6">
           {description}
           {brand ? ` - ${brand}` : null}
         </Typography>
-        <Stack direction="row" alignItems="center" gap=".5rem">
+        <Stack
+          direction="row"
+          sx={{
+            alignItems: "center",
+            gap: ".5rem"
+          }}>
           <Typography variant="h6">{total}</Typography>
           <IconButton onClick={(ev) => setAnchorEl(ev.currentTarget)}>
             <MoreVertIcon />

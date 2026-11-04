@@ -13,7 +13,9 @@ function Element(props: { label: string; value?: string }) {
   const { label, value } = props;
   return (
     <BsWrapper label={label}>
-      <Typography color="#757a79" variant="subtitle2">
+      <Typography variant="subtitle2" sx={{
+        color: "#757a79"
+      }}>
         {value || 'No Definido'}
       </Typography>
     </BsWrapper>
@@ -31,7 +33,12 @@ function Profile() {
     <>
       <PageContainer Icon={AccountCircleIcon} text="Mi Perfil">
         <CardContent>
-          <Stack direction="column" flexWrap="wrap" gap="25px">
+          <Stack
+            direction="column"
+            sx={{
+              flexWrap: "wrap",
+              gap: "25px"
+            }}>
             <Element label="Nombre" value={whoAmI?.name} />
             <Element label="usuario" value={whoAmI?.username} />
             <Element label="Correo electrónico" value={whoAmI?.email} />

@@ -160,7 +160,12 @@ function Filters(props: Props) {
 
   return (
     <>
-      <Stack direction="row" gap="10px" alignItems="center">
+      <Stack
+        direction="row"
+        sx={{
+          gap: "10px",
+          alignItems: "center"
+        }}>
         <Box
           onClick={handlePopOpen}
           area-aria-describedby={id}
@@ -246,12 +251,13 @@ function Filters(props: Props) {
                     </BsLocalizationProvider>
                   </Box>
                   <Stack
-                    justifyContent="right"
-                    width="100%"
                     direction="row"
-                    gap="10px"
-                    sx={{ gridArea: 'search' }}
-                  >
+                    sx={{
+                      justifyContent: "right",
+                      width: "100%",
+                      gap: "10px",
+                      gridArea: 'search'
+                    }}>
                     <Button
                       sx={{ maxWidth: '150px' }}
                       variant="outlined"

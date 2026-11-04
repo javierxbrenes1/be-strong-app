@@ -69,7 +69,7 @@ function Chart(props: {
 
   return (
     <Grid container spacing={1}>
-      <Grid item xs={12}>
+      <Grid size={12}>
         <Box
           sx={{
             display: 'flex',
@@ -103,7 +103,11 @@ function Chart(props: {
           />
         </Box>
       </Grid>
-      <Box py="20px" width="100%">
+      <Box
+        sx={{
+          py: "20px",
+          width: "100%"
+        }}>
         {component !== ChartComponent.table && (
           <Component
             data={{

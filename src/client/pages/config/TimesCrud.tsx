@@ -13,9 +13,10 @@ function TimesCrud() {
       <Paper elevation={3} sx={{ padding: '10px' }}>
         <Stack
           direction="row"
-          justifyContent="space-between"
-          alignItems="center"
-        >
+          sx={{
+            justifyContent: "space-between",
+            alignItems: "center"
+          }}>
           <Typography variant="h6">Horarios de clases</Typography>
           <IconButton onClick={() => setOpenModal(true)}>
             <AddCircleIcon />
@@ -27,10 +28,11 @@ function TimesCrud() {
         </Typography>
         <Stack
           direction="row"
-          gap="1rem"
-          flexWrap="wrap"
-          sx={{ margin: '10px 0' }}
-        >
+          sx={{
+            gap: "1rem",
+            flexWrap: "wrap",
+            margin: '10px 0'
+          }}>
           {gymClassUiLabels.map((f) => (
             <Paper key={f.value} sx={{ padding: '10px' }}>
               <Typography variant="body2">{f.label}</Typography>

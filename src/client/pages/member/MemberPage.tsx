@@ -125,10 +125,10 @@ function MemberPage() {
       }
     >
       <Grid container spacing={2}>
-        <Grid item xs={12}>
+        <Grid size={12}>
           <MemberInfo member={member} onUpdateMember={handleUpdateMember} />
         </Grid>
-        <Grid item xs={12} md={3}>
+        <Grid size={{ xs: 12, md: 3 }}>
           <MemberLastMeasure
             member={member}
             selectedMeasureType={selectedMeasureType}
@@ -137,7 +137,7 @@ function MemberPage() {
             }}
           />
         </Grid>
-        <Grid item xs={12} md={9}>
+        <Grid size={{ xs: 12, md: 9 }}>
           <MemberMeasures
             selectedMeasureType={selectedMeasureType}
             memberCode={member.code}
@@ -146,7 +146,7 @@ function MemberPage() {
           />
         </Grid>
       </Grid>
-      <Grid item xs={12}>
+      <Grid size={12}>
         <MemberGymClassHistory memberCode={member.code} />
       </Grid>
     </PageContainer>

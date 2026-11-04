@@ -28,7 +28,9 @@ function Event(props: {
   return (
     <EventContainer>
       <EventDescription>
-        <Typography fontSize="32px">{emoji}</Typography>
+        <Typography sx={{
+          fontSize: "32px"
+        }}>{emoji}</Typography>
         <Typography variant="h5">{title}</Typography>
       </EventDescription>
       <EventContent>{children}</EventContent>
