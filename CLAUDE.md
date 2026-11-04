@@ -11,6 +11,7 @@ npm run dev-server     # nodemon + ts-node on src/server (port 8080), NODE_ENV=d
 npm run dev-client     # Vite dev server; proxies /graphql to localhost:8080
 npm run lint           # eslint (config: wesbos/typescript); lint:fix to autofix
 npm run build          # tsc server -> build/, tsc + vite client -> dist/
+npm run codegen        # GraphQL types -> src/client/gql (server must be up on :8080)
 npm run prisma         # prisma generate + migrate deploy + db seed
 npm test               # vitest
 ```
