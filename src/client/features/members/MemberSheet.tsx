@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation, useQuery } from '@apollo/client';
@@ -107,6 +107,8 @@ function Section({ title }: { title: string }) {
 
 function MemberSheet({ open, member, onClose, onSaved }: Props) {
   const isEdit = Boolean(member);
+  // Si el alta se hizo pero el plan falló, el reintento no debe crear otro miembro.
+  const createdCode = useRef('');
   const { control, handleSubmit, reset, formState } = useForm<
     MemberFormInput,
     unknown,
@@ -129,7 +131,10 @@ function MemberSheet({ open, member, onClose, onSaved }: Props) {
   });
 
   useEffect(() => {
-    if (open) reset(toDefaults(member));
+    if (open) {
+      reset(toDefaults(member));
+      createdCode.current = '';
+    }
   }, [open, member, reset]);
 
   const timeOptions = [...(times.data?.allGymClassTimes ?? [])]
@@ -165,19 +170,22 @@ function MemberSheet({ open, member, onClose, onSaved }: Props) {
           },
         });
       } else {
-        const { data } = await addMember({
-          variables: {
-            member: {
-              name: v.name,
-              category: v.category || undefined,
-              genre: v.genre || undefined,
-              birthDate: v.birthDate || undefined,
-              height: v.height,
-              observations: v.observations || undefined,
+        if (!createdCode.current) {
+          const { data } = await addMember({
+            variables: {
+              member: {
+                name: v.name,
+                category: v.category || undefined,
+                genre: v.genre || undefined,
+                birthDate: v.birthDate || undefined,
+                height: v.height,
+                observations: v.observations || undefined,
+              },
             },
-          },
-        });
-        code = data?.addMember?.code ?? '';
+          });
+          createdCode.current = data?.addMember?.code ?? '';
+        }
+        code = createdCode.current;
         const hasPlan =
           v.phone ||
           v.email ||
@@ -229,12 +237,14 @@ function MemberSheet({ open, member, onClose, onSaved }: Props) {
               name="category"
               label="Categoría"
               options={CATEGORIES}
+              clearable
             />
             <FormSelect
               control={control}
               name="genre"
               label="Género"
               options={GENRES}
+              clearable
             />
           </Stack>
           <Stack direction="row" spacing={2}>
@@ -295,6 +305,7 @@ function MemberSheet({ open, member, onClose, onSaved }: Props) {
             name="preferredClassTime"
             label="Horario preferido"
             options={timeOptions}
+            clearable
           />
           {isEdit && (
             <Controller

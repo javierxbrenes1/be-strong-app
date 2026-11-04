@@ -4,7 +4,7 @@ import { zNumber } from '../../design-system/form';
 export const equipmentSchema = z.object({
   uuid: z.string().optional(),
   description: z.string().trim().min(1, 'Requerido'),
-  brand: z.string().trim().default(''),
+  brand: z.string().trim().max(25, 'Máximo 25 caracteres').default(''),
   total: zNumber({ min: 0, int: true }),
 });
 

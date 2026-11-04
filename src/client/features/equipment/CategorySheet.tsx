@@ -63,6 +63,7 @@ function CategorySheet({ open, category, onClose }: Props) {
       brand: e.brand,
       total: e.total ?? 0,
     }));
+    let failed: PromiseRejectedResult | undefined;
     try {
       if (!category) {
         await client.mutate({
@@ -91,7 +92,7 @@ function CategorySheet({ open, category, onClose }: Props) {
               },
             },
           });
-        await Promise.all([
+        const results = await Promise.allSettled([
           ...(v.name !== category.name
             ? [
                 client.mutate({
@@ -108,8 +109,20 @@ function CategorySheet({ open, category, onClose }: Props) {
             })
           ),
         ]);
+        failed = results.find(
+          (r): r is PromiseRejectedResult => r.status === 'rejected'
+        );
       }
       await client.refetchQueries({ include: [EquipmentCategoriesDocument] });
+      if (failed) {
+        // Parte de los cambios ya se aplicó: se cierra para reabrir con datos frescos.
+        BsShowError(
+          failed.reason,
+          'Algunos cambios no se guardaron. Revisa la categoría.'
+        );
+        onClose();
+        return;
+      }
       toast.success('Categoría guardada');
       onClose();
     } catch (err) {
