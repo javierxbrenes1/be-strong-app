@@ -6,6 +6,9 @@ import { useState } from 'react';
 import { useParams } from 'react-router';
 import { toast } from 'react-toastify';
 import dayjs from 'dayjs';
+import { Box } from '@mui/material';
+import { Breadcrumbs } from '../../design-system';
+import { PATHS } from '../../../common/enums';
 import Loading from '../../components/Loading';
 import PageContainer from '../../components/PageContainer';
 import Member from '../../../common/models/Member';
@@ -117,39 +120,47 @@ function MemberPage() {
   };
 
   return (
-    <PageContainer
-      text={member?.name || ''}
-      Icon={member?.avatar || createAvatarLink(member?.name || '')}
-      RightAction={
-        code ? <VisitLink code={code} name={member?.name} /> : undefined
-      }
-    >
-      <Grid container spacing={2}>
+    <Box sx={{ px: { xs: 2, md: 3 }, pt: 2 }}>
+      <Breadcrumbs
+        items={[
+          { label: 'Miembros', to: PATHS.MEMBERS },
+          { label: member?.name || '' },
+        ]}
+      />
+      <PageContainer
+        text={member?.name || ''}
+        Icon={member?.avatar || createAvatarLink(member?.name || '')}
+        RightAction={
+          code ? <VisitLink code={code} name={member?.name} /> : undefined
+        }
+      >
+        <Grid container spacing={2}>
+          <Grid size={12}>
+            <MemberInfo member={member} onUpdateMember={handleUpdateMember} />
+          </Grid>
+          <Grid size={{ xs: 12, md: 3 }}>
+            <MemberLastMeasure
+              member={member}
+              selectedMeasureType={selectedMeasureType}
+              onSelectMeasureType={(ev: Measures | null) => {
+                setSelectedMeasureType(ev);
+              }}
+            />
+          </Grid>
+          <Grid size={{ xs: 12, md: 9 }}>
+            <MemberMeasures
+              selectedMeasureType={selectedMeasureType}
+              memberCode={member.code}
+              newMeasureWasAdded={newMeasureWasAdded}
+              updateMeasureWasAddedFlag={() => setNewMeasureWasAdded(false)}
+            />
+          </Grid>
+        </Grid>
         <Grid size={12}>
-          <MemberInfo member={member} onUpdateMember={handleUpdateMember} />
+          <MemberGymClassHistory memberCode={member.code} />
         </Grid>
-        <Grid size={{ xs: 12, md: 3 }}>
-          <MemberLastMeasure
-            member={member}
-            selectedMeasureType={selectedMeasureType}
-            onSelectMeasureType={(ev: Measures | null) => {
-              setSelectedMeasureType(ev);
-            }}
-          />
-        </Grid>
-        <Grid size={{ xs: 12, md: 9 }}>
-          <MemberMeasures
-            selectedMeasureType={selectedMeasureType}
-            memberCode={member.code}
-            newMeasureWasAdded={newMeasureWasAdded}
-            updateMeasureWasAddedFlag={() => setNewMeasureWasAdded(false)}
-          />
-        </Grid>
-      </Grid>
-      <Grid size={12}>
-        <MemberGymClassHistory memberCode={member.code} />
-      </Grid>
-    </PageContainer>
+      </PageContainer>
+    </Box>
   );
 }
 
