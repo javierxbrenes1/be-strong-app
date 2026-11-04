@@ -1,5 +1,6 @@
 import { dayBoundsUtc } from '../../../../common/dates';
 import { prismaDateToLocalDate } from '../localScalars';
+import { measuresWithDiffsCte } from './measuresWithDiffsSql';
 import { BeStrongContext } from '../../context';
 
 type ArgsType = {
@@ -43,34 +44,9 @@ const getMeasures = async (
   const currentPage = Math.floor(offset / limit);
   nextPageStart = nextPageStart >= totalMeasures ? -1 : nextPageStart;
 
-  let rawSql = `
-SELECT "id", 
-"date", 
-"weight",
-ROUND(cast(weight - COALESCE(lag(weight, 1) over(partition by "memberCode" order by "date" asc), "weight") as numeric), 2) as "weightDiff",
-"corporalFat", 
-ROUND(cast("corporalFat" - COALESCE(lag("corporalFat", 1) over(partition by "memberCode" order by "date" asc), "corporalFat") as numeric), 2) as "corporalFatDiff",
-"muscle",
-ROUND(cast("muscle" - COALESCE(lag("muscle", 1) over(partition by "memberCode" order by "date" asc), "muscle") as numeric), 2) as "muscleDiff",
-"bodyMassIndex",
-ROUND(cast("bodyMassIndex" - COALESCE(lag("bodyMassIndex", 1) over(partition by "memberCode" order by "date" asc), "bodyMassIndex") as numeric), 2) as "bodyMassIndexDiff",
-"corporalWaterPct", 
-ROUND(cast("corporalWaterPct" - COALESCE(lag("corporalWaterPct", 1) over(partition by "memberCode" order by "date" asc), "corporalWaterPct") as numeric), 2) as "corporalWaterPctDiff",
-"calories",
-ROUND(cast("calories" - COALESCE(lag("calories", 1) over(partition by "memberCode" order by "date" asc), "calories") as numeric), 2) as "caloriesDiff",
-"muscleResult", 
-"bodyMassIndexResult", 
-"corporalFatResult", 
-"corporalWaterPctResult",
-"caloriesResult", 
-"memberCode" 
-FROM "app"."memberMeasures" 
-WHERE "memberCode" = $1
-`;
-  if (filters) {
-    rawSql += ` AND "date" >= $4 AND "date" < $5`;
-  }
-  rawSql += ` ORDER BY "date" ASC LIMIT $2 OFFSET $3`;
+  const rawSql = `${measuresWithDiffsCte}
+SELECT * FROM m${filters ? ' WHERE "date" >= $4 AND "date" < $5' : ''}
+ORDER BY "date" ASC LIMIT $2 OFFSET $3`;
 
   const measures = await prisma.$queryRawUnsafe(
     rawSql,
@@ -80,15 +56,6 @@ WHERE "memberCode" = $1
     bounds?.gte ?? null,
     bounds?.lt ?? null
   );
-
-  // const measures = await prisma.memberMeasures.findMany({
-  //   orderBy: {
-  //     date: 'asc',
-  //   },
-  //   skip: offset,
-  //   take: limit,
-  //   where,
-  // });
 
   const memberDetails = await prisma.member.findUnique({
     where: {
