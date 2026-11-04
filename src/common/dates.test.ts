@@ -44,7 +44,10 @@ describe('LocalDate', () => {
 
   it('gives UTC bounds of gym days, inclusive of a 10 PM measure', () => {
     const bounds = dayBoundsUtc('2026-11-03', '2026-11-03');
-    expect(bounds).toEqual({ gte: new Date('2026-11-03T06:00:00Z'), lt: new Date('2026-11-04T06:00:00Z') });
+    expect(bounds).toEqual({
+      gte: new Date('2026-11-03T06:00:00Z'),
+      lt: new Date('2026-11-04T06:00:00Z'),
+    });
     const tenPm = new Date('2026-11-04T04:00:00Z');
     expect(tenPm >= bounds.gte && tenPm < bounds.lt).toBe(true);
   });
@@ -63,7 +66,11 @@ describe('LocalTime', () => {
   });
 
   it('sorts chronologically', () => {
-    expect(['19:00', '05:15', '17:30'].sort(compareLocalTime)).toEqual(['05:15', '17:30', '19:00']);
+    expect(['19:00', '05:15', '17:30'].sort(compareLocalTime)).toEqual([
+      '05:15',
+      '17:30',
+      '19:00',
+    ]);
   });
 
   it('converts legacy UTC isoTime to gym local time, wrapping at 24h', () => {
@@ -75,6 +82,8 @@ describe('LocalTime', () => {
 
 describe('instants', () => {
   it('formats in the gym timezone', () => {
-    expect(formatInstant(new Date('2026-11-04T04:00:00Z'))).toBe('03/11/2026 10:00 PM');
+    expect(formatInstant(new Date('2026-11-04T04:00:00Z'))).toBe(
+      '03/11/2026 10:00 PM'
+    );
   });
 });

@@ -14,7 +14,6 @@ type AddMemberArgs = {
   avatar?: string;
   name: string;
   birthDate?: Date;
-  birthDateAsString?: string;
   height?: number;
   genre?: string;
   observations?: string;

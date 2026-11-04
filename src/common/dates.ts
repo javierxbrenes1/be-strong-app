@@ -22,7 +22,11 @@ const LOCAL_TIME_RE = /^([01]\d|2[0-3]):[0-5]\d$/;
 const parseLocalDate = (d: LocalDate) => dayjs.utc(d, DATE_FORMAT, true);
 
 export function isLocalDate(v: unknown): v is LocalDate {
-  return typeof v === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(v) && parseLocalDate(v).isValid();
+  return (
+    typeof v === 'string' &&
+    /^\d{4}-\d{2}-\d{2}$/.test(v) &&
+    parseLocalDate(v).isValid()
+  );
 }
 
 export function isLocalTime(v: unknown): v is LocalTime {
@@ -56,14 +60,20 @@ export function compareLocalTime(a: LocalTime, b: LocalTime): number {
   return a.localeCompare(b); // 'HH:mm' zero-padded sorts lexicographically
 }
 
-export function dayBoundsUtc(from: LocalDate, to: LocalDate): { gte: Date; lt: Date } {
+export function dayBoundsUtc(
+  from: LocalDate,
+  to: LocalDate
+): { gte: Date; lt: Date } {
   return {
     gte: dayjs.tz(`${from} 00:00`, GYM_TIMEZONE).toDate(),
     lt: dayjs.tz(`${addDays(to, 1)} 00:00`, GYM_TIMEZONE).toDate(),
   };
 }
 
-export function formatInstant(d: Date | number, fmt = 'DD/MM/YYYY h:mm A'): string {
+export function formatInstant(
+  d: Date | number,
+  fmt = 'DD/MM/YYYY h:mm A'
+): string {
   return dayjs(d).tz(GYM_TIMEZONE).format(fmt);
 }
 
@@ -72,5 +82,7 @@ export function formatInstant(d: Date | number, fmt = 'DD/MM/YYYY h:mm A'): stri
 export function isoTimeToLocalTime(iso: string): LocalTime {
   const [h, m] = iso.slice(1, 6).split(':').map(Number);
   const minutes = (((h * 60 + m - 6 * 60) % 1440) + 1440) % 1440;
-  return `${String(Math.floor(minutes / 60)).padStart(2, '0')}:${String(minutes % 60).padStart(2, '0')}`;
+  return `${String(Math.floor(minutes / 60)).padStart(2, '0')}:${String(
+    minutes % 60
+  ).padStart(2, '0')}`;
 }

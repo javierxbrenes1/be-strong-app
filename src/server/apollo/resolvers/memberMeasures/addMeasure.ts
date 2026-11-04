@@ -1,5 +1,6 @@
 import { Genre } from '../../../../common/enums';
-import { calculateAge } from '../../../../common/utils';
+import { ageOn, todayLocalDate } from '../../../../common/dates';
+import { prismaDateToLocalDate } from '../localScalars';
 import measuresCalculator from '../../../logic/measuresCalculator';
 import { BeStrongContext } from '../../context';
 
@@ -29,7 +30,9 @@ export default async (
   if (!member) {
     throw new Error('Member was not found');
   }
-  const age = member?.birthDate ? calculateAge(member.birthDate) : 18;
+  const age = member?.birthDate
+    ? ageOn(prismaDateToLocalDate(member.birthDate), todayLocalDate())
+    : 18;
   const genre = member.genre as Genre;
 
   const data = {

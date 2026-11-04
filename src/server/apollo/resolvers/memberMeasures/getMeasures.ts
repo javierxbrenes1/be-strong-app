@@ -1,4 +1,5 @@
-import { getDateAndTimeWithLimit } from '../../../utils/dateshelper';
+import { dayBoundsUtc } from '../../../../common/dates';
+import { prismaDateToLocalDate } from '../localScalars';
 import { BeStrongContext } from '../../context';
 
 type ArgsType = {
@@ -22,16 +23,17 @@ const getMeasures = async (
   const { memberCode, offset, limit, filters } = args.input;
   const code = parent?.code || memberCode || '';
 
-  const where: { memberCode: string; date?: { gte: Date; lte: Date } } = {
+  // filters.from/to arrive as LocalDate (Date 00:00Z); bounds are gym-timezone days.
+  const bounds = filters
+    ? dayBoundsUtc(
+        prismaDateToLocalDate(filters.from),
+        prismaDateToLocalDate(filters.to)
+      )
+    : undefined;
+  const where: { memberCode: string; date?: { gte: Date; lt: Date } } = {
     memberCode: code,
+    ...(bounds ? { date: bounds } : {}),
   };
-
-  if (filters) {
-    where.date = {
-      gte: getDateAndTimeWithLimit(filters.from, 'min'),
-      lte: getDateAndTimeWithLimit(filters.to, 'max'),
-    };
-  }
 
   const totalMeasures = await prisma.memberMeasures.count({
     where,
@@ -66,7 +68,7 @@ FROM "app"."memberMeasures"
 WHERE "memberCode" = $1
 `;
   if (filters) {
-    rawSql += ` AND "date" >= $4 AND "date" <= $5`;
+    rawSql += ` AND "date" >= $4 AND "date" < $5`;
   }
   rawSql += ` ORDER BY "date" ASC LIMIT $2 OFFSET $3`;
 
@@ -75,8 +77,8 @@ WHERE "memberCode" = $1
     code,
     limit,
     offset,
-    filters ? getDateAndTimeWithLimit(filters.from, 'min') : null,
-    filters ? getDateAndTimeWithLimit(filters.to, 'max') : null
+    bounds?.gte ?? null,
+    bounds?.lt ?? null
   );
 
   // const measures = await prisma.memberMeasures.findMany({
