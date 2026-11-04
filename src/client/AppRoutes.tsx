@@ -26,7 +26,7 @@ const Classes = lazy(() => import('./pages/classes'));
 const Members = lazy(() => import('./pages/members'));
 const Member = lazy(() => import('./pages/member'));
 const Visit = lazy(() => import('./pages/visit'));
-const Config = lazy(() => import('./pages/config'));
+const Config = lazy(() => import('./features/config/ConfigPage'));
 const Profile = lazy(() => import('./features/auth/ProfilePage'));
 const Equipment = lazy(() => import('./pages/equipment'));
 const DesignPage = lazy(() => import('./app/DesignPage'));

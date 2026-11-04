@@ -17,11 +17,15 @@ type Documents = {
     "\n  mutation login($input: OwnerSignInInput) {\n    ownerSignIn(input: $input) {\n      jwt\n    }\n  }\n": typeof types.LoginDocument,
     "\n  mutation updatePwd($pwd: String!) {\n    updatePwd(pwd: $pwd)\n  }\n": typeof types.UpdatePwdDocument,
     "\n  query whoAmIProfile {\n    whoAmI {\n      username\n      name\n      email\n      role\n      lastPasswordChangeDate\n    }\n  }\n": typeof types.WhoAmIProfileDocument,
+    "\n  query gymClassTimes {\n    allGymClassTimes {\n      id\n      localTime\n    }\n  }\n": typeof types.GymClassTimesDocument,
+    "\n  mutation addGymClassTimeConfig($localTime: LocalTime!) {\n    addGymClassTime(localTime: $localTime) {\n      id\n      localTime\n    }\n  }\n": typeof types.AddGymClassTimeConfigDocument,
 };
 const documents: Documents = {
     "\n  mutation login($input: OwnerSignInInput) {\n    ownerSignIn(input: $input) {\n      jwt\n    }\n  }\n": types.LoginDocument,
     "\n  mutation updatePwd($pwd: String!) {\n    updatePwd(pwd: $pwd)\n  }\n": types.UpdatePwdDocument,
     "\n  query whoAmIProfile {\n    whoAmI {\n      username\n      name\n      email\n      role\n      lastPasswordChangeDate\n    }\n  }\n": types.WhoAmIProfileDocument,
+    "\n  query gymClassTimes {\n    allGymClassTimes {\n      id\n      localTime\n    }\n  }\n": types.GymClassTimesDocument,
+    "\n  mutation addGymClassTimeConfig($localTime: LocalTime!) {\n    addGymClassTime(localTime: $localTime) {\n      id\n      localTime\n    }\n  }\n": types.AddGymClassTimeConfigDocument,
 };
 
 /**
@@ -50,6 +54,14 @@ export function graphql(source: "\n  mutation updatePwd($pwd: String!) {\n    up
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(source: "\n  query whoAmIProfile {\n    whoAmI {\n      username\n      name\n      email\n      role\n      lastPasswordChangeDate\n    }\n  }\n"): (typeof documents)["\n  query whoAmIProfile {\n    whoAmI {\n      username\n      name\n      email\n      role\n      lastPasswordChangeDate\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  query gymClassTimes {\n    allGymClassTimes {\n      id\n      localTime\n    }\n  }\n"): (typeof documents)["\n  query gymClassTimes {\n    allGymClassTimes {\n      id\n      localTime\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  mutation addGymClassTimeConfig($localTime: LocalTime!) {\n    addGymClassTime(localTime: $localTime) {\n      id\n      localTime\n    }\n  }\n"): (typeof documents)["\n  mutation addGymClassTimeConfig($localTime: LocalTime!) {\n    addGymClassTime(localTime: $localTime) {\n      id\n      localTime\n    }\n  }\n"];
 
 export function graphql(source: string) {
   return (documents as any)[source] ?? {};
