@@ -17,6 +17,11 @@ type Documents = {
     "\n  mutation login($input: OwnerSignInInput) {\n    ownerSignIn(input: $input) {\n      jwt\n    }\n  }\n": typeof types.LoginDocument,
     "\n  mutation updatePwd($pwd: String!) {\n    updatePwd(pwd: $pwd)\n  }\n": typeof types.UpdatePwdDocument,
     "\n  query whoAmIProfile {\n    whoAmI {\n      username\n      name\n      email\n      role\n      lastPasswordChangeDate\n    }\n  }\n": typeof types.WhoAmIProfileDocument,
+    "\n  query gymClassesByDay($gte: LocalDate!, $lt: LocalDate) {\n    getGymClasses(gte: $gte, lt: $lt) {\n      id\n      classDate\n      classType\n      classDurationInMinutes\n      classDescription\n      gymClassOnTimes {\n        gymClassTime {\n          id\n          localTime\n        }\n      }\n      attendanceList {\n        gymClassTimeId\n        members {\n          code\n          name\n        }\n      }\n    }\n  }\n": typeof types.GymClassesByDayDocument,
+    "\n  mutation addAttendances($input: MembersAttendancesInput!) {\n    addMembersAttendances(input: $input) {\n      id\n    }\n  }\n": typeof types.AddAttendancesDocument,
+    "\n  mutation removeAttendances($input: MembersAttendancesInput!) {\n    removeMembersAttendances(input: $input) {\n      id\n    }\n  }\n": typeof types.RemoveAttendancesDocument,
+    "\n  mutation addGymClassSheet($input: AddClassInput) {\n    addGymClass(input: $input) {\n      id\n    }\n  }\n": typeof types.AddGymClassSheetDocument,
+    "\n  mutation addTimesDialog($classId: Int, $timeIds: [Int]) {\n    addTimes(classId: $classId, timeIds: $timeIds) {\n      id\n    }\n  }\n": typeof types.AddTimesDialogDocument,
     "\n  query gymClassTimes {\n    allGymClassTimes {\n      id\n      localTime\n    }\n  }\n": typeof types.GymClassTimesDocument,
     "\n  mutation addGymClassTimeConfig($localTime: LocalTime!) {\n    addGymClassTime(localTime: $localTime) {\n      id\n      localTime\n    }\n  }\n": typeof types.AddGymClassTimeConfigDocument,
     "\n  query activeMembers($offset: Int, $limit: Int) {\n    getAllMembers(offset: $offset, limit: $limit) {\n      members {\n        code\n        name\n        category\n        isActive\n        lastAttendanceDate\n        currentWeight\n      }\n      pagination {\n        total\n        nextPageStart\n      }\n    }\n  }\n": typeof types.ActiveMembersDocument,
@@ -29,6 +34,11 @@ const documents: Documents = {
     "\n  mutation login($input: OwnerSignInInput) {\n    ownerSignIn(input: $input) {\n      jwt\n    }\n  }\n": types.LoginDocument,
     "\n  mutation updatePwd($pwd: String!) {\n    updatePwd(pwd: $pwd)\n  }\n": types.UpdatePwdDocument,
     "\n  query whoAmIProfile {\n    whoAmI {\n      username\n      name\n      email\n      role\n      lastPasswordChangeDate\n    }\n  }\n": types.WhoAmIProfileDocument,
+    "\n  query gymClassesByDay($gte: LocalDate!, $lt: LocalDate) {\n    getGymClasses(gte: $gte, lt: $lt) {\n      id\n      classDate\n      classType\n      classDurationInMinutes\n      classDescription\n      gymClassOnTimes {\n        gymClassTime {\n          id\n          localTime\n        }\n      }\n      attendanceList {\n        gymClassTimeId\n        members {\n          code\n          name\n        }\n      }\n    }\n  }\n": types.GymClassesByDayDocument,
+    "\n  mutation addAttendances($input: MembersAttendancesInput!) {\n    addMembersAttendances(input: $input) {\n      id\n    }\n  }\n": types.AddAttendancesDocument,
+    "\n  mutation removeAttendances($input: MembersAttendancesInput!) {\n    removeMembersAttendances(input: $input) {\n      id\n    }\n  }\n": types.RemoveAttendancesDocument,
+    "\n  mutation addGymClassSheet($input: AddClassInput) {\n    addGymClass(input: $input) {\n      id\n    }\n  }\n": types.AddGymClassSheetDocument,
+    "\n  mutation addTimesDialog($classId: Int, $timeIds: [Int]) {\n    addTimes(classId: $classId, timeIds: $timeIds) {\n      id\n    }\n  }\n": types.AddTimesDialogDocument,
     "\n  query gymClassTimes {\n    allGymClassTimes {\n      id\n      localTime\n    }\n  }\n": types.GymClassTimesDocument,
     "\n  mutation addGymClassTimeConfig($localTime: LocalTime!) {\n    addGymClassTime(localTime: $localTime) {\n      id\n      localTime\n    }\n  }\n": types.AddGymClassTimeConfigDocument,
     "\n  query activeMembers($offset: Int, $limit: Int) {\n    getAllMembers(offset: $offset, limit: $limit) {\n      members {\n        code\n        name\n        category\n        isActive\n        lastAttendanceDate\n        currentWeight\n      }\n      pagination {\n        total\n        nextPageStart\n      }\n    }\n  }\n": types.ActiveMembersDocument,
@@ -64,6 +74,26 @@ export function graphql(source: "\n  mutation updatePwd($pwd: String!) {\n    up
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(source: "\n  query whoAmIProfile {\n    whoAmI {\n      username\n      name\n      email\n      role\n      lastPasswordChangeDate\n    }\n  }\n"): (typeof documents)["\n  query whoAmIProfile {\n    whoAmI {\n      username\n      name\n      email\n      role\n      lastPasswordChangeDate\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  query gymClassesByDay($gte: LocalDate!, $lt: LocalDate) {\n    getGymClasses(gte: $gte, lt: $lt) {\n      id\n      classDate\n      classType\n      classDurationInMinutes\n      classDescription\n      gymClassOnTimes {\n        gymClassTime {\n          id\n          localTime\n        }\n      }\n      attendanceList {\n        gymClassTimeId\n        members {\n          code\n          name\n        }\n      }\n    }\n  }\n"): (typeof documents)["\n  query gymClassesByDay($gte: LocalDate!, $lt: LocalDate) {\n    getGymClasses(gte: $gte, lt: $lt) {\n      id\n      classDate\n      classType\n      classDurationInMinutes\n      classDescription\n      gymClassOnTimes {\n        gymClassTime {\n          id\n          localTime\n        }\n      }\n      attendanceList {\n        gymClassTimeId\n        members {\n          code\n          name\n        }\n      }\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  mutation addAttendances($input: MembersAttendancesInput!) {\n    addMembersAttendances(input: $input) {\n      id\n    }\n  }\n"): (typeof documents)["\n  mutation addAttendances($input: MembersAttendancesInput!) {\n    addMembersAttendances(input: $input) {\n      id\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  mutation removeAttendances($input: MembersAttendancesInput!) {\n    removeMembersAttendances(input: $input) {\n      id\n    }\n  }\n"): (typeof documents)["\n  mutation removeAttendances($input: MembersAttendancesInput!) {\n    removeMembersAttendances(input: $input) {\n      id\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  mutation addGymClassSheet($input: AddClassInput) {\n    addGymClass(input: $input) {\n      id\n    }\n  }\n"): (typeof documents)["\n  mutation addGymClassSheet($input: AddClassInput) {\n    addGymClass(input: $input) {\n      id\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  mutation addTimesDialog($classId: Int, $timeIds: [Int]) {\n    addTimes(classId: $classId, timeIds: $timeIds) {\n      id\n    }\n  }\n"): (typeof documents)["\n  mutation addTimesDialog($classId: Int, $timeIds: [Int]) {\n    addTimes(classId: $classId, timeIds: $timeIds) {\n      id\n    }\n  }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
