@@ -27,7 +27,7 @@ const Members = lazy(() => import('./features/members/MembersPage'));
 const MemberDetail = lazy(
   () => import('./features/member-detail/MemberDetailPage')
 );
-const Visit = lazy(() => import('./pages/visit'));
+const Visit = lazy(() => import('./features/visit/VisitPage'));
 const Config = lazy(() => import('./features/config/ConfigPage'));
 const Profile = lazy(() => import('./features/auth/ProfilePage'));
 const Equipment = lazy(() => import('./pages/equipment'));
