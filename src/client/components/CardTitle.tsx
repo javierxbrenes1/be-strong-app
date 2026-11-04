@@ -41,7 +41,12 @@ function CardTitle(props: {
       <InfoTitle sx={sx}>
         <>
           {title && (
-            <Stack direction="row" alignItems="center" gap="5px">
+            <Stack
+              direction="row"
+              sx={{
+                alignItems: "center",
+                gap: "5px"
+              }}>
               {Icon && <Icon />}
               <Typography variant={titleVariant}>{title}</Typography>
             </Stack>

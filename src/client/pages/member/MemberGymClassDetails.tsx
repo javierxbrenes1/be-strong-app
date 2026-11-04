@@ -77,10 +77,16 @@ function MemberGymClassDetails(props: {
       <DialogTitle>
         <Stack
           direction="row"
-          justifyContent="space-between"
-          alignItems="center"
-        >
-          <Stack direction="row" alignItems="center" gap="1rem">
+          sx={{
+            justifyContent: "space-between",
+            alignItems: "center"
+          }}>
+          <Stack
+            direction="row"
+            sx={{
+              alignItems: "center",
+              gap: "1rem"
+            }}>
             <SportsGymnasticsIcon />
             <Typography variant="h5" color="primary">
               Asistencias Durante {FULL_MONTHS[month - 1]}

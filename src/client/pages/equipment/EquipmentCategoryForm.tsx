@@ -3,7 +3,7 @@ import Box from '@mui/material/Box';
 import FormControl from '@mui/material/FormControl';
 import TextField from '@mui/material/TextField';
 import { IconButton, Paper, Typography } from '@mui/material';
-import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
+import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutlineOutlined';
 import { EquipmentCategoryInput } from '../../../common/models/EquipmentCategory';
 import { EquipmentInput } from '../../../common/models/Equipment';
 import EquipmentForm from './EquipmentForm';

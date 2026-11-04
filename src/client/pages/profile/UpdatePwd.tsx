@@ -128,12 +128,16 @@ function UpdatePwd(props: Props) {
         <DialogContentText>
           Nota: Al actualizar la contraseña la sesión se cerrará.
         </DialogContentText>
-        <Stack gap="25px" marginY="10px">
+        <Stack
+          sx={{
+            gap: "25px",
+            marginY: "10px"
+          }}>
           <TextField
             id="password"
             type={showPwd ? 'text' : 'password'}
             onChange={onTextChange('pwd')}
-            InputProps={{
+            slotProps={{ input: {
               endAdornment: (
                 <InputAdornment position="end">
                   <IconButton
@@ -145,7 +149,7 @@ function UpdatePwd(props: Props) {
                   </IconButton>
                 </InputAdornment>
               ),
-            }}
+            }}}
             label="Contraseña"
             variant="outlined"
           />
@@ -155,7 +159,7 @@ function UpdatePwd(props: Props) {
             label="Confirmar Contraseña"
             variant="outlined"
             onChange={onTextChange('confirmPwd')}
-            InputProps={{
+            slotProps={{ input: {
               endAdornment: (
                 <InputAdornment position="end">
                   <IconButton
@@ -167,31 +171,56 @@ function UpdatePwd(props: Props) {
                   </IconButton>
                 </InputAdornment>
               ),
-            }}
+            }}}
           />
           <Stack>
             <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
               Reglas
             </Typography>
-            <Stack direction="row" alignItems="center" gap="5px">
+            <Stack
+              direction="row"
+              sx={{
+                alignItems: "center",
+                gap: "5px"
+              }}>
               {getIcon(rules, 'minLength')}
               <Typography>Al Menos 10 carácteres.</Typography>
             </Stack>
-            <Stack direction="row" alignItems="center" gap="5px">
+            <Stack
+              direction="row"
+              sx={{
+                alignItems: "center",
+                gap: "5px"
+              }}>
               {getIcon(rules, 'hasNumber')}
               <Typography>Tiene al menos un número.</Typography>
             </Stack>
-            <Stack direction="row" alignItems="center" gap="5px">
+            <Stack
+              direction="row"
+              sx={{
+                alignItems: "center",
+                gap: "5px"
+              }}>
               {getIcon(rules, 'hasUpperCase')}
               <Typography>Tiene al menos una mayúscula.</Typography>
             </Stack>
-            <Stack direction="row" alignItems="center" gap="5px">
+            <Stack
+              direction="row"
+              sx={{
+                alignItems: "center",
+                gap: "5px"
+              }}>
               {getIcon(rules, 'hasSpecialCharacter')}
               <Typography>
                 Tiene al menos un carácter especial (.!@#$%^&*).
               </Typography>
             </Stack>
-            <Stack direction="row" alignItems="center" gap="5px">
+            <Stack
+              direction="row"
+              sx={{
+                alignItems: "center",
+                gap: "5px"
+              }}>
               {getIcon(rules, 'confirmEqual')}
               <Typography>Contraseña confirmada.</Typography>
             </Stack>

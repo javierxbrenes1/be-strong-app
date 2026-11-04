@@ -24,7 +24,7 @@ function BsImageShower(props: {
   const isDesktopView = useMediaQuery(theme.breakpoints.up('md'));
 
   const handleClose: DialogProps['onClose'] = (event, reason) => {
-    if (reason && reason === 'backdropClick') return;
+    if (reason === 'backdropClick' || reason === 'escapeKeyDown') return;
     onClose();
   };
 
@@ -32,12 +32,14 @@ function BsImageShower(props: {
     <Dialog
       open
       onClose={handleClose}
-      disableEscapeKeyDown
+     
       fullScreen={!isDesktopView}
       maxWidth="lg"
     >
       <DialogTitle>
-        <Stack direction="row" justifyContent="end">
+        <Stack direction="row" sx={{
+          justifyContent: "end"
+        }}>
           <IconButton onClick={onClose}>
             <CloseIcon />
           </IconButton>
@@ -45,15 +47,21 @@ function BsImageShower(props: {
       </DialogTitle>
       <DialogContent>
         <Stack
-          width="100%"
-          height="100%"
-          justifyContent="center"
-          alignSelf="center"
-        >
+          sx={{
+            width: "100%",
+            height: "100%",
+            justifyContent: "center",
+            alignSelf: "center"
+          }}>
           <TransformWrapper initialScale={1}>
             {(details) => (
               <>
-                <Stack direction="row" justifyContent="flex-start" gap=".5rem">
+                <Stack
+                  direction="row"
+                  sx={{
+                    justifyContent: "flex-start",
+                    gap: ".5rem"
+                  }}>
                   <IconButton onClick={() => details.zoomIn()}>
                     <ZoomInIcon />
                   </IconButton>

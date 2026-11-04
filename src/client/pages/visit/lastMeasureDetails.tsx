@@ -9,7 +9,12 @@ function LastMeasureDetails(props: { measure: Measure }) {
   const { measure } = props;
 
   return (
-    <Stack direction="row" flexWrap="wrap" sx={{ margin: '10px 0' }}>
+    <Stack
+      direction="row"
+      sx={{
+        flexWrap: "wrap",
+        margin: '10px 0'
+      }}>
       <BsMeasure
         title={MEASURES_TITLES.weight}
         value={measure.weight}

@@ -71,7 +71,9 @@ function MemberInfoInput(props: {
 
     return (
       <BsWrapper label={label}>
-        <Typography color="#757a79" variant="subtitle2">
+        <Typography variant="subtitle2" sx={{
+          color: "#757a79"
+        }}>
           {content || 'No Definido'}
         </Typography>
       </BsWrapper>

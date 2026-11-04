@@ -73,9 +73,12 @@ function Indicator(props: {
       </Typography>
       <Typography
         variant="subtitle1"
-        sx={{ fontSize: '32px', color: '#757a79', lineHeight: '1' }}
-        textAlign="center"
-      >
+        sx={{
+          textAlign: "center",
+          fontSize: '32px',
+          color: '#757a79',
+          lineHeight: '1'
+        }}>
         {loading ? <Skeleton /> : value}
       </Typography>
       {goToPath && (

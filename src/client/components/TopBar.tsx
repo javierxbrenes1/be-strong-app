@@ -13,6 +13,9 @@ import useWhoAmI from '../hooks/useWhoAmI';
 import { PATHS } from '../../common/enums';
 
 const Container = styled(Grid)({
+  flexDirection: "row",
+  justifyContent: "space-between",
+  alignItems: "center",
   height: '40px',
   background: '#fff',
   width: '100%',
@@ -55,13 +58,11 @@ function TopBar(props: { onBurgerMenuClick: () => void }) {
 
   return (
     <>
-      <Container
-        flexDirection="row"
-        justifyContent="space-between"
-        alignItems="center"
-      >
+      <Container>
         <BurgerMenu onClick={onBurgerMenuClick} />
-        <Typography component="span" color="#4D4D4D">
+        <Typography component="span" sx={{
+          color: "#4D4D4D"
+        }}>
           Be Strong App
         </Typography>
         {whoAmI && (
@@ -82,7 +83,7 @@ function TopBar(props: { onBurgerMenuClick: () => void }) {
         onClick={handleClose}
         transformOrigin={{ horizontal: 'right', vertical: 'top' }}
         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
-        PaperProps={{
+        slotProps={{ paper: {
           elevation: 0,
           sx: {
             borderRadius: '5px !important',
@@ -108,7 +109,7 @@ function TopBar(props: { onBurgerMenuClick: () => void }) {
               zIndex: 0,
             },
           },
-        }}
+        }}}
       >
         <MenuItem onClick={handleGoToProfile}>
           <ListItemIcon>

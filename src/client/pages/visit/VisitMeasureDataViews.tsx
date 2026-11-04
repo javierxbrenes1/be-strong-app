@@ -26,7 +26,7 @@ function VisitMeasureDataViews(props: {
   if (!showIndividually) {
     return (
       <Grid container sx={{ margin: '10px 0' }}>
-        <Grid item xs={12}>
+        <Grid size={12}>
           <VisitMeasureDataViewGroup
             title="Medidas"
             tableData={tableContent}
@@ -39,7 +39,7 @@ function VisitMeasureDataViews(props: {
 
   return (
     <Grid container sx={{ margin: '10px 0' }}>
-      <Grid item xs={12} md={6}>
+      <Grid size={{ xs: 12, md: 6 }}>
         <VisitMeasureDataView
           title={MEASURES_TITLES.weight}
           measure={Measures.weight}
@@ -47,7 +47,7 @@ function VisitMeasureDataViews(props: {
           charts={chartContent}
         />
       </Grid>
-      <Grid item xs={12} md={6}>
+      <Grid size={{ xs: 12, md: 6 }}>
         <VisitMeasureDataView
           title={MEASURES_TITLES.bodyMassIndex}
           measure={Measures.bodyMassIndex}
@@ -55,7 +55,7 @@ function VisitMeasureDataViews(props: {
           charts={chartContent}
         />
       </Grid>
-      <Grid item xs={12} md={6}>
+      <Grid size={{ xs: 12, md: 6 }}>
         <VisitMeasureDataView
           title={MEASURES_TITLES.corporalFat}
           measure={Measures.corporalFat}
@@ -63,7 +63,7 @@ function VisitMeasureDataViews(props: {
           charts={chartContent}
         />
       </Grid>
-      <Grid item xs={12} md={6}>
+      <Grid size={{ xs: 12, md: 6 }}>
         <VisitMeasureDataView
           title={MEASURES_TITLES.calories}
           measure={Measures.calories}
@@ -71,7 +71,7 @@ function VisitMeasureDataViews(props: {
           charts={chartContent}
         />
       </Grid>
-      <Grid item xs={12} md={6}>
+      <Grid size={{ xs: 12, md: 6 }}>
         <VisitMeasureDataView
           title={MEASURES_TITLES.corporalWaterPct}
           measure={Measures.corporalWaterPct}
@@ -79,7 +79,7 @@ function VisitMeasureDataViews(props: {
           charts={chartContent}
         />
       </Grid>
-      <Grid item xs={12} md={6}>
+      <Grid size={{ xs: 12, md: 6 }}>
         <VisitMeasureDataView
           title={MEASURES_TITLES.muscle}
           measure={Measures.muscle}

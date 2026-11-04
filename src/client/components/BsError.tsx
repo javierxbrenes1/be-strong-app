@@ -13,7 +13,11 @@ const ErrorImage = styled(Box)({
 function BsError(props: { text: string }) {
   const { text } = props;
   return (
-    <Stack alignItems="center" sx={{ margin: '0 auto' }}>
+    <Stack
+      sx={{
+        alignItems: "center",
+        margin: '0 auto'
+      }}>
       <Box sx={{ height: '260px' }}>
         <ReactSVG src="/images/ops.svg" />
       </Box>

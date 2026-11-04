@@ -9,7 +9,12 @@ function MemberList(props: {
 }) {
   const { members, selectedMap, onClick } = props;
   return (
-    <Stack gap="10px" marginY="10px" justifyContent="start">
+    <Stack
+      sx={{
+        gap: "10px",
+        marginY: "10px",
+        justifyContent: "start"
+      }}>
       {members?.map((m) => (
         <MemberItem
           member={m}

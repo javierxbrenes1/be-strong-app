@@ -101,10 +101,16 @@ function MemberGymClassHistory(props: {
           />
           <Stack
             direction="row"
-            justifyContent="space-between"
-            marginBottom="10px"
-          >
-            <Stack direction="row" gap="4px" alignItems="center">
+            sx={{
+              justifyContent: "space-between",
+              marginBottom: "10px"
+            }}>
+            <Stack
+              direction="row"
+              sx={{
+                gap: "4px",
+                alignItems: "center"
+              }}>
               <Typography variant="h4">{date.year()}</Typography>
               <BsYearPopover date={date} onYearSelection={setDate} />
             </Stack>
@@ -112,7 +118,13 @@ function MemberGymClassHistory(props: {
               <Typography variant="h4">Total: {getTotal()}</Typography>
             </Box>
           </Stack>
-          <Stack direction="row" gap="20px" flexWrap="wrap" alignItems="center">
+          <Stack
+            direction="row"
+            sx={{
+              gap: "20px",
+              flexWrap: "wrap",
+              alignItems: "center"
+            }}>
             {FULL_MONTHS.map((month, index) => {
               const monthIndex = index + 1;
               const count = getCount(monthIndex);

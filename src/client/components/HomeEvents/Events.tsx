@@ -15,7 +15,9 @@ function Events(props: {
   const { birthDateMembers, todayClasses, loading } = props;
 
   return (
-    <Box flex="1">
+    <Box sx={{
+      flex: "1"
+    }}>
       <Typography variant="h4" sx={{ color: '#393e46' }}>
         Eventos para Hoy
       </Typography>

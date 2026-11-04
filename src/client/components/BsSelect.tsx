@@ -1,5 +1,5 @@
 import Select from '@mui/material/Select';
-import styled from '@mui/material/styles/styled';
+import { styled } from '@mui/material/styles';
 
 const BsSelect = styled(Select)(({ theme }) => ({
   '&:hover': {

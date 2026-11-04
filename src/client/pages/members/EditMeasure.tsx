@@ -66,7 +66,7 @@ function EditMeasures(props: {
     _ev: unknown,
     reason: 'backdropClick' | 'escapeKeyDown'
   ) => {
-    if (reason === 'backdropClick') return;
+    if (reason === 'backdropClick' || reason === 'escapeKeyDown') return;
     onClose();
   };
 
@@ -83,7 +83,7 @@ function EditMeasures(props: {
   };
 
   return (
-    <Dialog open onClose={handleClose} disableEscapeKeyDown>
+    <Dialog open onClose={handleClose}>
       <DialogTitle>
         Medidas tomadas el {dayjs(measure.date).format('DD/MM/YYYY')}
       </DialogTitle>

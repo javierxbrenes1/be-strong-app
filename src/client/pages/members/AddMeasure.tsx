@@ -111,7 +111,7 @@ function AddMeasures(props: {
     _ev: unknown,
     reason: 'backdropClick' | 'escapeKeyDown'
   ) => {
-    if (reason === 'backdropClick') return;
+    if (reason === 'backdropClick' || reason === 'escapeKeyDown') return;
     onClose();
   };
 
@@ -128,7 +128,7 @@ function AddMeasures(props: {
   };
 
   return (
-    <Dialog open={open} onClose={handleClose} disableEscapeKeyDown>
+    <Dialog open={open} onClose={handleClose}>
       <DialogTitle>Nuevas Medidas Corporales</DialogTitle>
       <DialogContent>
         <DialogContentText>

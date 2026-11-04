@@ -25,7 +25,7 @@ function Chart(props: {
 
   return (
     <Grid container spacing={1}>
-      <Grid item xs={12}>
+      <Grid size={12}>
         <BsDataViewSelector
           line={{
             onClick: onIconClick(ChartComponent.line),

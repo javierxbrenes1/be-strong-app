@@ -67,7 +67,7 @@ function AddClassModal(props: {
     _ev: unknown,
     reason: 'backdropClick' | 'escapeKeyDown'
   ) => {
-    if (reason === 'backdropClick') return;
+    if (reason === 'backdropClick' || reason === 'escapeKeyDown') return;
     setForm({ ...initialForm });
     onClose();
   };
@@ -90,15 +90,19 @@ function AddClassModal(props: {
   };
 
   return (
-    <Dialog fullScreen open={open} onClose={handleClose} disableEscapeKeyDown>
+    <Dialog fullScreen open={open} onClose={handleClose}>
       <DialogTitle>Nueva Clase</DialogTitle>
       <DialogContent>
         <DialogContentText>
           Ingresa los detalles necesarios para crear una nueva clase.
         </DialogContentText>
-        <Stack sx={{ margin: '10px 0' }} gap="1rem">
+        <Stack
+          sx={{
+            gap: "1rem",
+            margin: '10px 0'
+          }}>
           <Grid container spacing="1rem">
-            <FormControl fullWidth component={Grid} item md={4}>
+            <Grid size={{ md: 4 }}><FormControl fullWidth>
               <TextField
                 name="classType"
                 label="Tipo de clase *"
@@ -108,8 +112,8 @@ function AddClassModal(props: {
                   updateForm('classType', ev.target.value);
                 }}
               />
-            </FormControl>
-            <FormControl fullWidth component={Grid} item md={4}>
+            </FormControl></Grid>
+            <Grid size={{ md: 4 }}><FormControl fullWidth>
               <TextField
                 name="classDurationInMinutes"
                 label="Duración (en Mins)"
@@ -120,8 +124,8 @@ function AddClassModal(props: {
                   updateForm('classDurationInMinutes', Number(ev.target.value));
                 }}
               />
-            </FormControl>
-            <Grid item md={4} sx={{ width: '100%' }}>
+            </FormControl></Grid>
+            <Grid size={{ md: 4 }} sx={{ width: '100%' }}>
               <FormControl fullWidth sx={{ '& label': { background: '#fff' } }}>
                 <MultipleSelectChip
                   options={gymClassesTimes}

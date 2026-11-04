@@ -8,7 +8,12 @@ function NoClass(props: { onClick: () => void }) {
   const { onClick } = props;
 
   return (
-    <Stack justifyContent="center" alignItems="center" rowGap="1rem">
+    <Stack
+      sx={{
+        justifyContent: "center",
+        alignItems: "center",
+        rowGap: "1rem"
+      }}>
       {/** @ts-ignore */}
       <lottie-player
         autoplay
@@ -17,7 +22,9 @@ function NoClass(props: { onClick: () => void }) {
         src="./images/flex.json"
         style={{ maxWidth: '12rem', height: 'auto' }}
       />
-      <Typography variant="h6" textAlign="center">
+      <Typography variant="h6" sx={{
+        textAlign: "center"
+      }}>
         Parece que no tienes ninguna clase para este día.
       </Typography>
       <Box>

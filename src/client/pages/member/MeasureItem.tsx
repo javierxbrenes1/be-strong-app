@@ -88,11 +88,14 @@ function MeasureItem(props: {
     >
       <Stack
         direction="row"
-        justifyContent="space-between"
-        alignItems="center"
-        gap="0.125rem"
-      >
-        <Typography variant="h6" color="#393e46">
+        sx={{
+          justifyContent: "space-between",
+          alignItems: "center",
+          gap: "0.125rem"
+        }}>
+        <Typography variant="h6" sx={{
+          color: "#393e46"
+        }}>
           {title}
         </Typography>
         {showExplanation && (

@@ -76,7 +76,9 @@ function MemberCard(props: {
           <Typography variant="h6" sx={{ margin: 0, padding: 0 }}>
             {member.name}
           </Typography>
-          <Typography variant="subtitle1" color="#9ba6a5">
+          <Typography variant="subtitle1" sx={{
+            color: "#9ba6a5"
+          }}>
             {member.code}
           </Typography>
         </Box>

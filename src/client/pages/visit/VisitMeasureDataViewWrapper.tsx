@@ -17,7 +17,12 @@ function VisitMeasureDataViewWrapper(props: {
   };
 
   return (
-    <Stack direction="column" alignItems="center" sx={{ padding: '10px' }}>
+    <Stack
+      direction="column"
+      sx={{
+        alignItems: "center",
+        padding: '10px'
+      }}>
       <Typography variant="h5">{title}</Typography>
       <Box sx={{ width: '100%' }}>
         <BsDataViewSelector

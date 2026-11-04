@@ -1,4 +1,5 @@
-import { LocalizationProvider, esES } from '@mui/x-date-pickers';
+import { LocalizationProvider } from '@mui/x-date-pickers';
+import { esES } from '@mui/x-date-pickers/locales';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { ReactNode } from 'react';
 
