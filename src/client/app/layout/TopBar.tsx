@@ -1,6 +1,5 @@
 import { MouseEvent, useState } from 'react';
 import {
-  Avatar,
   Box,
   Divider,
   IconButton,
@@ -15,6 +14,7 @@ import SettingsRoundedIcon from '@mui/icons-material/SettingsRounded';
 import { useLocation, useNavigate } from 'react-router-dom';
 import useAuthStore from '../../state/authState';
 import useWhoAmI from '../../hooks/useWhoAmI';
+import MemberAvatar from '../../design-system/MemberAvatar';
 import ThemeModeToggle from '../ThemeModeToggle';
 import { ENABLE_DARK_MODE } from '../flags';
 import { titleForPath } from './navItems';
@@ -58,18 +58,7 @@ function TopBar() {
           aria-label="Menú de usuario"
           onClick={(e: MouseEvent<HTMLElement>) => setAnchorEl(e.currentTarget)}
         >
-          {/* TODO Task 6: reemplazar por MemberAvatar */}
-          <Avatar
-            sx={{
-              width: 32,
-              height: 32,
-              bgcolor: 'primary.main',
-              color: 'primary.contrastText',
-              fontWeight: 700,
-            }}
-          >
-            {whoAmI.name[0]?.toUpperCase() || 'U'}
-          </Avatar>
+          <MemberAvatar name={whoAmI.name} size={32} />
         </IconButton>
       )}
       <Menu
