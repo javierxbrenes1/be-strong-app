@@ -63,3 +63,12 @@ export const DeleteEquipmentCategoryDocument = graphql(`
     }
   }
 `);
+
+export type Equipment = {
+  uuid: string;
+  description: string;
+  brand: string;
+  total: number;
+};
+
+export type Category = { uuid: string; name: string; equipment: Equipment[] };

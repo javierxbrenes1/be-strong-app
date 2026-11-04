@@ -31,6 +31,7 @@ const Visit = lazy(() => import('./features/visit/VisitPage'));
 const Config = lazy(() => import('./features/config/ConfigPage'));
 const Profile = lazy(() => import('./features/auth/ProfilePage'));
 const Equipment = lazy(() => import('./pages/equipment'));
+const EquipmentNew = lazy(() => import('./features/equipment/EquipmentPage'));
 const DesignPage = lazy(() => import('./app/DesignPage'));
 
 function AppRoutes() {
@@ -48,6 +49,10 @@ function AppRoutes() {
           <Route
             path={PATHS.EQUIPMENT}
             element={withSuspense(Equipment, true)}
+          />
+          <Route
+            path="/equipment-new"
+            element={withSuspense(EquipmentNew, true)}
           />
           <Route
             path={PATHS.CONFIGURATIONS}
