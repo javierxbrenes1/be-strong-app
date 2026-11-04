@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { Suspense, lazy, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { useQuery } from '@apollo/client';
 import { Box, Button, Stack } from '@mui/material';
@@ -8,7 +8,6 @@ import { GymClassesByDayDocument } from './api';
 import { GymClassTimesDocument } from '../config/api';
 import DayNavigator from './DayNavigator';
 import AttendanceSheet from './AttendanceSheet';
-import NewClassSheet from './NewClassSheet';
 import AddTimesDialog from './AddTimesDialog';
 import ClassCard from './ClassCard';
 import {
@@ -16,6 +15,9 @@ import {
   isLocalDate,
   todayLocalDate,
 } from '../../../common/dates';
+
+// El editor markdown pesa mucho: se descarga al abrir "Nueva clase" por primera vez.
+const NewClassSheet = lazy(() => import('./NewClassSheet'));
 
 function ClassesPage() {
   const [params, setParams] = useSearchParams();
@@ -27,6 +29,8 @@ function ClassesPage() {
   });
   const times = useQuery(GymClassTimesDocument);
   const [newClassOpen, setNewClassOpen] = useState(false);
+  // Una vez cargado se queda montado para que la animación de cierre funcione.
+  const [newClassLoaded, setNewClassLoaded] = useState(false);
   const [addTimesFor, setAddTimesFor] = useState<number | null>(null);
   const [attending, setAttending] = useState<{
     classId: number;
@@ -54,7 +58,10 @@ function ClassesPage() {
     <Button
       variant="contained"
       startIcon={<AddRoundedIcon />}
-      onClick={() => setNewClassOpen(true)}
+      onClick={() => {
+        setNewClassLoaded(true);
+        setNewClassOpen(true);
+      }}
     >
       Nueva clase
     </Button>
@@ -86,11 +93,15 @@ function ClassesPage() {
           />
         )}
       </Stack>
-      <NewClassSheet
-        open={newClassOpen}
-        date={date}
-        onClose={() => setNewClassOpen(false)}
-      />
+      {newClassLoaded && (
+        <Suspense fallback={null}>
+          <NewClassSheet
+            open={newClassOpen}
+            date={date}
+            onClose={() => setNewClassOpen(false)}
+          />
+        </Suspense>
+      )}
       {addTimesFor !== null && (
         <AddTimesDialog
           open

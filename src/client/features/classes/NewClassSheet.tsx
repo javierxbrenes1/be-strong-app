@@ -3,7 +3,7 @@ import { Controller, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation, useQuery } from '@apollo/client';
 import { toast } from 'react-toastify';
-import MDEditor from '@uiw/react-md-editor';
+import MDEditor from '@uiw/react-md-editor/nohighlight';
 import rehypeSanitize from 'rehype-sanitize';
 import {
   Autocomplete,

@@ -1,5 +1,5 @@
 import { useLayoutEffect, useRef, useState } from 'react';
-import MDEditor from '@uiw/react-md-editor';
+import MDEditor from '@uiw/react-md-editor/nohighlight';
 import {
   Box,
   Button,
