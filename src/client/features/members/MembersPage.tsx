@@ -26,6 +26,7 @@ import {
   InactiveMembersDocument,
   SearchMembersDocument,
 } from './api';
+import MemberSheet from './MemberSheet';
 import useDebouncedValue from './useDebouncedValue';
 import { memberStatus } from '../../../common/memberStatus';
 import { todayLocalDate } from '../../../common/dates';
@@ -55,7 +56,7 @@ function MembersPage() {
   const [status, setStatus] = useState<'active' | 'inactive'>('active');
   const [text, setText] = useState('');
   const debounced = useDebouncedValue(text.trim(), 300);
-  const [, setSheetOpen] = useState(false);
+  const [sheetOpen, setSheetOpen] = useState(false);
   const today = todayLocalDate();
 
   const active = useQuery(ActiveMembersDocument, {
@@ -214,6 +215,7 @@ function MembersPage() {
           </Button>
         </Box>
       )}
+      <MemberSheet open={sheetOpen} onClose={() => setSheetOpen(false)} />
     </Box>
   );
 }

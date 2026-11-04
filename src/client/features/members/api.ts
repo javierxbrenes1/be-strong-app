@@ -54,3 +54,45 @@ export const SearchMembersDocument = graphql(`
     }
   }
 `);
+
+export const AddMemberDocument = graphql(`
+  mutation addMemberSheet($member: AddMemberInput) {
+    addMember(member: $member) {
+      code
+      name
+    }
+  }
+`);
+
+export const UpdateMemberDocument = graphql(`
+  mutation updateMemberSheet($member: UpdateMemberInput) {
+    updateMember(member: $member) {
+      code
+      name
+    }
+  }
+`);
+
+export type MemberDetails = {
+  code: string;
+  name?: string | null;
+  category?: string | null;
+  genre?: string | null;
+  birthDate?: string | null;
+  height?: number | null;
+  phone?: string | null;
+  email?: string | null;
+  observations?: string | null;
+  isActive?: boolean | null;
+  preferredClassTime?: number | null;
+  memberAttendance?: Partial<Record<DayKey, boolean | null>> | null;
+};
+
+export type DayKey =
+  | 'monday'
+  | 'tuesday'
+  | 'wednesday'
+  | 'thursday'
+  | 'friday'
+  | 'saturday'
+  | 'sunday';
