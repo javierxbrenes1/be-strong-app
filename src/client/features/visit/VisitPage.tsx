@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useQuery } from '@apollo/client';
 import { useSearchParams } from 'react-router-dom';
 import {
@@ -11,16 +11,24 @@ import {
   Card,
   Container,
   CssBaseline,
+  MenuItem,
   Skeleton,
   Stack,
+  TextField,
   Typography,
 } from '@mui/material';
 import { ThemeProvider } from '@mui/material/styles';
 import ExpandMoreRoundedIcon from '@mui/icons-material/ExpandMoreRounded';
-import dayjs from 'dayjs';
 import theme from '../../app/theme';
 import { Column, DataTable, EmptyState, MetricCard } from '../../design-system';
 import MeasureChart from '../measures/MeasureChart';
+import RangeFilter, { Range } from '../measures/RangeFilter';
+import { rangePresets } from '../measures/rangePresets';
+import {
+  FirstAttendanceDocument,
+  MemberMeasuresDocument,
+} from '../member-detail/api';
+import { attendanceYears } from '../member-detail/attendanceYears';
 import {
   MEASURE_METRICS,
   MetricKey,
@@ -30,6 +38,7 @@ import {
 } from '../measures/metrics';
 import {
   formatInstant,
+  formatInstantReadable,
   formatLocalDate,
   formatLocalTime,
   todayLocalDate,
@@ -107,7 +116,15 @@ function MonthClasses({
 }
 
 function Attendance({ code }: { code: string }) {
-  const year = dayjs(todayLocalDate()).year();
+  const first = useQuery(FirstAttendanceDocument, {
+    variables: { memberCode: code },
+  });
+  const years = attendanceYears(
+    first.data?.getMemberAttendanceClasses?.[0]?.classDate ?? null,
+    todayLocalDate()
+  );
+  const [selectedYear, setYear] = useState<number | null>(null);
+  const year = selectedYear ?? years[0];
   const [month, setMonth] = useState<number | null>(null);
   const { data } = useQuery(VisitAttendanceByYearDocument, {
     variables: { year, memberCode: code },
@@ -119,7 +136,31 @@ function Attendance({ code }: { code: string }) {
   const total = counts.reduce((a, b) => a + b, 0);
   return (
     <Card sx={{ p: 2 }}>
-      <Typography variant="h3">Asistencia {year}</Typography>
+      <Stack
+        direction="row"
+        sx={{ alignItems: 'center', justifyContent: 'space-between' }}
+      >
+        <Typography variant="h3">Asistencia {year}</Typography>
+        {years.length > 1 && (
+          <TextField
+            select
+            size="small"
+            label="Año"
+            value={year}
+            onChange={(e) => {
+              setYear(Number(e.target.value));
+              setMonth(null);
+            }}
+            sx={{ minWidth: 100 }}
+          >
+            {years.map((y) => (
+              <MenuItem key={y} value={y}>
+                {y}
+              </MenuItem>
+            ))}
+          </TextField>
+        )}
+      </Stack>
       <Typography variant="metric">{total}</Typography>
       <Typography variant="body2" color="text.secondary">
         clases en el año
@@ -157,16 +198,47 @@ function Attendance({ code }: { code: string }) {
   );
 }
 
+const MAX_ROWS = 1000;
+
 function Measures({
+  code,
   last,
   chronological,
 }: {
+  code: string;
   last: Row & Record<string, unknown>;
   chronological: Row[];
 }) {
   const [selected, setSelected] = useState<MetricKey>('weight');
+  const [dir, setDir] = useState<'asc' | 'desc'>('desc');
   const metric = MEASURE_METRICS.find((m) => m.key === selected)!;
-  const points = chronological.flatMap((r) =>
+  const today = todayLocalDate();
+  // Arranca donde la vista anterior: desde la más antigua de las últimas 12 mediciones.
+  const [range, setRange] = useState<Range>(() => {
+    const oldest = chronological[0]?.date;
+    return {
+      from:
+        oldest != null
+          ? formatInstant(oldest, 'YYYY-MM-DD')
+          : rangePresets(today)[0].from,
+      to: today,
+    };
+  });
+  const { data } = useQuery(MemberMeasuresDocument, {
+    variables: {
+      input: { memberCode: code, offset: 0, limit: MAX_ROWS, filters: range },
+    },
+    fetchPolicy: 'cache-and-network',
+  });
+  // getMeasures devuelve ascendente; mientras carga se muestran las 12 iniciales.
+  const series = useMemo(
+    () =>
+      data
+        ? ((data.getMeasures?.measures ?? []).filter(Boolean) as Row[])
+        : chronological,
+    [data, chronological]
+  );
+  const points = series.flatMap((r) =>
     r.date != null && r[selected] != null
       ? [{ date: r.date, value: r[selected] }]
       : []
@@ -175,7 +247,8 @@ function Measures({
     {
       id: 'date',
       header: 'Fecha',
-      render: (r) => (r.date ? formatInstant(r.date, 'DD/MM/YYYY') : '—'),
+      render: (r) => (r.date ? formatInstantReadable(r.date) : '—'),
+      sortable: true,
     },
     ...MEASURE_METRICS.map((m) => ({
       id: m.key,
@@ -225,9 +298,13 @@ function Measures({
         })}
       </Box>
       <Card sx={{ p: 2 }}>
-        <Typography variant="h3" sx={{ mb: 1 }}>
-          {metric.label}
-        </Typography>
+        <Stack
+          direction="row"
+          sx={{ mb: 1, alignItems: 'center', justifyContent: 'space-between' }}
+        >
+          <Typography variant="h3">{metric.label}</Typography>
+          <RangeFilter value={range} onChange={setRange} />
+        </Stack>
         <MeasureChart points={points} kind="line" label={metric.label} />
       </Card>
       <Accordion disableGutters>
@@ -239,7 +316,11 @@ function Measures({
         <AccordionDetails sx={{ p: 0 }}>
           <DataTable
             columns={columns}
-            rows={[...chronological].reverse()}
+            rows={dir === 'asc' ? series : [...series].reverse()}
+            sort={{
+              dir,
+              onToggle: () => setDir((d) => (d === 'asc' ? 'desc' : 'asc')),
+            }}
             getRowId={(r) => String(r.id ?? r.date)}
           />
         </AccordionDetails>
@@ -294,7 +375,7 @@ function VisitContent({ code }: { code: string | null }) {
         )}
       </Box>
       {last ? (
-        <Measures last={last} chronological={chronological} />
+        <Measures code={code} last={last} chronological={chronological} />
       ) : (
         <EmptyState title="Aún no tienes mediciones registradas." />
       )}

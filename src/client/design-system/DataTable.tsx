@@ -8,6 +8,7 @@ import {
   TableHead,
   TablePagination,
   TableRow,
+  TableSortLabel,
 } from '@mui/material';
 
 export type Column<T> = {
@@ -16,6 +17,8 @@ export type Column<T> = {
   render: (row: T) => ReactNode;
   align?: 'left' | 'right';
   hideBelow?: 'sm' | 'md';
+  // El orden lo aplica quien llama; la tabla solo muestra la flecha y avisa del clic.
+  sortable?: boolean;
 };
 
 type Props<T> = {
@@ -25,6 +28,7 @@ type Props<T> = {
   loading?: boolean;
   empty?: ReactNode;
   onRowClick?: (r: T) => void;
+  sort?: { dir: 'asc' | 'desc'; onToggle: () => void };
   pagination?: {
     page: number;
     pageSize: number;
@@ -48,6 +52,7 @@ function DataTable<T>({
   loading = false,
   empty,
   onRowClick,
+  sort,
   pagination,
 }: Props<T>) {
   const cellSx = (c: Column<T>) => ({
@@ -64,8 +69,22 @@ function DataTable<T>({
           <TableHead>
             <TableRow>
               {columns.map((c) => (
-                <TableCell key={c.id} sx={{ ...cellSx(c), fontWeight: 600 }}>
-                  {c.header}
+                <TableCell
+                  key={c.id}
+                  sx={{ ...cellSx(c), fontWeight: 600 }}
+                  sortDirection={c.sortable && sort ? sort.dir : false}
+                >
+                  {c.sortable && sort ? (
+                    <TableSortLabel
+                      active
+                      direction={sort.dir}
+                      onClick={sort.onToggle}
+                    >
+                      {c.header}
+                    </TableSortLabel>
+                  ) : (
+                    c.header
+                  )}
                 </TableCell>
               ))}
             </TableRow>

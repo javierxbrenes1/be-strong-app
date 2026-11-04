@@ -21,7 +21,7 @@ import {
   measureSchema,
 } from './measureSchema';
 import BsShowError from '../../components/BsShowError';
-import { formatInstant } from '../../../common/dates';
+import { GYM_TIMEZONE, formatInstant } from '../../../common/dates';
 
 type Measure = MeasureValues & { id?: number; date?: number | null };
 
@@ -138,6 +138,8 @@ function MeasureSheet({
                 // El servidor no permite cambiar la fecha de una medición existente.
                 disabled={isEdit}
                 disableFuture
+                // Misma zona que el resto de la app, no la del navegador.
+                timezone={GYM_TIMEZONE}
                 onChange={(d) =>
                   field.onChange(d?.isValid() ? d.valueOf() : null)
                 }

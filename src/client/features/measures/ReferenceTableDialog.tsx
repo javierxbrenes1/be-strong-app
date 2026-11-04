@@ -16,6 +16,9 @@ export const REFERENCE_IMAGES: Partial<Record<MetricKey, string>> = {
   bodyMassIndex: '/images/body-mass-index.jpeg',
   corporalFat: '/images/corporal-fat.jpeg',
   muscle: '/images/muscle.jpeg',
+  // Igual que la versión anterior: agua y calorías reutilizan estas imágenes.
+  corporalWaterPct: '/images/corporal-fat.jpeg',
+  calories: '/images/muscle.jpeg',
 };
 
 type Props = {

@@ -5,6 +5,7 @@ import {
   compareLocalTime,
   dayBoundsUtc,
   formatInstant,
+  formatInstantReadable,
   formatLocalDate,
   formatLocalTime,
   isLocalDate,
@@ -84,6 +85,15 @@ describe('instants', () => {
   it('formats in the gym timezone', () => {
     expect(formatInstant(new Date('2026-11-04T04:00:00Z'))).toBe(
       '03/11/2026 10:00 PM'
+    );
+  });
+  it('formats readable in the gym timezone', () => {
+    expect(formatInstantReadable(new Date('2026-11-04T18:00:00Z'))).toBe(
+      'Miércoles 4 Nov, 2026'
+    );
+    // 04:00Z ya es el día anterior en Costa Rica (UTC-6)
+    expect(formatInstantReadable(new Date('2026-11-02T04:00:00Z'))).toBe(
+      'Domingo 1 Nov, 2026'
     );
   });
 });

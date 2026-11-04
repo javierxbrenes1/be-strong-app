@@ -2,6 +2,7 @@
 // LocalDate = día de calendario 'YYYY-MM-DD'; LocalTime = hora del gimnasio 'HH:mm' (24 h);
 // los instantes (Date) se muestran en GYM_TIMEZONE.
 import dayjs from 'dayjs';
+import 'dayjs/locale/es';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
 import timezone from 'dayjs/plugin/timezone';
 import utc from 'dayjs/plugin/utc';
@@ -75,6 +76,15 @@ export function formatInstant(
   fmt = 'DD/MM/YYYY h:mm A'
 ): string {
   return dayjs(d).tz(GYM_TIMEZONE).format(fmt);
+}
+
+// 'Lunes 4 Nov, 2026': para tablas donde la fecha debe leerse de un vistazo.
+export function formatInstantReadable(d: Date | number): string {
+  const cap = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
+  const t = dayjs(d).tz(GYM_TIMEZONE).locale('es');
+  return `${cap(t.format('dddd'))} ${t.format('D')} ${cap(
+    t.format('MMM')
+  )}, ${t.format('YYYY')}`;
 }
 
 // Legacy gymClassTime.isoTime ('T23:30:00.000Z', UTC) → gym local 'HH:mm'.

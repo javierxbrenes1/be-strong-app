@@ -42,7 +42,7 @@ import {
 } from '../measures/metrics';
 import { rangePresets } from '../measures/rangePresets';
 import BsShowError from '../../components/BsShowError';
-import { formatInstant, todayLocalDate } from '../../../common/dates';
+import { formatInstantReadable, todayLocalDate } from '../../../common/dates';
 
 export type MeasureRow = MeasureValues & {
   id: number;
@@ -61,6 +61,7 @@ function MeasuresTab({ code, onEdit }: Props) {
   const [metricKey, setMetricKey] = useState<MetricKey>('weight');
   const [kind, setKind] = useState<'line' | 'bar'>('line');
   const [page, setPage] = useState(0);
+  const [dir, setDir] = useState<'asc' | 'desc'>('asc');
   const [range, setRange] = useState<Range>(() => {
     const p = rangePresets(todayLocalDate()).find((r) => r.id === '3m');
     return { from: p?.from ?? '', to: p?.to ?? '' };
@@ -95,9 +96,14 @@ function MeasuresTab({ code, onEdit }: Props) {
     page,
     Math.max(0, Math.ceil(rows.length / PAGE_SIZE) - 1)
   );
-  const pageRows = rows.slice(safePage * PAGE_SIZE, (safePage + 1) * PAGE_SIZE);
+  // El servidor devuelve ascendente por fecha; la tabla se invierte, el gráfico no.
+  const sorted = dir === 'asc' ? rows : [...rows].reverse();
+  const pageRows = sorted.slice(
+    safePage * PAGE_SIZE,
+    (safePage + 1) * PAGE_SIZE
+  );
   const dateOf = (r: MeasureRow) =>
-    r.date == null ? '' : formatInstant(r.date, 'DD/MM/YYYY');
+    r.date == null ? '' : formatInstantReadable(r.date);
 
   const confirmDelete = () => {
     if (!toDelete) return;
@@ -110,7 +116,7 @@ function MeasuresTab({ code, onEdit }: Props) {
   };
 
   const columns: Column<MeasureRow>[] = [
-    { id: 'date', header: 'Fecha', render: dateOf },
+    { id: 'date', header: 'Fecha', render: dateOf, sortable: true },
     {
       id: 'value',
       header: 'Valor',
@@ -249,6 +255,13 @@ function MeasuresTab({ code, onEdit }: Props) {
         columns={columns}
         rows={pageRows}
         getRowId={(r) => r.id}
+        sort={{
+          dir,
+          onToggle: () => {
+            setDir((d) => (d === 'asc' ? 'desc' : 'asc'));
+            setPage(0);
+          },
+        }}
         loading={loading && !data}
         empty={
           <EmptyState
