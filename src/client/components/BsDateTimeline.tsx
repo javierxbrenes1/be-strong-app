@@ -4,13 +4,15 @@ import {
   Box,
   IconButton,
   Stack,
-  TextField,
-  TextFieldProps,
   styled,
 } from '@mui/material';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import { MobileDatePicker } from '@mui/x-date-pickers';
+import {
+  PickersTextField,
+  PickersTextFieldProps,
+} from '@mui/x-date-pickers/PickersTextField';
 import BsLocalizationProvider from './BsLocalizationProvider';
 
 const DateWrapper = styled(Box)(({ theme }) => ({
@@ -35,11 +37,14 @@ const DateWrapper = styled(Box)(({ theme }) => ({
     '& input': {
       textAlign: 'center',
     },
+    '& .MuiPickersSectionList-root': {
+      justifyContent: 'center',
+    },
   },
 }));
 
-const CustomTextField = (props: TextFieldProps) => (
-  <TextField
+const CustomTextField = (props: PickersTextFieldProps) => (
+  <PickersTextField
     {...props}
     variant="standard"
     className="classes-date"
