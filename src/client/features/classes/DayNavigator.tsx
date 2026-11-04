@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import dayjs from 'dayjs';
 import 'dayjs/locale/es';
 import { Box, Button, IconButton, Typography } from '@mui/material';
@@ -10,13 +10,7 @@ import { LocalDate, addDays, todayLocalDate } from '../../../common/dates';
 
 type Props = { value: LocalDate; onChange: (d: LocalDate) => void };
 
-function CalendarIconField({ onOpen }: { onOpen?: () => void }) {
-  return (
-    <IconButton aria-label="Elegir fecha" onClick={onOpen}>
-      <CalendarMonthRoundedIcon />
-    </IconButton>
-  );
-}
+const HiddenField = () => null;
 
 export const formatLongDate = (d: LocalDate) => {
   const text = dayjs(d).locale('es').format('dddd D [de] MMMM [de] YYYY');
@@ -25,6 +19,7 @@ export const formatLongDate = (d: LocalDate) => {
 
 function DayNavigator({ value, onChange }: Props) {
   const [pickerOpen, setPickerOpen] = useState(false);
+  const anchorRef = useRef<HTMLButtonElement>(null);
   const isToday = value === todayLocalDate();
   return (
     <Box
@@ -59,15 +54,23 @@ function DayNavigator({ value, onChange }: Props) {
       >
         Hoy
       </Button>
+      <IconButton
+        ref={anchorRef}
+        aria-label="Elegir fecha"
+        onClick={() => setPickerOpen(true)}
+      >
+        <CalendarMonthRoundedIcon />
+      </IconButton>
       <DatePicker
         open={pickerOpen}
-        onOpen={() => setPickerOpen(true)}
         onClose={() => setPickerOpen(false)}
         value={dayjs(value)}
         onChange={(d) => d?.isValid() && onChange(d.format('YYYY-MM-DD'))}
-        slots={{ field: CalendarIconField }}
-        // onOpen llega al field propio; MUI no tipa props extra de slotProps.field
-        slotProps={{ field: { onOpen: () => setPickerOpen(true) } as never }}
+        slots={{ field: HiddenField }}
+        // el field no se muestra: el popper se ancla al botón del calendario
+        slotProps={{
+          popper: { anchorEl: () => anchorRef.current as HTMLElement },
+        }}
       />
     </Box>
   );
