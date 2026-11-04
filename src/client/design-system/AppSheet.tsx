@@ -53,6 +53,18 @@ function AppSheet({
 
   return (
     <>
+      {/* Antes del Drawer: al cerrar ambos, el foco debe terminar en el disparador. */}
+      <ConfirmDialog
+        open={confirmOpen}
+        title="¿Descartar cambios?"
+        description="Los cambios que no guardaste se perderán."
+        confirmLabel="Descartar"
+        onCancel={() => setConfirmOpen(false)}
+        onConfirm={() => {
+          setConfirmOpen(false);
+          onClose();
+        }}
+      />
       <Drawer
         anchor={isDesktop ? 'right' : 'bottom'}
         open={open}
@@ -150,17 +162,6 @@ function AppSheet({
           )}
         </Box>
       </Drawer>
-      <ConfirmDialog
-        open={confirmOpen}
-        title="¿Descartar cambios?"
-        description="Los cambios que no guardaste se perderán."
-        confirmLabel="Descartar"
-        onCancel={() => setConfirmOpen(false)}
-        onConfirm={() => {
-          setConfirmOpen(false);
-          onClose();
-        }}
-      />
     </>
   );
 }

@@ -25,7 +25,10 @@ function numberIssue(raw: string, opts: NumberOpts): string | undefined {
 // El input guarda texto crudo; aquí se valida y se convierte a número.
 export const zNumber = (opts: NumberOpts = {}) =>
   z
-    .string()
+    .preprocess(
+      (v) => (v === null || v === undefined ? '' : String(v)),
+      z.string()
+    )
     .superRefine((raw, ctx) => {
       const message = numberIssue(raw, opts);
       if (message) ctx.addIssue({ code: 'custom', message });

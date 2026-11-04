@@ -1,4 +1,4 @@
-import { KeyboardEvent, ReactNode } from 'react';
+import { KeyboardEvent, MouseEvent, ReactNode, SyntheticEvent } from 'react';
 import {
   Box,
   Skeleton,
@@ -34,6 +34,12 @@ type Props<T> = {
 };
 
 const SKELETON_ROWS = 5;
+
+// Clics o Enter sobre botones/enlaces dentro de la fila no son clics de fila.
+const fromNestedControl = (e: SyntheticEvent) =>
+  e.target !== e.currentTarget &&
+  e.target instanceof Element &&
+  e.target.closest('a, button, input, select, textarea') !== null;
 
 function DataTable<T>({
   columns,
@@ -81,11 +87,17 @@ function DataTable<T>({
                   key={getRowId(row)}
                   hover={Boolean(onRowClick)}
                   tabIndex={onRowClick ? 0 : undefined}
-                  onClick={onRowClick && (() => onRowClick(row))}
+                  onClick={
+                    onRowClick &&
+                    ((e: MouseEvent) => {
+                      if (!fromNestedControl(e)) onRowClick(row);
+                    })
+                  }
                   onKeyDown={
                     onRowClick &&
                     ((e: KeyboardEvent) => {
-                      if (e.key === 'Enter') onRowClick(row);
+                      if (e.key === 'Enter' && !fromNestedControl(e))
+                        onRowClick(row);
                     })
                   }
                   sx={onRowClick ? { cursor: 'pointer' } : undefined}

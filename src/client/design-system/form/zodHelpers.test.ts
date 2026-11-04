@@ -30,6 +30,16 @@ describe('zNumber', () => {
   });
 });
 
+describe('zNumber with non-string defaults', () => {
+  it('accepts a numeric default seeded from the server', () => {
+    expect(zNumber({ min: 0 }).parse(82)).toBe(82);
+  });
+  it('treats a missing default as empty', () => {
+    expect(msg(zNumber().safeParse(undefined))).toBe('Requerido');
+    expect(zNumber({ required: false }).parse(null)).toBeUndefined();
+  });
+});
+
 describe('zLocalDate / zLocalTime', () => {
   it('validates calendar dates', () => {
     expect(zLocalDate().safeParse('2026-02-30').success).toBe(false);

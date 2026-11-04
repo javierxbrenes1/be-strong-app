@@ -27,10 +27,12 @@ function FormTextField<T extends FieldValues, TT extends FieldValues = T>({
   ...rest
 }: Props<T, TT>) {
   const { field, fieldState } = useController({ control, name });
+  const { ref, ...fieldProps } = field;
   return (
     <TextField
       {...rest}
-      {...field}
+      {...fieldProps}
+      inputRef={ref}
       value={field.value ?? ''}
       label={label}
       error={Boolean(fieldState.error)}
