@@ -1,6 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-call */
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import {
   ApolloClient,
   InMemoryCache,
@@ -17,6 +14,12 @@ import { onError } from '@apollo/client/link/error';
 import { GraphQLError } from 'graphql';
 import { getAuthState } from './state/authState';
 
+type MembersCache = {
+  members: Reference[];
+  pagination: unknown;
+  keysToAvoidDuplicates: Record<string, boolean>;
+};
+
 const retryLink = new RetryLink({
   attempts: {
     max: 3,
@@ -27,16 +30,17 @@ const httpLink = new HttpLink({
   uri: '/graphql',
 });
 
-const authLink = setContext((_, { headers }) => {
-  const token = getAuthState().jwt;
-  return {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-    headers: {
-      ...headers,
-      authorization: token ? `bearer ${token}` : '',
-    },
-  };
-});
+const authLink = setContext(
+  (_, { headers }: { headers?: Record<string, string> }) => {
+    const token = getAuthState().jwt;
+    return {
+      headers: {
+        ...headers,
+        authorization: token ? `bearer ${token}` : '',
+      },
+    };
+  }
+);
 
 const logoutLink = onError((obj) => {
   const CODE = 'UNAUTHORIZED_USER';
@@ -77,13 +81,17 @@ export const apolloClient = new ApolloClient({
         fields: {
           getAllMembers: {
             keyArgs: false,
-            merge(existing, incoming, { readField }) {
+            merge(
+              existing: MembersCache | undefined,
+              incoming: MembersCache,
+              { readField }
+            ): MembersCache {
               const { pagination } = incoming;
               const keysToAvoidDuplicates = {
                 ...(existing?.keysToAvoidDuplicates ?? {}),
               };
               const members = [...(existing?.members ?? [])];
-              (incoming?.members ?? []).forEach((m: Reference) => {
+              (incoming.members ?? []).forEach((m) => {
                 const code = readField<string>('code', m);
 
                 if (!code) {
