@@ -8,6 +8,7 @@ import gymClassesResolvers from './gymClasses';
 import loginResolvers from './login';
 import gymClassTimeResolvers from './gymClassTime';
 import equipmentResolvers from './equipment';
+import homeResolvers from './home';
 
 const resolvers = [
   memberResolvers,
@@ -19,6 +20,7 @@ const resolvers = [
   loginResolvers,
   gymClassTimeResolvers,
   equipmentResolvers,
+  homeResolvers,
 ];
 
 export default mergeResolvers(resolvers);
