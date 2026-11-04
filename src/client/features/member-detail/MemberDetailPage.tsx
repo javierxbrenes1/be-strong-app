@@ -14,6 +14,7 @@ import AddRoundedIcon from '@mui/icons-material/AddRounded';
 import EditRoundedIcon from '@mui/icons-material/EditRounded';
 import { Breadcrumbs, EmptyState, MemberAvatar } from '../../design-system';
 import { MemberDetailDocument } from './api';
+import MeasuresTab from './MeasuresTab';
 import SummaryTab from './SummaryTab';
 import ShareLinkButton from './ShareLinkButton';
 import MemberSheet from '../members/MemberSheet';
@@ -122,6 +123,9 @@ function MemberDetailPage() {
           recent={recent}
           onAddMeasure={() => undefined}
         />
+      )}
+      {tab === 'medidas' && (
+        <MeasuresTab code={member.code} onEdit={() => undefined} />
       )}
       <MemberSheet
         open={editOpen}
