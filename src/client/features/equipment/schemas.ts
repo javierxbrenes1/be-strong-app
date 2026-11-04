@@ -14,5 +14,6 @@ export const categorySchema = z.object({
 });
 
 export type EquipmentForm = z.input<typeof equipmentSchema>;
+export type EquipmentValues = z.output<typeof equipmentSchema>;
 export type CategoryForm = z.input<typeof categorySchema>;
 export type CategoryValues = z.output<typeof categorySchema>;
