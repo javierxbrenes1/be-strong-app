@@ -22,6 +22,8 @@ type Documents = {
     "\n  query activeMembers($offset: Int, $limit: Int) {\n    getAllMembers(offset: $offset, limit: $limit) {\n      members {\n        code\n        name\n        category\n        isActive\n        lastAttendanceDate\n        currentWeight\n      }\n      pagination {\n        total\n        nextPageStart\n      }\n    }\n  }\n": typeof types.ActiveMembersDocument,
     "\n  query inactiveMembers($offset: Int, $limit: Int) {\n    getAllInactiveMembers(offset: $offset, limit: $limit) {\n      members {\n        code\n        name\n        category\n        isActive\n        lastAttendanceDate\n        currentWeight\n      }\n      pagination {\n        total\n        nextPageStart\n      }\n    }\n  }\n": typeof types.InactiveMembersDocument,
     "\n  query searchMembers($filter: String) {\n    getFilteredMembers(\n      column: \"name\"\n      comparator: \"contains\"\n      filter: $filter\n    ) {\n      code\n      name\n      category\n      isActive\n      lastAttendanceDate\n      currentWeight\n    }\n  }\n": typeof types.SearchMembersDocument,
+    "\n  mutation addMemberSheet($member: AddMemberInput) {\n    addMember(member: $member) {\n      code\n      name\n    }\n  }\n": typeof types.AddMemberSheetDocument,
+    "\n  mutation updateMemberSheet($member: UpdateMemberInput) {\n    updateMember(member: $member) {\n      code\n      name\n    }\n  }\n": typeof types.UpdateMemberSheetDocument,
 };
 const documents: Documents = {
     "\n  mutation login($input: OwnerSignInInput) {\n    ownerSignIn(input: $input) {\n      jwt\n    }\n  }\n": types.LoginDocument,
@@ -32,6 +34,8 @@ const documents: Documents = {
     "\n  query activeMembers($offset: Int, $limit: Int) {\n    getAllMembers(offset: $offset, limit: $limit) {\n      members {\n        code\n        name\n        category\n        isActive\n        lastAttendanceDate\n        currentWeight\n      }\n      pagination {\n        total\n        nextPageStart\n      }\n    }\n  }\n": types.ActiveMembersDocument,
     "\n  query inactiveMembers($offset: Int, $limit: Int) {\n    getAllInactiveMembers(offset: $offset, limit: $limit) {\n      members {\n        code\n        name\n        category\n        isActive\n        lastAttendanceDate\n        currentWeight\n      }\n      pagination {\n        total\n        nextPageStart\n      }\n    }\n  }\n": types.InactiveMembersDocument,
     "\n  query searchMembers($filter: String) {\n    getFilteredMembers(\n      column: \"name\"\n      comparator: \"contains\"\n      filter: $filter\n    ) {\n      code\n      name\n      category\n      isActive\n      lastAttendanceDate\n      currentWeight\n    }\n  }\n": types.SearchMembersDocument,
+    "\n  mutation addMemberSheet($member: AddMemberInput) {\n    addMember(member: $member) {\n      code\n      name\n    }\n  }\n": types.AddMemberSheetDocument,
+    "\n  mutation updateMemberSheet($member: UpdateMemberInput) {\n    updateMember(member: $member) {\n      code\n      name\n    }\n  }\n": types.UpdateMemberSheetDocument,
 };
 
 /**
@@ -80,6 +84,14 @@ export function graphql(source: "\n  query inactiveMembers($offset: Int, $limit:
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(source: "\n  query searchMembers($filter: String) {\n    getFilteredMembers(\n      column: \"name\"\n      comparator: \"contains\"\n      filter: $filter\n    ) {\n      code\n      name\n      category\n      isActive\n      lastAttendanceDate\n      currentWeight\n    }\n  }\n"): (typeof documents)["\n  query searchMembers($filter: String) {\n    getFilteredMembers(\n      column: \"name\"\n      comparator: \"contains\"\n      filter: $filter\n    ) {\n      code\n      name\n      category\n      isActive\n      lastAttendanceDate\n      currentWeight\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  mutation addMemberSheet($member: AddMemberInput) {\n    addMember(member: $member) {\n      code\n      name\n    }\n  }\n"): (typeof documents)["\n  mutation addMemberSheet($member: AddMemberInput) {\n    addMember(member: $member) {\n      code\n      name\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  mutation updateMemberSheet($member: UpdateMemberInput) {\n    updateMember(member: $member) {\n      code\n      name\n    }\n  }\n"): (typeof documents)["\n  mutation updateMemberSheet($member: UpdateMemberInput) {\n    updateMember(member: $member) {\n      code\n      name\n    }\n  }\n"];
 
 export function graphql(source: string) {
   return (documents as any)[source] ?? {};
