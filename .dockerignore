@@ -1,0 +1,11 @@
+# El contexto de build no debe depender de la máquina de quien construye.
+node_modules
+build
+dist
+.git
+.env
+.env.*
+.worktrees
+.playwright-mcp
+.superpowers
+delete_later

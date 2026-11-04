@@ -10,6 +10,9 @@ ENV NODE_ENV "production"
 
 COPY . .
 
+# El cliente de Prisma necesita prisma/schema.prisma, que aún no existía durante npm install.
+RUN npx prisma generate
+
 RUN npm run build
 
 FROM node:18-bullseye-slim
