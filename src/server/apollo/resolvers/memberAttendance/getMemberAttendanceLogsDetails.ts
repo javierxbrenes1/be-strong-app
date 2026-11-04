@@ -9,7 +9,7 @@ const getMemberAttendanceLogsDetails = async (
   const { prisma } = context;
   const { year, memberCode, month } = args;
   const data = await prisma.$queryRaw`
-    SELECT cast(gc."classDate" as varchar) as "classDate", gc."classDurationInMinutes", gc."classType", gct."isoTime"
+    SELECT gc."classDate"::text as "classDate", gc."classDurationInMinutes", gc."classType", gct."localTime"
     FROM "memberAttendanceLog" mal 
     JOIN "gymClass" gc 
       ON mal."gymClassId" = gc.id

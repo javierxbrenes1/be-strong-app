@@ -1,47 +1,24 @@
-import dayjs from 'dayjs';
-import { getIsoTime } from '../../../utils/dateshelper';
+import { addDays } from '../../../../common/dates';
 import { BeStrongContext } from '../../context';
-
-type GymClass = {
-  gymClassOnTimes: ({
-    gymClassTime: {
-      id: number;
-      isoTime: string;
-    };
-  } & {
-    gymClassTimeId: number;
-    gymClassId: number;
-  })[];
-} & {
-  id: number;
-  classDate: Date | null;
-  classDurationInMinutes: number | null;
-  classType: string | null;
-  classDescription: string | null;
-};
+import { prismaDateToLocalDate } from '../localScalars';
 
 const getGymClasses = async (
   _parent: unknown,
-  args: { gte: string; lt: string },
+  args: { gte: Date; lt?: Date | null }, // LocalDate scalar → 00:00Z
   context: BeStrongContext
 ) => {
   const { prisma } = context;
   const { gte, lt } = args;
 
-  const filters = {
-    gte: getIsoTime(gte),
-    lt: lt ? getIsoTime(lt) : dayjs(gte).add(1, 'day').toISOString(),
-  };
-
-  const classes = await prisma.gymClass.findMany({
+  return prisma.gymClass.findMany({
     where: {
-      classDate: filters,
-    },
-    orderBy: [
-      {
-        classDate: 'desc',
+      classDate: {
+        gte,
+        lt:
+          lt ?? new Date(`${addDays(prismaDateToLocalDate(gte), 1)}T00:00:00Z`),
       },
-    ],
+    },
+    orderBy: [{ classDate: 'desc' }],
     include: {
       gymClassOnTimes: {
         include: {
@@ -50,11 +27,6 @@ const getGymClasses = async (
       },
     },
   });
-
-  return classes.map((r: GymClass) => ({
-    ...r,
-    classDate: r.classDate?.toISOString().split('T')[0],
-  }));
 };
 
 export default getGymClasses;

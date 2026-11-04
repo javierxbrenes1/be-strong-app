@@ -10,7 +10,7 @@ const gymClassSchema = `
 
  type GymClass {
    id: Int
-   classDate: String
+   classDate: LocalDate
    classDurationInMinutes: Int
    classType: String
    classDescription: String
@@ -19,7 +19,7 @@ const gymClassSchema = `
  }
 
  input AddClassInput {
-    classDate: String
+    classDate: LocalDate
     classTimeIds: [Int]
     classDurationInMinutes: Int
     classType: String
@@ -33,7 +33,7 @@ const gymClassSchema = `
 
  type Query {
     getGymClassesCount(year: Int): Int @auth
-    getGymClasses(gte: String!, lt: String): [GymClass] @auth
+    getGymClasses(gte: LocalDate!, lt: LocalDate): [GymClass] @auth
  }
  `;
 

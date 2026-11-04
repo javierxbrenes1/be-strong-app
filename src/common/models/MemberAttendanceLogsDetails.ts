@@ -1,8 +1,10 @@
+import { LocalTime } from '../dates';
+
 interface MemberAttendanceLogsDetails {
   classDate: string;
   classDurationInMinutes: number;
   classType: string;
-  isoTime: string;
+  localTime: LocalTime;
 }
 
 export default MemberAttendanceLogsDetails;

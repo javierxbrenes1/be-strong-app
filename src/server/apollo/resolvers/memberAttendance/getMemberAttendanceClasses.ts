@@ -1,4 +1,3 @@
-import dayjs from 'dayjs';
 import { BeStrongContext } from '../../context';
 
 const getMemberAttendanceClasses = async (
@@ -35,16 +34,12 @@ const getMemberAttendanceClasses = async (
       };
       gymClassTime: {
         id: number;
-        isoTime: string;
+        localTime: string;
       };
     }) => {
-      const { isoTime } = d.gymClassTime;
-      const { id, classDate, ...gymClass } = d.gymClass;
-      return {
-        isoTime,
-        classDate: dayjs(classDate).toISOString().split('T')[0],
-        ...gymClass,
-      };
+      const { localTime } = d.gymClassTime;
+      const { id, ...gymClass } = d.gymClass;
+      return { localTime, ...gymClass };
     }
   );
 };

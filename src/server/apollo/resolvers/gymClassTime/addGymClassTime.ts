@@ -2,7 +2,7 @@ import { BeStrongContext } from '../../context';
 
 export default async (
   _: unknown,
-  args: { isoTime: string },
+  args: { localTime: string },
   context: BeStrongContext
 ) => {
   const { prisma } = context;
