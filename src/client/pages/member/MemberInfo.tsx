@@ -110,7 +110,7 @@ function MemberInfo(props: {
       return editableMember.genre;
     }
     const val = genreOptions.find(
-      (option) => option.value === editableMember.genre ?? ''
+      (option) => option.value === editableMember.genre
     );
 
     return val ? val.label : '';
