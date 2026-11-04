@@ -1,11 +1,20 @@
 import { useState } from 'react';
-import { useQuery } from '@apollo/client';
+import { useApolloClient, useQuery } from '@apollo/client';
+import { toast } from 'react-toastify';
 import { Box, Button, Card, CardContent, Skeleton } from '@mui/material';
 import AddRoundedIcon from '@mui/icons-material/AddRounded';
-import { EmptyState, PageHeader } from '../../design-system';
-import { Category, Equipment, EquipmentCategoriesDocument } from './api';
+import BsShowError from '../../components/BsShowError';
+import { ConfirmDialog, EmptyState, PageHeader } from '../../design-system';
+import {
+  Category,
+  DeleteEquipmentCategoryDocument,
+  DeleteEquipmentDocument,
+  Equipment,
+  EquipmentCategoriesDocument,
+} from './api';
 import CategoryCard from './CategoryCard';
 import CategorySheet from './CategorySheet';
+import EquipmentSheet from './EquipmentSheet';
 
 export type Dialog =
   | { kind: 'category'; category?: Category }
@@ -18,7 +27,23 @@ function EquipmentPage() {
   const { data, loading } = useQuery(EquipmentCategoriesDocument, {
     fetchPolicy: 'cache-and-network',
   });
+  const client = useApolloClient();
   const [dialog, setDialog] = useState<Dialog>(null);
+  const [deleting, setDeleting] = useState(false);
+
+  const remove = async (mutate: () => Promise<unknown>, message: string) => {
+    setDeleting(true);
+    try {
+      await mutate();
+      await client.refetchQueries({ include: [EquipmentCategoriesDocument] });
+      toast.success(message);
+      setDialog(null);
+    } catch (err) {
+      BsShowError(err, 'No se pudo eliminar. Intenta de nuevo.');
+    } finally {
+      setDeleting(false);
+    }
+  };
 
   const categories: Category[] = (data?.getEquipmentCategories ?? []).flatMap(
     (c) =>
@@ -102,6 +127,50 @@ function EquipmentPage() {
         open={dialog?.kind === 'category'}
         category={dialog?.kind === 'category' ? dialog.category : undefined}
         onClose={() => setDialog(null)}
+      />
+      {dialog?.kind === 'equipment' && (
+        <EquipmentSheet
+          open
+          category={dialog.category}
+          equipment={dialog.equipment}
+          onClose={() => setDialog(null)}
+        />
+      )}
+      <ConfirmDialog
+        open={dialog?.kind === 'deleteCategory'}
+        title="¿Eliminar categoría?"
+        description="Se eliminarán también todos sus equipos. Esta acción no se puede deshacer."
+        loading={deleting}
+        onCancel={() => setDialog(null)}
+        onConfirm={() =>
+          dialog?.kind === 'deleteCategory' &&
+          remove(
+            () =>
+              client.mutate({
+                mutation: DeleteEquipmentCategoryDocument,
+                variables: { categoryUuid: dialog.category.uuid },
+              }),
+            'Categoría eliminada'
+          )
+        }
+      />
+      <ConfirmDialog
+        open={dialog?.kind === 'deleteEquipment'}
+        title="¿Eliminar equipo?"
+        description="Esta acción no se puede deshacer."
+        loading={deleting}
+        onCancel={() => setDialog(null)}
+        onConfirm={() =>
+          dialog?.kind === 'deleteEquipment' &&
+          remove(
+            () =>
+              client.mutate({
+                mutation: DeleteEquipmentDocument,
+                variables: { equipmentUuid: dialog.equipment.uuid },
+              }),
+            'Equipo eliminado'
+          )
+        }
       />
       {!loading && categories.length === 0 && (
         <EmptyState title="Aún no hay equipo registrado" action={newCategory} />
