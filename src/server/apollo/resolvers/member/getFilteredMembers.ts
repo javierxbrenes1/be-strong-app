@@ -11,7 +11,10 @@ const getFilteredMembers = async (
 ) => {
   const { prisma } = context;
   const { filter } = args;
-  const { column, comparator } = parseMemberFilter(args.column, args.comparator);
+  const { column, comparator } = parseMemberFilter(
+    args.column,
+    args.comparator
+  );
 
   const where = {
     isActive: true,
