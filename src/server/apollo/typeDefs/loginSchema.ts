@@ -8,12 +8,6 @@ type OwnerUser {
     name: String
 }
 
-input OwnerSignUpInput {
-    username: String!
-    pwd: String!
-    role: String!
-}
-
 input OwnerSignInInput {
     username: String!
     pwd: String!
@@ -28,7 +22,6 @@ type Query {
 }
 
 type Mutation {
-    ownerSignUp(input: OwnerSignUpInput): Boolean
     ownerSignIn(input: OwnerSignInInput): OwnerSignInResponse
     updatePwd(pwd: String!): Boolean @auth
 }
