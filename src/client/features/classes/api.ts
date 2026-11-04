@@ -56,3 +56,9 @@ export const AddTimesDocument = graphql(`
     }
   }
 `);
+
+export const GymClassTypesDocument = graphql(`
+  query gymClassTypes {
+    getGymClassTypes
+  }
+`);
