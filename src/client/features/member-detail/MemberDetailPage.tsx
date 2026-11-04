@@ -14,7 +14,8 @@ import AddRoundedIcon from '@mui/icons-material/AddRounded';
 import EditRoundedIcon from '@mui/icons-material/EditRounded';
 import { Breadcrumbs, EmptyState, MemberAvatar } from '../../design-system';
 import { MemberDetailDocument } from './api';
-import MeasuresTab from './MeasuresTab';
+import MeasuresTab, { MeasureRow } from './MeasuresTab';
+import MeasureSheet from '../measures/MeasureSheet';
 import SummaryTab from './SummaryTab';
 import ShareLinkButton from './ShareLinkButton';
 import MemberSheet from '../members/MemberSheet';
@@ -36,6 +37,11 @@ function MemberDetailPage() {
   const [params, setParams] = useSearchParams();
   const tab = TABS.find(([id]) => id === params.get('tab'))?.[0] ?? 'resumen';
   const [editOpen, setEditOpen] = useState(false);
+  const [sheet, setSheet] = useState<{
+    open: boolean;
+    measure?: MeasureRow;
+    previous?: MeasureValues & { date?: number | null };
+  }>({ open: false });
   const { data, loading, refetch } = useQuery(MemberDetailDocument, {
     variables: { code },
     fetchPolicy: 'cache-and-network',
@@ -57,6 +63,12 @@ function MemberDetailPage() {
   const recent = (member.memberMeasures ?? []).filter(
     (m): m is NonNullable<typeof m> => Boolean(m)
   ) as (MeasureValues & { date?: number | null })[];
+
+  const openNewMeasure = () =>
+    setSheet({
+      open: true,
+      previous: member.lastMeasure ?? undefined,
+    });
 
   return (
     <Box sx={{ p: { xs: 2, md: 4 } }}>
@@ -101,7 +113,11 @@ function MemberDetailPage() {
           >
             Editar
           </Button>
-          <Button variant="contained" startIcon={<AddRoundedIcon />}>
+          <Button
+            variant="contained"
+            startIcon={<AddRoundedIcon />}
+            onClick={openNewMeasure}
+          >
             Medición
           </Button>
         </Stack>
@@ -121,12 +137,25 @@ function MemberDetailPage() {
           code={member.code}
           lastMeasure={member.lastMeasure}
           recent={recent}
-          onAddMeasure={() => undefined}
+          onAddMeasure={openNewMeasure}
         />
       )}
       {tab === 'medidas' && (
-        <MeasuresTab code={member.code} onEdit={() => undefined} />
+        <MeasuresTab
+          code={member.code}
+          onEdit={(measure, previous) =>
+            setSheet({ open: true, measure, previous })
+          }
+        />
       )}
+      <MeasureSheet
+        open={sheet.open}
+        memberCode={member.code}
+        memberName={member.name ?? ''}
+        measure={sheet.measure}
+        previous={sheet.previous}
+        onClose={() => setSheet((s) => ({ ...s, open: false }))}
+      />
       <MemberSheet
         open={editOpen}
         member={member}
