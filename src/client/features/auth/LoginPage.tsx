@@ -78,7 +78,7 @@ function LoginPage() {
           position: 'absolute',
           inset: '0 0 auto 0',
           height: { xs: 160, sm: 220 },
-          bgcolor: '#000',
+          bgcolor: 'common.black',
           backgroundImage:
             'repeating-linear-gradient(135deg, rgba(250,204,21,0.12) 0 14px, transparent 14px 40px)',
         }}
@@ -101,7 +101,7 @@ function LoginPage() {
               border: 3,
               borderColor: 'primary.main',
               objectFit: 'cover',
-              bgcolor: '#000',
+              bgcolor: 'common.black',
             }}
           />
           <Box sx={{ textAlign: 'center' }}>

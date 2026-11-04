@@ -48,7 +48,7 @@ function ShareLinkButton({ code }: { code: string }) {
               display: 'flex',
               justifyContent: 'center',
               p: 2,
-              bgcolor: '#fff',
+              bgcolor: 'common.white',
               borderRadius: 2,
             }}
           >

@@ -53,7 +53,6 @@ model member {
   memberAttendance    memberAttendance?
   memberAttendanceLog memberAttendanceLog[]
   memberMeasures      memberMeasures[]
-  user                user?
   gymClassTime        gymClassTime?         @relation(fields: [preferredClassTime], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
 
@@ -97,16 +96,6 @@ model memberMeasures {
   bodyMassIndexResult    String    @db.VarChar(20)
   corporalWaterPctResult String    @db.VarChar(20)
   caloriesResult         String    @db.VarChar(20)
-  member                 member    @relation(fields: [memberCode], references: [code], onDelete: NoAction, onUpdate: NoAction)
-}
-
-model user {
-  memberCode             String    @id @db.VarChar(16)
-  pwd                    String
-  role                   String    @db.VarChar(16)
-  lastLoginDate          DateTime? @db.Timestamp(6)
-  lastPasswordChangeDate DateTime? @db.Timestamp(6)
-  isBlocked              Boolean?
   member                 member    @relation(fields: [memberCode], references: [code], onDelete: NoAction, onUpdate: NoAction)
 }
 
