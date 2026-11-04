@@ -8,6 +8,8 @@ import { GymClassesByDayDocument } from './api';
 import { GymClassTimesDocument } from '../config/api';
 import DayNavigator from './DayNavigator';
 import AttendanceSheet from './AttendanceSheet';
+import NewClassSheet from './NewClassSheet';
+import AddTimesDialog from './AddTimesDialog';
 import ClassCard from './ClassCard';
 import {
   formatLocalTime,
@@ -24,7 +26,8 @@ function ClassesPage() {
     fetchPolicy: 'cache-and-network',
   });
   const times = useQuery(GymClassTimesDocument);
-  const [, setNewClassOpen] = useState(false);
+  const [newClassOpen, setNewClassOpen] = useState(false);
+  const [addTimesFor, setAddTimesFor] = useState<number | null>(null);
   const [attending, setAttending] = useState<{
     classId: number;
     timeId: number;
@@ -73,7 +76,7 @@ function ClassesPage() {
             onTakeAttendance={(classId, timeId) =>
               setAttending({ classId, timeId })
             }
-            onAddTimes={() => undefined}
+            onAddTimes={(classId) => setAddTimesFor(classId)}
           />
         ))}
         {!loading && classes.length === 0 && (
@@ -83,6 +86,21 @@ function ClassesPage() {
           />
         )}
       </Stack>
+      <NewClassSheet
+        open={newClassOpen}
+        date={date}
+        onClose={() => setNewClassOpen(false)}
+      />
+      {addTimesFor !== null && (
+        <AddTimesDialog
+          open
+          gymClassId={addTimesFor}
+          existingTimeIds={(
+            classes.find((c) => c?.id === addTimesFor)?.gymClassOnTimes ?? []
+          ).map((t) => Number(t?.gymClassTime?.id))}
+          onClose={() => setAddTimesFor(null)}
+        />
+      )}
       {attendingClass && attending && (
         <AttendanceSheet
           open

@@ -34,6 +34,7 @@ const gymClassSchema = `
  type Query {
     getGymClassesCount(year: Int): Int @auth
     getGymClasses(gte: LocalDate!, lt: LocalDate): [GymClass] @auth
+    getGymClassTypes: [String!]! @auth
  }
  `;
 
