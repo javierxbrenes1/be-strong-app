@@ -12,6 +12,10 @@ directive @auth on FIELD_DEFINITION
 
 scalar Date
 
+scalar LocalDate
+
+scalar LocalTime
+
 scalar UUID
 
 type Pagination {

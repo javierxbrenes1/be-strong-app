@@ -1,6 +1,7 @@
 import { mergeResolvers } from '@graphql-tools/merge';
 import memberResolvers from './member';
 import dateScalar from './dateScalar';
+import localScalars from './localScalars';
 import memberAttendanceResolvers from './memberAttendance';
 import memberMeasuresResolvers from './memberMeasures';
 import gymClassesResolvers from './gymClasses';
@@ -11,6 +12,7 @@ import equipmentResolvers from './equipment';
 const resolvers = [
   memberResolvers,
   dateScalar,
+  localScalars,
   memberAttendanceResolvers,
   memberMeasuresResolvers,
   gymClassesResolvers,
