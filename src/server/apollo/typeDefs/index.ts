@@ -6,6 +6,7 @@ import gymClassSchema from './gymClassSchema';
 import loginSchema from './loginSchema';
 import gymClassTimeSchema from './gymClassTimeSchema';
 import equipmentSchema from './equipmentSchema';
+import homeSchema from './homeSchema';
 
 const scalarDefinitions = `
 directive @auth on FIELD_DEFINITION
@@ -36,6 +37,7 @@ const typeDefs = mergeTypeDefs([
   loginSchema,
   gymClassTimeSchema,
   equipmentSchema,
+  homeSchema,
 ]);
 
 export default typeDefs;
