@@ -1,6 +1,8 @@
+import { LocalTime } from '../dates';
+
 interface GymClassTime {
   id: number;
-  isoTime: string;
+  localTime: LocalTime;
 }
 
 export default GymClassTime;

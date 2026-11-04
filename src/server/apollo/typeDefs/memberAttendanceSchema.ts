@@ -18,10 +18,10 @@ const memberAttendanceSchema = `
     }
 
     type MemberAttendanceLogsDetails {
-        classDate: String
+        classDate: LocalDate
         classDurationInMinutes: Int
         classType: String
-        isoTime: String
+        localTime: LocalTime
     }
 
 

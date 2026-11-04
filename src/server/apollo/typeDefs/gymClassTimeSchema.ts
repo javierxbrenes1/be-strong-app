@@ -1,7 +1,7 @@
 export default `
 type GymClassTime {
     id: Int!
-    isoTime: String!
+    localTime: LocalTime!
   }
   
   type Query {
@@ -10,6 +10,6 @@ type GymClassTime {
   }
 
   type Mutation {
-    addGymClassTime(isoTime: String!): GymClassTime
+    addGymClassTime(localTime: LocalTime!): GymClassTime
   }
 `;

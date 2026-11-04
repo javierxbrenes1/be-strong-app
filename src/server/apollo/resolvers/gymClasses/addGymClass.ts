@@ -1,8 +1,7 @@
-import { getIsoTime } from '../../../utils/dateshelper';
 import { BeStrongContext } from '../../context';
 
 type InputType = {
-  classDate: string;
+  classDate: Date; // LocalDate scalar → 00:00Z
   classTimeIds: number[];
   classDurationInMinutes: number;
   classType: string;
@@ -25,7 +24,7 @@ const addGymClass = async (
 
   const newGymClass = await prisma.gymClass.create({
     data: {
-      classDate: getIsoTime(classDate),
+      classDate,
       classDurationInMinutes,
       classType,
       classDescription,
