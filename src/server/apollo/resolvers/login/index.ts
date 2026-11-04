@@ -1,5 +1,4 @@
 import ownerSignIn from './ownerSignIn';
-import ownerSignUp from './ownerSignUp';
 import whoAmI from './whoAmI';
 import updatePwd from './updatePwd';
 
@@ -9,7 +8,6 @@ const loginResolvers = {
   },
   Mutation: {
     ownerSignIn,
-    ownerSignUp,
     updatePwd,
   },
 };
