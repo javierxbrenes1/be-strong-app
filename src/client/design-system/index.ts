@@ -11,3 +11,4 @@ export { default as EmptyState } from './EmptyState';
 export { default as DataTable } from './DataTable';
 export type { Column } from './DataTable';
 export * from './avatar';
+export { default as Breadcrumbs } from './Breadcrumbs';

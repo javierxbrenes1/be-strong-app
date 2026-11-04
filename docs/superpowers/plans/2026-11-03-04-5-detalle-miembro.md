@@ -67,7 +67,7 @@
   - `resultVariant(result: string | null | undefined): StatusVariant`
   - `isGoodDelta(metric: MetricKey, delta: number): boolean`
 - Produces:
-  - `<MemberDetailPage />` con un encabezado (`MemberAvatar` de 56px, nombre como h1, "código · categoría", `StatusChip` según `memberStatus`), las acciones `ShareLinkButton` (copia `${origin}/visit?code=${base64(code)}` con `js-base64` `encode` y muestra el toast "Enlace copiado"), "Editar" (abre `MemberSheet` del plan 4.3 con el miembro) y "+ Medición" (primaria, abre `MeasureSheet`, Task 4), y luego las tabs.
+  - `<MemberDetailPage />` con un `Breadcrumbs` del design-system (`Miembros` → enlace a `PATHS.MEMBERS` › nombre del miembro) sobre el encabezado (`MemberAvatar` de 56px, nombre como h1, "código · categoría", `StatusChip` según `memberStatus`), las acciones `ShareLinkButton` (copia `${origin}/visit?code=${base64(code)}` con `js-base64` `encode` y muestra el toast "Enlace copiado"), "Editar" (abre `MemberSheet` del plan 4.3 con el miembro) y "+ Medición" (primaria, abre `MeasureSheet`, Task 4), y luego las tabs.
   - `<SummaryTab />`: 6 `MetricCard` (valor, chip con `resultVariant`, delta con `isGoodDelta` y `spark` con las 6 últimas en orden cronológico), y debajo el resumen de asistencia del año actual (total y un mapa de calor de 12 meses con intensidad por conteo).
 
 - [ ] **Step 1: Escribir el test que falla** (`metrics.test.ts`):
