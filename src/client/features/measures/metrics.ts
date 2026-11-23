@@ -28,14 +28,6 @@ export const MEASURE_METRICS: Metric[] = [
     diffKey: 'weightDiff',
   },
   {
-    key: 'bodyMassIndex',
-    label: 'IMC',
-    unit: '',
-    goodWhen: 'down',
-    resultKey: 'bodyMassIndexResult',
-    diffKey: 'bodyMassIndexDiff',
-  },
-  {
     key: 'corporalFat',
     label: 'Grasa corporal',
     unit: '%',
@@ -50,6 +42,14 @@ export const MEASURE_METRICS: Metric[] = [
     goodWhen: 'up',
     resultKey: 'muscleResult',
     diffKey: 'muscleDiff',
+  },
+  {
+    key: 'bodyMassIndex',
+    label: 'IMC',
+    unit: '',
+    goodWhen: 'down',
+    resultKey: 'bodyMassIndexResult',
+    diffKey: 'bodyMassIndexDiff',
   },
   {
     key: 'corporalWaterPct',

@@ -20,9 +20,9 @@ describe('metrics', () => {
   it('lists the metrics in display order', () => {
     expect(MEASURE_METRICS.map((m) => m.key)).toEqual([
       'weight',
-      'bodyMassIndex',
       'corporalFat',
       'muscle',
+      'bodyMassIndex',
       'corporalWaterPct',
       'calories',
     ]);
